@@ -1,0 +1,1 @@
+Skill sprites : extract/sprites/spr_skills_{class}
