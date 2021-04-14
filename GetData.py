@@ -19,4 +19,4 @@ for filePath in GameFiles:
         print("Unexpected error handling '{}':".format(destName), sys.exc_info()[0])
    
 #os.system(".\\tools\\quickbms\\quickbms.exe .\\quickbms\\yoyogames.bms \"{}/data.win\" {}".format(GamePath, DestinationFolder))
-os.system(".\\tools\\GMExtract_v1.1\\GMExtract.exe \"{}/data.win\" {}".format(GamePath, DestinationFolder))
+os.system(".\\tools\\GMExtract_v1.1\\GMExtract.exe -s \"{}/data.win\" {}".format(GamePath, DestinationFolder))

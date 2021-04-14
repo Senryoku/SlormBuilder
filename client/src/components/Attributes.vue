@@ -100,6 +100,9 @@ export default {
 			else if (i > 0 && i % 5 === 0) r -= 12;
 			return r;
 		},
+		serialize() {
+			return this.attrValues.join(",");
+		},
 	},
 };
 </script>
@@ -155,7 +158,7 @@ export default {
 .attr-indicators {
 	display: flex;
 	position: absolute;
-	top: 17px;
+	top: 18px;
 	left: 74px;
 	align-items: center;
 	height: 24px;
@@ -171,7 +174,7 @@ export default {
 }
 
 .attr-point:nth-child(15n) {
-	margin: 2px;
+	margin: 4px 2px 0 2px;
 }
 
 .effect-level {
@@ -213,38 +216,65 @@ export default {
 	animation-direction: forward;
 }
 
+.attr-point:nth-child(15n) .attr-gain {
+	animation-name: attr-gain-major-animation;
+	width: 112.5px;
+	height: 120px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 @keyframes attr-gain-animation {
 	0% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png");
 	}
 	14% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png");
 	}
 	28% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png");
 	}
 	42% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png");
 	}
 	56% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png");
 	}
 	70% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png");
 	}
 	85% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png");
 	}
 	100% {
-		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png")
-			0 0;
+		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png");
+	}
+}
+
+@keyframes attr-gain-major-animation {
+	0% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
+	}
+	14% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
+	}
+	28% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
+	}
+	42% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
+	}
+	56% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
+	}
+	70% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
+	}
+	85% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
+	}
+	100% {
+		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
 	}
 }
 

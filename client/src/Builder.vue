@@ -22,7 +22,7 @@
 		v-show="c === selectedClass"
 		:ref="(el) => (classComponents[c] = el)"
 	/>
-	<Attributes />
+	<Attributes ref="attributes" />
 </template>
 
 <script>
@@ -37,10 +37,11 @@ export default {
 	},
 	setup() {
 		let classComponents = ref({});
+		let attributes = ref(null);
 		onBeforeUpdate(() => {
 			classComponents.value = {};
 		});
-		return { classComponents };
+		return { classComponents, attributes };
 	},
 	data() {
 		let classes = ["knight", "huntress", "mage"];
@@ -52,6 +53,7 @@ export default {
 	methods: {
 		serialize() {
 			console.log(this.classComponents[this.selectedClass].serialize());
+			console.log(this.$refs.attributes.serialize());
 		},
 	},
 };
