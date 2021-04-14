@@ -49,4 +49,18 @@ body {
 	justify-content: space-between;
 	justify-items: center;
 }
+
+a,
+a:visited {
+	color: #bbb;
+	text-decoration: underline dashed;
+}
+
+a:hover {
+	color: #eee;
+}
+
+a:active {
+	color: #fff;
+}
 </style>

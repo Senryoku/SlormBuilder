@@ -14,7 +14,7 @@
 			/>
 		</div>
 	</div>
-	<div><button @click="serialize">Share</button></div>
+	<div><button @click="share">Share</button></div>
 	<Class
 		v-for="c in classes"
 		:key="c"
@@ -27,6 +27,7 @@
 
 <script>
 import { ref, onBeforeUpdate } from "vue";
+import { copyToClipboard } from "./utils.js";
 import Class from "./components/Class.vue";
 import Attributes from "./components/Attributes.vue";
 
@@ -52,8 +53,22 @@ export default {
 	},
 	methods: {
 		serialize() {
-			console.log(this.classComponents[this.selectedClass].serialize());
-			console.log(this.$refs.attributes.serialize());
+			let version = "1";
+			let str =
+				version +
+				"," +
+				this.$refs.attributes.serialize() +
+				"," +
+				this.classComponents[this.selectedClass].serialize();
+			return str;
+		},
+		genURL() {
+			return `${window.location.protocol}//${window.location.hostname}${
+				window.location.port ? ":" + window.location.port : ""
+			}/build/${window.btoa(this.serialize())}`;
+		},
+		share() {
+			copyToClipboard(this.genURL());
 		},
 	},
 };

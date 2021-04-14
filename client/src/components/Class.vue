@@ -261,9 +261,11 @@ export default {
 
 			for (let s of selectedUpgrades) upgrades.push(`${s.REF},${s.rank}`);
 
-			return `1,${this.className},${Object.values(this.selections).join(
-				","
-			)},${upgrades.join(",")}`;
+			let r = `${this.className},${Object.values(this.selections).join(",")}`;
+			let upgradesStr = upgrades.join(",");
+			if (upgradesStr.length > 0) r += "," + upgradesStr;
+
+			return r;
 		},
 	},
 };
