@@ -1,41 +1,54 @@
 <template>
-	<div class="attributes">
-		<div
-			v-for="(attr, idx) in attributes"
-			:key="attr"
-			class="attr-bar-container"
-		>
-			<div class="attr-bar">
-				<img
-					class="attr-icon"
-					:src="
-						require(`../assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
-					"
-				/>
-				<div class="attr-indicators">
+	<div class="attributes unselectable">
+		<div class="title">Attributes</div>
+		<div class="attr-bars">
+			<div
+				v-for="(attr, idx) in attributes"
+				:key="attr"
+				class="attr-bar-container"
+			>
+				<div class="attr-bar">
 					<img
-						v-for="i in attrValues[idx]"
-						:key="i"
-						class="attr-point"
+						class="attr-icon"
 						:src="
-							require(`../assets/data/sprites/${attrPointImage(
-								i
-							)}/${attrPointImage(i)}_${idx}.png`)
+							require(`../assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
+						"
+					/><!-- TODO! -->
+					<img
+						v-for="e in effects[idx].filter((e) => e.ADDITIVE !== null)"
+						:key="e.REF"
+						class="effect-level"
+						:style="`left: ${76 + additiveEffectMargin(e.LEVEL)}px`"
+						:src="
+							require(`../assets/data/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
 						"
 					/>
+					<div class="attr-indicators">
+						<div v-for="i in attrValues[idx]" :key="i" class="attr-point">
+							<img
+								:src="
+									require(`../assets/data/sprites/${attrPointImage(
+										i
+									)}/${attrPointImage(i)}_${idx}.png`)
+								"
+							/>
+
+							<div class="attr-gain" />
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="attr-button-container">
-				<div
-					class="attr-button plus-button"
-					@click="attrValues[idx] = clamp(attrValues[idx] + 1, 0, 75)"
-					:class="{ disabled: attrValues[idx] >= 75 }"
-				/>
-				<div
-					class="attr-button minus-button"
-					@click="attrValues[idx] = clamp(attrValues[idx] - 1, 0, 75)"
-					:class="{ disabled: attrValues[idx] <= 0 }"
-				/>
+				<div class="attr-button-container">
+					<div
+						class="attr-button plus-button"
+						@click="attrValues[idx] = clamp(attrValues[idx] + 1, 0, 75)"
+						:class="{ disabled: attrValues[idx] >= 75 }"
+					/>
+					<div
+						class="attr-button minus-button"
+						@click="attrValues[idx] = clamp(attrValues[idx] - 1, 0, 75)"
+						:class="{ disabled: attrValues[idx] <= 0 }"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -78,6 +91,15 @@ export default {
 			else if (idx > 0 && idx % 5 === 0) return "spr_trait_point_square";
 			else return "spr_trait_point_default";
 		},
+		additiveEffectMargin(i) {
+			--i;
+			let fifteen = Math.floor(i / 15);
+			let five = Math.floor(i / 5) - fifteen;
+			let r = 10 * (i - five - fifteen) + 16 * five + 16 * fifteen;
+			if (i > 0 && i % 15 === 0) r -= 12;
+			else if (i > 0 && i % 5 === 0) r -= 12;
+			return r;
+		},
 	},
 };
 </script>
@@ -85,6 +107,23 @@ export default {
 <style>
 .attributes {
 	margin: 1em 3em;
+	background-image: url("../assets/data/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
+	text-align: center;
+	width: 1192px;
+	height: 840px;
+}
+
+.title {
+	padding-top: 40px;
+	margin-bottom: 100px;
+	height: 90px;
+	line-height: 90px;
+	font-size: 3rem;
+}
+
+.attr-bars {
+	margin: auto;
+	width: min-content;
 }
 
 .attr-bar-container {
@@ -123,6 +162,7 @@ export default {
 }
 
 .attr-point {
+	position: relative;
 	margin: 0 2px;
 }
 
@@ -132,6 +172,11 @@ export default {
 
 .attr-point:nth-child(15n) {
 	margin: 2px;
+}
+
+.effect-level {
+	position: absolute;
+	top: 8px;
 }
 
 .attr-button-container {
@@ -144,10 +189,63 @@ export default {
 .attr-button {
 	width: 44px;
 	height: 44px;
+	cursor: pointer;
 }
 
 .attr-button.disabled {
 	pointer-events: none;
+}
+
+.attr-gain {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+
+	width: 75px;
+	height: 80px;
+
+	animation-duration: 400ms;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+	animation-name: attr-gain-animation;
+	animation-direction: forward;
+}
+
+@keyframes attr-gain-animation {
+	0% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png")
+			0 0;
+	}
+	14% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png")
+			0 0;
+	}
+	28% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png")
+			0 0;
+	}
+	42% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png")
+			0 0;
+	}
+	56% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png")
+			0 0;
+	}
+	70% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png")
+			0 0;
+	}
+	85% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png")
+			0 0;
+	}
+	100% {
+		background: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png")
+			0 0;
+	}
 }
 
 .plus-button {

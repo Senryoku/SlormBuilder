@@ -24,6 +24,23 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.unselectable {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.weapon-border {
+	border-image-slice: 44 44 21 44;
+	border-image-width: 20px 20px 20px 20px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: stretch stretch;
+	border-image-source: url("./assets/data/sprites/spr_wrath_decoration/spr_wrath_decoration_0.png");
+}
+</style>
+
+<style scoped>
 .header {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
