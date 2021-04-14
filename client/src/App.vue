@@ -32,6 +32,7 @@ body {
 }
 
 .weapon-border {
+	border-style: solid;
 	border-image-slice: 44 44 21 44;
 	border-image-width: 20px 20px 20px 20px;
 	border-image-outset: 0px 0px 0px 0px;

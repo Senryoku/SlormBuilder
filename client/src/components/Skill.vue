@@ -62,6 +62,7 @@ export default {
 	width: 44px;
 	height: 44px;
 
+	border-style: solid;
 	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_6.png");
 	border-image-slice: 12 12 12 12;
 	border-image-width: 12px;

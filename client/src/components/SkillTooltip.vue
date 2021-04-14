@@ -125,6 +125,7 @@ export default {
 
 	background-image: url("../assets/data/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
 	background-repeat: no-repeat;
+	border-style: solid;
 	border-image-source: url("../assets/img/skill-tree-border.png");
 	border-image-slice: 16 16 16 16;
 	border-image-width: 12px;
