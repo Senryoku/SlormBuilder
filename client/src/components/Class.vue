@@ -160,6 +160,7 @@ export default {
 	},
 	props: {
 		className: { type: String },
+		import: { type: Object },
 	},
 	data() {
 		let skills = [];
@@ -180,6 +181,11 @@ export default {
 			else skills.push(s);
 			if (!activeBoxes[s.ACTIVE_BOX]) activeBoxes[s.ACTIVE_BOX] = [];
 			activeBoxes[s.ACTIVE_BOX].push(s);
+			s.selected =
+				this.import?.upgrades?.find((u) => u.REF === s.REF) !== undefined ??
+				false;
+			s.rank =
+				this.import?.upgrades?.find((u) => u.REF === s.REF)?.rank ?? false;
 		}
 
 		function splitToRows(array, className, idx) {
@@ -193,14 +199,11 @@ export default {
 
 		const genTree = (arr, idx) => {
 			let primarySkills = arr.splice(0, 1)[0];
-			let levels = [];
-			for (let i = 0; i < arr.length; ++i) levels.push(0);
 			let upgrades = splitToRows(arr, this.className, idx);
 			return {
 				className: this.className,
 				skill: primarySkills,
 				upgrades: upgrades,
-				levels: levels,
 			};
 		};
 
@@ -212,16 +215,18 @@ export default {
 			classImages.push(
 				require(`../assets/data/sprites/spr_specialization_${this.className}/spr_specialization_${this.className}_${i}.png`)
 			);
+		let selections = this.import?.selections ?? {
+			specialisation: 0,
+			primarySkill: 0,
+			secondarySkill: 1,
+		};
+
 		return {
 			skills,
 			upgrades,
 			skillTrees,
 			specialisations,
-			selections: {
-				specialisation: 0,
-				primarySkill: 0,
-				secondarySkill: 1,
-			},
+			selections,
 			classImages: classImages,
 			displayedSkill: null,
 		};

@@ -7,7 +7,10 @@
 		<h1>SlormBuilder</h1>
 		<div id="nav">
 			<router-link to="/">Home</router-link> |
-			<router-link to="/build">Build Example</router-link>
+			<router-link
+				to="/build/MSw3LDAsMTUsMCwzLDAsNiwxLGh1bnRyZXNzLDEsNCw2LDE1OSwxMCwxNjEsMSwxNjYsMSwxNjksMSwxNzMsMSwxNzUsMywxNzgsMiwxODEsNiw3NSwyLDc4LDMsODMsMiw4NCwyLDg4LDEsMTAzLDEsMTA4LDEsMTEyLDIsMTE0LDEsMTE2LDM="
+				>Build Example</router-link
+			>
 		</div>
 	</div>
 	<router-view />

@@ -58,6 +58,10 @@
 import AttributeData from "../assets/data/dat_att.json";
 
 export default {
+	props: {
+		values: { type: Array },
+		locked: { type: Boolean, default: false },
+	},
 	data() {
 		let effects = [];
 		for (let attr of AttributeData) {
@@ -75,7 +79,8 @@ export default {
 			"Bravery",
 		];
 		const attrValues = [];
-		for (let i = 0; i < attributes.length; ++i) attrValues.push(0);
+		for (let i = 0; i < attributes.length; ++i)
+			attrValues.push(this.values ? this.values[i] : 0);
 		return {
 			attributes,
 			attrValues,
