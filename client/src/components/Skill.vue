@@ -4,16 +4,14 @@
 			:class="{
 				passive: skill.TYPE === 'passive',
 				selected: skill.selected || selected,
-				maxed: skill.currentLevel === skill.UPGRADE_NUMBER,
+				maxed: skill.rank === skill.UPGRADE_NUMBER,
 			}"
 			class="skill-image"
 		>
 			<img :src="image" width="44" height="44" />
 		</div>
-		<div class="level" v-if="skill.selected && skill.currentLevel !== null">
-			{{
-				skill.currentLevel === skill.UPGRADE_NUMBER ? "Max" : skill.currentLevel
-			}}
+		<div class="level" v-if="skill.selected && skill.rank !== null">
+			{{ skill.rank === skill.UPGRADE_NUMBER ? "Max" : skill.rank }}
 		</div>
 	</div>
 </template>

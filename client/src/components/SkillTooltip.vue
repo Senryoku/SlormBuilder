@@ -33,6 +33,7 @@ import GameStrings from "../assets/data/dat_str.json";
 export default {
 	props: {
 		skill: { type: Object },
+		language: { type: String, default: "en" },
 	},
 	computed: {
 		filteredProperties() {
@@ -78,7 +79,7 @@ export default {
 				}
 				for (let idx = 0; idx < value_name.length; ++idx) {
 					let current_value =
-						value_base[idx] + this.skill.currentLevel * value_per_level[idx];
+						value_base[idx] + this.skill.rank * value_per_level[idx];
 					r = r.replace(
 						"@ £",
 						`${current_value}${value_type[idx]}${
@@ -93,7 +94,7 @@ export default {
 
 				if (r.includes("@")) {
 					let current_value =
-						value_base[0] + this.skill.currentLevel * value_per_level[0];
+						value_base[0] + this.skill.rank * value_per_level[0];
 					r = r.replace("@", `${current_value}${value_type[0]}`);
 				}
 				if (r.includes("£")) {
