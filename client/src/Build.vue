@@ -1,6 +1,5 @@
 <template>
-	Build
-	{{ data }}
+	<h1>{{ className }} Build</h1>
 	<Class :className="className" :import="classImport" />
 	<Attributes ref="attributes" :values="attributes" />
 </template>
@@ -42,5 +41,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+h1 {
+	text-align: center;
+	text-transform: capitalize;
+}
 </style>

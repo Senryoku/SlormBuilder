@@ -1,5 +1,5 @@
 <template>
-	<div class="skill" @mouseenter="showTooltip" @mouseleave="hideTooltip">
+	<div class="skill">
 		<div
 			:class="{
 				passive: skill.TYPE === 'passive',
@@ -35,16 +35,7 @@ export default {
 		}
 		return {
 			image: sprite,
-			displayTooltip: false,
 		};
-	},
-	methods: {
-		showTooltip() {
-			this.displayTooltip = true;
-		},
-		hideTooltip() {
-			this.displayTooltip = false;
-		},
 	},
 };
 </script>
@@ -89,7 +80,6 @@ export default {
 }
 
 .passive {
-	border-radius: 22px;
 	border-image-slice: 22 22 22 22;
 	border-image-width: 22px;
 	border-image-outset: 0px 0px 0px 0px;

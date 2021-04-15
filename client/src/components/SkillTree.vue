@@ -19,7 +19,7 @@
 				:skill="skill"
 				@click="$emit('selectSkill', tree, rowIdx, skill)"
 				@contextmenu="$emit('deselectSkill', $event, skill)"
-				@mouseenter="$emit('display', skill)"
+				@mouseenter="$emit('display', $event, skill)"
 			/>
 		</div>
 	</div>

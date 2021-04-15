@@ -114,7 +114,7 @@ export default {
 
 <style>
 .attributes {
-	margin: 1em 3em;
+	margin: 1em auto;
 	background-image: url("../assets/data/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 	text-align: center;
 	width: 1192px;

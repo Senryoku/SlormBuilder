@@ -17,14 +17,14 @@
 						:key="idx"
 						@click="selections.specialisation = idx"
 						:selected="idx === selections.specialisation"
-						@mouseenter="displayedSkill = spec.skill"
+						@mouseenter="display($event, spec.skill)"
 					></skill>
 				</div>
 				<skill-tree
 					:tree="specialisations[selections.specialisation]"
 					@selectSkill="selectSkill"
 					@deselectSkill="deselectSkill"
-					@display="(skill) => (displayedSkill = skill)"
+					@display="display"
 				></skill-tree>
 			</div>
 			<div class="skill-slot">
@@ -47,14 +47,14 @@
 							selections.primarySkill = idx;
 						"
 						:selected="idx === selections.primarySkill"
-						@mouseenter="displayedSkill = spec.skill"
+						@mouseenter="display($event, spec.skill)"
 					></skill>
 				</div>
 				<skill-tree
 					:tree="skillTrees[selections.primarySkill]"
 					@selectSkill="selectSkill"
 					@deselectSkill="deselectSkill"
-					@display="(skill) => (displayedSkill = skill)"
+					@display="display"
 				></skill-tree>
 			</div>
 			<div class="skill-slot">
@@ -77,25 +77,23 @@
 							selections.secondarySkill = idx;
 						"
 						:selected="idx === selections.secondarySkill"
-						@mouseenter="displayedSkill = spec.skill"
+						@mouseenter="display($event, spec.skill)"
 					></skill>
 				</div>
 				<skill-tree
 					:tree="skillTrees[selections.secondarySkill]"
 					@selectSkill="selectSkill"
 					@deselectSkill="deselectSkill"
-					@display="(skill) => (displayedSkill = skill)"
+					@display="display"
 				></skill-tree>
 			</div>
-			<skill-tooltip
-				:skill="displayedSkill"
-				v-if="displayedSkill"
-			></skill-tooltip>
 		</div>
+		<skill-tooltip ref="skillTooltip"></skill-tooltip>
 	</div>
 </template>
 
 <script>
+import { ref } from "vue";
 import SkillTooltip from "./SkillTooltip.vue";
 import KnightSkills from "../assets/data/dat_cla_0.json";
 import HuntressSkills from "../assets/data/dat_cla_1.json";
@@ -221,6 +219,8 @@ export default {
 			secondarySkill: 1,
 		};
 
+		const skillTooltip = ref(null);
+
 		return {
 			skills,
 			upgrades,
@@ -228,10 +228,13 @@ export default {
 			specialisations,
 			selections,
 			classImages: classImages,
-			displayedSkill: null,
+			skillTooltip,
 		};
 	},
 	methods: {
+		display(event, skill) {
+			this.$refs.skillTooltip.display(skill, event.target);
+		},
 		selectSkill(tree, row, skill) {
 			if (skill.selected) {
 				skill.rank = Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
@@ -308,7 +311,8 @@ export default {
 .skill-slots {
 	display: grid;
 	justify-content: space-around;
-	grid-template-columns: 1fr 1fr 1fr 408px;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin: 0 5em;
 }
 
 .skill-slot {
