@@ -6,7 +6,7 @@
 		/>
 		<h1>SlormBuilder</h1>
 		<div id="nav">
-			<router-link to="/">Home</router-link> |
+			<router-link to="/">Builder</router-link> |
 			<router-link
 				to="/build/MSw3LDAsMTUsMCwzLDAsNiwxLGh1bnRyZXNzLDEsNCw2LDE1OSwxMCwxNjEsMSwxNjYsMSwxNjksMSwxNzMsMSwxNzUsMywxNzgsMiwxODEsNiw3NSwyLDc4LDMsODMsMiw4NCwyLDg4LDEsMTAzLDEsMTA4LDEsMTEyLDIsMTE0LDEsMTE2LDM="
 				>Build Example</router-link
@@ -25,6 +25,8 @@ body {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	margin-bottom: 5rem;
 }
 
 .unselectable {
@@ -42,6 +44,55 @@ body {
 	border-image-repeat: stretch stretch;
 	border-image-source: url("./assets/data/sprites/spr_wrath_decoration/spr_wrath_decoration_0.png");
 }
+
+button {
+	border: 0;
+	height: 52px;
+	line-height: 52px;
+	border-image-slice: 26 32 26 32;
+	border-image-width: 26px 32px 26px 32px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: stretch stretch;
+	border-image-source: url("./assets/data/sprites/spr_menu_grey_button/spr_menu_grey_button_0.png");
+	font-size: 1.4rem;
+	color: #bbb;
+	padding: 0 36px;
+	text-align: center;
+}
+
+button:hover {
+	color: #fff;
+	border-image-source: url("./assets/data/sprites/spr_menu_grey_button/spr_menu_grey_button_1.png");
+}
+
+button:active {
+	position: relative;
+	top: 2px;
+}
+
+button.large {
+	height: 60px;
+	padding: 0 50px;
+	border-image-slice: 30 32 30 32;
+	border-image-width: 30px 32px 30px 32px;
+	border-image-source: url("./assets/data/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
+}
+
+button.large {
+	border-image-source: url("./assets/data/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
+}
+
+button.large:hover {
+	border-image-source: url("./assets/data/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_1.png");
+}
+
+button.large.blue {
+	border-image-source: url("./assets/data/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_0.png");
+}
+
+button.large.blue:hover {
+	border-image-source: url("./assets/data/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_1.png");
+}
 </style>
 
 <style scoped>
@@ -49,9 +100,11 @@ body {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	align-items: center;
-	margin: 0 6em;
+	margin: 0;
+	padding: 0 6rem;
 	justify-content: space-between;
 	justify-items: center;
+	background-color: #222;
 }
 
 a,

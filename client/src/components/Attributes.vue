@@ -41,12 +41,12 @@
 					<div
 						class="attr-button plus-button"
 						@click="attrValues[idx] = clamp(attrValues[idx] + 1, 0, 75)"
-						:class="{ disabled: attrValues[idx] >= 75 }"
+						:class="{ disabled: !editable || attrValues[idx] >= 75 }"
 					/>
 					<div
 						class="attr-button minus-button"
 						@click="attrValues[idx] = clamp(attrValues[idx] - 1, 0, 75)"
-						:class="{ disabled: attrValues[idx] <= 0 }"
+						:class="{ disabled: !editable || attrValues[idx] <= 0 }"
 					/>
 				</div>
 			</div>
@@ -60,7 +60,7 @@ import AttributeData from "../assets/data/dat_att.json";
 export default {
 	props: {
 		values: { type: Array },
-		locked: { type: Boolean, default: false },
+		editable: { type: Boolean, default: true },
 	},
 	data() {
 		let effects = [];

@@ -1,20 +1,23 @@
 <template>
-	<div class="class-select">
-		<div
-			v-for="(c, idx) in classes"
-			:key="c"
-			@click="selectedClass = c"
-			:class="{ selected: c === selectedClass }"
-		>
-			<img
-				:src="
-					require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
-				"
-				:title="c"
-			/>
+	<div class="header">
+		<div><h1>Builder</h1></div>
+		<div class="class-select">
+			<div
+				v-for="(c, idx) in classes"
+				:key="c"
+				@click="selectedClass = c"
+				:class="{ selected: c === selectedClass }"
+			>
+				<img
+					:src="
+						require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
+					"
+					:title="c"
+				/>
+			</div>
 		</div>
+		<div><button @click="share">Share</button></div>
 	</div>
-	<div><button @click="share">Share</button></div>
 	<Class
 		v-for="c in classes"
 		:key="c"
@@ -78,6 +81,14 @@ export default {
 #app {
 	background-color: #111;
 	margin: 0;
+}
+
+.header {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	align-items: center;
+	justify-content: space-between;
+	margin: 1em 3em;
 }
 
 .class-select {

@@ -1,5 +1,5 @@
 <template>
-	<div class="class">
+	<div class="class" :class="{ editable: editable }">
 		<div class="skill-slots">
 			<div class="skill-slot">
 				<img
@@ -15,7 +15,7 @@
 						:className="className"
 						:skill="spec.skill"
 						:key="idx"
-						@click="selections.specialisation = idx"
+						@click="if (editable) selections.specialisation = idx;"
 						:selected="idx === selections.specialisation"
 						@mouseenter="display($event, spec.skill)"
 					></skill>
@@ -42,9 +42,11 @@
 						:skill="spec.skill"
 						:key="idx"
 						@click="
-							if (selections.secondarySkill === idx)
-								selections.secondarySkill = selections.primarySkill;
-							selections.primarySkill = idx;
+							if (editable) {
+								if (selections.secondarySkill === idx)
+									selections.secondarySkill = selections.primarySkill;
+								selections.primarySkill = idx;
+							}
 						"
 						:selected="idx === selections.primarySkill"
 						@mouseenter="display($event, spec.skill)"
@@ -72,9 +74,11 @@
 						:skill="spec.skill"
 						:key="idx"
 						@click="
-							if (selections.primarySkill === idx)
-								selections.primarySkill = selections.secondarySkill;
-							selections.secondarySkill = idx;
+							if (editable) {
+								if (selections.primarySkill === idx)
+									selections.primarySkill = selections.secondarySkill;
+								selections.secondarySkill = idx;
+							}
 						"
 						:selected="idx === selections.secondarySkill"
 						@mouseenter="display($event, spec.skill)"
@@ -159,6 +163,7 @@ export default {
 	props: {
 		className: { type: String },
 		import: { type: Object },
+		editable: { type: Boolean, default: true },
 	},
 	data() {
 		let skills = [];
@@ -236,6 +241,7 @@ export default {
 			this.$refs.skillTooltip.display(skill, event.target);
 		},
 		selectSkill(tree, row, skill) {
+			if (!this.editable) return;
 			if (skill.selected) {
 				skill.rank = Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
 			} else {
@@ -245,9 +251,10 @@ export default {
 			}
 		},
 		deselectSkill(event, skill) {
+			event.preventDefault();
+			if (!this.editable) return;
 			if (skill.rank > 1) --skill.rank;
 			else skill.selected = false;
-			event.preventDefault();
 		},
 		share() {
 			let base64 = window.btoa(this.serialize());
@@ -326,5 +333,11 @@ export default {
 
 .icon {
 	vertical-align: middle;
+}
+</style>
+
+<style>
+.editable .skill {
+	cursor: pointer;
 }
 </style>

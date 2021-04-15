@@ -1,7 +1,13 @@
 <template>
-	<h1>{{ className }} Build</h1>
-	<Class :className="className" :import="classImport" />
-	<Attributes ref="attributes" :values="attributes" />
+	<div class="header">
+		<div></div>
+		<div>
+			<h1>{{ className }} Build</h1>
+		</div>
+		<div><button @click="edit">Edit this build</button></div>
+	</div>
+	<Class :className="className" :import="classImport" :editable="false" />
+	<Attributes ref="attributes" :values="attributes" :editable="false" />
 </template>
 
 <script>
@@ -38,12 +44,26 @@ export default {
 			},
 		};
 	},
+	methods: {
+		edit() {
+			alert("todo");
+		},
+	},
 };
 </script>
 
 <style scoped>
+.header {
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	align-items: center;
+	margin: 1em 3em;
+}
+
 h1 {
 	text-align: center;
 	text-transform: capitalize;
+	margin: 0;
+	font-size: 3rem;
 }
 </style>
