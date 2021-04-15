@@ -10,7 +10,7 @@
 			>
 				<img
 					:src="
-						require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
+						require(`@/assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
 					"
 					:title="c"
 				/>
@@ -18,20 +18,22 @@
 		</div>
 		<div><button @click="share">Share</button></div>
 	</div>
-	<Class
-		v-for="c in classes"
-		:key="c"
-		:className="c"
-		v-show="c === selectedClass"
-		:ref="(el) => (classComponents[c] = el)"
-	/>
+	<template v-for="c in classes">
+		<Class
+			:key="c"
+			:className="c"
+			v-if="c === selectedClass"
+			:ref="(el) => (classComponents[c] = el)"
+	/></template>
 	<Attributes ref="attributes" />
 </template>
 
 <script>
-import { ref, onBeforeUpdate } from "vue";
+import { ref, onBeforeUpdate, defineAsyncComponent } from "vue";
 import { copyToClipboard } from "./utils.js";
-import Class from "./components/Class.vue";
+const Class = defineAsyncComponent(() =>
+	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
+);
 import Attributes from "./components/Attributes.vue";
 
 export default {

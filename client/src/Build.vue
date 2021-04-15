@@ -11,7 +11,10 @@
 </template>
 
 <script>
-import Class from "./components/Class.vue";
+import { defineAsyncComponent } from "vue";
+const Class = defineAsyncComponent(() =>
+	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
+);
 import Attributes from "./components/Attributes.vue";
 
 export default {

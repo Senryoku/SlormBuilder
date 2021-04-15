@@ -1,16 +1,18 @@
 <template>
 	<div class="header">
 		<img
-			:src="require('./assets/data/sprites/spr_game_logo/spr_game_logo_0.png')"
+			:src="require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')"
 			height="100"
 		/>
 		<h1>SlormBuilder</h1>
 		<div id="nav">
 			<router-link to="/">Builder</router-link> |
 			<router-link
-				to="/build/MSw3LDAsMTUsMCwzLDAsNiwxLGh1bnRyZXNzLDEsNCw2LDE1OSwxMCwxNjEsMSwxNjYsMSwxNjksMSwxNzMsMSwxNzUsMywxNzgsMiwxODEsNiw3NSwyLDc4LDMsODMsMiw4NCwyLDg4LDEsMTAzLDEsMTA4LDEsMTEyLDIsMTE0LDEsMTE2LDM="
-				>Build Example</router-link
+				to="build/MSwwLDAsMCwwLDMwLDE1LDAsMCxtYWdlLDAsNCw2LDE0MywxMCwxNDUsMTAsMTQ5LDEwLDE1MiwxMCwxNTUsMSwxNTYsMSwxNTksMTAsMTY0LDEwLDc3LDEwLDgxLDEwLDgzLDUsODcsMSw4OSwxMCwxMDksMTAsMTExLDEwLDExNiwxMCwxMjAsNSwxMjMsMQ=="
+				>Build Example (Debug)</router-link
 			>
+			| <router-link to="/reapers">Reapers</router-link> |
+			<router-link to="/legendaries">Legendaries</router-link>
 		</div>
 	</div>
 	<router-view />

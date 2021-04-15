@@ -32,15 +32,15 @@
 				"
 			/>
 			<p class="description">{{ description }}</p>
-			<details>
-				<summary>Debug data</summary>
+			<!--
+				Debug data
 				<table class="details">
 					<tr v-for="(v, k) in filteredProperties" :key="k">
 						<td>{{ k }}</td>
 						<td>{{ v }}</td>
 					</tr>
 				</table>
-			</details>
+			-->
 		</div>
 	</transition>
 </template>

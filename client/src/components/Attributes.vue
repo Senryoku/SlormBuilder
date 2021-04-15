@@ -11,7 +11,7 @@
 					<img
 						class="attr-icon"
 						:src="
-							require(`../assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
+							require(`@/assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
 						"
 					/><!-- TODO! -->
 					<img
@@ -20,14 +20,14 @@
 						class="effect-level"
 						:style="`left: ${76 + additiveEffectMargin(e.LEVEL)}px`"
 						:src="
-							require(`../assets/data/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
+							require(`@/assets/data/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
 						"
 					/>
 					<div class="attr-indicators">
 						<div v-for="i in attrValues[idx]" :key="i" class="attr-point">
 							<img
 								:src="
-									require(`../assets/data/sprites/${attrPointImage(
+									require(`@/assets/data/sprites/${attrPointImage(
 										i
 									)}/${attrPointImage(i)}_${idx}.png`)
 								"

@@ -5,7 +5,7 @@
 				<img
 					class="icon"
 					:src="
-						require('../assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_5.png')
+						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_5.png')
 					"
 				/>
 				Specialisation (Support Skill)
@@ -31,7 +31,7 @@
 				<img
 					class="icon"
 					:src="
-						require('../assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_0.png')
+						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_0.png')
 					"
 				/>
 				Primary Skill
@@ -63,7 +63,7 @@
 				<img
 					class="icon"
 					:src="
-						require('../assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_1.png')
+						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_1.png')
 					"
 				/>
 				Secondary Skill
@@ -97,13 +97,15 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import SkillTooltip from "./SkillTooltip.vue";
+import { ref, defineAsyncComponent } from "vue";
 import KnightSkills from "../assets/data/dat_cla_0.json";
 import HuntressSkills from "../assets/data/dat_cla_1.json";
 import MageSkills from "../assets/data/dat_cla_2.json";
 import Skill from "./Skill.vue";
 import SkillTree from "./SkillTree.vue";
+const SkillTooltip = defineAsyncComponent(() =>
+	import(/* webpackChunkName: "SkillTooltip" */ "./SkillTooltip.vue")
+);
 
 const SkillData = {
 	knight: KnightSkills,
