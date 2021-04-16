@@ -7,7 +7,12 @@
 				<div>
 					<div style="text-transform: capitalize">{{ type }}</div>
 					<div v-if="blacksmith">By {{ blacksmith }}</div>
-					<div>Damage</div>
+					<div>{{ item.BASE_DMG_MIN }} - {{ item.BASE_DMG_MAX }}</div>
+					<div v-if="item.previous">
+						Evolves from
+						{{ transformName(item.previous.EN_NAME) }} at level
+						{{ item.previous.MAX_LVL }}
+					</div>
 				</div>
 			</div>
 			<div>{{ transformText(item.EN_DESC) }}</div>
@@ -40,13 +45,16 @@ export default {
 		}
 		return {
 			image,
-			name: props.item.EN_NAME.replace("$", capitalize(props.type)),
+			name: this.transformName(props.item.EN_NAME),
 			blacksmith: props.item.BLACKSMITH
 				? translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
 				: null,
 		};
 	},
 	methods: {
+		transformName(name) {
+			return name.replace("$", capitalize(this.type));
+		},
 		transformText(txt) {
 			// Todo
 			return txt.replaceAll("#", "\n");
@@ -58,18 +66,12 @@ export default {
 <style scoped>
 .reaper {
 	width: 406px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
-		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
-	background-position: center bottom -20px, center;
-	background-repeat: no-repeat, repeat-y;
 	text-align: center;
-	margin: 2em;
 }
 
 .reaper .top {
 	width: 406px;
 	height: 112px;
-	background-color: #111;
 	background-image: url("../assets/data/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
 	background-position: center -44px;
 	padding-top: 33px;
@@ -81,6 +83,10 @@ export default {
 	padding: 0 12px 20px 12px;
 	box-sizing: border-box;
 	white-space: pre-line;
+	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
+		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
+	background-position: center bottom -20px, center;
+	background-repeat: no-repeat, repeat-y;
 }
 
 .body-top {
@@ -108,7 +114,7 @@ export default {
 }
 
 .lore {
-	color: #aaa;
+	color: #888;
 	font-style: italic;
 	white-space: pre-line;
 }

@@ -10,7 +10,7 @@
 			>
 				<img
 					:src="
-						require(`@/assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
+						require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
 					"
 					:title="c"
 				/>

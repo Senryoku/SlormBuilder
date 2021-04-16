@@ -1,19 +1,20 @@
 <template>
-	<div class="attributes unselectable">
+	<div class="attrNames unselectable">
 		<div class="title">Attributes</div>
 		<div class="attr-bars">
 			<div
-				v-for="(attr, idx) in attributes"
+				v-for="(attr, idx) in attrNames"
 				:key="attr"
 				class="attr-bar-container"
 			>
 				<div class="attr-bar">
 					<img
+						@mouseenter="displayTooltip($event, idx)"
 						class="attr-icon"
 						:src="
 							require(`@/assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
 						"
-					/><!-- TODO! -->
+					/>
 					<img
 						v-for="e in effects[idx].filter((e) => e.ADDITIVE !== null)"
 						:key="e.REF"
@@ -52,12 +53,20 @@
 			</div>
 		</div>
 	</div>
+	<tooltip ref="tooltip"
+		><attribute :attr="hoveredAttr" :key="hoveredAttr.REF"
+	/></tooltip>
 </template>
 
 <script>
+import { ref } from "vue";
 import AttributeData from "../assets/data/dat_att.json";
 
+import Tooltip from "./Tooltip.vue";
+import Attribute from "./Attribute.vue";
+
 export default {
+	components: { Tooltip, Attribute },
 	props: {
 		values: { type: Array },
 		editable: { type: Boolean, default: true },
@@ -68,7 +77,7 @@ export default {
 			while (attr.TRAIT > effects.length - 1) effects.push([]);
 			effects[attr.TRAIT].push(attr);
 		}
-		const attributes = [
+		const attrNames = [
 			"Toughness",
 			"Savagery",
 			"Fury",
@@ -78,13 +87,37 @@ export default {
 			"Dexterity",
 			"Bravery",
 		];
+		const colors = [
+			"#2f5896",
+			"#a82f07",
+			"#7ab549",
+			"#a9852b",
+			"#3b9999",
+			"#4e2570",
+			"#a54e1e",
+			"#862d4c",
+		];
+
 		const attrValues = [];
-		for (let i = 0; i < attributes.length; ++i)
+		for (let i = 0; i < attrNames.length; ++i)
 			attrValues.push(this.values ? this.values[i] : 0);
+
+		let attributes = [];
+		for (let i = 0; i < attrNames.length; ++i) {
+			attributes.push({
+				name: attrNames[i],
+				effects: effects[i],
+				color: colors[i],
+			});
+		}
+
 		return {
 			attributes,
+			attrNames,
 			attrValues,
 			effects,
+			tooltip: ref(null),
+			hoveredAttr: ref(attributes[0]),
 		};
 	},
 	methods: {
@@ -108,12 +141,16 @@ export default {
 		serialize() {
 			return this.attrValues.join(",");
 		},
+		displayTooltip(event, idx) {
+			this.hoveredAttr = this.attributes[idx];
+			this.$refs.tooltip.display(event);
+		},
 	},
 };
 </script>
 
 <style>
-.attributes {
+.attrNames {
 	margin: 1em auto;
 	background-image: url("../assets/data/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 	text-align: center;
@@ -154,6 +191,7 @@ export default {
 	position: absolute;
 	top: 12px;
 	left: 12.3px;
+	z-index: 2;
 }
 
 .attr-bar-container:nth-child(odd) .attr-icon {
