@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Skill from "./Skill.vue";
+import Skill from "./SkillIcon.vue";
 
 export default {
 	components: {

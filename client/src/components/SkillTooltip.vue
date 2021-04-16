@@ -7,31 +7,37 @@
 			ref="el"
 			:key="skill.REF"
 		>
-			<h2>{{ skill.EN_NAME }}</h2>
+			<h2 class="class-colored">{{ skill.EN_NAME }}</h2>
 			<img
 				style="max-width: 100%"
 				:src="
 					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
-			<img :src="skill.image" width="88" height="88" style="float: left" />
-			<ul>
-				<li v-if="skill.rank">
-					Rank: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
-				</li>
-				<li v-show="genres">{{ genres }}</li>
-				<li v-show="skill.COOLDOWN">
-					Cooldown: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
-				</li>
-				<li>Base Cost: {{ skill.COST }}</li>
-			</ul>
+			<div style="display: flex; margin: 1em; min-height: 88px">
+				<img :src="skill.image" width="88" height="88" class="skill-image" />
+				<div style="text-align: left">
+					<ul style="list-style: none">
+						<li v-if="skill.rank">
+							Rank: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
+						</li>
+						<li v-show="genres">{{ genres }}</li>
+						<li v-show="skill.COOLDOWN">
+							Cooldown: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
+						</li>
+						<li>Base Cost: {{ skill.COST }}</li>
+					</ul>
+				</div>
+			</div>
 			<img
 				style="max-width: 100%"
 				:src="
 					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
-			<p class="description">{{ description }}</p>
+			<p class="description" v-html="description"></p>
+			<!-- TODO -->
+			<p v-for="r in reminders" :key="r">{{ r }}</p>
 			<!--
 				Debug data
 				<table class="details">
@@ -47,19 +53,21 @@
 
 <script>
 import { ref } from "vue";
-import GameStrings from "../assets/data/dat_str.json";
+import { translate } from "../utils.js";
 
 export default {
 	props: {
 		language: { type: String, default: "EN" },
+		className: { type: String, required: true },
 	},
 	setup() {
 		const show = ref(false);
 		const el = ref(null);
 		const skill = ref(null);
 		const target = ref(null);
+		const reminders = ref([]);
 
-		return { show, el, skill, target };
+		return { show, el, skill, target, reminders };
 	},
 	methods: {
 		mousemove(event) {
@@ -81,6 +89,9 @@ export default {
 		display(skill, element) {
 			this.show = true;
 			this.skill = skill;
+			this.reminders = [
+				...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g),
+			].map((arr) => arr[1]);
 			this.target = element;
 			this.target.addEventListener("mousemove", this.mousemove);
 			this.target.addEventListener("mouseout", this.mouseout);
@@ -89,13 +100,6 @@ export default {
 			this.show = false;
 			this.target.removeEventListener("mouseout", this.mouseout);
 			this.target.removeEventListener("mousemove", this.mousemove);
-		},
-		translate(id) {
-			if (!id || id === "" || typeof id !== "string") return "";
-			if (id.startsWith("synergy:")) id = id.slice(8);
-			let t = GameStrings.find((o) => o.REF === id);
-			if (t) return t[this.language];
-			else return id;
 		},
 	},
 	computed: {
@@ -112,9 +116,21 @@ export default {
 			// New lines
 			r = r.replaceAll("#", "\n");
 
+			// Reminders
+			r = r.replaceAll(/<([^>]*)>/g, (match, group) => {
+				return `<span class="keyword">${group}</span>`;
+			});
+			function small(s) {
+				return `<span class="smaller">${s}</span>`;
+			}
+
+			function c(n) {
+				return `<span class="class-colored">${n}</span>`;
+			}
+
 			if (this.skill.DESC_VALUE_REAL) {
 				let reals = this.skill.DESC_VALUE_REAL.split("|");
-				for (let e of reals) r = r.replace("$", this.translate(e));
+				for (let e of reals) r = r.replace("$", translate(e));
 			}
 
 			function splice(str, start, count, insert) {
@@ -123,7 +139,7 @@ export default {
 
 			if (this.skill.DESC_VALUE) {
 				let value_name = this.skill.DESC_VALUE.split("|");
-				value_name = value_name.map(this.translate);
+				value_name = value_name.map((n) => translate(n));
 				let value_base = this.skill.DESC_VALUE_BASE.split("|");
 				value_base = value_base.map((v) => parseFloat(v));
 				let value_per_level = this.skill.DESC_VALUE_PER_LVL.split("|");
@@ -142,9 +158,11 @@ export default {
 								r,
 								index,
 								3,
-								`${current_value}${value_type[idx]}${
+								`${c(current_value + value_type[idx])}${
 									value_explanation
-										? ` (${value_base[idx]}${value_type[idx]} + ${value_per_level[idx]}${value_type[idx]} per rank)`
+										? small(
+												` (${value_base[idx]}${value_type[idx]} + ${value_per_level[idx]}${value_type[idx]} per rank)`
+										  )
 										: ""
 								} ${value_name[idx]}`
 							);
@@ -152,20 +170,23 @@ export default {
 							let current_value =
 								value_base[idx] +
 								Math.max(1, this.skill.rank) * value_per_level[idx];
-							r = splice(r, index, 1, `${current_value}${value_type[idx]}`);
+							r = splice(r, index, 1, c(current_value + value_type[idx]));
 						}
 					}
 
 					if (!value_explanation) {
+						r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
+							small(group)
+						);
 						r = r.replace("µ", value_base[idx]);
 						r = r.replace("µ", value_per_level[idx]);
 					}
 					// Synergies
-					r = r.replace("_", `${current_value}%`);
+					r = r.replace("_", c(current_value + "%"));
 				}
 
 				if (r.includes("£")) {
-					r = r.replace("£", `${value_name[0]}`);
+					r = r.replace("£", c(value_name[0]));
 				}
 			}
 
@@ -179,7 +200,7 @@ export default {
 			if (!this.skill.GENRE) return null;
 			return this.skill.GENRE.split(",")
 				?.map((str) => "atk_" + str)
-				.map(this.translate)
+				.map((s) => translate(s))
 				.join(", ");
 		},
 	},
@@ -214,8 +235,34 @@ h2 {
 	text-align: center;
 }
 
+.skill-image {
+	width: 88px;
+	height: 88px;
+
+	border-style: solid;
+	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_6.png");
+	border-image-slice: 12 12 12 12;
+	border-image-width: 12px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: stretch stretch;
+	border-image-outset: 12px;
+	z-index: 2;
+}
+
 .description {
 	white-space: pre-line;
+}
+
+.class-colored {
+	color: #b13d07; /* Warrior */
+}
+
+.smaller {
+	color: #666;
+}
+
+.keyword {
+	font-weight: 600;
 }
 
 .details {

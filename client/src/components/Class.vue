@@ -92,7 +92,7 @@
 				></skill-tree>
 			</div>
 		</div>
-		<skill-tooltip ref="skillTooltip"></skill-tooltip>
+		<skill-tooltip ref="skillTooltip" :className="className"></skill-tooltip>
 	</div>
 </template>
 
@@ -101,7 +101,7 @@ import { ref, defineAsyncComponent } from "vue";
 import KnightSkills from "../assets/data/dat_cla_0.json";
 import HuntressSkills from "../assets/data/dat_cla_1.json";
 import MageSkills from "../assets/data/dat_cla_2.json";
-import Skill from "./Skill.vue";
+import Skill from "./SkillIcon.vue";
 import SkillTree from "./SkillTree.vue";
 const SkillTooltip = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "SkillTooltip" */ "./SkillTooltip.vue")
