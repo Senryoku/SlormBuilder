@@ -15,6 +15,7 @@ import { defineAsyncComponent } from "vue";
 const Class = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
 );
+import { capitalize } from "./utils.js";
 import Attributes from "./components/Attributes.vue";
 
 export default {
@@ -24,28 +25,44 @@ export default {
 	},
 	data() {
 		let data = window.atob(this.$route.params.data).split(",");
-		//let version = data[0];
-		let attributes = [];
-		for (let i = 1; i < 1 + 8; ++i) attributes.push(parseInt(data[i]));
-		let className = data[9];
-		let selections = {
-			specialisation: parseInt(data[10]),
-			primarySkill: parseInt(data[11]),
-			secondarySkill: parseInt(data[12]),
-		};
-		let upgrades = [];
-		for (let i = 13; i < data.length - 1; i += 2) {
-			upgrades.push({ REF: parseInt(data[i]), rank: parseInt(data[i + 1]) });
+		let version = data[0].split(".");
+		switch (version[0]) {
+			case "1": {
+				let attributes = [];
+				for (let i = 1; i < 1 + 8; ++i) attributes.push(parseInt(data[i]));
+				let className = data[9];
+				let selections = {
+					specialisation: parseInt(data[10]),
+					primarySkill: parseInt(data[11]),
+					secondarySkill: parseInt(data[12]),
+				};
+				let upgrades = [];
+				for (let i = 13; i < data.length - 1; i += 2) {
+					upgrades.push({
+						REF: parseInt(data[i]),
+						rank: parseInt(data[i + 1]),
+					});
+				}
+				return {
+					data,
+					attributes,
+					className,
+					classImport: {
+						selections,
+						upgrades,
+					},
+				};
+			}
+			default:
+				alert("Invalid template.");
 		}
-		return {
-			data,
-			attributes,
-			className,
-			classImport: {
-				selections,
-				upgrades,
-			},
-		};
+	},
+	created() {
+		const descEl = document.querySelector('meta[name="description"]');
+		descEl.setAttribute(
+			"content",
+			`Slormancer ${capitalize(this.className)} Build`
+		);
 	},
 	methods: {
 		edit() {

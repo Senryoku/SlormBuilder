@@ -8,7 +8,7 @@
 		<div id="nav">
 			<router-link to="/">Builder</router-link> |
 			<router-link
-				to="build/MSwwLDAsMCwwLDMwLDE1LDAsMCxtYWdlLDAsNCw2LDE0MywxMCwxNDUsMTAsMTQ5LDEwLDE1MiwxMCwxNTUsMSwxNTYsMSwxNTksMTAsMTY0LDEwLDc3LDEwLDgxLDEwLDgzLDUsODcsMSw4OSwxMCwxMDksMTAsMTExLDEwLDExNiwxMCwxMjAsNSwxMjMsMQ=="
+				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCxtYWdlLDAsNCw2LDE0MywxMCwxNDUsMTAsMTQ5LDEwLDE1MiwxMCwxNTUsMSwxNTYsMSwxNTksMTAsMTY0LDEwLDc3LDEwLDgxLDEwLDgzLDUsODcsMSw4OSwxMCwxMDksMTAsMTExLDEwLDExNiwxMCwxMjAsNSwxMjMsMQ=="
 				>Build Example (Debug)</router-link
 			>
 			| <router-link to="/reapers">Reapers</router-link> |
