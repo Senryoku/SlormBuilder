@@ -7,15 +7,18 @@
 			ref="el"
 			:key="skill.REF"
 		>
-			<h2 class="class-colored">{{ skill.EN_NAME }}</h2>
+			<h2 class="colored">{{ skill.EN_NAME }}</h2>
 			<img
 				style="max-width: 100%"
 				:src="
 					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
-			<div style="display: flex; margin: 1em; min-height: 88px">
-				<img :src="skill.image" width="88" height="88" class="skill-image" />
+			<div style="display: flex; margin: 1em; min-height: 96px">
+				<div
+					class="skill-image"
+					:style="`background-image: url(${skill.image});`"
+				></div>
 				<div style="text-align: left">
 					<ul style="list-style: none">
 						<li v-if="skill.rank">
@@ -37,7 +40,31 @@
 			/>
 			<p class="description" v-html="description"></p>
 			<!-- TODO -->
-			<p v-for="r in reminders" :key="r">{{ r }}</p>
+			<p v-for="r in reminders" :key="r" class="mechanic-summary">
+				<template v-if="r.EN_NAME">
+					<!-- TODO Add Tooltip here -->
+					<img
+						:src="
+							require(`../assets/data/sprites/spr_skills_${className}/spr_skills_${className}_${r.REF}.png`)
+						"
+						width="44"
+						height="44"
+					/>
+					<div class="mechanic-summary-name">{{ r.EN_NAME }}</div>
+				</template>
+				<!-- TEMP -->
+				<template v-else>
+					<div class="mechanic-summary-name">{{ r }}</div>
+				</template>
+			</p>
+			<img
+				style="max-width: 100%"
+				:src="
+					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+				"
+			/>
+			<div>Next Rank:</div>
+			<div>Max Rank:</div>
 			<!--
 				Debug data
 				<table class="details">
@@ -54,6 +81,7 @@
 <script>
 import { ref } from "vue";
 import { translate } from "../utils.js";
+import Mecanics from "../assets/data/mechanics.json";
 
 export default {
 	props: {
@@ -89,9 +117,13 @@ export default {
 		display(skill, element) {
 			this.show = true;
 			this.skill = skill;
-			this.reminders = [
-				...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g),
-			].map((arr) => arr[1]);
+			this.reminders = [...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g)]
+				.map((arr) => {
+					if (arr[1] in Mecanics) return Mecanics[arr[1]];
+					else console.log(arr[1] + " not found in Mecanics");
+					return arr[1];
+				})
+				.filter((e, idx, arr) => arr.indexOf(e) === idx);
 			this.target = element;
 			this.target.addEventListener("mousemove", this.mousemove);
 			this.target.addEventListener("mouseout", this.mouseout);
@@ -125,7 +157,7 @@ export default {
 			}
 
 			function c(n) {
-				return `<span class="class-colored">${n}</span>`;
+				return `<span class="colored">${n}</span>`;
 			}
 
 			if (this.skill.DESC_VALUE_REAL) {
@@ -236,16 +268,18 @@ h2 {
 }
 
 .skill-image {
-	width: 88px;
-	height: 88px;
+	width: 96px;
+	height: 96px;
 
 	border-style: solid;
-	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_6.png");
+	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_4.png");
 	border-image-slice: 12 12 12 12;
 	border-image-width: 12px;
 	border-image-outset: 0px 0px 0px 0px;
 	border-image-repeat: stretch stretch;
-	border-image-outset: 12px;
+	border-image-outset: 4px;
+	background-size: cover;
+	image-rendering: crisp-edges;
 	z-index: 2;
 }
 
@@ -253,12 +287,13 @@ h2 {
 	white-space: pre-line;
 }
 
-.class-colored {
-	color: #b13d07; /* Warrior */
+.colored {
+	color: #b13d07;
 }
 
 .smaller {
 	color: #666;
+	font-size: 0.9em;
 }
 
 .keyword {
@@ -268,6 +303,19 @@ h2 {
 .details {
 	word-wrap: break-word;
 	text-align: left;
+}
+
+.mechanic-summary {
+	display: flex;
+	align-content: center;
+	justify-content: flex-start;
+	background-color: #282828;
+	height: 44px;
+}
+
+.mechanic-summary-name {
+	padding-left: 8px;
+	line-height: 44px;
 }
 
 .fade-enter-active,

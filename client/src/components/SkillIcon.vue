@@ -2,14 +2,14 @@
 	<div class="skill">
 		<div
 			:class="{
+				support: support,
 				passive: skill.TYPE === 'passive',
 				selected: skill.selected || selected,
 				maxed: skill.rank === skill.UPGRADE_NUMBER,
 			}"
 			class="skill-image"
-		>
-			<img :src="image" width="44" height="44" />
-		</div>
+			:style="`background-image: url(${image})`"
+		></div>
 		<div class="level" v-if="skill.selected && skill.rank !== null">
 			{{ skill.rank === skill.UPGRADE_NUMBER ? "Max" : skill.rank }}
 		</div>
@@ -22,13 +22,18 @@ export default {
 		className: { type: String },
 		skill: { type: Object },
 		selected: { type: Boolean },
+		support: { type: Boolean, default: false },
 	},
-	data(inst) {
+	data(props) {
 		let sprite = this.skill.image;
-		if (!sprite) {
+		if (!sprite || props.support) {
 			sprite = require("../assets/data/sprites/spr_unknown_48/spr_unknown_48_0.png");
 			try {
-				sprite = require(`../assets/data/sprites/spr_skills_${inst.className}/spr_skills_${inst.className}_${inst.skill.REF}.png`);
+				sprite = require(`../assets/data/sprites/spr_${
+					this.support ? "support" : "skill"
+				}s_${props.className}/spr_${this.support ? "support" : "skill"}s_${
+					props.className
+				}_${props.skill.REF}.png`);
 			} catch (e) {
 				console.error(e);
 			}
@@ -59,8 +64,13 @@ export default {
 	border-image-width: 12px;
 	border-image-outset: 0px 0px 0px 0px;
 	border-image-repeat: stretch stretch;
-	border-image-outset: 12px;
+	border-image-outset: 8px;
+	background-size: cover;
 	z-index: 2;
+}
+
+.skill-image.support {
+	width: 92px;
 }
 
 .selected {
@@ -71,12 +81,7 @@ export default {
 	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_3.png");
 	border-image-slice: 16 16 16 16;
 	border-image-width: 16px;
-	border-image-outset: 12px;
-}
-
-.skill-image img {
-	position: relative;
-	z-index: -1;
+	border-image-outset: 10px;
 }
 
 .passive {

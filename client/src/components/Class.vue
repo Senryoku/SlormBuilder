@@ -18,6 +18,7 @@
 						@click="if (editable) selections.specialisation = idx;"
 						:selected="idx === selections.specialisation"
 						@mouseenter="display($event, spec.skill)"
+						:support="true"
 					></skill>
 				</div>
 				<skill-tree
