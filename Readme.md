@@ -12,3 +12,4 @@
 -   Legendaries
 -   -   Description parsing
 -   -   Other infos? (Display slot at least)
+-   Optimize everything
