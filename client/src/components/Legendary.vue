@@ -1,8 +1,10 @@
 <template>
-	<div class="legendary">
+	<div class="legendary" v-if="item">
 		<div class="top">{{ item.EN_NAME }}</div>
 		<div class="body">
-			<img :src="image" />
+			<div class="desc">
+				<ItemIcon :item="item" />
+			</div>
 			<div class="effect">
 				<div>Legendary Effect</div>
 				<div>{{ item.EN_DESC }}</div>
@@ -12,7 +14,10 @@
 </template>
 
 <script>
+import ItemIcon from "./ItemIcon.vue";
 export default {
+	name: "Legendary",
+	components: { ItemIcon },
 	props: {
 		item: { type: Object },
 	},
@@ -35,18 +40,16 @@ export default {
 <style scoped>
 .legendary {
 	width: 406px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png"),
-		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
-	background-position: center bottom -20px, center;
-	background-repeat: no-repeat, repeat-y;
+	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png");
+	background-position: center bottom -20px;
+	background-repeat: no-repeat;
 	text-align: center;
-	margin: 2em;
+	padding-bottom: 22px;
 }
 
 .legendary .top {
 	width: 406px;
 	height: 112px;
-	background-color: #111;
 	background-image: url("../assets/data/sprites/spr_item_tooltip_top/spr_item_tooltip_top_5.png");
 	background-position: center -44px;
 	padding-top: 33px;
@@ -55,8 +58,14 @@ export default {
 }
 
 .legendary .body {
-	padding: 0 12px 20px 12px;
 	box-sizing: border-box;
+	background-image: url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
+	background-position: center;
+	background-repeat: repeat-y;
+}
+
+.legendary .desc {
+	padding: 0 20px 0 20px;
 }
 
 .effect {

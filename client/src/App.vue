@@ -95,6 +95,10 @@ button.large.blue {
 button.large.blue:hover {
 	border-image-source: url("./assets/data/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_1.png");
 }
+
+.clickable {
+	cursor: pointer;
+}
 </style>
 
 <style scoped>

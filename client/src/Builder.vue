@@ -26,6 +26,7 @@
 			:ref="(el) => (classComponents[c] = el)"
 	/></template>
 	<Attributes ref="attributes" />
+	<Gear :className="selectedClass" />
 </template>
 
 <script>
@@ -35,11 +36,13 @@ const Class = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
 );
 import Attributes from "./components/Attributes.vue";
+import Gear from "./components/Gear.vue";
 
 export default {
 	components: {
 		Class,
 		Attributes,
+		Gear,
 	},
 	setup() {
 		let classComponents = ref({});
