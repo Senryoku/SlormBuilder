@@ -38,7 +38,7 @@ export default {
 	data() {
 		return {
 			type: "sword",
-			lootable: true,
+			lootable: false,
 			smallDisplay: true,
 		};
 	},

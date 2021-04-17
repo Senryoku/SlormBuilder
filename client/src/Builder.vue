@@ -27,6 +27,8 @@
 	/></template>
 	<Attributes ref="attributes" />
 	<Gear :className="selectedClass" />
+	<!-- Maybe one day :) -->
+	<AncestralTree v-if="false" />
 </template>
 
 <script>
@@ -37,12 +39,16 @@ const Class = defineAsyncComponent(() =>
 );
 import Attributes from "./components/Attributes.vue";
 import Gear from "./components/Gear.vue";
+const AncestralTree = defineAsyncComponent(() =>
+	import("./components/AncestralTree.vue")
+);
 
 export default {
 	components: {
 		Class,
 		Attributes,
 		Gear,
+		AncestralTree,
 	},
 	setup() {
 		let classComponents = ref({});

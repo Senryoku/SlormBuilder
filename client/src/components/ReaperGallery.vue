@@ -49,7 +49,7 @@ export default {
 	props: {
 		type: { type: String, required: true },
 		smallDisplay: { type: Boolean, default: false },
-		lootable: { type: Boolean, default: true },
+		lootable: { type: Boolean, default: false },
 	},
 	data() {
 		for (let r of Reapers) {
@@ -60,7 +60,7 @@ export default {
 		}
 		Reapers.sort((l, r) => l.ORDER - r.ORDER);
 		return {
-			Reapers,
+			Reapers: Reapers.filter((r) => r.EN_NAME),
 			tooltip: ref(null),
 			hoveredReaper: ref(Reapers[0]),
 		};

@@ -1,18 +1,92 @@
 <template>
-	<div class="attribute">
-		<div class="top" :style="`color: ${attr.color}`">{{ attr.name }}</div>
+	<div class="attribute" :style="`--color: ${attr.color}`">
+		<div class="top">{{ attr.name }}</div>
 		<div class="body">
-			<div v-for="e in attr.effects" :key="e.REF">
-				{{ e.EN_TEXT !== "" ? e.EN_TEXT : e.STAT }}
-			</div>
+			Level: {{ attr.level }} / 75
+			<br />
+			<br />
+			<div
+				v-for="(e, idx) in effects"
+				:key="idx"
+				:class="{
+					'non-activated': attr.level < e.level,
+					'non-basic': !e.basic,
+				}"
+				v-html="e.text"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { translate } from "../utils.js";
+
 export default {
 	props: {
 		attr: { type: Object },
+	},
+	methods: {
+		parseText(e) {
+			let r = e.EN_TEXT.replaceAll("#", "\n");
+			if (e.TYPE.startsWith("synergy:")) r = r.replace("$", translate(e.TYPE));
+			for (let s of e.STAT.split("|")) r = r.replace("£", translate(s));
+			for (let v of e.VALUE.split("|")) r = r.replace("@", this.n(v));
+			r = r.replace("µ", this.n(e.ADDITIVE));
+			return r;
+		},
+		n(s) {
+			return `<span class="number">${s}</span>`;
+		},
+		p(s) {
+			return `<span class="small">${s}</span>`;
+		},
+	},
+	computed: {
+		effects() {
+			let basics = {};
+			let others = [];
+			for (let e of this.attr.effects) {
+				if (!e.EN_TEXT || e.EN_TEXT === "") {
+					let types = e.TYPE.split("|");
+					let stats = e.STAT.split("|");
+					for (let idx = 0; idx < stats.length; ++idx) {
+						let s = stats[idx];
+						if (!(s in basics))
+							basics[s] = { level: 75, value: 0, max: 0, type: types[idx] };
+						basics[s].level = Math.min(basics[s].level, e.LEVEL);
+						basics[s].value +=
+							e.ADDITIVE === null
+								? parseFloat(e.VALUE)
+								: parseFloat(e.VALUE) *
+								  Math.max(0, 1 + e.ADDITIVE * (this.attr.level - e.LEVEL));
+						basics[s].max +=
+							e.ADDITIVE === null
+								? parseFloat(e.VALUE)
+								: parseFloat(e.VALUE) *
+								  e.ADDITIVE *
+								  Math.max(0, 1 + 75 - e.LEVEL);
+					}
+				} else {
+					others.push({
+						level: e.LEVEL,
+						text: this.parseText(e),
+					});
+				}
+			}
+			let basicEffect = [];
+			for (let a in basics) {
+				basicEffect.push({
+					level: basics[a].level,
+					text: `+${this.n(basics[a].value)}${basics[a].type} ${this.p(
+						`(+${basics[a].max}${basics[a].type} Max.)`
+					)} ${translate(a)}`,
+					basic: true,
+				});
+			}
+			basicEffect.sort((l, r) => l.level - r.level);
+			others.sort((l, r) => l.level - r.level);
+			return basicEffect.concat(others);
+		},
 	},
 };
 </script>
@@ -32,6 +106,7 @@ export default {
 	line-height: 56px;
 	box-sizing: border-box;
 	font-size: 1.5rem;
+	color: var(--color);
 }
 
 .attribute .body {
@@ -41,5 +116,22 @@ export default {
 		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_0.png");
 	background-position: center bottom -20px, center;
 	background-repeat: no-repeat, repeat-y;
+}
+
+.non-activated {
+	color: #555;
+}
+
+.non-basic {
+	margin: 0.75em;
+	white-space: pre-line;
+}
+
+.small {
+	color: #555;
+}
+
+.number {
+	color: var(--color);
 }
 </style>

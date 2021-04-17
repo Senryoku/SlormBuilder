@@ -1,6 +1,6 @@
 <template>
 	<div class="gear-builder" :class="{ editable: editable }">
-		<div class="gear">
+		<div class="gear unselectable">
 			<div class="character" :class="className"></div>
 			<div class="gear-slots">
 				<div class="top">
@@ -11,6 +11,7 @@
 						:item="gear[t]"
 						:class="{ selected: selectedSlot === t }"
 						@click="select(t)"
+						@contextmenu.prevent="gear[t] = null"
 						@mouseenter="displayTooltip($event, t)"
 					/>
 				</div>
@@ -22,6 +23,7 @@
 						:item="gear[t]"
 						:class="{ selected: selectedSlot === t }"
 						@click="select(t)"
+						@contextmenu.prevent="gear[t] = null"
 						@mouseenter="displayTooltip($event, t)"
 					/>
 				</div>
@@ -33,6 +35,7 @@
 						:item="gear[t]"
 						:class="{ selected: selectedSlot === t }"
 						@click="select(t)"
+						@contextmenu.prevent="gear[t] = null"
 						@mouseenter="displayTooltip($event, t)"
 					/>
 				</div>
@@ -44,6 +47,7 @@
 						:item="gear[t]"
 						:class="{ selected: selectedSlot === t }"
 						@click="select(t)"
+						@contextmenu.prevent="gear[t] = null"
 						@mouseenter="displayTooltip($event, t)"
 					/>
 				</div>
@@ -52,6 +56,7 @@
 					:item="gear['boot']"
 					:class="{ selected: selectedSlot === 'boot' }"
 					@click="select('boot')"
+					@contextmenu.prevent="gear['boot'] = null"
 					@mouseenter="displayTooltip($event, 'boot')"
 				/>
 			</div>
@@ -64,6 +69,7 @@
 				class="weapon"
 				:class="{ selected: selectedSlot === 'reaper' }"
 				@click="select('reaper')"
+				@contextmenu.prevent="gear['reaper'] = null"
 				@mouseenter="displayReaperTooltip($event)"
 			>
 				<div v-if="gear.reaper">

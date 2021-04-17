@@ -7,7 +7,11 @@
 				:key="attr"
 				class="attr-bar-container"
 			>
-				<div class="attr-bar">
+				<div
+					class="attr-bar clickable"
+					@click="plus(idx)"
+					@contextmenu.prevent="minus(idx)"
+				>
 					<img
 						@mouseenter="displayTooltip($event, idx)"
 						class="attr-icon"
@@ -25,7 +29,7 @@
 						"
 					/>
 					<div class="attr-indicators">
-						<div v-for="i in attrValues[idx]" :key="i" class="attr-point">
+						<div v-for="i in attributes[idx].level" :key="i" class="attr-point">
 							<img
 								:src="
 									require(`@/assets/data/sprites/${attrPointImage(
@@ -41,13 +45,13 @@
 				<div class="attr-button-container">
 					<div
 						class="attr-button plus-button"
-						@click="attrValues[idx] = clamp(attrValues[idx] + 1, 0, 75)"
-						:class="{ disabled: !editable || attrValues[idx] >= 75 }"
+						@click="plus(idx)"
+						:class="{ disabled: !editable || attributes[idx].level >= 75 }"
 					/>
 					<div
 						class="attr-button minus-button"
-						@click="attrValues[idx] = clamp(attrValues[idx] - 1, 0, 75)"
-						:class="{ disabled: !editable || attrValues[idx] <= 0 }"
+						@click="minus(idx)"
+						:class="{ disabled: !editable || attributes[idx].level <= 0 }"
 					/>
 				</div>
 			</div>
@@ -98,23 +102,19 @@ export default {
 			"#862d4c",
 		];
 
-		const attrValues = [];
-		for (let i = 0; i < attrNames.length; ++i)
-			attrValues.push(this.values ? this.values[i] : 0);
-
 		let attributes = [];
 		for (let i = 0; i < attrNames.length; ++i) {
 			attributes.push({
 				name: attrNames[i],
 				effects: effects[i],
 				color: colors[i],
+				level: this.values ? this.values[i] : 0,
 			});
 		}
 
 		return {
 			attributes,
 			attrNames,
-			attrValues,
 			effects,
 			tooltip: ref(null),
 			hoveredAttr: ref(attributes[0]),
@@ -139,11 +139,27 @@ export default {
 			return r;
 		},
 		serialize() {
-			return this.attrValues.join(",");
+			return this.attributes.map((a) => a.level).join(",");
 		},
 		displayTooltip(event, idx) {
 			this.hoveredAttr = this.attributes[idx];
 			this.$refs.tooltip.display(event);
+		},
+		plus(idx) {
+			if (!this.editable) return;
+			this.attributes[idx].level = this.clamp(
+				this.attributes[idx].level + 1,
+				0,
+				75
+			);
+		},
+		minus(idx) {
+			if (!this.editable) return;
+			this.attributes[idx].level = this.clamp(
+				this.attributes[idx].level - 1,
+				0,
+				75
+			);
 		},
 	},
 };
