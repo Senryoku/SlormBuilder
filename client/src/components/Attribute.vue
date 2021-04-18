@@ -61,7 +61,12 @@ export default {
 				} else {
 					others.push({
 						level: e.LEVEL,
-						text: parseText(e, { text: "EN_TEXT" }),
+						text: parseText(e, {
+							text: "EN_TEXT",
+							value_base: "VALUE",
+							value_type: "TYPE",
+							value_stat: "STAT",
+						}),
 					});
 				}
 			}

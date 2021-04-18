@@ -1,10 +1,22 @@
 <template>
 	<div class="header">
-		<img
-			:src="require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')"
-			height="100"
-		/>
-		<h1>SlormBuilder</h1>
+		<router-link to="/"
+			><img
+				:src="
+					require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')
+				"
+				height="100"
+		/></router-link>
+		<router-link to="/" custom v-slot="{ href, navigate, isActive }"
+			><h1
+				:class="{ active: isActive }"
+				:href="href"
+				@click="navigate"
+				class="clickable"
+			>
+				SlormBuilder
+			</h1></router-link
+		>
 		<div id="nav">
 			<router-link to="/">Builder</router-link> |
 			<router-link

@@ -41,7 +41,12 @@ export default {
 	},
 	computed: {
 		effect() {
-			return parseText(this.item, { text: "EN_DESC" });
+			return parseText(this.item, {
+				text: "EN_DESC",
+				value_base: "VALUE",
+				value_type: "TYPE",
+				value_stat: "STAT",
+			});
 		},
 	},
 };

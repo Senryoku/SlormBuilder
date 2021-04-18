@@ -8,6 +8,29 @@
 					<div style="text-transform: capitalize">{{ type }}</div>
 					<div v-if="blacksmith">By {{ blacksmith }}</div>
 					<div>{{ item.BASE_DMG_MIN }} - {{ item.BASE_DMG_MAX }}</div>
+					<!-- TODO: These values are wrong. -->
+					<div class="smaller">
+						{{
+							item.BASE_DMG_MIN +
+							item.DMG_MULTIPLIER * item.MAX_LVL * item.MIN_DMG_LVL
+						}}
+						-
+						{{
+							item.BASE_DMG_MAX +
+							item.DMG_MULTIPLIER * item.MAX_LVL * item.MAX_DMG_LVL
+						}}
+						at level {{ item.MAX_LVL }}
+					</div>
+					<div class="smaller" v-if="item.MAX_LVL !== 100">
+						{{
+							item.BASE_DMG_MIN + item.DMG_MULTIPLIER * 100 * item.MIN_DMG_LVL
+						}}
+						-
+						{{
+							item.BASE_DMG_MAX + item.DMG_MULTIPLIER * 100 * item.MAX_DMG_LVL
+						}}
+						at level 100
+					</div>
 					<div v-if="item.previous">
 						Evolves from
 						{{ transformName(item.previous.EN_NAME) }} at level
@@ -15,7 +38,7 @@
 					</div>
 				</div>
 			</div>
-			<div>{{ transformText(item.EN_DESC) }}</div>
+			<div v-html="description"></div>
 			<img
 				style="margin: 16px 0 8px 0"
 				src="../assets/data/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
@@ -26,7 +49,7 @@
 </template>
 
 <script>
-import { translate, capitalize } from "../utils.js";
+import { translate, capitalize, parseText } from "../utils.js";
 
 // spr_weapon_bot_box_0.png
 export default {
@@ -60,6 +83,11 @@ export default {
 			return txt.replaceAll("#", "\n");
 		},
 	},
+	computed: {
+		description() {
+			return parseText(this.item);
+		},
+	},
 };
 </script>
 
@@ -82,7 +110,7 @@ export default {
 .reaper .body {
 	padding: 0 12px 20px 12px;
 	box-sizing: border-box;
-	white-space: pre-line;
+	/*white-space: pre-line;*/
 	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
 		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
 	background-position: center bottom -20px, center;
@@ -95,6 +123,18 @@ export default {
 	gap: 25px;
 	grid-template-columns: auto 1fr;
 	text-align: left;
+}
+
+.reaper >>> .primordial {
+	font-weight: 600;
+}
+
+.reaper >>> .primordial.benediction {
+	color: cyan;
+}
+
+.reaper >>> .primordial.curse {
+	color: red;
 }
 
 .image-box {
@@ -117,5 +157,10 @@ export default {
 	color: #888;
 	font-style: italic;
 	white-space: pre-line;
+}
+
+.smaller {
+	color: #444;
+	font-size: 0.9em;
 }
 </style>

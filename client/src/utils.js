@@ -24,6 +24,7 @@ import GameStrings from "./assets/data/dat_str.json";
 
 export function translate(id, lang = "EN") {
 	if (!id || id === "" || typeof id !== "string") return "";
+	id = id.replace("\n", ""); // Wup.
 	if (id.includes(":")) id = id.slice(id.indexOf(":") + 1);
 	let t = GameStrings.find((o) => o.REF === id);
 	if (t) return t[lang];
@@ -34,22 +35,53 @@ export function capitalize(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function parseText(item, format) {
+export function parseText(item, format = {}) {
 	format = {
 		text: format.text ?? "EN_DESC",
+		value_base: format.value_base ?? "VALUE_BASE",
+		value_type: format.value_type ?? "VALUE_TYPE",
+		value_level: format.value_level ?? "VALUE_LEVEL",
+		value_stat: format.value_stat ?? "VALUE_STAT",
+		value_real: format.value_real ?? "VALUE_REAL",
 	};
 
 	const n = (s) => `<span class="number">${s}</span>`;
 
 	let r = item[format.text]
-		.replaceAll("#", "\n") // New lines
 		.replace(/</g, "&lt;") // <Buffs>
-		.replace(/>/g, "&gt;");
+		.replace(/>/g, "&gt;")
+		.replaceAll("#", "<br />"); // New lines;
 
-	let types = item.TYPE.split("|");
+	// Reapers paragraphs
+	r = r
+		.replaceAll("/\n", "")
+		.split("|")
+		.filter((p) => p !== "")
+		.map((para) =>
+			para
+				.split("*")
+				.filter((sentence) => sentence !== "")
+				.join("<br />")
+		)
+		.map(
+			(s, idx, arr) =>
+				`<p>${
+					arr.length >= 3 && idx >= arr.length - 2
+						? `<div class="primordial ${
+								idx === arr.length - 2 ? "benediction" : "curse"
+						  }">Primordial ${
+								idx === arr.length - 2 ? "Benediction" : "Curse"
+						  }</div>`
+						: ""
+				}${s}</p>`
+		)
+		.join("");
+
+	let types = item[format.value_type].split("|");
 	for (let t of types) if (t.includes(":")) r = r.replace("$", translate(t));
-	for (let s of item.STAT.split("|")) r = r.replace("£", translate(s));
-	for (let [idx, v] of item.VALUE.split("|").entries())
+	for (let s of item[format.value_stat].split("|"))
+		r = r.replace("£", translate(s));
+	for (let [idx, v] of item[format.value_base].split("|").entries())
 		r = r.replace(
 			"@",
 			n(
