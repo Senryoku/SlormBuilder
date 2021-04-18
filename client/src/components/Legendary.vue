@@ -55,11 +55,7 @@ export default {
 <style scoped>
 .legendary {
 	width: 406px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png");
-	background-position: center bottom -20px;
-	background-repeat: no-repeat;
 	text-align: center;
-	padding-bottom: 22px;
 }
 
 .legendary .top {
@@ -77,9 +73,11 @@ export default {
 
 .legendary .body {
 	box-sizing: border-box;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
-	background-position: center;
-	background-repeat: repeat-y;
+	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png"),
+		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
+	background-position: center bottom -20px, center;
+	background-repeat: no-repeat, repeat-y;
+	padding-bottom: 22px;
 }
 
 .legendary .desc {

@@ -2,22 +2,36 @@
 	<div class="header">
 		<div><h1>Builder</h1></div>
 		<div class="class-select">
-			<div
-				v-for="(c, idx) in classes"
-				:key="c"
-				@click="selectedClass = c"
-				:class="{ selected: c === selectedClass }"
-				class="class-name"
+			<template v-if="editable">
+				<div
+					v-for="(c, idx) in classes"
+					:key="c"
+					@click="selectedClass = c"
+					:class="{ selected: c === selectedClass }"
+					class="class-name"
+				>
+					<img
+						:src="
+							require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
+						"
+						:title="c"
+						height="44"
+					/>
+					{{ c }}
+				</div></template
+			><template v-else>
+				<div class="class-name selected" style="font-size: 1.2em">
+					<img
+						:src="
+							require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${classes.findIndex(
+								(s) => s === selectedClass
+							)}.png`)
+						"
+						height="44"
+					/>
+					{{ selectedClass }} Build
+				</div></template
 			>
-				<img
-					:src="
-						require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
-					"
-					:title="c"
-					height="44"
-				/>
-				{{ c }}
-			</div>
 		</div>
 		<div class="tabs">
 			<div
@@ -51,34 +65,46 @@
 				Gear
 			</div>
 		</div>
-		<div><button @click="share">Share</button></div>
+		<div class="actions">
+			<button v-if="!editable" @click="edit">Edit this build</button>
+			<button @click="share">Share</button>
+		</div>
 	</div>
-	<div class="tab-container">
-		<template v-if="selectedTab === 'skills'">
-			<template v-for="c in classes">
-				<Class
-					:key="c"
-					:className="c"
-					v-if="c === selectedClass"
-					:ref="(el) => (classComponents[c] = el)"
-			/></template>
-		</template>
-		<template v-if="selectedTab === 'traits'">
-			<Attributes ref="attributes" />
-		</template>
-		<template v-if="selectedTab === 'gear'">
-			<Gear :className="selectedClass" />
-		</template>
-		<!-- Maybe one day :) -->
-		<template v-if="selectedTab === 'elements'">
-			<AncestralTree v-if="false" />
-		</template>
+	<div v-show="selectedTab === 'skills'" class="tab-container">
+		<template v-for="c in classes">
+			<Class
+				:key="c"
+				:className="c"
+				v-if="c === selectedClass"
+				:ref="(el) => (classComponents[c] = el)"
+				:import="classImport"
+				:editable="editable"
+		/></template>
+	</div>
+	<div v-show="selectedTab === 'traits'" class="tab-container">
+		<Attributes
+			ref="attributes"
+			:values="attributeImport"
+			:editable="editable"
+		/>
+	</div>
+	<div v-show="selectedTab === 'gear'" class="tab-container">
+		<Gear
+			ref="gear"
+			:className="selectedClass"
+			:import="gearImport"
+			:editable="editable"
+		/>
+	</div>
+	<!-- Maybe one day :) -->
+	<div v-show="selectedTab === 'elements'" class="tab-container">
+		<AncestralTree v-if="false" />
 	</div>
 </template>
 
 <script>
 import { ref, onBeforeUpdate, defineAsyncComponent } from "vue";
-import { copyToClipboard } from "./utils.js";
+import { copyToClipboard, capitalize, ItemTypes } from "./utils.js";
 const Class = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
 );
@@ -98,18 +124,82 @@ export default {
 	setup() {
 		let classComponents = ref({});
 		let attributes = ref(null);
+		let gear = ref(null);
 		onBeforeUpdate(() => {
 			classComponents.value = {};
 		});
-		return { classComponents, attributes };
+
+		return { classComponents, attributes, gear };
 	},
 	data() {
 		let classes = ["knight", "huntress", "mage"];
-		return {
+		const r = {
+			classes: classes,
 			selectedClass: classes[0],
 			selectedTab: "skills",
-			classes: classes,
+			editable: true,
+			classImport: null,
+			attributeImport: null,
+			gearImport: null,
 		};
+		if (this.$route.params.data) {
+			try {
+				let data = window.atob(this.$route.params.data).split(",");
+				console.log(data);
+				let version = data[0].split(".");
+				switch (version[0]) {
+					case "1":
+						{
+							let currentIndex = 1;
+							// Attributes
+							let attributes = [];
+							for (currentIndex = 1; currentIndex < 1 + 8; ++currentIndex)
+								attributes.push(parseInt(data[currentIndex]));
+							// Gear
+							let gearImport = {};
+							for (let slot of ItemTypes)
+								gearImport[slot] = parseInt(data[currentIndex++]);
+							gearImport["reaper"] = parseInt(data[currentIndex++]);
+							// Skil selection
+							r.selectedClass = data[currentIndex++];
+							let selections = {
+								specialisation: parseInt(data[currentIndex++]),
+								primarySkill: parseInt(data[currentIndex++]),
+								secondarySkill: parseInt(data[currentIndex++]),
+							};
+							// Upgrades (Variable length)
+							let upgrades = [];
+							for (; currentIndex < data.length - 1; currentIndex += 2) {
+								upgrades.push({
+									REF: parseInt(data[currentIndex]),
+									rank: parseInt(data[currentIndex + 1]),
+								});
+							}
+							r.attributeImport = attributes;
+							r.gearImport = gearImport;
+							r.classImport = {
+								selections,
+								upgrades,
+							};
+							r.editable = false;
+						}
+						break;
+					default:
+						alert("Invalid template.");
+						break;
+				}
+
+				const descEl = document.querySelector('meta[name="description"]');
+				descEl.setAttribute(
+					"content",
+					`Slormancer ${capitalize(r.selectedClass)} Build`
+				);
+			} catch (e) {
+				alert(`Error while importing build: ${e.toString()}`);
+			}
+		}
+
+		return r;
 	},
 	methods: {
 		serialize() {
@@ -118,6 +208,8 @@ export default {
 				version +
 				"," +
 				this.$refs.attributes.serialize() +
+				"," +
+				this.$refs.gear.serialize() +
 				"," +
 				this.classComponents[this.selectedClass].serialize();
 			return str;
@@ -129,6 +221,9 @@ export default {
 		},
 		share() {
 			copyToClipboard(this.genURL());
+		},
+		edit() {
+			this.editable = true;
 		},
 	},
 };
@@ -156,7 +251,7 @@ export default {
 }
 
 .class-select > div {
-	margin: 1em;
+	margin: 0 1em;
 	display: flex;
 	align-items: center;
 }
@@ -217,6 +312,10 @@ export default {
 .tab-selected::after {
 	content: "";
 	background-image: url("./assets/data/sprites/spr_skill_selector/spr_skill_selector_0.png");
+}
+
+.actions {
+	display: flex;
 }
 </style>
 

@@ -104,3 +104,27 @@ export function parseText(item, format = {}) {
 	// WTH is ¤?
 	return r;
 }
+
+export const ItemTypes = [
+	"amulet",
+	"belt",
+	"body",
+	"boot",
+	"bracer",
+	"cape",
+	"glove",
+	"helm",
+	"ring",
+	"shoulder",
+];
+
+import ReapersData from "./assets/data/dat_rea.json";
+export const Reapers = ReapersData;
+
+for (let r of ReapersData) {
+	if (r.EVOLVE_IN) {
+		let e = ReapersData.find((e) => e.REF === r.EVOLVE_IN);
+		e.previous = r;
+	}
+}
+ReapersData.sort((l, r) => l.ORDER - r.ORDER);

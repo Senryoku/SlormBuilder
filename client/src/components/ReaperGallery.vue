@@ -40,8 +40,8 @@
 
 <script>
 import { ref } from "vue";
+import { Reapers } from "../utils.js";
 import Reaper from "./Reaper.vue";
-import Reapers from "../assets/data/dat_rea.json";
 import Tooltip from "./Tooltip.vue";
 
 export default {
@@ -52,13 +52,6 @@ export default {
 		lootable: { type: Boolean, default: false },
 	},
 	data() {
-		for (let r of Reapers) {
-			if (r.EVOLVE_IN) {
-				let e = Reapers.find((e) => e.REF === r.EVOLVE_IN);
-				e.previous = r;
-			}
-		}
-		Reapers.sort((l, r) => l.ORDER - r.ORDER);
 		return {
 			Reapers: Reapers.filter((r) => r.EN_NAME),
 			tooltip: ref(null),

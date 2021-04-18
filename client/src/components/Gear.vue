@@ -113,24 +113,24 @@
 
 <script>
 import { ref } from "vue";
-import { capitalize } from "../utils.js";
+import { capitalize, ItemTypes, Reapers } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
 import Legendary from "./Legendary.vue";
 import Legendaries from "../assets/data/dat_leg.json";
 import Reaper from "./Reaper.vue";
 import ReaperGallery from "./ReaperGallery.vue";
 import Tooltip from "./Tooltip.vue";
-/*
-const ItemTypes = Legendaries.map((o) => o.ITEM).filter(
-	(e, idx, arr) => arr.indexOf(e) === idx
-);
-*/
+
 export default {
 	name: "Gear",
 	components: { GearSlot, Legendary, Reaper, ReaperGallery, Tooltip },
 	data(props) {
 		let gear = {};
-		for (let s in props.data) gear[s] = props.data[s];
+		for (let s in props.import)
+			if (s !== "reaper" && props.import[s] !== -1)
+				gear[s] = Legendaries.find((o) => o.REF === props.import[s]);
+		if (props.import?.["reaper"] && props.import?.["reaper"] !== -1)
+			gear["reaper"] = Reapers.find((o) => o.REF === props.import["reaper"]);
 		return {
 			gear: ref(gear),
 			selectedSlot: "helm",
@@ -141,7 +141,7 @@ export default {
 	},
 	props: {
 		className: { type: String },
-		data: {
+		import: {
 			type: Object,
 			default: () => {
 				return {};
@@ -162,6 +162,12 @@ export default {
 		},
 		displayReaperTooltip(event) {
 			this.$refs.reapertooltip.display(event);
+		},
+		serialize() {
+			let r = [];
+			for (let slot of ItemTypes) r.push(this.gear[slot]?.REF ?? -1);
+			r.push(this.gear["reaper"]?.REF ?? -1);
+			return r.join();
 		},
 	},
 	computed: {
@@ -204,6 +210,10 @@ export default {
 	background-image: url("../assets/data/sprites/spr_inventory_slot_panel/spr_inventory_slot_panel_0.png");
 	padding: 40px 10px 10px 10px;
 	box-sizing: border-box;
+}
+
+.gear:not(.editable) {
+	margin: auto;
 }
 
 .character {

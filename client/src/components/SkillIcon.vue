@@ -81,7 +81,7 @@ export default {
 	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_3.png");
 	border-image-slice: 16 16 16 16;
 	border-image-width: 16px;
-	border-image-outset: 10px;
+	border-image-outset: 8px;
 }
 
 .passive {

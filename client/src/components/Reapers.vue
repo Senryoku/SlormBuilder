@@ -67,5 +67,6 @@ export default {
 
 .reaper-gallery {
 	margin: 1rem auto;
+	width: 95%;
 }
 </style>
