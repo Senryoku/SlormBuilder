@@ -188,7 +188,6 @@ export default {
 
 <style scoped>
 .gear-builder {
-	margin: 0 2em;
 	height: 840px;
 }
 
@@ -366,6 +365,7 @@ export default {
 .item-gallery {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-around;
 	overflow-y: scroll;
 	margin-top: 30px;
 	margin-bottom: 12px;

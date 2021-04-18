@@ -1,5 +1,5 @@
 <template>
-	<div class="attrNames unselectable">
+	<div class="attributes unselectable">
 		<div class="title">Attributes</div>
 		<div class="attr-bars">
 			<div
@@ -173,8 +173,8 @@ export default {
 </script>
 
 <style>
-.attrNames {
-	margin: 1em auto;
+.attributes {
+	margin: 0 auto;
 	background-image: url("../assets/data/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 	text-align: center;
 	width: 1192px;

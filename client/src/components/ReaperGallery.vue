@@ -1,5 +1,5 @@
 <template>
-	<div class="reaper-gallery">
+	<div class="reaper-gallery" :class="{ large: !smallDisplay }">
 		<template v-if="smallDisplay">
 			<div
 				v-for="r in filteredReapers"
@@ -85,6 +85,10 @@ export default {
 	flex-wrap: wrap;
 }
 
+.reaper-gallery.large {
+	justify-content: space-around;
+}
+
 .weapon-spot {
 	position: relative;
 	width: 120px;
@@ -125,7 +129,7 @@ export default {
 .evolve-marker {
 	position: absolute;
 	background-image: url("../assets/data/sprites/spr_weapon_evolve/spr_weapon_evolve_0.png");
-	left: -16px;
+	left: -28px;
 	width: 32px;
 	height: 56px;
 	top: 32px;

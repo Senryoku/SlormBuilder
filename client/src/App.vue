@@ -2,6 +2,7 @@
 	<div class="header">
 		<router-link to="/"
 			><img
+				style="position: absolute; top: 0"
 				:src="
 					require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')
 				"
@@ -17,7 +18,7 @@
 				SlormBuilder
 			</h1></router-link
 		>
-		<div id="nav">
+		<div id="nav" style="text-align: right">
 			<router-link to="/">Builder</router-link> |
 			<router-link
 				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCxtYWdlLDAsNCw2LDE0MywxMCwxNDUsMTAsMTQ5LDEwLDE1MiwxMCwxNTUsMSwxNTYsMSwxNTksMTAsMTY0LDEwLDc3LDEwLDgxLDEwLDgzLDUsODcsMSw4OSwxMCwxMDksMTAsMTExLDEwLDExNiwxMCwxMjAsNSwxMjMsMQ=="
@@ -40,7 +41,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	margin-bottom: 5rem;
+	min-height: 100%;
 }
 
 .unselectable {
@@ -116,13 +117,24 @@ button.large.blue:hover {
 <style scoped>
 .header {
 	display: grid;
-	grid-template-columns: auto 1fr auto;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
 	margin: 0;
 	padding: 0 6rem;
-	justify-content: space-between;
-	justify-items: center;
 	background-color: #222;
+}
+
+.header h1 {
+	background-image: url("./assets/data/sprites/spr_enemy_breach_seal_1/spr_enemy_breach_seal_1_4.png");
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 0.75rem 5rem;
+	margin: 0;
+	-webkit-text-stroke: 2px #222;
+	color: white;
+	font-weight: 600;
+	font-size: 2.5rem;
+	font-family: "Courier New";
 }
 
 a,

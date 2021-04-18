@@ -42,7 +42,7 @@
 			<!-- TODO -->
 			<p v-for="r in reminders" :key="r" class="mechanic-summary">
 				<template v-if="r.EN_NAME">
-					<!-- TODO Add Tooltip here -->
+					<!-- TODO Add Infos here -->
 					<img
 						:src="
 							require(`../assets/data/sprites/spr_skills_${className}/spr_skills_${className}_${r.REF}.png`)
@@ -155,6 +155,9 @@ export default {
 			}
 
 			if (this.skill.DESC_VALUE) {
+				let negative = this.skill.DESC_VALUE_REAL.split("|").map((v) =>
+					v === "negative" ? -1 : 1
+				);
 				let value_name = this.skill.DESC_VALUE.split("|");
 				value_name = value_name.map((n) => translate(n));
 				let value_base = this.skill.DESC_VALUE_BASE.split("|");
@@ -167,7 +170,7 @@ export default {
 						this.skill.UPGRADE_NUMBER > 1 && !r.includes("µ");
 					let current_value =
 						value_base[idx] +
-						Math.max(1, this.skill.rank) * value_per_level[idx];
+						negative[idx] * Math.max(1, this.skill.rank) * value_per_level[idx];
 					let index = r.search("@");
 					if (index > 0) {
 						if (r.slice(index, index + 3) === "@ £") {
@@ -178,7 +181,9 @@ export default {
 								`${c(current_value + value_type[idx])}${
 									value_explanation
 										? small(
-												` (${value_base[idx]}${value_type[idx]} + ${value_per_level[idx]}${value_type[idx]} per rank)`
+												` (${value_base[idx]}${value_type[idx]} ${
+													negative < 0 ? "-" : "+"
+												} ${value_per_level[idx]}${value_type[idx]} per rank)`
 										  )
 										: ""
 								} ${value_name[idx]}`
@@ -186,7 +191,9 @@ export default {
 						} else {
 							let current_value =
 								value_base[idx] +
-								Math.max(1, this.skill.rank) * value_per_level[idx];
+								negative[idx] *
+									Math.max(1, this.skill.rank) *
+									value_per_level[idx];
 							r = splice(r, index, 1, c(current_value + value_type[idx]));
 						}
 					}
