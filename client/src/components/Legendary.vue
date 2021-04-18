@@ -119,7 +119,7 @@ export default {
 	padding: 0 14px;
 }
 
-.effect-text >>> .number {
+.effect-text ::v-deep(.number) {
 	color: white;
 }
 </style>

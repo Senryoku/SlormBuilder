@@ -124,11 +124,11 @@ export default {
 	white-space: pre-line;
 }
 
-.attribute >>> .small {
+.attribute ::v-deep(.small) {
 	color: #555;
 }
 
-.attribute >>> .number {
+.attribute ::v-deep(.number) {
 	color: var(--color);
 }
 </style>

@@ -125,19 +125,19 @@ export default {
 	text-align: left;
 }
 
-.reaper >>> .primordial {
+.reaper ::v-deep(.primordial) {
 	font-weight: 600;
 }
 
-.reaper >>> .primordial.benediction {
+.reaper ::v-deep(.primordial.benediction) {
 	color: cyan;
 }
 
-.reaper >>> .primordial.curse {
+.reaper ::v-deep(.primordial.curse) {
 	color: red;
 }
 
-.reaper >>> .colored {
+.reaper ::v-deep(.colored) {
 	color: rgb(206, 70, 7);
 }
 
