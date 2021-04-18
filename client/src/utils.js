@@ -35,6 +35,8 @@ export function capitalize(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+import Act from "./assets/data/dat_act.json";
+
 export function parseText(item, format = {}) {
 	format = {
 		text: format.text ?? "EN_DESC",
@@ -76,6 +78,15 @@ export function parseText(item, format = {}) {
 				}${s}</p>`
 		)
 		.join("");
+
+	// Reapers ancestral skill (TODO)
+	r = r.replaceAll(/act:(\d+)/g, (match, group) => {
+		const ref = parseInt(group) - 200;
+		let act = Act.find((o) => o.REF === ref);
+		if (act)
+			return `Gain Ancestral Skill <span class="colored">${act.EN_NAME}</span>`;
+		else return "";
+	});
 
 	let types = item[format.value_type].split("|");
 	for (let t of types) if (t.includes(":")) r = r.replace("$", translate(t));

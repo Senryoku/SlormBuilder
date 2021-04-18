@@ -137,6 +137,10 @@ export default {
 	color: red;
 }
 
+.reaper >>> .colored {
+	color: rgb(206, 70, 7);
+}
+
 .image-box {
 	position: relative;
 	background-image: url("../assets/data/sprites/spr_weapon_back_box/spr_weapon_back_box_0.png");
