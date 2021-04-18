@@ -243,20 +243,29 @@ export default {
 		display(event, skill) {
 			this.$refs.skillTooltip.display(skill, event.target);
 		},
-		selectSkill(tree, row, skill) {
+		selectSkill(event, tree, row, skill) {
 			if (!this.editable) return;
+			let alt =
+				event.getModifierState("Shift") || event.getModifierState("Alt");
 			if (skill.selected) {
-				skill.rank = Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
+				skill.rank = alt
+					? skill.UPGRADE_NUMBER
+					: Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
 			} else {
 				tree.upgrades[row].map((s) => (s.selected = false));
-				skill.rank = Math.max(skill.rank, 1);
+				skill.rank = alt ? skill.UPGRADE_NUMBER : Math.max(skill.rank, 1);
 				skill.selected = true;
 			}
 		},
 		deselectSkill(event, skill) {
 			event.preventDefault();
 			if (!this.editable) return;
-			if (skill.rank > 1) --skill.rank;
+			let alt =
+				event.getModifierState("Shift") || event.getModifierState("Alt");
+			if (alt) {
+				skill.rank = 0;
+				skill.selected = false;
+			} else if (skill.rank > 1) --skill.rank;
 			else skill.selected = false;
 		},
 		share() {

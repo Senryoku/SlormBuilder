@@ -17,7 +17,7 @@
 				:key="skill.EN_NAME"
 				:className="tree.className"
 				:skill="skill"
-				@click="$emit('selectSkill', tree, rowIdx, skill)"
+				@click="$emit('selectSkill', $event, tree, rowIdx, skill)"
 				@contextmenu="$emit('deselectSkill', $event, skill)"
 				@mouseenter="$emit('display', $event, skill)"
 			/>
