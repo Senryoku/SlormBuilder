@@ -108,6 +108,7 @@
 	<div v-show="selectedTab === 'elements'" class="tab-container">
 		<AncestralTree v-if="false" />
 	</div>
+	<div class="toast"></div>
 </template>
 
 <script>
@@ -229,6 +230,7 @@ export default {
 		},
 		share() {
 			copyToClipboard(this.genURL());
+			this.$toast.success(`Build URL copied to clipboard!`);
 		},
 		edit() {
 			this.editable = true;

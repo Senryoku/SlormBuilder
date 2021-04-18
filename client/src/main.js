@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import Toaster from "@meforma/vue-toaster";
 import App from "./App.vue";
 const Builder = () => import("./Builder.vue");
 const Reapers = () => import("./components/Reapers.vue");
@@ -21,4 +22,5 @@ const router = createRouter({
 
 createApp(App)
 	.use(router)
+	.use(Toaster)
 	.mount("#app");
