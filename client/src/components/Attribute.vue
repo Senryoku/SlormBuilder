@@ -19,21 +19,13 @@
 </template>
 
 <script>
-import { translate } from "../utils.js";
+import { translate, parseText } from "../utils.js";
 
 export default {
 	props: {
 		attr: { type: Object },
 	},
 	methods: {
-		parseText(e) {
-			let r = e.EN_TEXT.replaceAll("#", "\n");
-			if (e.TYPE.startsWith("synergy:")) r = r.replace("$", translate(e.TYPE));
-			for (let s of e.STAT.split("|")) r = r.replace("£", translate(s));
-			for (let v of e.VALUE.split("|")) r = r.replace("@", this.n(v));
-			r = r.replace("µ", this.n(e.ADDITIVE));
-			return r;
-		},
 		n(s) {
 			return `<span class="number">${s}</span>`;
 		},
@@ -69,7 +61,7 @@ export default {
 				} else {
 					others.push({
 						level: e.LEVEL,
-						text: this.parseText(e),
+						text: parseText(e, { text: "EN_TEXT" }),
 					});
 				}
 			}
@@ -91,7 +83,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .attribute {
 	width: 406px;
 	text-align: center;
@@ -127,11 +119,11 @@ export default {
 	white-space: pre-line;
 }
 
-.small {
+.attribute >>> .small {
 	color: #555;
 }
 
-.number {
+.attribute >>> .number {
 	color: var(--color);
 }
 </style>

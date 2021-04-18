@@ -9,8 +9,8 @@
 			>
 				<div
 					class="attr-bar clickable"
-					@click="plus(idx)"
-					@contextmenu.prevent="minus(idx)"
+					@click="plus($event, idx)"
+					@contextmenu.prevent="minus($event, idx)"
 				>
 					<img
 						@mouseenter="displayTooltip($event, idx)"
@@ -45,12 +45,12 @@
 				<div class="attr-button-container">
 					<div
 						class="attr-button plus-button"
-						@click="plus(idx)"
+						@click="plus($event, idx)"
 						:class="{ disabled: !editable || attributes[idx].level >= 75 }"
 					/>
 					<div
 						class="attr-button minus-button"
-						@click="minus(idx)"
+						@click="minus($event, idx)"
 						:class="{ disabled: !editable || attributes[idx].level <= 0 }"
 					/>
 				</div>
@@ -145,18 +145,25 @@ export default {
 			this.hoveredAttr = this.attributes[idx];
 			this.$refs.tooltip.display(event);
 		},
-		plus(idx) {
+		plus(event, idx) {
 			if (!this.editable) return;
 			this.attributes[idx].level = this.clamp(
-				this.attributes[idx].level + 1,
+				this.attributes[idx].level +
+					(event.getModifierState("Shift") || event.getModifierState("Alt")
+						? 10
+						: 1),
 				0,
 				75
 			);
 		},
-		minus(idx) {
+		minus(event, idx) {
 			if (!this.editable) return;
+			// contextmenu can't be triggered with getModifierState("Shift")
 			this.attributes[idx].level = this.clamp(
-				this.attributes[idx].level - 1,
+				this.attributes[idx].level -
+					(event.getModifierState("Shift") || event.getModifierState("Alt")
+						? 10
+						: 1),
 				0,
 				75
 			);

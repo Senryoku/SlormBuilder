@@ -24,7 +24,7 @@ import GameStrings from "./assets/data/dat_str.json";
 
 export function translate(id, lang = "EN") {
 	if (!id || id === "" || typeof id !== "string") return "";
-	if (id.startsWith("synergy:")) id = id.slice(8);
+	if (id.includes(":")) id = id.slice(id.indexOf(":") + 1);
 	let t = GameStrings.find((o) => o.REF === id);
 	if (t) return t[lang];
 	else return id;
@@ -32,4 +32,32 @@ export function translate(id, lang = "EN") {
 
 export function capitalize(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function parseText(item, format) {
+	format = {
+		text: format.text ?? "EN_DESC",
+	};
+
+	const n = (s) => `<span class="number">${s}</span>`;
+
+	let r = item[format.text]
+		.replaceAll("#", "\n") // New lines
+		.replace(/</g, "&lt;") // <Buffs>
+		.replace(/>/g, "&gt;");
+
+	let types = item.TYPE.split("|");
+	for (let t of types) if (t.includes(":")) r = r.replace("$", translate(t));
+	for (let s of item.STAT.split("|")) r = r.replace("£", translate(s));
+	for (let [idx, v] of item.VALUE.split("|").entries())
+		r = r.replace(
+			"@",
+			n(
+				`${v}${
+					types[idx] && !types[idx].includes(":") ? types[idx] : ""
+				}`
+			)
+		);
+	// WTH is ¤?
+	return r;
 }

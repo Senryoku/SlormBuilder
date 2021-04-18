@@ -4,16 +4,21 @@
 		<div class="body">
 			<div class="desc">
 				<ItemIcon :item="item" />
+				<div class="stats">
+					<div class="slot">{{ item.ITEM }}</div>
+					<div>Lootable: {{ item.LOOTABLE ? "True" : "False" }}</div>
+				</div>
 			</div>
 			<div class="effect">
-				<div>Legendary Effect</div>
-				<div>{{ item.EN_DESC }}</div>
+				<div class="effect-top">Legendary Effect</div>
+				<div class="effect-text" v-html="effect"></div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { parseText } from "../utils.js";
 import ItemIcon from "./ItemIcon.vue";
 export default {
 	name: "Legendary",
@@ -33,6 +38,11 @@ export default {
 		return {
 			image,
 		};
+	},
+	computed: {
+		effect() {
+			return parseText(this.item, { text: "EN_DESC" });
+		},
 	},
 };
 </script>
@@ -55,6 +65,9 @@ export default {
 	padding-top: 33px;
 	line-height: 56px;
 	box-sizing: border-box;
+
+	color: rgb(206, 70, 7);
+	font-weight: 600;
 }
 
 .legendary .body {
@@ -66,6 +79,19 @@ export default {
 
 .legendary .desc {
 	padding: 0 20px 0 20px;
+	display: flex;
+}
+
+.stats {
+	margin: 6px 12px;
+	padding: 2px 6px;
+	border-left: 2px solid rgb(59, 56, 49);
+	text-align: left;
+}
+
+.slot {
+	color: rgb(206, 70, 7);
+	text-transform: capitalize;
 }
 
 .effect {
@@ -74,7 +100,21 @@ export default {
 		url("../assets/data/sprites/spr_item_tooltip_legendary_text_bottom/spr_item_tooltip_legendary_text_bottom_0.png");
 	background-position: center top, center bottom;
 	background-repeat: no-repeat, no-repeat;
-	padding: 64px 12px;
+	padding: 64px 18px;
 	margin: auto;
+}
+
+.effect-top {
+	color: #555;
+	font-weight: 600;
+}
+
+.effect-text {
+	color: rgb(206, 70, 7);
+	padding: 0 14px;
+}
+
+.effect-text >>> .number {
+	color: white;
 }
 </style>

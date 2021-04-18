@@ -57,23 +57,16 @@
 					<div class="mechanic-summary-name">{{ r }}</div>
 				</template>
 			</p>
-			<img
-				style="max-width: 100%"
-				:src="
-					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
-				"
-			/>
-			<div>Next Rank:</div>
-			<div>Max Rank:</div>
-			<!--
-				Debug data
-				<table class="details">
-					<tr v-for="(v, k) in filteredProperties" :key="k">
-						<td>{{ k }}</td>
-						<td>{{ v }}</td>
-					</tr>
-				</table>
-			-->
+			<template v-if="skill.rank">
+				<img
+					style="max-width: 100%"
+					:src="
+						require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+					"
+				/>
+				<div>Next Rank:</div>
+				<div>Max Rank:</div></template
+			>
 		</div>
 	</transition>
 </template>
@@ -135,14 +128,6 @@ export default {
 		},
 	},
 	computed: {
-		filteredProperties() {
-			let r = {};
-			for (let k of Object.keys(this.skill).filter(
-				(key) => !(key.endsWith("_DESCRIPTION") || key.endsWith("_NAME"))
-			))
-				r[k] = this.skill[k];
-			return r;
-		},
 		description() {
 			let r = this.skill.EN_DESCRIPTION;
 			// New lines
@@ -226,6 +211,8 @@ export default {
 				let extras = this.skill.EXTRA_NBR.split("|");
 				for (let e of extras) r = r.replace("¥", e);
 			}
+
+			// Wth is ¤?
 			return r;
 		},
 		genres() {
