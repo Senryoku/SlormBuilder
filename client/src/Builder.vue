@@ -16,7 +16,7 @@
 					:key="c"
 					@click="selectedClass = c"
 					:class="{ selected: c === selectedClass }"
-					class="class-name"
+					class="class-name clickable"
 				>
 					<img
 						:src="
@@ -344,7 +344,9 @@ export default {
 
 				this.$refs.attributes.importSave(dataFields.traits);
 
-				this.$toast.success("Save successfully imported!");
+				this.$toast.success(
+					"Save (Skills & Attributes) successfully imported!"
+				);
 			} catch (e) {
 				this.$toast.error(e.toString());
 			}
@@ -367,11 +369,21 @@ export default {
 	margin: 0 3em;
 }
 
+.tabs,
 .class-select {
 	display: flex;
 	justify-content: center;
 	text-transform: capitalize;
 	margin: auto;
+	background-image: url("./assets/data/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
+	background-size: 100% 54px;
+	background-position: center;
+	background-repeat: repeat-x;
+	padding: 0 1rem;
+}
+
+.class-select {
+	height: 54px;
 }
 
 .class-select > div {
@@ -380,26 +392,26 @@ export default {
 	align-items: center;
 }
 
-.class-select > div:hover {
-	filter: brightness(150%);
+.tab:hover img {
+	filter: brightness(125%);
 }
 
-.class-select > div:active {
+.class-select > div:hover {
 	filter: brightness(200%);
 }
 
-.class-select > div.selected {
-	filter: brightness(175%);
+.tab:active img {
+	filter: brightness(150%);
+}
+.class-select > div:active {
+	filter: brightness(300%);
 }
 
-.tabs {
-	display: flex;
-	align-items: center;
-	background-image: url("./assets/data/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
-	background-size: 100% 54px;
-	background-position: center;
-	background-repeat: repeat-x;
-	padding: 0 1rem;
+.tab.tab-selected img {
+	filter: brightness(125%);
+}
+.class-select > div.selected {
+	filter: brightness(250%);
 }
 
 .tab {
@@ -420,8 +432,8 @@ export default {
 
 .tab::after {
 	position: absolute;
-	bottom: calc(0.75 * -12px);
-	left: calc(50% - 0.75 * 22px);
+	bottom: calc(0.75 * -6px);
+	left: calc(50% + 1rem - 9px);
 	background-image: url("./assets/data/sprites/spr_skill_selector/spr_skill_selector_0.png");
 	background-size: cover;
 	width: calc(0.75 * 44px);

@@ -26,6 +26,9 @@
 			>
 			| <router-link to="/reapers">Reapers</router-link> |
 			<router-link to="/legendaries">Legendaries</router-link>
+			<span style="margin-left: 1rem; text-align: right">
+				Made by <a href="https://senryoku.github.io/">Senryoku</a>
+			</span>
 		</div>
 	</div>
 	<router-view :key="$route.fullPath" />
@@ -141,11 +144,13 @@ button.large.blue:hover {
 a,
 a:visited {
 	color: #bbb;
-	text-decoration: underline dashed;
+	text-decoration: underline;
+	text-decoration-color: #777;
 }
 
 a:hover {
 	color: #eee;
+	text-decoration-color: #eee;
 }
 
 a:active {
