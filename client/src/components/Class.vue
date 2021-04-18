@@ -170,7 +170,6 @@ export default {
 	},
 	data() {
 		let skills = [];
-		let upgrades = [];
 		let activeBoxes = [];
 		for (let s of SkillData[this.className]) {
 			s.className = this.className;
@@ -183,8 +182,7 @@ export default {
 			}
 			s.image = sprite;
 
-			if (s.TYPE === "upgrade") upgrades.push(s);
-			else skills.push(s);
+			skills.push(s);
 			if (!activeBoxes[s.ACTIVE_BOX]) activeBoxes[s.ACTIVE_BOX] = [];
 			activeBoxes[s.ACTIVE_BOX].push(s);
 			s.selected =
@@ -231,7 +229,6 @@ export default {
 
 		return {
 			skills,
-			upgrades,
 			skillTrees,
 			specialisations,
 			selections,
@@ -293,6 +290,17 @@ export default {
 			if (upgradesStr.length > 0) r += "," + upgradesStr;
 
 			return r;
+		},
+		importSave(selections, upgrades) {
+			this.selections = selections;
+			for (let u of this.skills) u.selected = false;
+			for (let u of upgrades) {
+				let t = this.skills.find((up) => up.REF === u.REF);
+				if (t) {
+					t.selected = u.selected;
+					t.rank = u.rank;
+				} else console.warn("Could not find ", u);
+			}
 		},
 	},
 };

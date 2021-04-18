@@ -76,14 +76,25 @@
 		<div class="actions">
 			<button v-if="!editable" @click="edit">Edit this build</button>
 			<button @click="share">Share</button>
+			<button
+				@click="saveImportDialog"
+				title="Saves are located in C:\Users\%username%\AppData\Local\The_Slormancer"
+			>
+				Import Save
+			</button>
+			<input
+				type="file"
+				id="save-import-input"
+				hidden
+				@change="importSaveFile"
+			/>
 		</div>
 	</div>
 	<div v-show="selectedTab === 'skills'" class="tab-container">
-		<template v-for="c in classes">
+		<template v-for="c in classes" :key="c">
 			<Class
-				:key="c"
 				:className="c"
-				v-if="c === selectedClass"
+				v-show="c === selectedClass"
 				:ref="(el) => (classComponents[c] = el)"
 				:import="classImport"
 				:editable="editable"
@@ -235,6 +246,109 @@ export default {
 		edit() {
 			this.editable = true;
 		},
+		saveImportDialog() {
+			document.getElementById("save-import-input").click();
+		},
+		importSaveFile(event) {
+			event.preventDefault();
+			const file = event.target.files[0];
+			if (file) {
+				var reader = new FileReader();
+				reader.onload = (evt) => {
+					let content = evt.target.result;
+					this.decodeSave(content);
+				};
+				reader.onerror = () => {
+					this.$toast.error("Error reading save.");
+				};
+				reader.readAsText(file, "UTF-8");
+			}
+		},
+		decodeSave(txt) {
+			try {
+				let r = txt.substring(0, txt.indexOf("#"));
+				let i = 0;
+				let asciish = "";
+				while (i < r.length - 1) {
+					let hex = r[i] + r[i + 1];
+					asciish += String.fromCharCode(parseInt(hex, 16));
+					i += 2;
+				}
+				const isNumber = (c) => {
+					return (
+						c.charCodeAt(0) >= "0".charCodeAt(0) &&
+						c.charCodeAt(0) <= "9".charCodeAt(0)
+					);
+				};
+				const getStartIndex = (idx) => {
+					while (idx < asciish.length && !isNumber(asciish[idx])) ++idx;
+					return idx;
+				};
+				const getEndIndex = (idx) => {
+					const skip = (c) =>
+						["/", ":", ",", "-", "|"].includes(c) || isNumber(c);
+					while (idx < asciish.length && skip(asciish[idx])) {
+						++idx;
+					}
+					if (idx + 1 < asciish.length && skip(asciish[idx + 1]))
+						return getEndIndex(idx + 1);
+					return idx;
+				};
+				const getNextSection = (idx) => {
+					let start = getStartIndex(idx);
+					return asciish.substring(start, getEndIndex(start)).split("|");
+				};
+
+				let dataFields = {};
+				dataFields.weapon_data = getNextSection(asciish.indexOf("weapon_data"));
+				dataFields.weapon_equip = getNextSection(
+					asciish.indexOf("weapon_equip")
+				);
+				dataFields.traits = asciish
+					.match(
+						/\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+/
+					)[0]
+					.split("|")
+					[this.classes.findIndex((c) => c === this.selectedClass)].split(",")
+					.map((i) => parseInt(i));
+				dataFields.skill_equip = getNextSection(asciish.indexOf("skill_equip"));
+				// Number of use for the 3+8 base skills, then rank of each upgrade!
+				dataFields.skill_rank = getNextSection(
+					asciish.indexOf("skill_rank")
+				).map((s) => s.split(",").map((i) => parseInt(i)));
+
+				let selections = [];
+				let upgrades = [];
+				for (let i = 0; i < dataFields.skill_equip.length; ++i) {
+					let dat = dataFields.skill_equip[i]
+						.split(",")
+						.map((n) => parseInt(n));
+					selections.push({
+						specialisation: dat.findIndex((n) => n === 4),
+						primarySkill: dat.findIndex((n) => n === 3) - 3,
+						secondarySkill: dat.findIndex((n) => n === 2) - 3,
+					});
+					upgrades.push([]);
+					for (let ref = 11; ref < dat.length; ++ref) {
+						upgrades[i].push({
+							REF: ref,
+							rank: dataFields.skill_rank[i][ref],
+							selected: dat[ref] !== -1,
+						});
+					}
+					this.classComponents[this.classes[i]].importSave(
+						selections[i],
+						upgrades[i]
+					);
+				}
+
+				this.$refs.attributes.importSave(dataFields.traits);
+
+				this.$toast.success("Save successfully imported!");
+			} catch (e) {
+				this.$toast.error(e.toString());
+			}
+		},
 	},
 };
 </script>
@@ -326,6 +440,7 @@ export default {
 
 .actions {
 	display: flex;
+	gap: 6px;
 }
 </style>
 

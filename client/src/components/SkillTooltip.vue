@@ -129,6 +129,7 @@ export default {
 	},
 	computed: {
 		description() {
+			if (!this.skill) return "";
 			let r = this.skill.EN_DESCRIPTION;
 			// New lines
 			r = r.replaceAll("#", "\n");

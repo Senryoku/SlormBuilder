@@ -73,6 +73,7 @@ button {
 	color: #bbb;
 	padding: 0 36px;
 	text-align: center;
+	cursor: pointer;
 }
 
 button:hover {

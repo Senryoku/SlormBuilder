@@ -141,6 +141,10 @@ export default {
 		serialize() {
 			return this.attributes.map((a) => a.level).join(",");
 		},
+		importSave(values) {
+			for (let i = 0; i < this.attributes.length; ++i)
+				this.attributes[i].level = values[i];
+		},
 		displayTooltip(event, idx) {
 			this.hoveredAttr = this.attributes[idx];
 			this.$refs.tooltip.display(event);
