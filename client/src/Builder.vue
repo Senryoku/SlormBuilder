@@ -1,6 +1,14 @@
 <template>
 	<div class="header">
-		<div><h1>Builder</h1></div>
+		<div>
+			<h1 v-if="editable">Builder</h1>
+			<h1 v-else>
+				<img
+					style="vertical-align: sub; margin-right: 1rem"
+					src="./assets/data/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
+				/>Imported Build
+			</h1>
+		</div>
 		<div class="class-select">
 			<template v-if="editable">
 				<div

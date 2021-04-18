@@ -21,7 +21,7 @@
 		<div id="nav" style="text-align: right">
 			<router-link to="/">Builder</router-link> |
 			<router-link
-				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCwtMSwtMSwtMSwtMSwtMSwtMSwtMSwtMSwtMSwtMSw0NixtYWdlLDAsNCw2LDE0MywxMCwxNDUsMTAsMTQ5LDEwLDE1MiwxMCwxNTUsMSwxNTYsMSwxNTksMTAsMTY0LDEwLDc3LDEwLDgxLDEwLDgzLDUsODcsMSw4OSwxMCwxMDksMTAsMTExLDEwLDExNiwxMCwxMjAsNSwxMjMsMQ=="
+				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCwtMSwtMSwtMSwtMSwtMSwtMSwtMSw3LC0xLC0xLDQ2LG1hZ2UsMCw0LDYsMTQzLDEwLDE0NSwxMCwxNDksMTAsMTUyLDEwLDE1NSwxLDE1NiwxLDE1OSwxMCwxNjQsMTAsNzcsMTAsODEsMTAsODMsNSw4NywxLDg5LDEwLDEwOSwxMCwxMTYsMTAsMTIwLDUsMTIzLDE="
 				>Build Example (Debug)</router-link
 			>
 			| <router-link to="/reapers">Reapers</router-link> |
