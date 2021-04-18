@@ -325,8 +325,8 @@ export default {
 						.map((n) => parseInt(n));
 					selections.push({
 						specialisation: dat.findIndex((n) => n === 4),
-						primarySkill: dat.findIndex((n) => n === 3) - 3,
-						secondarySkill: dat.findIndex((n) => n === 2) - 3,
+						primarySkill: dat.findIndex((n) => n === 2) - 3,
+						secondarySkill: dat.findIndex((n) => n === 3) - 3,
 					});
 					upgrades.push([]);
 					for (let ref = 11; ref < dat.length; ++ref) {
