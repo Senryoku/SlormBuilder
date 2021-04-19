@@ -86,6 +86,7 @@ const Strings = {
 		FR: "Les sauvegardes se trouvent dans le dossier $",
 	},
 	Level: { FR: "Niveau" },
+	"Reaper Damage": { FR: "Dégâts de Reaper" },
 
 	"Specialisation (Support Skill)": {
 		FR: "Spécialisation (Compétence de support)",

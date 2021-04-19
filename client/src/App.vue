@@ -59,8 +59,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+	font-family: "Slorm";
+	src: url("./assets/Berlin Sans FB Regular.ttf");
+}
+
 body {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: "Slorm", Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
@@ -84,6 +89,7 @@ body {
 }
 
 button {
+	font-family: "Slorm";
 	border: 0;
 	height: 52px;
 	line-height: 52px;

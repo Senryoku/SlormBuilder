@@ -124,6 +124,7 @@ export default {
 	padding-top: 33px;
 	line-height: 56px;
 	box-sizing: border-box;
+	font-weight: 600;
 }
 
 .reaper .body {

@@ -51,11 +51,13 @@ export default {
 .filters {
 	display: flex;
 	justify-content: space-around;
+	align-items: baseline;
 }
 
 .type-select {
 	display: flex;
 	justify-content: space-around;
+	gap: 1em;
 }
 
 .type-select > * {
