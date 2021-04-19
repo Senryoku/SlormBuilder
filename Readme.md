@@ -1,15 +1,11 @@
 # TODO
 
--   Builder
--   -   Select a Slorm Reaper
--   -   Select Legendaries (each slot is optional)
--   Attributes Tooltips
--   -   Description parsing
+-	Better & Dynamic Meta-Data
+-   Skills
+-   -   Remove "duplicated code" for description parsing.
 -   Slorm Reapers
--   -   Evolutions (& display evolution level)
--   -   Description parsing
+-	-	Check desc. parsing
 -   -   Primodial?
 -   Legendaries
--   -   Description parsing
--   -   Other infos? (Display slot at least)
+-   -   Other infos?
 -   Optimize everything
