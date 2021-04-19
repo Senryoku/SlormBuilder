@@ -113,7 +113,7 @@
 
 <script>
 import { ref } from "vue";
-import { capitalize, ItemTypes, Reapers } from "../utils.js";
+import { capitalize, ItemSlots, Reapers } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
 import Legendary from "./Legendary.vue";
 import Legendaries from "../assets/data/dat_leg.json";
@@ -165,7 +165,7 @@ export default {
 		},
 		serialize() {
 			let r = [];
-			for (let slot of ItemTypes) r.push(this.gear[slot]?.REF ?? -1);
+			for (let slot of ItemSlots) r.push(this.gear[slot]?.REF ?? -1);
 			r.push(this.gear["reaper"]?.REF ?? -1);
 			return r.join();
 		},

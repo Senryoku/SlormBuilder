@@ -124,7 +124,7 @@
 
 <script>
 import { ref, onBeforeUpdate, defineAsyncComponent } from "vue";
-import { copyToClipboard, capitalize, ItemTypes } from "./utils.js";
+import { copyToClipboard, capitalize, ItemSlots, ItemTypes } from "./utils.js";
 const Class = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "Class" */ "./components/Class.vue")
 );
@@ -177,7 +177,7 @@ export default {
 								attributes.push(parseInt(data[currentIndex]));
 							// Gear
 							let gearImport = {};
-							for (let slot of ItemTypes)
+							for (let slot of version[1] ? ItemSlots : ItemTypes)
 								gearImport[slot] = parseInt(data[currentIndex++]);
 							gearImport["reaper"] = parseInt(data[currentIndex++]);
 							// Skil selection
@@ -223,7 +223,7 @@ export default {
 	},
 	methods: {
 		serialize() {
-			let version = "1";
+			let version = "1.1";
 			let str =
 				version +
 				"," +

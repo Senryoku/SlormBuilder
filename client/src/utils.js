@@ -118,6 +118,20 @@ export const ItemTypes = [
 	"shoulder",
 ];
 
+export const ItemSlots = [
+	"amulet",
+	"belt",
+	"body",
+	"boot",
+	"bracer",
+	"cape",
+	"glove",
+	"helm",
+	"ring0",
+	"ring1",
+	"shoulder",
+];
+
 import ReapersData from "./assets/data/dat_rea.json";
 export const Reapers = ReapersData;
 
