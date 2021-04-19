@@ -93,7 +93,13 @@
 				></skill-tree>
 			</div>
 		</div>
-		<skill-tooltip ref="skillTooltip" :className="className"></skill-tooltip>
+		<tooltip ref="skillTooltip"
+			><skill-tooltip
+				:className="className"
+				:skill="hoveredSkill"
+				:key="hoveredSkill?.REF"
+			></skill-tooltip
+		></tooltip>
 	</div>
 </template>
 
@@ -104,6 +110,7 @@ import HuntressSkills from "../assets/data/dat_cla_1.json";
 import MageSkills from "../assets/data/dat_cla_2.json";
 import Skill from "./SkillIcon.vue";
 import SkillTree from "./SkillTree.vue";
+import Tooltip from "./Tooltip.vue";
 const SkillTooltip = defineAsyncComponent(() =>
 	import(/* webpackChunkName: "SkillTooltip" */ "./SkillTooltip.vue")
 );
@@ -161,6 +168,7 @@ export default {
 	components: {
 		Skill,
 		SkillTree,
+		Tooltip,
 		SkillTooltip,
 	},
 	props: {
@@ -225,20 +233,20 @@ export default {
 			secondarySkill: 1,
 		};
 
-		const skillTooltip = ref(null);
-
 		return {
 			skills,
 			skillTrees,
 			specialisations,
 			selections,
 			classImages: classImages,
-			skillTooltip,
+			skillTooltip: ref(null),
+			hoveredSkill: ref(null),
 		};
 	},
 	methods: {
 		display(event, skill) {
-			this.$refs.skillTooltip.display(skill, event.target);
+			this.hoveredSkill = skill;
+			this.$refs.skillTooltip.display(event);
 		},
 		selectSkill(event, tree, row, skill) {
 			if (!this.editable) return;

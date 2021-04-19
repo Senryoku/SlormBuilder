@@ -1,78 +1,69 @@
 <template>
-	<transition name="fade">
-		<div
-			class="skill-tooltip"
-			v-show="show"
-			v-if="skill"
-			ref="el"
-			:key="skill.REF"
-		>
-			<h2 class="colored">{{ skill.EN_NAME }}</h2>
-			<img
-				style="max-width: 100%"
-				:src="
-					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
-				"
-			/>
-			<div style="display: flex; margin: 1em; min-height: 96px">
-				<div
-					class="skill-image"
-					:style="`background-image: url(${skill.image});`"
-				></div>
-				<div style="text-align: left">
-					<ul style="list-style: none">
-						<li v-if="skill.rank">
-							Rank: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
-						</li>
-						<li v-show="genres">{{ genres }}</li>
-						<li v-show="skill.COOLDOWN">
-							Cooldown: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
-						</li>
-						<li>Base Cost: {{ skill.COST }}</li>
-					</ul>
-				</div>
+	<div class="skill-tooltip" v-if="skill" ref="el" :key="skill.REF">
+		<h2 class="colored">{{ skill.EN_NAME }}</h2>
+		<img
+			style="max-width: 100%"
+			:src="
+				require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+			"
+		/>
+		<div style="display: flex; margin: 1em; min-height: 96px">
+			<div
+				class="skill-image"
+				:style="`background-image: url(${skill.image});`"
+			></div>
+			<div style="text-align: left">
+				<ul style="list-style: none">
+					<li v-if="skill.rank">
+						Rank: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
+					</li>
+					<li v-show="genres">{{ genres }}</li>
+					<li v-show="skill.COOLDOWN">
+						Cooldown: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
+					</li>
+					<li>Base Cost: {{ skill.COST }}</li>
+				</ul>
 			</div>
+		</div>
+		<img
+			style="max-width: 100%"
+			:src="
+				require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+			"
+		/>
+		<p class="description" v-html="description"></p>
+		<!-- TODO -->
+		<p v-for="r in reminders" :key="r" class="mechanic-summary">
+			<template v-if="r.EN_NAME">
+				<!-- TODO Add Infos here -->
+				<img
+					:src="
+						require(`../assets/data/sprites/spr_skills_${className}/spr_skills_${className}_${r.REF}.png`)
+					"
+					width="44"
+					height="44"
+				/>
+				<div class="mechanic-summary-name">{{ r.EN_NAME }}</div>
+			</template>
+			<!-- TEMP -->
+			<template v-else>
+				<div class="mechanic-summary-name">{{ r }}</div>
+			</template>
+		</p>
+		<template v-if="skill.rank">
 			<img
 				style="max-width: 100%"
 				:src="
 					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
-			<p class="description" v-html="description"></p>
-			<!-- TODO -->
-			<p v-for="r in reminders" :key="r" class="mechanic-summary">
-				<template v-if="r.EN_NAME">
-					<!-- TODO Add Infos here -->
-					<img
-						:src="
-							require(`../assets/data/sprites/spr_skills_${className}/spr_skills_${className}_${r.REF}.png`)
-						"
-						width="44"
-						height="44"
-					/>
-					<div class="mechanic-summary-name">{{ r.EN_NAME }}</div>
-				</template>
-				<!-- TEMP -->
-				<template v-else>
-					<div class="mechanic-summary-name">{{ r }}</div>
-				</template>
-			</p>
-			<template v-if="skill.rank">
-				<img
-					style="max-width: 100%"
-					:src="
-						require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
-					"
-				/>
-				<div>Next Rank:</div>
-				<div>Max Rank:</div></template
-			>
-		</div>
-	</transition>
+			<div>Next Rank:</div>
+			<div>Max Rank:</div></template
+		>
+	</div>
 </template>
 
 <script>
-import { ref } from "vue";
 import { translate } from "../utils.js";
 import Mecanics from "../assets/data/mechanics.json";
 
@@ -80,54 +71,18 @@ export default {
 	props: {
 		language: { type: String, default: "EN" },
 		className: { type: String, required: true },
+		skill: { type: Object },
 	},
-	setup() {
-		const show = ref(false);
-		const el = ref(null);
-		const skill = ref(null);
-		const target = ref(null);
-		const reminders = ref([]);
-
-		return { show, el, skill, target, reminders };
-	},
-	methods: {
-		mousemove(event) {
-			let w = window.innerWidth;
-			let h = window.innerHeight;
-			let x = this.$refs.el.clientWidth;
-			let y = this.$refs.el.clientHeight;
-			let targetX = 30 + event.clientX;
-			let targetY = 20 + event.clientY;
-			const margin = 40;
-			this.$refs.el.style.top =
-				Math.min(targetY, h - y - margin) + window.scrollY + "px";
-			this.$refs.el.style.left =
-				Math.min(targetX, w - x - margin) + window.scrollX + "px";
-		},
-		mouseout() {
-			this.hide();
-		},
-		display(skill, element) {
-			this.show = true;
-			this.skill = skill;
-			this.reminders = [...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g)]
+	computed: {
+		reminders() {
+			return [...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g)]
 				.map((arr) => {
 					if (arr[1] in Mecanics) return Mecanics[arr[1]];
 					else console.log(arr[1] + " not found in Mecanics");
 					return arr[1];
 				})
 				.filter((e, idx, arr) => arr.indexOf(e) === idx);
-			this.target = element;
-			this.target.addEventListener("mousemove", this.mousemove);
-			this.target.addEventListener("mouseout", this.mouseout);
 		},
-		hide() {
-			this.show = false;
-			this.target.removeEventListener("mouseout", this.mouseout);
-			this.target.removeEventListener("mousemove", this.mousemove);
-		},
-	},
-	computed: {
 		description() {
 			if (!this.skill) return "";
 			let r = this.skill.EN_DESCRIPTION;
@@ -236,9 +191,6 @@ export default {
 
 <style>
 .skill-tooltip {
-	position: absolute;
-	left: 0;
-	top: 0;
 	box-sizing: border-box;
 	width: 396px;
 	padding: 20px;
@@ -311,15 +263,5 @@ h2 {
 .mechanic-summary-name {
 	padding-left: 8px;
 	line-height: 44px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-	transition: opacity 0.25s;
-}
-
-.fade-enter,
-.fade-leave-to {
-	opacity: 0;
 }
 </style>

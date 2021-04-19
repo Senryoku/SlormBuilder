@@ -79,6 +79,7 @@
 			<button
 				@click="saveImportDialog"
 				title="Saves are located in C:\Users\%username%\AppData\Local\The_Slormancer"
+				v-if="editable"
 			>
 				Import Save
 			</button>
