@@ -1,13 +1,18 @@
 <template>
 	<div class="header">
-		<router-link to="/"
-			><img
-				style="position: absolute; top: 0"
-				:src="
-					require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')
-				"
-				height="100"
-		/></router-link>
+		<div class="header-left">
+			<router-link to="/"
+				><img
+					:src="
+						require('@/assets/data/sprites/spr_game_logo/spr_game_logo_0.png')
+					"
+					height="100"
+			/></router-link>
+			<div>
+				<a @click="changeLanguage('FR')">FR</a> |
+				<a @click="changeLanguage('EN')">EN</a>
+			</div>
+		</div>
 		<router-link to="/" custom v-slot="{ href, navigate, isActive }"
 			><h1
 				:class="{ active: isActive }"
@@ -22,12 +27,12 @@
 			<router-link to="/">Builder</router-link> |
 			<router-link
 				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCwtMSwtMSwtMSwtMSwtMSwtMSwtMSw3LC0xLC0xLDQ2LG1hZ2UsMCw0LDYsMTQzLDEwLDE0NSwxMCwxNDksMTAsMTUyLDEwLDE1NSwxLDE1NiwxLDE1OSwxMCwxNjQsMTAsNzcsMTAsODEsMTAsODMsNSw4NywxLDg5LDEwLDEwOSwxMCwxMTYsMTAsMTIwLDUsMTIzLDE="
-				>Build Example (Debug)</router-link
+				>{{ t("Build Example (Debug)") }}</router-link
 			>
 			| <router-link to="/reapers">Reapers</router-link> |
-			<router-link to="/legendaries">Legendaries</router-link>
+			<router-link to="/legendaries">{{ t("Legendaries") }}</router-link>
 			<span style="margin-left: 1rem; text-align: right">
-				Made by <a href="https://senryoku.github.io/">Senryoku</a>
+				{{ t("Made by") }} <a href="https://senryoku.github.io/">Senryoku</a>
 			</span>
 		</div>
 	</div>
@@ -35,7 +40,22 @@
 </template>
 
 <script>
-export default {};
+export default {
+	mounted() {
+		let settings = localStorage.getItem("settings") ?? {};
+		let json = JSON.parse(settings);
+		for (const [k, v] of Object.entries(json)) this.settings[k] = v;
+	},
+	methods: {
+		changeLanguage(val) {
+			this.settings.language = val;
+			this.saveSettings();
+		},
+		saveSettings() {
+			localStorage.setItem("settings", JSON.stringify(this.settings));
+		},
+	},
+};
 </script>
 
 <style>
@@ -126,13 +146,21 @@ button.large.blue:hover {
 	margin: 0;
 	padding: 0 6rem;
 	background-color: #222;
+	height: 70px;
+	line-height: 70px;
+}
+
+.header-left {
+	display: flex;
+	height: 70px;
 }
 
 .header h1 {
 	background-image: url("./assets/data/sprites/spr_enemy_breach_seal_1/spr_enemy_breach_seal_1_4.png");
 	background-position: 0 50%;
 	background-repeat: no-repeat;
-	padding: 0.75rem 5rem;
+	padding: 0 5rem;
+	height: 100%;
 	margin: 0;
 	-webkit-text-stroke: 2px #222;
 	color: white;
@@ -146,6 +174,7 @@ a:visited {
 	color: #bbb;
 	text-decoration: underline;
 	text-decoration-color: #777;
+	cursor: pointer;
 }
 
 a:hover {

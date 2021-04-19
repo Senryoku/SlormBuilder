@@ -1,16 +1,16 @@
 <template>
 	<div class="legendary" v-if="item">
-		<div class="top">{{ item.EN_NAME }}</div>
+		<div class="top">{{ item[settings.language + "_NAME"] }}</div>
 		<div class="body">
 			<div class="desc">
 				<ItemIcon :item="item" />
 				<div class="stats">
-					<div class="slot">{{ item.ITEM }}</div>
-					<div>Lootable: {{ item.LOOTABLE ? "True" : "False" }}</div>
+					<div class="slot">{{ t(item.ITEM) }}</div>
+					<div>{{ t("Lootable") }}: {{ t(item.LOOTABLE ? "Yes" : "No") }}</div>
 				</div>
 			</div>
 			<div class="effect">
-				<div class="effect-top">Legendary Effect</div>
+				<div class="effect-top">{{ t("Legendary Effect") }}</div>
 				<div class="effect-text" v-html="effect"></div>
 			</div>
 		</div>
@@ -41,8 +41,8 @@ export default {
 	},
 	computed: {
 		effect() {
-			return parseText(this.item, {
-				text: "EN_DESC",
+			return parseText(this.item, this.settings.language, {
+				text: this.settings.language + "_DESC",
 				value_base: "VALUE",
 				value_type: "TYPE",
 				value_stat: "STAT",

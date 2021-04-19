@@ -4,22 +4,19 @@
 		<div>
 			<input type="checkbox" id="smallDisplay" v-model="smallDisplay" /><label
 				for="smallDisplay"
-				>Small Gallery</label
+				>{{ t("Small Icons") }}</label
 			>
 		</div>
-		Filters
+		{{ t("Filters") }}
 		<div>
-			<input type="checkbox" id="obtainable" /><label for="obtainable"
-				>Obtainable (WIP)</label
-			>
 			<input type="checkbox" v-model="lootable" id="lootable" /><label
 				for="lootable"
-				>Lootable</label
+				>{{ t("Lootable") }}</label
 			>
 		</div>
 		<div class="type-select">
-			<button v-for="w in ['sword', 'bow', 'staff']" :key="w" @click="type = w">
-				{{ w }}
+			<button v-for="w in ['Sword', 'Bow', 'Staff']" :key="w" @click="type = w">
+				{{ t(w + "s") }}
 			</button>
 		</div>
 	</div>

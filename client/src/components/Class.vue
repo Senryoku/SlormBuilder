@@ -8,7 +8,7 @@
 						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_5.png')
 					"
 				/>
-				Specialisation (Support Skill)
+				{{ t("Specialisation (Support Skill)") }}
 				<div class="skill-selection">
 					<skill
 						v-for="(spec, idx) in specialisations"
@@ -35,7 +35,7 @@
 						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_0.png')
 					"
 				/>
-				Primary Skill
+				{{ t("Primary Skill") }}
 				<div class="skill-selection">
 					<skill
 						v-for="(spec, idx) in skillTrees"
@@ -67,7 +67,7 @@
 						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_1.png')
 					"
 				/>
-				Secondary Skill
+				{{ t("Secondary Skill") }}
 				<div class="skill-selection">
 					<skill
 						v-for="(spec, idx) in skillTrees"

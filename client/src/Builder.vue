@@ -6,7 +6,7 @@
 				<img
 					style="vertical-align: sub; margin-right: 1rem"
 					src="./assets/data/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
-				/>Imported Build
+				/>{{ t("Imported Build") }}
 			</h1>
 		</div>
 		<div class="class-select">
@@ -25,7 +25,7 @@
 						:title="c"
 						height="44"
 					/>
-					{{ c }}
+					{{ t(c) }}
 				</div></template
 			><template v-else>
 				<div class="class-name selected" style="font-size: 1.2em">
@@ -50,7 +50,7 @@
 				<img
 					src="./assets/data/sprites/spr_ui_hud_skills_button_v2/spr_ui_hud_skills_button_v2_0.png"
 				/>
-				Skills
+				{{ t("Skills") }}
 			</div>
 			<div
 				class="tab clickable"
@@ -60,7 +60,7 @@
 				<img
 					src="./assets/data/sprites/spr_ui_hud_traits_v2/spr_ui_hud_traits_v2_0.png"
 				/>
-				Attributes
+				{{ t("Attributes") }}
 			</div>
 			<div
 				class="tab clickable"
@@ -70,18 +70,23 @@
 				<img
 					src="./assets/data/sprites/spr_ui_hud_inventory_button_v2/spr_ui_hud_inventory_button_v2_0.png"
 				/>
-				Gear
+				{{ t("Gear") }}
 			</div>
 		</div>
 		<div class="actions">
-			<button v-if="!editable" @click="edit">Edit this build</button>
-			<button @click="share">Share</button>
+			<button v-if="!editable" @click="edit">{{ t("Edit this build") }}</button>
+			<button @click="share">{{ t("Share") }}</button>
 			<button
 				@click="saveImportDialog"
-				title="Saves are located in C:\Users\%username%\AppData\Local\The_Slormancer"
+				:title="
+					t(
+						'Saves are located in $',
+						'C:\\Users\\%username%\\AppData\\Local\\The_Slormancer'
+					)
+				"
 				v-if="editable"
 			>
-				Import Save
+				{{ t("Import Save") }}
 			</button>
 			<input
 				type="file"

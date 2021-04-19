@@ -29,8 +29,10 @@ export default {
 			let targetX = 12 + event.clientX;
 			let targetY = 5 + event.clientY;
 			const margin = 10;
-			this.$refs.el.style.top = Math.min(targetY, h - y - margin) + "px";
-			this.$refs.el.style.left = Math.min(targetX, w - x - margin) + "px";
+			this.$refs.el.style.top =
+				window.innerHeight < y ? 0 : Math.min(targetY, h - y - margin) + "px";
+			this.$refs.el.style.left =
+				window.clientWidth < x ? 0 : Math.min(targetX, w - x - margin) + "px";
 			this.lastEvent = event;
 		},
 		mouseleave(event) {

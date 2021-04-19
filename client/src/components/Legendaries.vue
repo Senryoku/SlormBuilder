@@ -1,5 +1,7 @@
 <template>
-	<div class="header"><h1>Legendaries</h1></div>
+	<div class="header">
+		<h1>{{ t("Legendaries") }}</h1>
+	</div>
 	<div class="gallery">
 		<Legendary v-for="l in Legendaries" :key="l.REF" :item="l" />
 	</div>

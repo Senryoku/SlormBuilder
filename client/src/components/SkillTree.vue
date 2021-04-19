@@ -14,7 +14,7 @@
 			</div>
 			<skill
 				v-for="skill in row"
-				:key="skill.EN_NAME"
+				:key="skill.REF"
 				:className="tree.className"
 				:skill="skill"
 				@click="$emit('selectSkill', $event, tree, rowIdx, skill)"

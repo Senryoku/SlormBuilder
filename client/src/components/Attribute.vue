@@ -2,7 +2,7 @@
 	<div class="attribute" :style="`--color: ${attr.color}`">
 		<div class="top">{{ attr.name }}</div>
 		<div class="body">
-			Level: {{ attr.level }} / 75
+			{{ t("Level") }}: {{ attr.level }} / 75
 			<br />
 			<br />
 			<div
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { translate, parseText } from "../utils.js";
+import { parseText } from "../utils.js";
 
 export default {
 	props: {
@@ -38,7 +38,10 @@ export default {
 			let basics = {};
 			let others = [];
 			for (let e of this.attr.effects) {
-				if (!e.EN_TEXT || e.EN_TEXT === "") {
+				if (
+					!e[this.settings.language + "_TEXT"] ||
+					e[this.settings.language + "_TEXT"] === ""
+				) {
 					let types = e.TYPE.split("|");
 					let stats = e.STAT.split("|");
 					for (let idx = 0; idx < stats.length; ++idx) {
@@ -61,8 +64,8 @@ export default {
 				} else {
 					others.push({
 						level: e.LEVEL,
-						text: parseText(e, {
-							text: "EN_TEXT",
+						text: parseText(e, this.settings.language, {
+							text: this.settings.language + "_TEXT",
 							value_base: "VALUE",
 							value_type: "TYPE",
 							value_stat: "STAT",
@@ -76,7 +79,7 @@ export default {
 					level: basics[a].level,
 					text: `+${this.n(basics[a].value)}${basics[a].type} ${this.p(
 						`(+${basics[a].max}${basics[a].type} Max.)`
-					)} ${translate(a)}`,
+					)} ${this.translate(a)}`,
 					basic: true,
 				});
 			}

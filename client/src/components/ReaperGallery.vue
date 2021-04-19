@@ -53,7 +53,7 @@ export default {
 	},
 	data() {
 		return {
-			Reapers: Reapers.filter((r) => r.EN_NAME),
+			Reapers: Reapers.filter((r) => r[this.settings.language + "_NAME"]),
 			tooltip: ref(null),
 			hoveredReaper: ref(Reapers[0]),
 		};

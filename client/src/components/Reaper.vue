@@ -6,7 +6,7 @@
 				<div class="image-box"><img :src="image" /></div>
 				<div>
 					<div style="text-transform: capitalize">{{ type }}</div>
-					<div v-if="blacksmith">By {{ blacksmith }}</div>
+					<div v-if="blacksmith">{{ t("By") }} {{ blacksmith }}</div>
 					<div>{{ item.BASE_DMG_MIN }} - {{ item.BASE_DMG_MAX }}</div>
 					<!-- TODO: These values are wrong. -->
 					<div class="smaller">
@@ -19,7 +19,7 @@
 							item.BASE_DMG_MAX +
 							item.DMG_MULTIPLIER * item.MAX_LVL * item.MAX_DMG_LVL
 						}}
-						at level {{ item.MAX_LVL }}
+						{{ t("at level $", item.MAX_LVL) }}
 					</div>
 					<div class="smaller" v-if="item.MAX_LVL !== 100">
 						{{
@@ -29,12 +29,16 @@
 						{{
 							item.BASE_DMG_MAX + item.DMG_MULTIPLIER * 100 * item.MAX_DMG_LVL
 						}}
-						at level 100
+						{{ t("at level $", 100) }}
 					</div>
 					<div v-if="item.previous">
-						Evolves from
-						{{ transformName(item.previous.EN_NAME) }} at level
-						{{ item.previous.MAX_LVL }}
+						{{
+							t(
+								"Evolves from $ at level $",
+								transformName(item.previous[settings.language + "_NAME"]),
+								item.previous.MAX_LVL
+							)
+						}}
 					</div>
 				</div>
 			</div>
@@ -43,13 +47,15 @@
 				style="margin: 16px 0 8px 0"
 				src="../assets/data/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
 			/>
-			<div class="lore">"{{ transformText(item.EN_LORE) }}"</div>
+			<div class="lore">
+				"{{ transformText(item[settings.language + "_LORE"]) }}"
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { translate, capitalize, parseText } from "../utils.js";
+import { parseText } from "../utils.js";
 
 // spr_weapon_bot_box_0.png
 export default {
@@ -68,15 +74,14 @@ export default {
 		}
 		return {
 			image,
-			name: this.transformName(props.item.EN_NAME),
 			blacksmith: props.item.BLACKSMITH
-				? translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
+				? this.translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
 				: null,
 		};
 	},
 	methods: {
 		transformName(name) {
-			return name.replace("$", capitalize(this.type));
+			return name.replace("$", this.translatedType);
 		},
 		transformText(txt) {
 			// Todo
@@ -84,8 +89,21 @@ export default {
 		},
 	},
 	computed: {
+		translatedType() {
+			return {
+				EN: { sword: "Sword", bow: "Bow", staff: "Staff" },
+				FR: { sword: "Épée", bow: "Arc", staff: "Bâton" },
+			}[this.settings.language][this.type];
+		},
 		description() {
-			return parseText(this.item);
+			if (!this.item) return "";
+			return parseText(this.item, this.settings.language);
+		},
+		name() {
+			let n = this.item[this.settings.language + "_NAME"].split("/");
+			if (n.length > 1 && this.type === "sword") n = n[1];
+			else n = n[0];
+			return this.transformName(n);
 		},
 	},
 };

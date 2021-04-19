@@ -183,7 +183,7 @@ export default {
 			];
 		},
 		reaperName() {
-			return this.gear?.reaper?.EN_NAME.replace(
+			return this.gear?.reaper?.[this.settings.language + "_NAME"].replace(
 				"$",
 				capitalize(this.reaperType)
 			);

@@ -25,7 +25,7 @@ import GameStrings from "./assets/data/dat_str.json";
 export function translate(id, lang = "EN") {
 	if (!id || id === "" || typeof id !== "string") return "";
 	id = id.replace("\n", ""); // Wup.
-	if (id.includes(":")) id = id.slice(id.indexOf(":") + 1);
+	if (id.includes(":")) id = id.split(":")[1];
 	let t = GameStrings.find((o) => o.REF === id);
 	if (t) return t[lang];
 	else return id;
@@ -37,9 +37,9 @@ export function capitalize(string) {
 
 import Act from "./assets/data/dat_act.json";
 
-export function parseText(item, format = {}) {
+export function parseText(item, lang, format = {}) {
 	format = {
-		text: format.text ?? "EN_DESC",
+		text: format.text ?? lang + "_DESC",
 		value_base: format.value_base ?? "VALUE_BASE",
 		value_type: format.value_type ?? "VALUE_TYPE",
 		value_level: format.value_level ?? "VALUE_LEVEL",
@@ -84,14 +84,15 @@ export function parseText(item, format = {}) {
 		const ref = parseInt(group) - 200;
 		let act = Act.find((o) => o.REF === ref);
 		if (act)
-			return `Gain Ancestral Skill <span class="colored">${act.EN_NAME}</span>`;
+			return `Gain Ancestral Skill <span class="colored">${
+				act[lang + "_NAME"]
+			}</span>`;
 		else return "";
 	});
 
 	let types = item[format.value_type].split("|");
-	for (let t of types) if (t.includes(":")) r = r.replace("$", translate(t));
 	for (let s of item[format.value_stat].split("|"))
-		r = r.replace("£", translate(s));
+		r = r.replace("£", translate(s, lang));
 	for (let [idx, v] of item[format.value_base].split("|").entries())
 		r = r.replace(
 			"@",
@@ -101,6 +102,15 @@ export function parseText(item, format = {}) {
 				}`
 			)
 		);
+
+	if (format.value_real && item[format.value_real]) {
+		let reals = item[format.value_real].split("|");
+		for (let t of reals)
+			if (t.includes(":")) r = r.replace("$", translate(t, lang));
+	} else {
+		for (let t of types)
+			if (t.includes(":")) r = r.replace("$", translate(t, lang));
+	}
 	// WTH is ¤?
 	return r;
 }

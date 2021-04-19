@@ -1,6 +1,6 @@
 <template>
 	<div class="attributes unselectable">
-		<div class="title">Attributes</div>
+		<div class="title">{{ t("Attributes") }}</div>
 		<div class="attr-bars">
 			<div
 				v-for="(attr, idx) in attrNames"

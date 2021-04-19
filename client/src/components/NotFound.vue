@@ -1,7 +1,7 @@
 <template>
 	<div class="not-found">
-		<h1>Page Not Found</h1>
-		<router-link to="/">Return Home</router-link>
+		<h1>{{ t("Page Not Found") }}</h1>
+		<router-link to="/">{{ t("Return Home") }}</router-link>
 	</div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="skill-tooltip" v-if="skill" ref="el" :key="skill.REF">
-		<h2 class="colored">{{ skill.EN_NAME }}</h2>
+		<h2 class="colored">{{ skill[this.settings.language + "_NAME"] }}</h2>
 		<img
 			style="max-width: 100%"
 			:src="
@@ -15,13 +15,13 @@
 			<div style="text-align: left">
 				<ul style="list-style: none">
 					<li v-if="skill.rank">
-						Rank: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
+						{{ t("Rank") }}: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
 					</li>
 					<li v-show="genres">{{ genres }}</li>
 					<li v-show="skill.COOLDOWN">
-						Cooldown: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
+						{{ t("Cooldown") }}: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
 					</li>
-					<li>Base Cost: {{ skill.COST }}</li>
+					<li>{{ t("Base Cost") }}: {{ skill.COST }}</li>
 				</ul>
 			</div>
 		</div>
@@ -43,7 +43,9 @@
 					width="44"
 					height="44"
 				/>
-				<div class="mechanic-summary-name">{{ r.EN_NAME }}</div>
+				<div class="mechanic-summary-name">
+					{{ r[this.settings.language + "_NAME"] }}
+				</div>
 			</template>
 			<!-- TEMP -->
 			<template v-else>
@@ -57,14 +59,13 @@
 					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
-			<div>Next Rank:</div>
-			<div>Max Rank:</div></template
+			<div>{{ t("Next Rank") }}:</div>
+			<div>{{ t("Max Rank") }}:</div></template
 		>
 	</div>
 </template>
 
 <script>
-import { translate } from "../utils.js";
 import Mecanics from "../assets/data/mechanics.json";
 
 export default {
@@ -75,7 +76,11 @@ export default {
 	},
 	computed: {
 		reminders() {
-			return [...this.skill.EN_DESCRIPTION.matchAll(/<([^>]*)>/g)]
+			return [
+				...this.skill[this.settings.language + "_DESCRIPTION"].matchAll(
+					/<([^>]*)>/g
+				),
+			]
 				.map((arr) => {
 					if (arr[1] in Mecanics) return Mecanics[arr[1]];
 					else console.log(arr[1] + " not found in Mecanics");
@@ -85,7 +90,7 @@ export default {
 		},
 		description() {
 			if (!this.skill) return "";
-			let r = this.skill.EN_DESCRIPTION;
+			let r = this.skill[this.settings.language + "_DESCRIPTION"];
 			// New lines
 			r = r.replaceAll("#", "\n");
 
@@ -103,7 +108,7 @@ export default {
 
 			if (this.skill.DESC_VALUE_REAL) {
 				let reals = this.skill.DESC_VALUE_REAL.split("|");
-				for (let e of reals) r = r.replace("$", translate(e));
+				for (let e of reals) r = r.replace("$", this.translate(e));
 			}
 
 			function splice(str, start, count, insert) {
@@ -115,7 +120,7 @@ export default {
 					v === "negative" ? -1 : 1
 				);
 				let value_name = this.skill.DESC_VALUE.split("|");
-				value_name = value_name.map((n) => translate(n));
+				value_name = value_name.map((n) => this.translate(n));
 				let value_base = this.skill.DESC_VALUE_BASE.split("|");
 				value_base = value_base.map((v) => parseFloat(v));
 				let value_per_level = this.skill.DESC_VALUE_PER_LVL.split("|");
@@ -182,7 +187,7 @@ export default {
 			if (!this.skill.GENRE) return null;
 			return this.skill.GENRE.split(",")
 				?.map((str) => "atk_" + str)
-				.map((s) => translate(s))
+				.map((s) => this.translate(s))
 				.join(", ");
 		},
 	},

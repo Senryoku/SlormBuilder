@@ -84,7 +84,9 @@ export default {
 				for (let ref = 0; ref < dat.length; ++ref) {
 					if (dat[ref] !== -1)
 						result[i][dat[ref]].push(
-							skills[i].find((o) => o.REF === ref).EN_NAME
+							skills[i].find((o) => o.REF === ref)[
+								this.settings.language + "_NAME"
+							]
 						);
 				}
 			}
