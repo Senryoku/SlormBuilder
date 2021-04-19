@@ -113,7 +113,7 @@
 
 <script>
 import { ref } from "vue";
-import { capitalize, ItemSlots, Reapers } from "../utils.js";
+import { ItemSlots, Reapers } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
 import Legendary from "./Legendary.vue";
 import Legendaries from "../assets/data/dat_leg.json";
@@ -183,10 +183,11 @@ export default {
 			];
 		},
 		reaperName() {
-			return this.gear?.reaper?.[this.settings.language + "_NAME"].replace(
-				"$",
-				capitalize(this.reaperType)
-			);
+			let n = this.gear?.reaper?.[this.settings.language + "_NAME"]?.split("/");
+			if (!n) return "";
+			if (n.length > 1 && this.reaperType === "sword") n = n[1];
+			else n = n[0];
+			return this.t(n, this.t(this.reaperType));
 		},
 	},
 };

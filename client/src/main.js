@@ -39,7 +39,7 @@ const Strings = {
 	Yes: { FR: "Oui" },
 	No: { FR: "Non" },
 
-	ring: { EN: "ring", FR: "anneau" },
+	ring: { EN: "Ring", FR: "Anneau" },
 	amulet: { EN: "Amulet", FR: "Amulette" },
 	helm: {
 		EN: "Helmet",
@@ -74,6 +74,7 @@ const Strings = {
 	knight: { FR: "chevalier" },
 	huntress: { FR: "chasseresse" },
 	mage: { FR: "mage" },
+
 	"Imported Build": { FR: "Build importé" },
 	Skills: { FR: "Compétences" },
 	Attributes: { FR: "Attributs" },
@@ -108,6 +109,9 @@ const Strings = {
 
 	"Small Icons": { FR: "Petites icônes" },
 	Filters: { FR: "Filtres" },
+	sword: { FR: "Épée" },
+	bow: { FR: "Arc" },
+	staff: { FR: "Bâton" },
 	Swords: { FR: "Épées" },
 	Bows: { FR: "Arcs" },
 	Staffs: { EN: "Staves", FR: "Bâtons" },

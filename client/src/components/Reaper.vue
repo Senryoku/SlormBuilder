@@ -5,9 +5,12 @@
 			<div class="body-top">
 				<div class="image-box"><img :src="image" /></div>
 				<div>
-					<div style="text-transform: capitalize">{{ type }}</div>
+					<div style="text-transform: capitalize">{{ translatedType }}</div>
 					<div v-if="blacksmith">{{ t("By") }} {{ blacksmith }}</div>
-					<div>{{ item.BASE_DMG_MIN }} - {{ item.BASE_DMG_MAX }}</div>
+					<div class="reaper-damage">
+						{{ item.BASE_DMG_MIN }} - {{ item.BASE_DMG_MAX }}
+					</div>
+					<div>{{ t("Reaper Damage") }}</div>
 					<!-- TODO: These values are wrong. -->
 					<div class="smaller">
 						{{
@@ -48,7 +51,7 @@
 				src="../assets/data/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
 			/>
 			<div class="lore">
-				"{{ transformText(item[settings.language + "_LORE"]) }}"
+				{{ transformText(item[settings.language + "_LORE"]) }}
 			</div>
 		</div>
 	</div>
@@ -81,7 +84,11 @@ export default {
 	},
 	methods: {
 		transformName(name) {
-			return name.replace("$", this.translatedType);
+			if (!name) return "";
+			let n = name.split("/");
+			if (n.length > 1 && this.type === "sword") n = n[1];
+			else n = n[0];
+			return n.replace("$", this.translatedType);
 		},
 		transformText(txt) {
 			// Todo
@@ -90,20 +97,14 @@ export default {
 	},
 	computed: {
 		translatedType() {
-			return {
-				EN: { sword: "Sword", bow: "Bow", staff: "Staff" },
-				FR: { sword: "Épée", bow: "Arc", staff: "Bâton" },
-			}[this.settings.language][this.type];
+			return this.t(this.type);
 		},
 		description() {
 			if (!this.item) return "";
 			return parseText(this.item, this.settings.language);
 		},
 		name() {
-			let n = this.item[this.settings.language + "_NAME"].split("/");
-			if (n.length > 1 && this.type === "sword") n = n[1];
-			else n = n[0];
-			return this.transformName(n);
+			return this.transformName(this.item[this.settings.language + "_NAME"]);
 		},
 	},
 };
@@ -173,6 +174,10 @@ export default {
 	transform: translate(-50%, -50%);
 	width: 200px;
 	image-rendering: pixelated;
+}
+
+.reaper-damage {
+	font-size: 2em;
 }
 
 .lore {
