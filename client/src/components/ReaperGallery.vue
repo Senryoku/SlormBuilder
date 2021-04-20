@@ -10,7 +10,7 @@
 				@click="$emit('select', r)"
 			>
 				<div class="image-container">
-					<img :src="image(r)" />
+					<ReaperIcon :type="type" :item="r" />
 				</div>
 				<div v-if="r.previous" class="evolve-marker" />
 			</div>
@@ -35,11 +35,13 @@
 <script>
 import { ref } from "vue";
 import { Reapers } from "../utils.js";
+import ReaperIcon from "./ReaperIcon.vue";
 import Reaper from "./Reaper.vue";
 import Tooltip from "./Tooltip.vue";
 
 export default {
-	components: { Reaper, Tooltip },
+	name: "ReaperGallery",
+	components: { Reaper, Tooltip, ReaperIcon },
 	props: {
 		type: { type: String, required: true },
 		smallDisplay: { type: Boolean, default: false },
@@ -56,22 +58,6 @@ export default {
 		displayTooltip(event, r) {
 			this.hoveredReaper = r;
 			this.$refs.tooltip.display(event);
-		},
-		image(item) {
-			switch (this.type) {
-				case "sword":
-					return require(`../assets/data/sprites/spr_reapers_swords/spr_reapers_swords_${
-						item.REF ?? 0
-					}.png`);
-				case "bow":
-					return require(`../assets/data/sprites/spr_reapers_bows/spr_reapers_bows_${
-						item.REF ?? 0
-					}.png`);
-				case "staff":
-					return require(`../assets/data/sprites/spr_reapers_staffs/spr_reapers_staffs_${
-						item.REF ?? 0
-					}.png`);
-			}
 		},
 	},
 	computed: {

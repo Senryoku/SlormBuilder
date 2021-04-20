@@ -10,6 +10,7 @@
 import { ref } from "vue";
 
 export default {
+	name: "AncestralTree",
 	data() {
 		return { el: ref(null) };
 	},

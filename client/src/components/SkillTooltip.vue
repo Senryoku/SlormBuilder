@@ -12,8 +12,8 @@
 				class="skill-image"
 				:style="`background-image: url(${skill.image});`"
 			></div>
-			<div style="text-align: left">
-				<ul style="list-style: none">
+			<div style="margin-left: 20px; text-align: left">
+				<ul>
 					<li v-if="skill.rank">
 						{{ t("Rank") }}: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
 					</li>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Mecanics from "../assets/data/mechanics.json";
+import Mechanics from "../assets/data/mechanics.json";
 
 export default {
 	props: {
@@ -70,19 +70,7 @@ export default {
 	},
 	methods: {
 		mechanicIcon(r) {
-			console.log(
-				require.context(
-					"../assets/data/sprites/",
-					false,
-					/spr_skills_(knight|huntress|mage)\/spr_skills_(knight|huntress|mage)_\d+.png$/
-				)
-			);
 			return require(`../assets/data/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
-			/*
-			switch (this.className) {
-				case "knight":
-					require(`../assets/data/sprites/spr_skills_knight/spr_skills_knight_${r.REF}.png`);
-			}*/
 		},
 	},
 	computed: {
@@ -93,8 +81,8 @@ export default {
 				),
 			]
 				.map((arr) => {
-					if (arr[1] in Mecanics) return Mecanics[arr[1]];
-					else console.log(arr[1] + " not found in Mecanics");
+					if (arr[1] in Mechanics) return Mechanics[arr[1]];
+					else console.log(arr[1] + " not found in Mechanics");
 					return arr[1];
 				})
 				.filter((e, idx, arr) => arr.indexOf(e) === idx);
@@ -225,6 +213,12 @@ export default {
 	border-image-outset: 12px;
 }
 
+.skill-tooltip ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
 h2 {
 	margin-top: 0;
 	text-align: center;
@@ -233,6 +227,7 @@ h2 {
 .skill-image {
 	width: 96px;
 	height: 96px;
+	flex-shrink: 0;
 
 	border-style: solid;
 	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_4.png");

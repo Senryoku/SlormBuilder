@@ -105,6 +105,7 @@
 
 <script>
 import { ref, defineAsyncComponent } from "vue";
+import { getSkillSprite } from "../utils.js";
 import KnightSkills from "../assets/data/dat_cla_0.json";
 import HuntressSkills from "../assets/data/dat_cla_1.json";
 import MageSkills from "../assets/data/dat_cla_2.json";
@@ -176,30 +177,13 @@ export default {
 		import: { type: Object },
 		editable: { type: Boolean, default: true },
 	},
-	data(props) {
+	data(/*props*/) {
 		let skills = [];
 		let activeBoxes = [];
 		for (let s of SkillData[this.className]) {
 			s.className = this.className;
 			s.rank = 0;
-			let sprite = require("../assets/data/sprites/spr_unknown_48/spr_unknown_48_0.png");
-			try {
-				switch (props.className) {
-					case "knight":
-						sprite = require(`../assets/data/sprites/spr_skills_knight/spr_skills_knight_${s.REF}.png`);
-						break;
-					case "huntress":
-						sprite = require(`../assets/data/sprites/spr_skills_huntress/spr_skills_huntress_${s.REF}.png`);
-						break;
-					case "mage":
-						sprite = require(`../assets/data/sprites/spr_skills_mage/spr_skills_mage_${s.REF}.png`);
-						break;
-				}
-			} catch (e) {
-				console.warn(`'spr_skills_${this.className}_${s.REF}.png' not found.`);
-				//console.error(e);
-			}
-			s.image = sprite;
+			s.image = getSkillSprite(this.className, s);
 
 			skills.push(s);
 			if (!activeBoxes[s.ACTIVE_BOX]) activeBoxes[s.ACTIVE_BOX] = [];

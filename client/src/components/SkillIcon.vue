@@ -17,7 +17,9 @@
 </template>
 
 <script>
+import { getSkillSprite } from "../utils.js";
 export default {
+	name: "SkillIcon",
 	props: {
 		className: { type: String },
 		skill: { type: Object },
@@ -26,30 +28,8 @@ export default {
 	},
 	data(props) {
 		let sprite = props.skill.image;
-		if (!sprite || props.support) {
-			sprite = require("../assets/data/sprites/spr_unknown_48/spr_unknown_48_0.png");
-			try {
-				switch (props.className) {
-					case "knight":
-						sprite = props.support
-							? require(`../assets/data/sprites/spr_supports_knight/spr_supports_knight_${props.skill.REF}.png`)
-							: require(`../assets/data/sprites/spr_skills_knight/spr_skills_knight_${props.skill.REF}.png`);
-						break;
-					case "huntress":
-						sprite = props.support
-							? require(`../assets/data/sprites/spr_supports_huntress/spr_supports_huntress_${props.skill.REF}.png`)
-							: require(`../assets/data/sprites/spr_skills_huntress/spr_skills_huntress_${props.skill.REF}.png`);
-						break;
-					case "mage":
-						sprite = props.support
-							? require(`../assets/data/sprites/spr_supports_mage/spr_supports_mage_${props.skill.REF}.png`)
-							: require(`../assets/data/sprites/spr_skills_mage/spr_skills_mage_${props.skill.REF}.png`);
-						break;
-				}
-			} catch (e) {
-				console.error(e);
-			}
-		}
+		if (!sprite || props.support)
+			sprite = getSkillSprite(props.className, props.skill, props.support);
 		return {
 			image: sprite,
 		};

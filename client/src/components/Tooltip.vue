@@ -10,6 +10,7 @@
 import { ref } from "vue";
 
 export default {
+	name: "Tooltip",
 	setup() {
 		const show = ref(false);
 		const el = ref(null);

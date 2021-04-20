@@ -3,7 +3,7 @@
 		<div class="top">{{ name }}</div>
 		<div class="body">
 			<div class="body-top">
-				<div class="image-box"><img :src="image" /></div>
+				<div class="image-box"><ReaperIcon :type="type" :item="item" /></div>
 				<div>
 					<div style="text-transform: capitalize">{{ translatedType }}</div>
 					<div v-if="blacksmith">{{ t("By") }} {{ blacksmith }}</div>
@@ -58,39 +58,18 @@
 </template>
 
 <script>
+import ReaperIcon from "./ReaperIcon.vue";
 import { parseText } from "../utils.js";
 
-// spr_weapon_bot_box_0.png
 export default {
+	name: "Reaper",
+	components: { ReaperIcon },
 	props: {
 		type: { type: String, default: "sword" },
 		item: { type: Object },
 	},
 	data(props) {
-		let image = "";
-		try {
-			switch (props.type) {
-				case "sword":
-					image = require(`../assets/data/sprites/spr_reapers_swords/spr_reapers_swords_${
-						props.item.REF ?? 0
-					}.png`);
-					break;
-				case "bow":
-					image = require(`../assets/data/sprites/spr_reapers_bows/spr_reapers_bows_${
-						props.item.REF ?? 0
-					}.png`);
-					break;
-				case "staff":
-					image = require(`../assets/data/sprites/spr_reapers_staffs/spr_reapers_staffs_${
-						props.item.REF ?? 0
-					}.png`);
-					break;
-			}
-		} catch (e) {
-			//
-		}
 		return {
-			image,
 			blacksmith: props.item.BLACKSMITH
 				? this.translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
 				: null,

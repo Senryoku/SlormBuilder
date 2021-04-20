@@ -8,6 +8,7 @@
 <script>
 import ItemIcon from "./ItemIcon.vue";
 export default {
+	name: "GearSlot",
 	props: { type: { type: String }, item: { type: Object } },
 	components: { ItemIcon },
 };

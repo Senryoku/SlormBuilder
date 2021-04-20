@@ -29,6 +29,7 @@
 import Skill from "./SkillIcon.vue";
 
 export default {
+	name: "SkillTree",
 	components: {
 		Skill,
 	},

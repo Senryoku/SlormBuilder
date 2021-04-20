@@ -22,6 +22,7 @@
 import { parseText } from "../utils.js";
 
 export default {
+	name: "Attribute",
 	props: {
 		attr: { type: Object },
 	},

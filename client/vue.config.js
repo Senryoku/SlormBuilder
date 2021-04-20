@@ -5,7 +5,7 @@ module.exports = {
 			.use("url-loader")
 			.loader("url-loader")
 			.tap((options) => {
-				options.limit = 1024;
+				options.limit = 512;
 				return options;
 			});
 	},

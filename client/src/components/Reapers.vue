@@ -31,6 +31,7 @@
 import ReaperGallery from "./ReaperGallery.vue";
 
 export default {
+	name: "Reapers",
 	components: { ReaperGallery },
 	data() {
 		return {

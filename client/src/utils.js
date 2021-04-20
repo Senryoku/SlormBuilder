@@ -154,3 +154,30 @@ for (let r of ReapersData) {
 	}
 }
 ReapersData.sort((l, r) => l.ORDER - r.ORDER);
+
+export function getSkillSprite(className, skill, support = false) {
+	let sprite = require("./assets/data/sprites/spr_unknown_48/spr_unknown_48_0.png");
+	try {
+		switch (className) {
+			case "knight":
+				sprite = support
+					? require(`./assets/data/sprites/spr_supports_knight/spr_supports_knight_${skill.REF}.png`)
+					: require(`./assets/data/sprites/spr_skills_knight/spr_skills_knight_${skill.REF}.png`);
+				break;
+			case "huntress":
+				sprite = support
+					? require(`./assets/data/sprites/spr_supports_huntress/spr_supports_huntress_${skill.REF}.png`)
+					: require(`./assets/data/sprites/spr_skills_huntress/spr_skills_huntress_${skill.REF}.png`);
+				break;
+			case "mage":
+				sprite = support
+					? require(`./assets/data/sprites/spr_supports_mage/spr_supports_mage_${skill.REF}.png`)
+					: require(`./assets/data/sprites/spr_skills_mage/spr_skills_mage_${skill.REF}.png`);
+				break;
+		}
+	} catch (e) {
+		console.warn(`'spr_skills_${className}_${skill.REF}.png' not found.`);
+		//console.error(e);
+	}
+	return sprite;
+}

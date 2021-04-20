@@ -6,7 +6,7 @@
 </template>
 
 <script>
-export default {};
+export default { name: "Toggle" };
 </script>
 
 <style>
