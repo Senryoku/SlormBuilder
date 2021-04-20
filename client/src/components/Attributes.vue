@@ -30,13 +30,7 @@
 					/>
 					<div class="attr-indicators">
 						<div v-for="i in attributes[idx].level" :key="i" class="attr-point">
-							<img
-								:src="
-									require(`@/assets/data/sprites/${attrPointImage(
-										i
-									)}/${attrPointImage(i)}_${idx}.png`)
-								"
-							/>
+							<img :src="attrPointImage(idx, i)" />
 
 							<div class="attr-gain" />
 						</div>
@@ -124,10 +118,13 @@ export default {
 		clamp(val, min, max) {
 			return Math.max(0, Math.min(val, max));
 		},
-		attrPointImage(idx) {
-			if (idx > 0 && idx % 15 === 0) return "spr_trait_point_losange";
-			else if (idx > 0 && idx % 5 === 0) return "spr_trait_point_square";
-			else return "spr_trait_point_default";
+		attrPointImage(idx, i) {
+			if (idx > 0 && idx % 15 === 0)
+				return require(`@/assets/data/sprites/spr_trait_point_losange/spr_trait_point_losange_${i}`);
+			else if (idx > 0 && idx % 5 === 0)
+				return require(`@/assets/data/sprites/spr_trait_point_square/spr_trait_point_square_${i}`);
+			else
+				return require(`@/assets/data/sprites/spr_trait_point_default/spr_trait_point_default_${i}`);
 		},
 		additiveEffectMargin(i) {
 			--i;
@@ -323,28 +320,28 @@ export default {
 
 @keyframes attr-gain-major-animation {
 	0% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
 	}
 	14% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
 	}
 	28% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
 	}
 	42% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
 	}
 	56% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
 	}
 	70% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
 	}
 	85% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
+		background-image: url(/* webpackMode: "eager" */"../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
 	}
 }
 

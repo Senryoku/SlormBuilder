@@ -10,13 +10,7 @@
 				@click="$emit('select', r)"
 			>
 				<div class="image-container">
-					<img
-						:src="
-							require(`../assets/data/sprites/spr_reapers_${type}s/spr_reapers_${type}s_${
-								r.REF ?? 0
-							}.png`)
-						"
-					/>
+					<img :src="image(r)" />
 				</div>
 				<div v-if="r.previous" class="evolve-marker" />
 			</div>
@@ -62,6 +56,22 @@ export default {
 		displayTooltip(event, r) {
 			this.hoveredReaper = r;
 			this.$refs.tooltip.display(event);
+		},
+		image(item) {
+			switch (this.type) {
+				case "sword":
+					return require(`../assets/data/sprites/spr_reapers_swords/spr_reapers_swords_${
+						item.REF ?? 0
+					}.png`);
+				case "bow":
+					return require(`../assets/data/sprites/spr_reapers_bows/spr_reapers_bows_${
+						item.REF ?? 0
+					}.png`);
+				case "staff":
+					return require(`../assets/data/sprites/spr_reapers_staffs/spr_reapers_staffs_${
+						item.REF ?? 0
+					}.png`);
+			}
 		},
 	},
 	computed: {

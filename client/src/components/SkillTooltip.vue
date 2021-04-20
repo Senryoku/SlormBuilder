@@ -36,13 +36,7 @@
 		<p v-for="r in reminders" :key="r" class="mechanic-summary">
 			<template v-if="r.EN_NAME">
 				<!-- TODO Add Infos here -->
-				<img
-					:src="
-						require(`../assets/data/sprites/spr_skills_${className}/spr_skills_${className}_${r.REF}.png`)
-					"
-					width="44"
-					height="44"
-				/>
+				<img :src="mechanicIcon(r)" width="44" height="44" />
 				<div class="mechanic-summary-name">
 					{{ r[this.settings.language + "_NAME"] }}
 				</div>
@@ -73,6 +67,23 @@ export default {
 		language: { type: String, default: "EN" },
 		className: { type: String, required: true },
 		skill: { type: Object },
+	},
+	methods: {
+		mechanicIcon(r) {
+			console.log(
+				require.context(
+					"../assets/data/sprites/",
+					false,
+					/spr_skills_(knight|huntress|mage)\/spr_skills_(knight|huntress|mage)_\d+.png$/
+				)
+			);
+			return require(`../assets/data/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
+			/*
+			switch (this.className) {
+				case "knight":
+					require(`../assets/data/sprites/spr_skills_knight/spr_skills_knight_${r.REF}.png`);
+			}*/
+		},
 	},
 	computed: {
 		reminders() {

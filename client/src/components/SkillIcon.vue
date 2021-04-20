@@ -25,15 +25,27 @@ export default {
 		support: { type: Boolean, default: false },
 	},
 	data(props) {
-		let sprite = this.skill.image;
+		let sprite = props.skill.image;
 		if (!sprite || props.support) {
 			sprite = require("../assets/data/sprites/spr_unknown_48/spr_unknown_48_0.png");
 			try {
-				sprite = require(`../assets/data/sprites/spr_${
-					this.support ? "support" : "skill"
-				}s_${props.className}/spr_${this.support ? "support" : "skill"}s_${
-					props.className
-				}_${props.skill.REF}.png`);
+				switch (props.className) {
+					case "knight":
+						sprite = props.support
+							? require(`../assets/data/sprites/spr_supports_knight/spr_supports_knight_${props.skill.REF}.png`)
+							: require(`../assets/data/sprites/spr_skills_knight/spr_skills_knight_${props.skill.REF}.png`);
+						break;
+					case "huntress":
+						sprite = props.support
+							? require(`../assets/data/sprites/spr_supports_huntress/spr_supports_huntress_${props.skill.REF}.png`)
+							: require(`../assets/data/sprites/spr_skills_huntress/spr_skills_huntress_${props.skill.REF}.png`);
+						break;
+					case "mage":
+						sprite = props.support
+							? require(`../assets/data/sprites/spr_supports_mage/spr_supports_mage_${props.skill.REF}.png`)
+							: require(`../assets/data/sprites/spr_skills_mage/spr_skills_mage_${props.skill.REF}.png`);
+						break;
+				}
 			} catch (e) {
 				console.error(e);
 			}

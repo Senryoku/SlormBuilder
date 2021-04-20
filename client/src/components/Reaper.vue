@@ -69,9 +69,23 @@ export default {
 	data(props) {
 		let image = "";
 		try {
-			image = require(`../assets/data/sprites/spr_reapers_${
-				props.type
-			}s/spr_reapers_${props.type}s_${props.item.REF ?? 0}.png`);
+			switch (props.type) {
+				case "sword":
+					image = require(`../assets/data/sprites/spr_reapers_swords/spr_reapers_swords_${
+						props.item.REF ?? 0
+					}.png`);
+					break;
+				case "bow":
+					image = require(`../assets/data/sprites/spr_reapers_bows/spr_reapers_bows_${
+						props.item.REF ?? 0
+					}.png`);
+					break;
+				case "staff":
+					image = require(`../assets/data/sprites/spr_reapers_staffs/spr_reapers_staffs_${
+						props.item.REF ?? 0
+					}.png`);
+					break;
+			}
 		} catch (e) {
 			//
 		}
