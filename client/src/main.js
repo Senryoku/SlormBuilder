@@ -108,9 +108,9 @@ const Strings = {
 
 	"Small Icons": { FR: "Petites icônes" },
 	Filters: { FR: "Filtres" },
-	sword: { FR: "Épée" },
-	bow: { FR: "Arc" },
-	staff: { FR: "Bâton" },
+	sword: { EN: "Sword", FR: "Épée" },
+	bow: { EN: "Bow", FR: "Arc" },
+	staff: { EN: "Staff", FR: "Bâton" },
 	Swords: { FR: "Épées" },
 	Bows: { FR: "Arcs" },
 	Staffs: { EN: "Staves", FR: "Bâtons" },

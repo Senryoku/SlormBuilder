@@ -2,20 +2,14 @@
 	<div class="header"><h1>Slorm Reapers</h1></div>
 	<div class="filters">
 		<div>
-			<input type="checkbox" id="smallDisplay" v-model="smallDisplay" /><label
-				for="smallDisplay"
-				>{{ t("Small Icons") }}</label
-			>
+			<Toggle v-model="smallDisplay">{{ t("Small Icons") }}</Toggle>
 		</div>
 		{{ t("Filters") }}
 		<div>
-			<input type="checkbox" v-model="lootable" id="lootable" /><label
-				for="lootable"
-				>{{ t("Lootable") }}</label
-			>
+			<Toggle v-model="lootable">{{ t("Lootable") }}</Toggle>
 		</div>
 		<div class="type-select">
-			<button v-for="w in ['Sword', 'Bow', 'Staff']" :key="w" @click="type = w">
+			<button v-for="w in ['sword', 'bow', 'staff']" :key="w" @click="type = w">
 				{{ t(w + "s") }}
 			</button>
 		</div>
@@ -28,11 +22,12 @@
 </template>
 
 <script>
+import Toggle from "./Toggle.vue";
 import ReaperGallery from "./ReaperGallery.vue";
 
 export default {
 	name: "Reapers",
-	components: { ReaperGallery },
+	components: { ReaperGallery, Toggle },
 	data() {
 		return {
 			type: "sword",
@@ -52,7 +47,7 @@ export default {
 .filters {
 	display: flex;
 	justify-content: space-around;
-	align-items: baseline;
+	align-items: center;
 }
 
 .type-select {
