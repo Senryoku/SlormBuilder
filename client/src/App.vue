@@ -42,9 +42,13 @@
 <script>
 export default {
 	mounted() {
-		let settings = localStorage.getItem("settings") ?? {};
-		let json = JSON.parse(settings);
-		for (const [k, v] of Object.entries(json)) this.settings[k] = v;
+		try {
+			let settings = localStorage.getItem("settings") ?? "{}";
+			let json = JSON.parse(settings);
+			for (const [k, v] of Object.entries(json)) this.settings[k] = v;
+		} catch (e) {
+			console.error("Error getting local settings: ", e);
+		}
 	},
 	methods: {
 		changeLanguage(val) {
@@ -90,9 +94,9 @@ body {
 
 button {
 	font-family: "Slorm";
-	border: 0;
 	height: 52px;
 	line-height: 52px;
+	border-style: solid;
 	border-image-slice: 26 32 26 32;
 	border-image-width: 26px 32px 26px 32px;
 	border-image-outset: 0px 0px 0px 0px;

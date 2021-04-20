@@ -6,7 +6,6 @@ const Builder = () => import("./Builder.vue");
 const Reapers = () => import("./components/Reapers.vue");
 const Legendaries = () => import("./components/Legendaries.vue");
 const NotFound = () => import("./components/NotFound.vue");
-import SaveTesting from "./SaveTesting.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -14,7 +13,6 @@ const routes = [
 	{ path: "/build/:data", component: Builder },
 	{ path: "/reapers", component: Reapers },
 	{ path: "/legendaries", component: Legendaries },
-	{ path: "/save", component: SaveTesting },
 	{ path: "/:pathMatch(.*)", component: NotFound },
 ];
 

@@ -224,12 +224,12 @@ export default {
 	transform: translateX(calc(-50% + 8px)) scaleX(-1);
 	animation-duration: 1000ms;
 	animation-iteration-count: infinite;
-	animation-timing-function: linear;
 	animation-direction: forward;
 	width: 130px;
 	height: 146.25px;
-	image-rendering: crisp-edges;
 	background-size: cover;
+	image-rendering: crisp-edges; /* Firefox */
+	image-rendering: pixelated; /* Chrome */
 }
 
 .knight {

@@ -87,6 +87,7 @@ export default {
 	width: 120px;
 	height: 120px;
 	background: url("../assets/data/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
+	border-style: solid;
 	border-image: url("../assets/data/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
 	border-image-slice: 18 18 18 18;
 	border-image-width: 18px 18px 18px 18px;

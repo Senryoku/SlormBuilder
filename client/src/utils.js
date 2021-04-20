@@ -72,7 +72,9 @@ export function parseText(item, lang, format = {}) {
 						? `<div class="primordial ${
 								idx === arr.length - 2 ? "benediction" : "curse"
 						  }">Primordial ${
-								idx === arr.length - 2 ? "Benediction" : "Curse"
+								idx === arr.length - 2
+									? "Benediction"
+									: "Malediction"
 						  }</div>`
 						: ""
 				}${s}</p>`
