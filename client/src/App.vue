@@ -30,7 +30,8 @@
 				>{{ t("Build Example (Debug)") }}</router-link
 			>
 			| <router-link to="/reapers">Reapers</router-link> |
-			<router-link to="/legendaries">{{ t("Legendaries") }}</router-link>
+			<router-link to="/legendaries">{{ t("Legendaries") }}</router-link> |
+			<router-link to="/stats">{{ t("Stats") }}</router-link>
 			<span style="margin-left: 1rem; text-align: right">
 				{{ t("Made by") }} <a href="https://senryoku.github.io/">Senryoku</a>
 			</span>
