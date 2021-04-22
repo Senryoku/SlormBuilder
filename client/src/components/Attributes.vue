@@ -58,6 +58,7 @@
 
 <script>
 import { ref } from "vue";
+import { clamp } from "../utils.js";
 import AttributeData from "../assets/data/dat_att.json";
 
 import Tooltip from "./Tooltip.vue";
@@ -123,9 +124,6 @@ export default {
 		}
 	},
 	methods: {
-		clamp(val, min, max) {
-			return Math.max(0, Math.min(val, max));
-		},
 		attrPointImage(idx, i) {
 			if (i > 0 && i % 15 === 0)
 				return require(`@/assets/data/sprites/spr_trait_point_losange/spr_trait_point_losange_${idx}.png`);
@@ -156,7 +154,7 @@ export default {
 		},
 		plus(event, idx) {
 			if (!this.editable) return;
-			this.attributes[idx].level = this.clamp(
+			this.attributes[idx].level = clamp(
 				this.attributes[idx].level +
 					(event.getModifierState("Shift") || event.getModifierState("Alt")
 						? 10
@@ -168,7 +166,7 @@ export default {
 		minus(event, idx) {
 			if (!this.editable) return;
 			// contextmenu can't be triggered with getModifierState("Shift")
-			this.attributes[idx].level = this.clamp(
+			this.attributes[idx].level = clamp(
 				this.attributes[idx].level -
 					(event.getModifierState("Shift") || event.getModifierState("Alt")
 						? 10

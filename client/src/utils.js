@@ -39,10 +39,10 @@ export const Settings = { language: "EN" };
 
 import Strings from "./assets/data/Strings.json";
 
-export function t(str) {
-	str = Strings?.[str]?.[Settings.language] ?? str;
-	if (arguments.length > 1) {
-		for (let i = 1; i < arguments.length; ++i)
+export function localize(lang, str) {
+	str = Strings?.[str]?.[lang] ?? str;
+	if (arguments.length > 2) {
+		for (let i = 2; i < arguments.length; ++i)
 			str = str.replace("$", arguments[i]);
 	}
 	return str;
@@ -50,7 +50,7 @@ export function t(str) {
 
 import Act from "./assets/data/dat_act.json";
 
-export function parseText(item, lang, format = {}) {
+export function parseText(item, lang, format = {}, options = {}) {
 	format = {
 		text: format.text ?? lang + "_DESC",
 		value_base: format.value_base ?? "VALUE_BASE",
@@ -61,6 +61,7 @@ export function parseText(item, lang, format = {}) {
 	};
 
 	const n = (s) => `<span class="number">${s}</span>`;
+	const s = (str) => `<span class="small">${str}</span>`;
 
 	let r = item[format.text]
 		.replace(/</g, "&lt;") // <Buffs>
@@ -84,7 +85,8 @@ export function parseText(item, lang, format = {}) {
 					arr.length >= 3 && idx >= arr.length - 2
 						? `<div class="primordial ${
 								idx === arr.length - 2 ? "benediction" : "curse"
-						  }">${t(
+						  }">${localize(
+								lang,
 								"Primordial " +
 									(idx === arr.length - 2
 										? "Benediction"
@@ -100,24 +102,58 @@ export function parseText(item, lang, format = {}) {
 		const ref = parseInt(group) - 200;
 		let act = Act.find((o) => o.REF === ref);
 		if (act)
-			return `${t("Gain Ancestral Skill")} <span class="colored">${
-				act[lang + "_NAME"]
-			}</span>`;
+			return `${localize(
+				lang,
+				"Gain Ancestral Skill"
+			)} <span class="colored">${act[lang + "_NAME"]}</span>`;
 		else return "";
 	});
+
+	const extras = item.EXTRA_NBR?.split("|");
+	if (extras) for (let e of extras) r = r.replace("¥", e);
+
+	const levels = item?.[format.value_level]
+		? item[format.value_level].split("|").map((f) => parseFloat(f))
+		: null;
 
 	let types = item[format.value_type].split("|");
 	for (let s of item[format.value_stat].split("|"))
 		r = r.replace("£", translate(s, lang));
-	for (let [idx, v] of item[format.value_base].split("|").entries())
+
+	const values = item[format.value_base].split("|").map((f) => parseFloat(f));
+	for (let [idx, v] of values.entries()) {
+		const mult = item[format.value_real] === "negative" ? -1 : 1;
+		const t = types[idx] && !types[idx].includes(":") ? types[idx] : "";
+		const currentValue = levels
+			? v + mult * levels?.[idx] * options.rank
+			: v;
+		let value_explanation = item.UPGRADE_NUMBER > 1 && !r.includes("µ");
 		r = r.replace(
 			"@",
-			n(
-				`${v}${
-					types[idx] && !types[idx].includes(":") ? types[idx] : ""
-				}`
-			)
+			n(`${currentValue}${t}`) +
+				(value_explanation && levels?.[idx]
+					? s(
+							` (${v}${t} + ${levels?.[idx]}${t} ${localize(
+								lang,
+								"per rank"
+							)})`
+					  )
+					: "")
 		);
+		if (!value_explanation && levels?.[idx]) {
+			r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
+				s(group)
+			);
+			r = r.replace(
+				"_",
+				`${values[idx] + mult * levels[idx] * options.rank}${
+					types[idx]
+				}`
+			);
+			r = r.replace("µ", values[idx]);
+			r = r.replace("µ", levels[idx]);
+		}
+	}
 
 	if (format.value_real && item[format.value_real]) {
 		let reals = item[format.value_real].split("|");
@@ -194,4 +230,8 @@ export function getSkillSprite(className, skill, support = false) {
 		//console.error(e);
 	}
 	return sprite;
+}
+
+export function clamp(val, min, max) {
+	return Math.max(min, Math.min(val, max));
 }

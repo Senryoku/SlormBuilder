@@ -78,8 +78,15 @@ body {
 	--color-rare: rgb(23, 106, 177);
 	--color-epic: rgb(219, 164, 21);
 	--color-legendary: rgb(206, 70, 7);
+	--color-ancestral: rgb(203, 33, 246);
 
 	min-height: 100%;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
 .unselectable {

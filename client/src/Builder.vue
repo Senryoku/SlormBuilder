@@ -72,6 +72,16 @@
 				/>
 				{{ t("Gear") }}
 			</div>
+			<div
+				class="tab clickable"
+				@click="selectedTab = 'elements'"
+				:class="{ 'tab-selected': selectedTab == 'elements' }"
+			>
+				<img
+					src="./assets/data/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
+				/>
+				{{ t("Elements") }} (WIP)
+			</div>
 		</div>
 		<div class="actions">
 			<button v-if="!editable" @click="edit">{{ t("Edit this build") }}</button>
@@ -121,9 +131,8 @@
 			:editable="editable"
 		/>
 	</div>
-	<!-- Maybe one day :) -->
 	<div v-show="selectedTab === 'elements'" class="tab-container">
-		<AncestralTree v-if="false" />
+		<AncestralTree />
 	</div>
 	<div class="toast"></div>
 </template>
@@ -433,7 +442,9 @@ export default {
 }
 
 .tab-container {
+	position: relative;
 	margin: 0 12px;
+	flex-grow: 1;
 }
 
 .tab::after {
@@ -444,6 +455,7 @@ export default {
 	background-size: cover;
 	width: calc(0.75 * 44px);
 	height: calc(0.75 * 36px);
+	z-index: 1;
 }
 
 .tab:not(.tab-selected):hover::after {

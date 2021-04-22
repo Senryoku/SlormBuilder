@@ -3,7 +3,7 @@
 		<div
 			:class="{
 				support: support,
-				passive: skill.TYPE === 'passive',
+				passive: round,
 				selected: skill.selected || selected,
 				maxed: skill.rank === skill.UPGRADE_NUMBER,
 			}"
@@ -25,6 +25,7 @@ export default {
 		skill: { type: Object },
 		selected: { type: Boolean },
 		support: { type: Boolean, default: false },
+		round: { type: Boolean, default: false },
 	},
 	data(props) {
 		let sprite = props.skill.image;

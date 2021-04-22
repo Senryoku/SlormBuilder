@@ -12,11 +12,12 @@
 					}}
 				</div>
 			</div>
-			<skill
+			<SkillIcon
 				v-for="skill in row"
 				:key="skill.REF"
 				:className="tree.className"
 				:skill="skill"
+				:round="skill.TYPE === 'passive'"
 				@click="$emit('selectSkill', $event, tree, rowIdx, skill)"
 				@contextmenu="$emit('deselectSkill', $event, skill)"
 				@mouseenter="$emit('display', $event, skill)"
@@ -26,12 +27,12 @@
 </template>
 
 <script>
-import Skill from "./SkillIcon.vue";
+import SkillIcon from "./SkillIcon.vue";
 
 export default {
 	name: "SkillTree",
 	components: {
-		Skill,
+		SkillIcon,
 	},
 	props: {
 		tree: { type: Object, required: true },

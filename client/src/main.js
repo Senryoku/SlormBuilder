@@ -1,7 +1,7 @@
 import { createApp, reactive } from "vue";
 import Toaster from "@meforma/vue-toaster";
 import App from "./App.vue";
-import { translate, Settings, t } from "./utils.js";
+import { translate, Settings, localize } from "./utils.js";
 const Builder = () => import("./Builder.vue");
 const Reapers = () => import("./components/Reapers.vue");
 const Legendaries = () => import("./components/Legendaries.vue");
@@ -31,6 +31,11 @@ app.config.globalProperties.settings = reactive(Settings);
 app.config.globalProperties.translate = (s) =>
 	translate(s, app.config.globalProperties.settings.language);
 
-app.config.globalProperties.t = t;
+app.config.globalProperties.t = function() {
+	return localize(
+		app.config.globalProperties.settings.language,
+		...arguments
+	);
+};
 
 app.mount("#app");
