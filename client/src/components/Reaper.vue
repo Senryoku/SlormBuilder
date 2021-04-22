@@ -45,7 +45,8 @@
 					</div>
 				</div>
 			</div>
-			<div v-html="description"></div>
+			<div class="description" v-html="description"></div>
+			<AncestralSkill :skill="associatedSkill" />
 			<img
 				style="margin: 16px 0 8px 0"
 				src="../assets/data/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
@@ -58,12 +59,14 @@
 </template>
 
 <script>
-import ReaperIcon from "./ReaperIcon.vue";
 import { parseText } from "../utils.js";
+import AncestralSkills from "../assets/data/dat_act.json";
+import AncestralSkill from "./AncestralSkill.vue";
+import ReaperIcon from "./ReaperIcon.vue";
 
 export default {
 	name: "Reaper",
-	components: { ReaperIcon },
+	components: { ReaperIcon, AncestralSkill },
 	props: {
 		type: { type: String, default: "sword" },
 		item: { type: Object },
@@ -98,6 +101,12 @@ export default {
 		},
 		name() {
 			return this.transformName(this.item[this.settings.language + "_NAME"]);
+		},
+		associatedSkill() {
+			let s = AncestralSkills.find(
+				(s) => s.BASED_ON === "reaper" && s.ID_BASED_ON === this.item.REF
+			);
+			return s ? s : null;
 		},
 	},
 };
@@ -174,14 +183,22 @@ export default {
 	font-size: 2em;
 }
 
+.description {
+	margin: 0 8px;
+}
+
 .lore {
 	color: #888;
 	font-style: italic;
 	white-space: pre-line;
 }
 
-.smaller {
+:deep(.smaller) {
 	color: #444;
 	font-size: 0.9em;
+}
+
+:deep(.number) {
+	color: white;
 }
 </style>

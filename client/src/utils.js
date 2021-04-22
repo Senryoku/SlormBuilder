@@ -35,6 +35,19 @@ export function capitalize(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export const Settings = { language: "EN" };
+
+import Strings from "./assets/data/Strings.json";
+
+export function t(str) {
+	str = Strings?.[str]?.[Settings.language] ?? str;
+	if (arguments.length > 1) {
+		for (let i = 1; i < arguments.length; ++i)
+			str = str.replace("$", arguments[i]);
+	}
+	return str;
+}
+
 import Act from "./assets/data/dat_act.json";
 
 export function parseText(item, lang, format = {}) {
@@ -71,11 +84,12 @@ export function parseText(item, lang, format = {}) {
 					arr.length >= 3 && idx >= arr.length - 2
 						? `<div class="primordial ${
 								idx === arr.length - 2 ? "benediction" : "curse"
-						  }">Primordial ${
-								idx === arr.length - 2
-									? "Benediction"
-									: "Malediction"
-						  }</div>`
+						  }">${t(
+								"Primordial " +
+									(idx === arr.length - 2
+										? "Benediction"
+										: "Malediction")
+						  )}</div>`
 						: ""
 				}${s}</p>`
 		)
@@ -86,7 +100,7 @@ export function parseText(item, lang, format = {}) {
 		const ref = parseInt(group) - 200;
 		let act = Act.find((o) => o.REF === ref);
 		if (act)
-			return `Gain Ancestral Skill <span class="colored">${
+			return `${t("Gain Ancestral Skill")} <span class="colored">${
 				act[lang + "_NAME"]
 			}</span>`;
 		else return "";

@@ -74,6 +74,11 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
+	--color-magic: rgb(46, 135, 38);
+	--color-rare: rgb(23, 106, 177);
+	--color-epic: rgb(219, 164, 21);
+	--color-legendary: rgb(206, 70, 7);
+
 	min-height: 100%;
 }
 

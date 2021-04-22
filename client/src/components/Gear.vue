@@ -1,91 +1,39 @@
 <template>
 	<div class="gear-builder" :class="{ editable: editable }">
-		<div class="gear unselectable">
-			<div class="character" :class="className"></div>
-			<div class="gear-slots">
-				<div class="top">
-					<gear-slot
-						v-for="t in ['helm', 'amulet']"
-						:key="t"
-						:type="t"
-						:item="gear[t]"
-						:class="{ selected: selectedSlot === t }"
-						@click="select(t)"
-						@contextmenu.prevent="gear[t] = null"
-						@mouseenter="displayTooltip($event, t)"
-					/>
-				</div>
-				<div class="left">
-					<gear-slot
-						v-for="t in ['shoulder', 'bracer', 'glove']"
-						:key="t"
-						:type="t"
-						:item="gear[t]"
-						:class="{ selected: selectedSlot === t }"
-						@click="select(t)"
-						@contextmenu.prevent="gear[t] = null"
-						@mouseenter="displayTooltip($event, t)"
-					/>
-				</div>
-				<div class="right">
-					<gear-slot
-						v-for="t in ['body', 'cape', 'belt']"
-						:key="t"
-						:type="t"
-						:item="gear[t]"
-						:class="{ selected: selectedSlot === t }"
-						@click="select(t)"
-						@contextmenu.prevent="gear[t] = null"
-						@mouseenter="displayTooltip($event, t)"
-					/>
-				</div>
-				<div class="rings">
-					<gear-slot
-						v-for="t in ['ring0', 'ring1']"
-						:key="t"
-						:type="t"
-						:item="gear[t]"
-						:class="{ selected: selectedSlot === t }"
-						@click="select(t)"
-						@contextmenu.prevent="gear[t] = null"
-						@mouseenter="displayTooltip($event, t)"
-					/>
-				</div>
-				<gear-slot
-					type="boot"
-					:item="gear['boot']"
-					:class="{ selected: selectedSlot === 'boot' }"
-					@click="select('boot')"
-					@contextmenu.prevent="gear['boot'] = null"
-					@mouseenter="displayTooltip($event, 'boot')"
+		<GearPanel :className="className">
+			<template v-for="t in ItemSlots" v-slot:[t] :key="t">
+				<GearSlot
+					:type="t"
+					:item="gear[t]"
+					:class="{ selected: selectedSlot === t }"
+					@click="select(t)"
+					@contextmenu.prevent="if (editable) gear[t] = null;"
+					@mouseenter="displayTooltip($event, t)"
 				/>
-			</div>
-			<div class="v-separator">
-				<img
-					src="../assets/data/sprites/spr_inventory_v_separator/spr_inventory_v_separator_0.png"
-				/>
-			</div>
-			<div
-				class="weapon"
-				:class="{ selected: selectedSlot === 'reaper' }"
-				@click="select('reaper')"
-				@contextmenu.prevent="gear['reaper'] = null"
-				@mouseenter="displayReaperTooltip($event)"
-			>
-				<div v-if="gear.reaper">
-					<img
-						:src="
-							require(`../assets/data/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
-								gear.reaper.REF ?? 0
-							}.png`)
-						"
-					/>
-					<div>
-						{{ reaperName }}
+			</template>
+			<template v-slot:weapon>
+				<div
+					class="reaper"
+					:class="{ selected: selectedSlot === 'reaper' }"
+					@click="select('reaper')"
+					@contextmenu.prevent="if (editable) gear['reaper'] = null;"
+					@mouseenter="displayReaperTooltip($event)"
+				>
+					<div v-if="gear.reaper">
+						<img
+							:src="
+								require(`../assets/data/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
+									gear.reaper.REF ?? 0
+								}.png`)
+							"
+						/>
+						<div>
+							{{ reaperName }}
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</template>
+		</GearPanel>
 		<template v-if="editable">
 			<div class="item-gallery" v-if="selectedSlot === 'reaper'">
 				<reaper-gallery
@@ -115,6 +63,7 @@
 import { ref } from "vue";
 import { ItemSlots, Reapers } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
+import GearPanel from "./GearPanel.vue";
 import Legendary from "./Legendary.vue";
 import Legendaries from "../assets/data/dat_leg.json";
 import Reaper from "./Reaper.vue";
@@ -123,7 +72,14 @@ import Tooltip from "./Tooltip.vue";
 
 export default {
 	name: "Gear",
-	components: { GearSlot, Legendary, Reaper, ReaperGallery, Tooltip },
+	components: {
+		GearSlot,
+		GearPanel,
+		Legendary,
+		Reaper,
+		ReaperGallery,
+		Tooltip,
+	},
 	data(props) {
 		let gear = {};
 		for (let s in props.import)
@@ -137,6 +93,7 @@ export default {
 			tooltip: ref(null),
 			reapertooltip: ref(null),
 			hoveredItem: null,
+			ItemSlots,
 		};
 	},
 	props: {
@@ -204,167 +161,22 @@ export default {
 	gap: 1em;
 }
 
-.gear {
-	position: relative;
-	width: 572px;
-	height: 840px;
-	background-image: url("../assets/data/sprites/spr_inventory_slot_panel/spr_inventory_slot_panel_0.png");
-	padding: 40px 10px 10px 10px;
-	box-sizing: border-box;
-}
-
-.gear:not(.editable) {
+.gear-panel:not(.editable) {
 	margin: auto;
 }
 
-.character {
-	position: absolute;
-	top: 205px;
-	left: 50%;
-	transform: translateX(calc(-50% + 8px)) scaleX(-1);
-	animation-duration: 1000ms;
-	animation-iteration-count: infinite;
-	animation-direction: forward;
-	width: 130px;
-	height: 146.25px;
-	background-size: cover;
-	image-rendering: crisp-edges; /* Firefox */
-	image-rendering: pixelated; /* Chrome */
-}
-
-.knight {
-	animation-name: idle-animation-knight;
-}
-.huntress {
-	animation-name: idle-animation-huntress;
-}
-.mage {
-	animation-name: idle-animation-mage;
-}
-
-@keyframes idle-animation-knight {
-	0% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
-	}
-	25% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_1.png");
-	}
-	50% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_2.png");
-	}
-	75% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_3.png");
-	}
-	100% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
-	}
-}
-
-@keyframes idle-animation-huntress {
-	0% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
-	}
-	25% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_1.png");
-	}
-	50% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_2.png");
-	}
-	75% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_3.png");
-	}
-	100% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
-	}
-}
-
-@keyframes idle-animation-mage {
-	0% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
-	}
-	25% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_1.png");
-	}
-	50% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_2.png");
-	}
-	75% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_3.png");
-	}
-	100% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
-	}
-}
-
-.top {
-	display: flex;
-	position: absolute;
-	top: 70px;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 170px;
-	justify-content: space-between;
-}
-
-.left,
-.right {
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	top: 150px;
-	height: 230px;
-	justify-content: space-between;
-}
-
-.left {
-	left: 80px;
-}
-
-.right {
-	right: 80px;
-}
-
-.rings {
-	display: flex;
-	position: absolute;
-	top: 400px;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 240px;
-	justify-content: space-between;
+.editable .reaper,
+.editable .gear-slot {
+	cursor: pointer;
 }
 
 .selected {
 	outline: 4px solid rgb(72, 22, 17);
 }
 
-.editable .gear-slot {
-	cursor: pointer;
-}
-
-.boot {
-	position: absolute;
-	top: 420px;
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.v-separator {
-	position: absolute;
-	top: 520px;
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.weapon {
-	position: absolute;
-	width: 420px;
-	height: 228px;
-	background-image: url("../assets/data/sprites/spr_weapon_box_inventory/spr_weapon_box_inventory_0.png");
-	bottom: 50px;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
+.reaper {
+	width: 100%;
+	height: 100%;
 }
 
 .weapon img {

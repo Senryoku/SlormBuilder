@@ -12,6 +12,7 @@
 			<div class="effect">
 				<div class="effect-top">{{ t("Legendary Effect") }}</div>
 				<div class="effect-text" v-html="effect"></div>
+				<AncestralSkill :skill="associatedSkill" />
 			</div>
 		</div>
 	</div>
@@ -19,10 +20,13 @@
 
 <script>
 import { parseText } from "../utils.js";
+import AncestralSkills from "../assets/data/dat_act.json";
 import ItemIcon from "./ItemIcon.vue";
+import AncestralSkill from "./AncestralSkill.vue";
+
 export default {
 	name: "Legendary",
-	components: { ItemIcon },
+	components: { ItemIcon, AncestralSkill },
 	props: {
 		item: { type: Object },
 	},
@@ -47,6 +51,12 @@ export default {
 				value_type: "TYPE",
 				value_stat: "STAT",
 			});
+		},
+		associatedSkill() {
+			let s = AncestralSkills.find(
+				(s) => s.BASED_ON === "legendary" && s.ID_BASED_ON === this.item.REF
+			);
+			return s ? s : null;
 		},
 	},
 };

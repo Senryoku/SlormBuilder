@@ -1,5 +1,5 @@
 <template>
-	<div class="gear unselectable">
+	<div class="gear-panel unselectable">
 		<div class="character" v-if="className" :class="className"></div>
 		<div class="gear-slots">
 			<div class="top">
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.gear {
+.gear-panel {
 	position: relative;
 	width: 572px;
 	height: 840px;
