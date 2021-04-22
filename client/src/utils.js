@@ -50,7 +50,7 @@ export function localize(lang, str) {
 
 import Act from "./assets/data/dat_act.json";
 
-export function parseText(item, lang, format = {}, options = {}) {
+export function parseText(item, lang, format = {}, options = { rank: 0 }) {
 	format = {
 		text: format.text ?? lang + "_DESC",
 		value_base: format.value_base ?? "VALUE_BASE",
@@ -124,9 +124,10 @@ export function parseText(item, lang, format = {}, options = {}) {
 	for (let [idx, v] of values.entries()) {
 		const mult = item[format.value_real] === "negative" ? -1 : 1;
 		const t = types[idx] && !types[idx].includes(":") ? types[idx] : "";
-		const currentValue = levels
-			? v + mult * levels?.[idx] * options.rank
-			: v;
+		const currentValue =
+			levels && !isNaN(levels[idx])
+				? v + mult * levels?.[idx] * options.rank
+				: v;
 		let value_explanation = item.UPGRADE_NUMBER > 1 && !r.includes("µ");
 		r = r.replace(
 			"@",

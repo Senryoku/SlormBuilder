@@ -9,7 +9,7 @@
 			/>
 			<div class="infos">
 				<div class="name">{{ name }}</div>
-				<div>
+				<div v-if="skill.COOLDOWN">
 					{{ t("Cooldown") }} :
 					<span style="color: var(--color-legendary)">{{
 						skill.COOLDOWN
