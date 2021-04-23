@@ -279,9 +279,11 @@ export default {
 		},
 		serialize() {
 			let elements = Elements.filter((e) => e.selected);
-			return `${elements.length},${elements
-				.map((e) => `${e.REF},${e.rank}`)
-				.join(",")}`;
+			return elements.length > 0
+				? `${elements.length},${elements
+						.map((e) => `${e.REF},${e.rank}`)
+						.join(",")}`
+				: "0";
 		},
 	},
 };
