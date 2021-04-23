@@ -188,7 +188,7 @@ export default {
 		if (this.$route.params.data) {
 			try {
 				let data = window.atob(this.$route.params.data).split(",");
-				console.log(data);
+
 				const versionValues = data[0].split(".").map((i) => parseInt(i));
 				const version = {
 					major: versionValues[0],
@@ -357,9 +357,6 @@ export default {
 				);
 				let dataFields = {};
 				dataFields.weapon_data = getNextSection(asciish.indexOf("weapon_data"));
-				dataFields.weapon_equip = getNextSection(
-					asciish.indexOf("weapon_equip")
-				);
 				dataFields.traits = asciish
 					.match(
 						/\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+/
@@ -419,6 +416,12 @@ export default {
 						};
 					}
 				}
+				dataFields.weapon_equip = getNextSection(
+					asciish.indexOf("weapon_equip")
+				)[classIdx];
+				gear.reaper = {
+					REF: parseInt(dataFields.weapon_equip),
+				};
 
 				let selections = [];
 				let upgrades = [];

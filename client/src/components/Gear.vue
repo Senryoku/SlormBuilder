@@ -130,7 +130,9 @@ export default {
 			this.gear = {};
 			console.log(gear);
 			for (let slot in gear) {
-				this.gear[slot] = Legendaries.find((l) => l.REF === gear[slot].REF);
+				this.gear[slot] = (slot === "reaper" ? Reapers : Legendaries).find(
+					(l) => l.REF === gear[slot].REF
+				);
 			}
 			console.log(this.gear);
 		},
