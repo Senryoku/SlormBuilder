@@ -6,6 +6,10 @@
 	"Yes": { "FR": "Oui" },
 	"No": { "FR": "Non" },
 
+	"Save successfully imported! (Every Skills and Attributes, Legendaries and Elements for the $)": {
+		"FR": "Sauvegarde importée avec succès! (Compétences et Attributs, Légendaires et Éléments de $)"
+	},
+
 	"ring": { "EN": "Ring", "FR": "Anneau" },
 	"amulet": { "EN": "Amulet", "FR": "Amulette" },
 	"helm": {

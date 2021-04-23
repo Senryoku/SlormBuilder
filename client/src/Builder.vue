@@ -325,13 +325,21 @@ export default {
 						c.charCodeAt(0) <= "9".charCodeAt(0)
 					);
 				};
+				const isChar = (c) => {
+					return (
+						c.charCodeAt(0) >= "A".charCodeAt(0) &&
+						c.charCodeAt(0) <= "Z".charCodeAt(0)
+					);
+				};
 				const getStartIndex = (idx) => {
 					while (idx < asciish.length && !isNumber(asciish[idx])) ++idx;
 					return idx;
 				};
 				const getEndIndex = (idx) => {
 					const skip = (c) =>
-						["/", ":", ",", "-", "|"].includes(c) || isNumber(c);
+						["/", ":", ",", "-", "|", "."].includes(c) ||
+						isChar(c) ||
+						isNumber(c);
 					while (idx < asciish.length && skip(asciish[idx])) {
 						++idx;
 					}
@@ -375,10 +383,42 @@ export default {
 					[classIdx].split(",")
 					.map((i) => parseInt(i));
 
-				let gear = (dataFields.skill_rank = getNextSection(
-					asciish.indexOf("equipment_list")
-				));
-				console.log(gear);
+				// First 8 slots of the inventory (NOT shared_inventory!) are the equipped items (equipment_list may be the merchant inventory?)
+				// Format for each item (example: 4.0.40.0.1.5-5192.1.4:E.78.24.0:N.13.86.0:N.15.78.0:M.79.38.0:RP.3.4:AT.2.1:R.45.54.0;)
+				// Entry separated by ':', first entry has general data about the item (mostly unknown, NUM represents a number whose function is unknown):
+				//     NUM.ITEMSLOT.ITEMLEVEL.NUM.NUM.UPGRADELEVEL-NUM.NUM.NUM
+				// Then each entry represents an item stats
+				//     StatSlot:StatType:Value?:NUM
+				// with StatSlot in N (Normal), M (Magic), R (Rare), E (Epic), L (Legendary), RP (Reaper), MA (Skill Mastery), AT (Attribut bonus)
+				// and StatType is an REF entry in dat_sta.json
+				dataFields.gear = getNextSection(asciish.search(/[^_]inventory/));
+				dataFields.gear = dataFields.gear[classIdx].split(";");
+				const slotsorder = [
+					"helm",
+					"body",
+					"shoulder",
+					"bracer",
+					"glove",
+					"boot",
+					"ring0",
+					"ring1",
+					"amulet",
+					"belt",
+					"cape",
+				];
+				const gear = {};
+				for (let i = 0; i < slotsorder.length; ++i) {
+					let legendary = dataFields.gear[i]
+						.split(":")
+						.find((s) => s.startsWith("L"));
+					if (legendary) {
+						const [, REF, value] = legendary.split(".");
+						gear[slotsorder[i]] = {
+							REF: parseInt(REF),
+							value: parseInt(value), // Percent of stat range?
+						};
+					}
+				}
 
 				let selections = [];
 				let upgrades = [];
@@ -405,6 +445,7 @@ export default {
 					);
 				}
 
+				this.$refs.gear.importSave(gear);
 				this.$refs.attributes.importSave(dataFields.traits);
 				this.$refs.elements.importSave(
 					dataFields.element_equip,
@@ -412,7 +453,10 @@ export default {
 				);
 
 				this.$toast.success(
-					"Save (Skills & Attributes) successfully imported!"
+					this.t(
+						`Save successfully imported! (Every Skills and Attributes, Legendaries and Elements for the $)`,
+						capitalize(this.t(this.classes[classIdx]))
+					)
 				);
 			} catch (e) {
 				this.$toast.error(e.toString());

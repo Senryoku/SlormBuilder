@@ -126,6 +126,14 @@ export default {
 			r.push(this.gear["reaper"]?.REF ?? -1);
 			return r.join();
 		},
+		importSave(gear) {
+			this.gear = {};
+			console.log(gear);
+			for (let slot in gear) {
+				this.gear[slot] = Legendaries.find((l) => l.REF === gear[slot].REF);
+			}
+			console.log(this.gear);
+		},
 	},
 	computed: {
 		galleryItems() {
