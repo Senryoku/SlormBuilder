@@ -16,7 +16,7 @@
 						@mouseenter="displayTooltip($event, idx)"
 						class="attr-icon"
 						:src="
-							require(`@/assets/data/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
+							require(`@/assets/extracted/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
 						"
 					/>
 					<img
@@ -25,7 +25,7 @@
 						class="effect-level"
 						:style="`left: ${76 + additiveEffectMargin(e.LEVEL)}px`"
 						:src="
-							require(`@/assets/data/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
+							require(`@/assets/extracted/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
 						"
 					/>
 					<div class="attr-indicators">
@@ -59,7 +59,7 @@
 <script>
 import { ref } from "vue";
 import { clamp } from "../utils.js";
-import AttributeData from "../assets/data/dat_att.json";
+import AttributeData from "../assets/extracted/dat_att.json";
 
 import Tooltip from "./Tooltip.vue";
 import Attribute from "./Attribute.vue";
@@ -120,17 +120,17 @@ export default {
 		// Preload animation
 		for (let i = 0; i < 8; ++i) {
 			const img = new Image();
-			img.src = require(`../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_${i}.png`);
+			img.src = require(`../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_${i}.png`);
 		}
 	},
 	methods: {
 		attrPointImage(idx, i) {
 			if (i > 0 && i % 15 === 0)
-				return require(`@/assets/data/sprites/spr_trait_point_losange/spr_trait_point_losange_${idx}.png`);
+				return require(`@/assets/extracted/sprites/spr_trait_point_losange/spr_trait_point_losange_${idx}.png`);
 			else if (i > 0 && i % 5 === 0)
-				return require(`@/assets/data/sprites/spr_trait_point_square/spr_trait_point_square_${idx}.png`);
+				return require(`@/assets/extracted/sprites/spr_trait_point_square/spr_trait_point_square_${idx}.png`);
 			else
-				return require(`@/assets/data/sprites/spr_trait_point_default/spr_trait_point_default_${idx}.png`);
+				return require(`@/assets/extracted/sprites/spr_trait_point_default/spr_trait_point_default_${idx}.png`);
 		},
 		additiveEffectMargin(i) {
 			--i;
@@ -182,7 +182,7 @@ export default {
 <style>
 .attributes {
 	margin: 0 auto;
-	background-image: url("../assets/data/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
+	background-image: url("../assets/extracted/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 	text-align: center;
 	width: 1192px;
 	height: 840px;
@@ -210,11 +210,11 @@ export default {
 	position: relative;
 	width: 924px;
 	height: 60px;
-	background-image: url("../assets/data/sprites/spr_trait_bar_large/spr_trait_bar_large_0.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_0.png");
 }
 
 .attr-bar-container:nth-child(odd) .attr-bar {
-	background-image: url("../assets/data/sprites/spr_trait_bar_large/spr_trait_bar_large_1.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_1.png");
 }
 
 .attr-icon {
@@ -256,7 +256,7 @@ export default {
 }
 
 .attr-button-container {
-	background-image: url("../assets/data/sprites/spr_trait_button_back/spr_trait_button_back_0.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_back/spr_trait_button_back_0.png");
 	width: 100px;
 	height: 60px;
 	position: relative;
@@ -299,55 +299,55 @@ export default {
 
 @keyframes attr-gain-animation {
 	0% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png");
 	}
 	14% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png");
 	}
 	28% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png");
 	}
 	42% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png");
 	}
 	56% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png");
 	}
 	70% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png");
 	}
 	85% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png");
 	}
 }
 
 @keyframes attr-gain-major-animation {
 	0% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
 	}
 	14% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
 	}
 	28% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
 	}
 	42% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
 	}
 	56% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
 	}
 	70% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
 	}
 	85% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
+		background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
 	}
 }
 
@@ -355,31 +355,31 @@ export default {
 	position: absolute;
 	top: 8px;
 	left: 8px;
-	background-image: url("../assets/data/sprites/spr_trait_button_plus/spr_trait_button_plus_0.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_0.png");
 }
 .plus-button:hover {
-	background-image: url("../assets/data/sprites/spr_trait_button_plus/spr_trait_button_plus_1.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_1.png");
 }
 .plus-button:active {
-	background-image: url("../assets/data/sprites/spr_trait_button_plus/spr_trait_button_plus_2.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_2.png");
 }
 .plus-button.disabled {
-	background-image: url("../assets/data/sprites/spr_trait_button_plus/spr_trait_button_plus_4.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_4.png");
 }
 
 .minus-button {
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	background-image: url("../assets/data/sprites/spr_trait_button_minus/spr_trait_button_minus_0.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_0.png");
 }
 .minus-button:hover {
-	background-image: url("../assets/data/sprites/spr_trait_button_minus/spr_trait_button_minus_1.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_1.png");
 }
 .minus-button:active {
-	background-image: url("../assets/data/sprites/spr_trait_button_minus/spr_trait_button_minus_2.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_2.png");
 }
 .minus-button.disabled {
-	background-image: url("../assets/data/sprites/spr_trait_button_minus/spr_trait_button_minus_4.png");
+	background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_4.png");
 }
 </style>

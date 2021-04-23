@@ -5,7 +5,7 @@
 			<h1 v-else>
 				<img
 					style="vertical-align: sub; margin-right: 1rem"
-					src="./assets/data/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
+					src="./assets/extracted/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
 				/>{{ t("Imported Build") }}
 			</h1>
 		</div>
@@ -20,7 +20,7 @@
 				>
 					<img
 						:src="
-							require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
+							require(`./assets/extracted/sprites/spr_class_icon_mid/spr_class_icon_mid_${idx}.png`)
 						"
 						:title="c"
 						height="44"
@@ -31,7 +31,7 @@
 				<div class="class-name selected" style="font-size: 1.2em">
 					<img
 						:src="
-							require(`./assets/data/sprites/spr_class_icon_mid/spr_class_icon_mid_${classes.findIndex(
+							require(`./assets/extracted/sprites/spr_class_icon_mid/spr_class_icon_mid_${classes.findIndex(
 								(s) => s === selectedClass
 							)}.png`)
 						"
@@ -48,7 +48,7 @@
 				:class="{ 'tab-selected': selectedTab == 'skills' }"
 			>
 				<img
-					src="./assets/data/sprites/spr_ui_hud_skills_button_v2/spr_ui_hud_skills_button_v2_0.png"
+					src="./assets/extracted/sprites/spr_ui_hud_skills_button_v2/spr_ui_hud_skills_button_v2_0.png"
 				/>
 				{{ t("Skills") }}
 			</div>
@@ -58,7 +58,7 @@
 				:class="{ 'tab-selected': selectedTab == 'traits' }"
 			>
 				<img
-					src="./assets/data/sprites/spr_ui_hud_traits_v2/spr_ui_hud_traits_v2_0.png"
+					src="./assets/extracted/sprites/spr_ui_hud_traits_v2/spr_ui_hud_traits_v2_0.png"
 				/>
 				{{ t("Attributes") }}
 			</div>
@@ -68,7 +68,7 @@
 				:class="{ 'tab-selected': selectedTab == 'gear' }"
 			>
 				<img
-					src="./assets/data/sprites/spr_ui_hud_inventory_button_v2/spr_ui_hud_inventory_button_v2_0.png"
+					src="./assets/extracted/sprites/spr_ui_hud_inventory_button_v2/spr_ui_hud_inventory_button_v2_0.png"
 				/>
 				{{ t("Gear") }}
 			</div>
@@ -78,7 +78,7 @@
 				:class="{ 'tab-selected': selectedTab == 'elements' }"
 			>
 				<img
-					src="./assets/data/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
+					src="./assets/extracted/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
 				/>
 				{{ t("Elements") }} (WIP)
 			</div>
@@ -390,7 +390,7 @@ export default {
 	justify-content: center;
 	text-transform: capitalize;
 	margin: auto;
-	background-image: url("./assets/data/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
+	background-image: url("./assets/extracted/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
 	background-size: 100% 54px;
 	background-position: center;
 	background-repeat: repeat-x;
@@ -451,7 +451,7 @@ export default {
 	position: absolute;
 	bottom: calc(0.75 * -6px);
 	left: calc(50% + 1rem - 9px);
-	background-image: url("./assets/data/sprites/spr_skill_selector/spr_skill_selector_0.png");
+	background-image: url("./assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
 	background-size: cover;
 	width: calc(0.75 * 44px);
 	height: calc(0.75 * 36px);
@@ -460,12 +460,12 @@ export default {
 
 .tab:not(.tab-selected):hover::after {
 	content: "";
-	background-image: url("./assets/data/sprites/spr_skill_selector/spr_skill_selector_1.png");
+	background-image: url("./assets/extracted/sprites/spr_skill_selector/spr_skill_selector_1.png");
 }
 
 .tab-selected::after {
 	content: "";
-	background-image: url("./assets/data/sprites/spr_skill_selector/spr_skill_selector_0.png");
+	background-image: url("./assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
 }
 
 .actions {

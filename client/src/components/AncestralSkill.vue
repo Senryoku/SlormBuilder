@@ -4,7 +4,7 @@
 			<img
 				class="icon"
 				:src="
-					require(`../assets/data/sprites/spr_actives/spr_actives_${skill.REF}.png`)
+					require(`../assets/extracted/sprites/spr_actives/spr_actives_${skill.REF}.png`)
 				"
 			/>
 			<div class="infos">

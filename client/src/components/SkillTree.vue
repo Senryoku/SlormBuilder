@@ -61,7 +61,7 @@ export default {
 	position: relative;
 	padding-left: 42px;
 	margin: 12px 0;
-	background: url("../assets/data/sprites/spr_skill_tier_link/spr_skill_tier_link_0.png");
+	background: url("../assets/extracted/sprites/spr_skill_tier_link/spr_skill_tier_link_0.png");
 	background-repeat: repeat-x;
 	background-position-y: 50%;
 }
@@ -70,7 +70,7 @@ export default {
 	position: absolute;
 	left: -44px;
 	top: 4px;
-	background: url("../assets/data/sprites/spr_skill_tier_bubble/spr_skill_tier_bubble_0.png");
+	background: url("../assets/extracted/sprites/spr_skill_tier_bubble/spr_skill_tier_bubble_0.png");
 	width: 88px;
 	height: 44px;
 	color: white;

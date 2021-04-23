@@ -9,7 +9,7 @@
 
 <script>
 import Legendary from "./Legendary.vue";
-import Legendaries from "../assets/data/dat_leg.json";
+import Legendaries from "../assets/extracted/dat_leg.json";
 export default {
 	name: "Legendaries",
 	components: { Legendary },

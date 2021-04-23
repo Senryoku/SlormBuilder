@@ -82,9 +82,9 @@ export default {
 	position: relative;
 	width: 120px;
 	height: 120px;
-	background: url("../assets/data/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
+	background: url("../assets/extracted/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
 	border-style: solid;
-	border-image: url("../assets/data/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
+	border-image: url("../assets/extracted/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
 	border-image-slice: 18 18 18 18;
 	border-image-width: 18px 18px 18px 18px;
 	border-image-outset: 0;
@@ -118,7 +118,7 @@ export default {
 
 .evolve-marker {
 	position: absolute;
-	background-image: url("../assets/data/sprites/spr_weapon_evolve/spr_weapon_evolve_0.png");
+	background-image: url("../assets/extracted/sprites/spr_weapon_evolve/spr_weapon_evolve_0.png");
 	left: -28px;
 	width: 32px;
 	height: 56px;

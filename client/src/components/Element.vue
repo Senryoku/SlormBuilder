@@ -3,7 +3,7 @@
 		<div class="header">
 			<img
 				:src="
-					require(`../assets/data/sprites/spr_elements/spr_elements_${element.REF}.png`)
+					require(`../assets/extracted/sprites/spr_elements/spr_elements_${element.REF}.png`)
 				"
 			/>
 			<div class="infos">

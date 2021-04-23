@@ -22,7 +22,7 @@
 					<div v-if="gear.reaper">
 						<img
 							:src="
-								require(`../assets/data/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
+								require(`../assets/extracted/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
 									gear.reaper.REF ?? 0
 								}.png`)
 							"
@@ -65,7 +65,7 @@ import { ItemSlots, Reapers } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
 import GearPanel from "./GearPanel.vue";
 import Legendary from "./Legendary.vue";
-import Legendaries from "../assets/data/dat_leg.json";
+import Legendaries from "../assets/extracted/dat_leg.json";
 import Reaper from "./Reaper.vue";
 import ReaperGallery from "./ReaperGallery.vue";
 import Tooltip from "./Tooltip.vue";

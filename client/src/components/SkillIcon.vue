@@ -52,7 +52,7 @@ export default {
 	height: 44px;
 
 	border-style: solid;
-	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_6.png");
+	border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_6.png");
 	border-image-slice: 12 12 12 12;
 	border-image-width: 12px;
 	border-image-outset: 0px 0px 0px 0px;
@@ -67,11 +67,11 @@ export default {
 }
 
 .selected {
-	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_2.png");
+	border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_2.png");
 }
 
 .selected.maxed:not(.passive) {
-	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_3.png");
+	border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_3.png");
 	border-image-slice: 16 16 16 16;
 	border-image-width: 16px;
 	border-image-outset: 8px;
@@ -83,7 +83,7 @@ export default {
 	border-image-outset: 0px 0px 0px 0px;
 	border-image-repeat: stretch stretch;
 	border-image-outset: 11px;
-	border-image-source: url("../assets/data/sprites/spr_border_round/spr_border_round_0.png");
+	border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_0.png");
 }
 
 .passive img {
@@ -91,11 +91,11 @@ export default {
 }
 
 .passive.selected {
-	border-image-source: url("../assets/data/sprites/spr_border_round/spr_border_round_1.png");
+	border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_1.png");
 }
 
 .passive.selected.maxed {
-	border-image-source: url("../assets/data/sprites/spr_border_round/spr_border_round_5.png");
+	border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_5.png");
 }
 
 .level {
@@ -103,7 +103,7 @@ export default {
 	bottom: -11px;
 	right: -11px;
 	color: white;
-	background-image: url("../assets/data/sprites/spr_skill_rank/spr_skill_rank_0.png");
+	background-image: url("../assets/extracted/sprites/spr_skill_rank/spr_skill_rank_0.png");
 	width: 22px;
 	height: 22px;
 	text-align: center;

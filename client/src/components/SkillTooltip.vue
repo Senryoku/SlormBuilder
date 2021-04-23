@@ -4,7 +4,7 @@
 		<img
 			style="max-width: 100%"
 			:src="
-				require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+				require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 			"
 		/>
 		<div style="display: flex; margin: 1em; min-height: 96px">
@@ -28,7 +28,7 @@
 		<img
 			style="max-width: 100%"
 			:src="
-				require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+				require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 			"
 		/>
 		<p class="description" v-html="description"></p>
@@ -50,7 +50,7 @@
 			<img
 				style="max-width: 100%"
 				:src="
-					require('../assets/data/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+					require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
 			<div>{{ t("Next Rank") }}:</div>
@@ -70,7 +70,7 @@ export default {
 	},
 	methods: {
 		mechanicIcon(r) {
-			return require(`../assets/data/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
+			return require(`../assets/extracted/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
 		},
 	},
 	computed: {
@@ -202,7 +202,7 @@ export default {
 	z-index: 99;
 	pointer-events: none;
 
-	background-image: url("../assets/data/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
+	background-image: url("../assets/extracted/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
 	background-repeat: no-repeat;
 	border-style: solid;
 	border-image-source: url("../assets/img/skill-tree-border.png");
@@ -230,7 +230,7 @@ h2 {
 	flex-shrink: 0;
 
 	border-style: solid;
-	border-image-source: url("../assets/data/sprites/spr_borders/spr_borders_4.png");
+	border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_4.png");
 	border-image-slice: 12 12 12 12;
 	border-image-width: 12px;
 	border-image-outset: 0px 0px 0px 0px;

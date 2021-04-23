@@ -5,7 +5,7 @@ import os
 
 GamePath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\The Slormancer"
 GameFiles = glob.glob(GamePath + "\\*.json")
-DestinationFolder = "./client/src/assets/data/"
+DestinationFolder = "./client/src/assets/extracted/"
 
 for filePath in GameFiles:
     try:
@@ -18,5 +18,6 @@ for filePath in GameFiles:
     except:
         print("Unexpected error handling '{}':".format(destName), sys.exc_info()[0])
    
-"os.system(".\\tools\\quickbms\\quickbms.exe .\\tools\\quickbms\\yoyogames.bms \"{}/data.win\" {}".format(GamePath, DestinationFolder+"extracted/"))
+#os.system(".\\tools\\quickbms\\quickbms.exe .\\tools\\quickbms\\yoyogames.bms \"{}/data.win\" {}".format(GamePath, DestinationFolder+"bms/"))
+
 os.system(".\\tools\\GMExtract_v1.1\\GMExtract.exe \"{}/data.win\" {} -s".format(GamePath, DestinationFolder))

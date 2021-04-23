@@ -23,8 +23,8 @@ export default {
 	computed: {
 		image() {
 			return this.modelValue
-				? require("../assets/data/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png")
-				: require("../assets/data/sprites/spr_menu_toggler/spr_menu_toggler_0.png");
+				? require("../assets/extracted/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png")
+				: require("../assets/extracted/sprites/spr_menu_toggler/spr_menu_toggler_0.png");
 		},
 	},
 };

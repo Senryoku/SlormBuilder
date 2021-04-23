@@ -49,7 +49,7 @@
 			<AncestralSkill :skill="associatedSkill" />
 			<img
 				style="margin: 16px 0 8px 0"
-				src="../assets/data/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
+				src="../assets/extracted/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
 			/>
 			<div class="lore">
 				{{ transformText(item[settings.language + "_LORE"]) }}
@@ -60,7 +60,7 @@
 
 <script>
 import { parseText } from "../utils.js";
-import AncestralSkills from "../assets/data/dat_act.json";
+import AncestralSkills from "../assets/extracted/dat_act.json";
 import AncestralSkill from "./AncestralSkill.vue";
 import ReaperIcon from "./ReaperIcon.vue";
 
@@ -121,7 +121,7 @@ export default {
 .reaper .top {
 	width: 406px;
 	height: 112px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
 	background-position: center -44px;
 	padding-top: 33px;
 	line-height: 56px;
@@ -133,8 +133,8 @@ export default {
 	padding: 0 12px 20px 12px;
 	box-sizing: border-box;
 	/*white-space: pre-line;*/
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
-		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
+		url("../assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
 	background-position: center bottom -20px, center;
 	background-repeat: no-repeat, repeat-y;
 }
@@ -165,7 +165,7 @@ export default {
 
 .image-box {
 	position: relative;
-	background-image: url("../assets/data/sprites/spr_weapon_back_box/spr_weapon_back_box_0.png");
+	background-image: url("../assets/extracted/sprites/spr_weapon_back_box/spr_weapon_back_box_0.png");
 	width: 96px;
 	height: 160px;
 }

@@ -20,7 +20,7 @@
 
 <script>
 import { parseText } from "../utils.js";
-import AncestralSkills from "../assets/data/dat_act.json";
+import AncestralSkills from "../assets/extracted/dat_act.json";
 import ItemIcon from "./ItemIcon.vue";
 import AncestralSkill from "./AncestralSkill.vue";
 
@@ -33,7 +33,7 @@ export default {
 	data(props) {
 		let image = "";
 		try {
-			image = require(`../assets/data/sprites/spr_inventory_items/spr_inventory_items_${
+			image = require(`../assets/extracted/sprites/spr_inventory_items/spr_inventory_items_${
 				props.item.SPRITE ?? 0
 			}.png`);
 		} catch (e) {
@@ -71,7 +71,7 @@ export default {
 .legendary .top {
 	width: 406px;
 	height: 112px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_top/spr_item_tooltip_top_5.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_5.png");
 	background-position: center -44px;
 	padding-top: 33px;
 	line-height: 56px;
@@ -83,8 +83,8 @@ export default {
 
 .legendary .body {
 	box-sizing: border-box;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png"),
-		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_5.png"),
+		url("../assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_5.png");
 	background-position: center bottom -20px, center;
 	background-repeat: no-repeat, repeat-y;
 	padding-bottom: 22px;
@@ -109,8 +109,8 @@ export default {
 
 .effect {
 	width: 360px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_legendary_text_top/spr_item_tooltip_legendary_text_top_0.png"),
-		url("../assets/data/sprites/spr_item_tooltip_legendary_text_bottom/spr_item_tooltip_legendary_text_bottom_0.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_legendary_text_top/spr_item_tooltip_legendary_text_top_0.png"),
+		url("../assets/extracted/sprites/spr_item_tooltip_legendary_text_bottom/spr_item_tooltip_legendary_text_bottom_0.png");
 	background-position: center top, center bottom;
 	background-repeat: no-repeat, no-repeat;
 	padding: 64px 18px;

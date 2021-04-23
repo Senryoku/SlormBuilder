@@ -79,7 +79,7 @@ import { ref } from "vue";
 import { ItemTypes, ItemSlots } from "../utils.js";
 import GearSlot from "./GearSlot.vue";
 import GearPanel from "./GearPanel.vue";
-import Stats from "../assets/data/dat_sta.json";
+import Stats from "../assets/extracted/dat_sta.json";
 
 export default {
 	components: { GearSlot, GearPanel },

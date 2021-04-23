@@ -101,7 +101,7 @@ export default {
 .attribute .top {
 	width: 406px;
 	height: 96px;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_top/spr_item_tooltip_top_0.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_0.png");
 	background-position: center -56px;
 	padding-top: 21px;
 	line-height: 56px;
@@ -113,8 +113,8 @@ export default {
 .attribute .body {
 	padding: 0 18px 24px 18px;
 	box-sizing: border-box;
-	background-image: url("../assets/data/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_0.png"),
-		url("../assets/data/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_0.png");
+	background-image: url("../assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_0.png"),
+		url("../assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_0.png");
 	background-position: center bottom -20px, center;
 	background-repeat: no-repeat, repeat-y;
 }

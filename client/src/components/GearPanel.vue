@@ -20,7 +20,7 @@
 		</div>
 		<div class="v-separator">
 			<img
-				src="../assets/data/sprites/spr_inventory_v_separator/spr_inventory_v_separator_0.png"
+				src="../assets/extracted/sprites/spr_inventory_v_separator/spr_inventory_v_separator_0.png"
 			/>
 		</div>
 		<div class="weapon"><slot name="weapon" /></div>
@@ -40,7 +40,7 @@ export default {
 	position: relative;
 	width: 572px;
 	height: 840px;
-	background-image: url("../assets/data/sprites/spr_inventory_slot_panel/spr_inventory_slot_panel_0.png");
+	background-image: url("../assets/extracted/sprites/spr_inventory_slot_panel/spr_inventory_slot_panel_0.png");
 	padding: 40px 10px 10px 10px;
 	box-sizing: border-box;
 }
@@ -72,55 +72,55 @@ export default {
 
 @keyframes idle-animation-knight {
 	0% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
 	}
 	25% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_1.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_knight_idle/spr_npc_knight_idle_1.png");
 	}
 	50% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_2.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_knight_idle/spr_npc_knight_idle_2.png");
 	}
 	75% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_3.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_knight_idle/spr_npc_knight_idle_3.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_knight_idle/spr_npc_knight_idle_0.png");
 	}
 }
 
 @keyframes idle-animation-huntress {
 	0% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
 	}
 	25% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_1.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_1.png");
 	}
 	50% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_2.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_2.png");
 	}
 	75% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_3.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_3.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_huntress_idle/spr_npc_huntress_idle_0.png");
 	}
 }
 
 @keyframes idle-animation-mage {
 	0% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
 	}
 	25% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_1.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_mage_idle/spr_npc_mage_idle_1.png");
 	}
 	50% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_2.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_mage_idle/spr_npc_mage_idle_2.png");
 	}
 	75% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_3.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_mage_idle/spr_npc_mage_idle_3.png");
 	}
 	100% {
-		background-image: url("../assets/data/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
+		background-image: url("../assets/extracted/sprites/spr_npc_mage_idle/spr_npc_mage_idle_0.png");
 	}
 }
 
@@ -180,7 +180,7 @@ export default {
 	position: absolute;
 	width: 420px;
 	height: 228px;
-	background-image: url("../assets/data/sprites/spr_weapon_box_inventory/spr_weapon_box_inventory_0.png");
+	background-image: url("../assets/extracted/sprites/spr_weapon_box_inventory/spr_weapon_box_inventory_0.png");
 	bottom: 50px;
 	left: 50%;
 	transform: translateX(-50%);

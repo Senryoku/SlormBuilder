@@ -5,7 +5,7 @@
 				<img
 					class="icon"
 					:src="
-						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_5.png')
+						require('@/assets/extracted/sprites/spr_keyboard_buttons/spr_keyboard_buttons_5.png')
 					"
 				/>
 				{{ t("Specialisation (Support Skill)") }}
@@ -32,7 +32,7 @@
 				<img
 					class="icon"
 					:src="
-						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_0.png')
+						require('@/assets/extracted/sprites/spr_keyboard_buttons/spr_keyboard_buttons_0.png')
 					"
 				/>
 				{{ t("Primary Skill") }}
@@ -64,7 +64,7 @@
 				<img
 					class="icon"
 					:src="
-						require('@/assets/data/sprites/spr_keyboard_buttons/spr_keyboard_buttons_1.png')
+						require('@/assets/extracted/sprites/spr_keyboard_buttons/spr_keyboard_buttons_1.png')
 					"
 				/>
 				{{ t("Secondary Skill") }}
@@ -106,9 +106,9 @@
 <script>
 import { ref, defineAsyncComponent } from "vue";
 import { getSkillSprite } from "../utils.js";
-import KnightSkills from "../assets/data/dat_cla_0.json";
-import HuntressSkills from "../assets/data/dat_cla_1.json";
-import MageSkills from "../assets/data/dat_cla_2.json";
+import KnightSkills from "../assets/extracted/dat_cla_0.json";
+import HuntressSkills from "../assets/extracted/dat_cla_1.json";
+import MageSkills from "../assets/extracted/dat_cla_2.json";
 import Skill from "./SkillIcon.vue";
 import SkillTree from "./SkillTree.vue";
 import Tooltip from "./Tooltip.vue";

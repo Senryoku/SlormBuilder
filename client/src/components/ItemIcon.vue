@@ -26,7 +26,7 @@ export default {
 	data(props) {
 		let image = "";
 		try {
-			image = require(`../assets/data/sprites/spr_inventory_items/spr_inventory_items_${
+			image = require(`../assets/extracted/sprites/spr_inventory_items/spr_inventory_items_${
 				props.item.SPRITE !== null
 					? TypeOffsets[props.item.ITEM] + props.item.SPRITE
 					: 0
@@ -45,6 +45,6 @@ export default {
 .item-icon {
 	width: 64px;
 	height: 64px;
-	background-image: url("../assets/data/sprites/spr_inventory_rarity_back/spr_inventory_rarity_back_4.png");
+	background-image: url("../assets/extracted/sprites/spr_inventory_rarity_back/spr_inventory_rarity_back_4.png");
 }
 </style>
