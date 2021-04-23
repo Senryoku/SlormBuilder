@@ -16,6 +16,34 @@
 				:key="rIdx"
 			>
 				<div class="realm">
+					<!--
+					<div
+						style="
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							width: 10px;
+							height: 10px;
+							border-radius: 5px;
+							background-color: red;
+							z-index: 99;
+						"
+						:style="`left: ${realm.coords[0]}px; top: ${realm.coords[1]}px`"
+					></div>
+					<div
+						style="
+							position: absolute;
+							top: -2em;
+							height: 2em;
+							width: 5em;
+							transform: translate(-50%, 0);
+						"
+						:style="`left: ${realm.coords[0]}px; top: calc(${realm.coords[1]}px - 4em)`"
+					>
+						Debug {{ rIdx }}
+					</div>
+					-->
 					<div
 						v-for="(e, idx) in realm.elements"
 						:key="e.REF"
@@ -33,6 +61,12 @@
 						/>
 					</div></div
 			></template>
+			<div
+				v-for="(bridge, idx) in Bridges.filter((b) => b.selected)"
+				:key="idx"
+				class="bridge"
+				:style="`left: ${bridge.coords[0]}px; top: ${bridge.coords[1]}px`"
+			></div>
 		</div>
 	</div>
 	<Tooltip ref="tooltip"
@@ -48,23 +82,23 @@ import SkillIcon from "./SkillIcon.vue";
 import Element from "./Element.vue";
 import Tooltip from "./Tooltip.vue";
 
-//spr_menu_elements_gem_0.png
-
 export default {
 	name: "AncestralTree",
 	components: { Tooltip, Element, SkillIcon },
 	props: {
 		editable: { type: Boolean, default: true },
+		import: { type: Object },
 	},
-	data() {
+	data(props) {
 		let Realms = [];
 
 		for (let e of Elements) {
 			while (Realms.length - 1 < e.REALM)
 				Realms.push({ elements: [], coords: {}, offsets: [], type: null });
 			Realms[e.REALM].elements.push(e);
-			e.rank = 0;
-			e.selected = false;
+			const el = props?.import?.find((el) => el.REF === e.REF);
+			e.rank = el?.rank ?? 0;
+			e.selected = !!el;
 			e.image = require(`../assets/extracted/sprites/spr_elements/spr_elements_${e.REF}.png`);
 		}
 
@@ -79,14 +113,14 @@ export default {
 			Realms[i].type = "small";
 		}
 		for (let i = 0; i < 10; i++) {
-			Realms[10 + i].coords = radialCoords(i, 10, 370, (-1.5 * Math.PI) / 5);
+			Realms[10 + i].coords = radialCoords(i, 10, 368, (-1.5 * Math.PI) / 5);
 			Realms[10 + i].offsets.push([0, 0]);
-			Realms[i].type = "small";
+			Realms[10 + i].type = "small";
 		}
 		for (let i = 0; i < 10; i++) {
 			let center = radialCoords(i, 10, 508, (-2 * Math.PI) / 5);
 			Realms[20 + i].coords = center;
-			Realms[i].type = "mid";
+			Realms[20 + i].type = "mid";
 			if (center[0] > 1500) {
 				Realms[20 + i].offsets.push([-36, +24]);
 				Realms[20 + i].offsets.push([+36, -24]);
@@ -99,7 +133,47 @@ export default {
 		for (let i = 0; i < 10; i++) {
 			Realms[30 + i].coords = radialCoords(i, 10, 596, (-2.5 * Math.PI) / 5);
 			Realms[30 + i].offsets.push([0, 0]);
-			Realms[i].type = "small";
+			Realms[30 + i].type = "small";
+		}
+
+		//const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
+		const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+		const normalize = (a) => {
+			const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
+			return [a[0] / mag, a[1] / mag];
+		};
+		const gemPos = (a, b) => {
+			const r = { small: 80, mid: 116, large: 180 }[b.type];
+			const dir = normalize(sub(a.coords, b.coords));
+			return [b.coords[0] + r * dir[0], b.coords[1] + r * dir[1]];
+		};
+
+		// Bridges between realms
+		const Bridges = [];
+		for (let i = 0; i < 10; i++)
+			Bridges.push({
+				coords: radialCoords(i, 10, 160, (-2 * Math.PI) / 5),
+				prev: null,
+				next: i,
+			});
+		for (let i = 0; i < 10; i++) {
+			Bridges.push({
+				coords: gemPos(Realms[i], Realms[10 + ((i + 9) % 10)]),
+				prev: i,
+				next: 10 + ((i + 9) % 10),
+			});
+			Bridges.push({
+				coords: gemPos(Realms[i], Realms[10 + (i % 10)]),
+				prev: i,
+				next: 10 + (i % 10),
+			});
+		}
+		for (let i = 0; i < 10; i++) {
+			Bridges.push({
+				coords: gemPos(Realms[i], Realms[20 + i]),
+				prev: i,
+				next: 20 + i,
+			});
 		}
 
 		return {
@@ -108,18 +182,22 @@ export default {
 			tooltip: ref(null),
 			Elements,
 			Realms,
+			Bridges,
 			pan: ref({ panning: false, start: { x: 0, y: 0 } }),
 			hoveredSkill: ref(null),
 			scale: ref(1),
 		};
 	},
 	mounted() {
-		// FIXME: Should be called on first actual render, not mounted.
-		this.$refs.el.scrollLeft = 1500 - this.$refs.el.clientWidth / 2;
-		this.$refs.el.scrollTop = 1500 - this.$refs.el.clientHeight / 2;
 		this.$refs.el.addEventListener("wheel", this.zoom);
 	},
 	methods: {
+		recenter() {
+			this.$nextTick(() => {
+				this.$refs.el.scrollLeft = 1500 - this.$refs.el.clientWidth / 2;
+				this.$refs.el.scrollTop = 1500 - this.$refs.el.clientHeight / 2;
+			});
+		},
 		help(e) {
 			console.log([e.layerX, e.layerY]);
 		},
@@ -186,6 +264,25 @@ export default {
 				1
 			);
 		},
+		importSave(equipped, ranks) {
+			for (let e of this.Elements) e.selected = false;
+			for (let idx = 0; idx < equipped.length; ++idx) {
+				if (equipped[idx]) {
+					this.Bridges[idx].selected = true;
+					for (let e of this.Realms[this.Bridges[idx].next].elements)
+						e.selected = true;
+				}
+			}
+			for (let e of this.Elements) {
+				e.rank = ranks[e.REF] ?? 0;
+			}
+		},
+		serialize() {
+			let elements = Elements.filter((e) => e.selected);
+			return `${elements.length},${elements
+				.map((e) => `${e.REF},${e.rank}`)
+				.join(",")}`;
+		},
 	},
 };
 </script>
@@ -225,6 +322,11 @@ export default {
 	transform: scale(1);
 	transition: transform 0.2s ease;
 }
+
+.tree.panning {
+	cursor: grabbing;
+}
+
 /*
 .realm {
 	position: absolute;
@@ -234,12 +336,17 @@ export default {
 	background-image: url("../assets/extracted/sprites/spr_element_circle_small/spr_element_circle_small_0.png");
 }
 */
-.tree.panning {
-	cursor: grabbing;
-}
 
 .element-node {
 	position: absolute;
 	transform: translate(-50%, -50%);
+}
+
+.bridge {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 52px;
+	height: 52px;
+	background-image: url("../assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
 }
 </style>

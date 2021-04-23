@@ -74,13 +74,13 @@
 			</div>
 			<div
 				class="tab clickable"
-				@click="selectedTab = 'elements'"
+				@click="showElements"
 				:class="{ 'tab-selected': selectedTab == 'elements' }"
 			>
 				<img
 					src="./assets/extracted/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
 				/>
-				{{ t("Elements") }} (WIP)
+				{{ t("Elements") }}
 			</div>
 		</div>
 		<div class="actions">
@@ -132,7 +132,11 @@
 		/>
 	</div>
 	<div v-show="selectedTab === 'elements'" class="tab-container">
-		<AncestralTree />
+		<AncestralTree
+			ref="elements"
+			:import="elementsImport"
+			:editable="editable"
+		/>
 	</div>
 	<div class="toast"></div>
 </template>
@@ -158,13 +162,16 @@ export default {
 	},
 	setup() {
 		let classComponents = ref({});
-		let attributes = ref(null);
-		let gear = ref(null);
 		onBeforeUpdate(() => {
 			classComponents.value = {};
 		});
 
-		return { classComponents, attributes, gear };
+		return {
+			classComponents,
+			attributes: ref(null),
+			gear: ref(null),
+			elements: ref(null),
+		};
 	},
 	data() {
 		let classes = ["knight", "huntress", "mage"];
@@ -176,14 +183,19 @@ export default {
 			classImport: null,
 			attributeImport: null,
 			gearImport: null,
+			elementsImport: null,
 		};
 		if (this.$route.params.data) {
 			try {
 				let data = window.atob(this.$route.params.data).split(",");
 				console.log(data);
-				let version = data[0].split(".");
-				switch (version[0]) {
-					case "1":
+				const versionValues = data[0].split(".").map((i) => parseInt(i));
+				const version = {
+					major: versionValues[0],
+					minor: versionValues[1] ?? 0,
+				};
+				switch (version.major) {
+					case 1:
 						{
 							let currentIndex = 1;
 							// Attributes
@@ -192,9 +204,20 @@ export default {
 								attributes.push(parseInt(data[currentIndex]));
 							// Gear
 							let gearImport = {};
-							for (let slot of version[1] ? ItemSlots : ItemTypes)
+							for (let slot of version.minor >= 1 ? ItemSlots : ItemTypes)
 								gearImport[slot] = parseInt(data[currentIndex++]);
 							gearImport["reaper"] = parseInt(data[currentIndex++]);
+							// Elements
+							let elementsImport = [];
+							if (version.minor >= 2) {
+								const elementsCount = parseInt(data[currentIndex++]);
+								for (let i = 0; i < elementsCount; ++i) {
+									elementsImport.push({
+										REF: parseInt(data[currentIndex++]),
+										rank: parseInt(data[currentIndex++]),
+									});
+								}
+							}
 							// Skil selection
 							r.selectedClass = data[currentIndex++];
 							let selections = {
@@ -212,6 +235,7 @@ export default {
 							}
 							r.attributeImport = attributes;
 							r.gearImport = gearImport;
+							r.elementsImport = elementsImport;
 							r.classImport = {
 								selections,
 								upgrades,
@@ -237,14 +261,20 @@ export default {
 		return r;
 	},
 	methods: {
+		showElements() {
+			this.selectedTab = "elements";
+			this.$refs.elements.recenter();
+		},
 		serialize() {
-			let version = "1.1";
+			let version = "1.2";
 			let str =
 				version +
 				"," +
 				this.$refs.attributes.serialize() +
 				"," +
 				this.$refs.gear.serialize() +
+				"," +
+				this.$refs.elements.serialize() +
 				"," +
 				this.classComponents[this.selectedClass].serialize();
 			return str;
@@ -314,6 +344,9 @@ export default {
 					return asciish.substring(start, getEndIndex(start)).split("|");
 				};
 
+				const classIdx = this.classes.findIndex(
+					(c) => c === this.selectedClass
+				);
 				let dataFields = {};
 				dataFields.weapon_data = getNextSection(asciish.indexOf("weapon_data"));
 				dataFields.weapon_equip = getNextSection(
@@ -324,13 +357,28 @@ export default {
 						/\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+\|\d+,\d+,\d+,\d+,\d+,\d+,\d+,\d+/
 					)[0]
 					.split("|")
-					[this.classes.findIndex((c) => c === this.selectedClass)].split(",")
+					[classIdx].split(",")
 					.map((i) => parseInt(i));
 				dataFields.skill_equip = getNextSection(asciish.indexOf("skill_equip"));
 				// Number of use for the 3+8 base skills, then rank of each upgrade!
 				dataFields.skill_rank = getNextSection(
 					asciish.indexOf("skill_rank")
 				).map((s) => s.split(",").map((i) => parseInt(i)));
+				dataFields.element_equip = getNextSection(
+					asciish.indexOf("element_equip")
+				)
+					[classIdx].split(",")
+					.map((i) => parseInt(i));
+				dataFields.element_rank = getNextSection(
+					asciish.indexOf("element_rank")
+				)
+					[classIdx].split(",")
+					.map((i) => parseInt(i));
+
+				let gear = (dataFields.skill_rank = getNextSection(
+					asciish.indexOf("equipment_list")
+				));
+				console.log(gear);
 
 				let selections = [];
 				let upgrades = [];
@@ -358,6 +406,10 @@ export default {
 				}
 
 				this.$refs.attributes.importSave(dataFields.traits);
+				this.$refs.elements.importSave(
+					dataFields.element_equip,
+					dataFields.element_rank
+				);
 
 				this.$toast.success(
 					"Save (Skills & Attributes) successfully imported!"
