@@ -13,7 +13,7 @@
 			</template>
 			<template v-slot:weapon>
 				<div
-					class="reaper"
+					class="reaper-slot"
 					:class="{ selected: selectedSlot === 'reaper' }"
 					@click="select('reaper')"
 					@contextmenu.prevent="if (editable) gear['reaper'] = null;"
@@ -128,13 +128,11 @@ export default {
 		},
 		importSave(gear) {
 			this.gear = {};
-			console.log(gear);
 			for (let slot in gear) {
 				this.gear[slot] = (slot === "reaper" ? Reapers : Legendaries).find(
 					(l) => l.REF === gear[slot].REF
 				);
 			}
-			console.log(this.gear);
 		},
 	},
 	computed: {
@@ -175,7 +173,7 @@ export default {
 	margin: auto;
 }
 
-.editable .reaper,
+.editable .reaper-slot,
 .editable .gear-slot {
 	cursor: pointer;
 }
@@ -184,7 +182,7 @@ export default {
 	outline: 4px solid rgb(72, 22, 17);
 }
 
-.reaper {
+.reaper-slot {
 	width: 100%;
 	height: 100%;
 }
