@@ -124,12 +124,7 @@
 		/>
 	</div>
 	<div v-show="selectedTab === 'gear'" class="tab-container">
-		<Gear
-			ref="gear"
-			:className="selectedClass"
-			:import="gearImport"
-			:editable="editable"
-		/>
+		<Gear ref="gear" :className="selectedClass" :editable="editable" />
 	</div>
 	<div v-show="selectedTab === 'elements'" class="tab-container">
 		<AncestralTree
@@ -207,6 +202,13 @@ export default {
 							for (let slot of version.minor >= 1 ? ItemSlots : ItemTypes)
 								gearImport[slot] = parseInt(data[currentIndex++]);
 							gearImport["reaper"] = parseInt(data[currentIndex++]);
+							let statPriority = [];
+							if (version.minor >= 3) {
+								const statCount = parseInt(data[currentIndex++]);
+								console.log("statCount", statCount);
+								for (let i = 0; i < statCount; ++i)
+									statPriority.push(parseInt(data[currentIndex++]));
+							}
 							// Elements
 							let elementsImport = [];
 							if (version.minor >= 2) {
@@ -235,6 +237,7 @@ export default {
 							}
 							r.attributeImport = attributes;
 							r.gearImport = gearImport;
+							r.statPriority = statPriority;
 							r.elementsImport = elementsImport;
 							r.classImport = {
 								selections,
@@ -260,13 +263,17 @@ export default {
 
 		return r;
 	},
+	mounted() {
+		if (this.gearImport)
+			this.$refs.gear.import(this.gearImport, this.statPriority);
+	},
 	methods: {
 		showElements() {
 			this.selectedTab = "elements";
 			this.$refs.elements.recenter();
 		},
 		serialize() {
-			let version = "1.2";
+			let version = "1.3";
 			let str =
 				version +
 				"," +
@@ -578,6 +585,7 @@ export default {
 	margin-top: -26px;
 }
 .attributes {
-	margin-top: -26px;
+	margin: auto;
+	margin-top: -22px;
 }
 </style>

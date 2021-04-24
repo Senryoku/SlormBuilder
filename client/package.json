@@ -12,7 +12,8 @@
 		"@meforma/vue-toaster": "^1.2.2",
 		"core-js": "^3.6.5",
 		"vue": "^3.0.0",
-		"vue-router": "^4.0.6"
+		"vue-router": "^4.0.6",
+		"vuedraggable": "^4.0.1"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "~4.5.0",

@@ -107,5 +107,14 @@
 	"Item Slot": { "FR": "Emplacement d'Objet" },
 	"Primary": { "FR": "Primaire" },
 	"Secondary": { "FR": "Secondaire" },
-	"Category": { "FR": "Catégorie" }
+	"Category": { "FR": "Catégorie" },
+
+	"Stats. Priority": { "FR": "Stats. Prioritaires" },
+	"Priority list is empty.": { "FR": "La liste de priorité est vide." },
+	"Add stats. to the list using the dropdown and re-order them by drag & dropping.": {
+		"FR": "Ajoutez des stats. à la liste en utilisant le menu déroulant puis ré-ordonnez-les par glisser-déposer."
+	},
+	"Hover over a stat to see on which item slots you can find it.": {
+		"FR": "Survolez une stat. pour voir dans quel emplacement d'objet vous pourrez la trouver."
+	}
 }

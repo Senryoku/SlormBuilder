@@ -179,9 +179,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .attributes {
-	margin: 0 auto;
 	background-image: url("../assets/extracted/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 	text-align: center;
 	width: 1192px;

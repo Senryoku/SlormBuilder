@@ -181,6 +181,14 @@ button.large.blue:hover {
 	border-image-source: url("./assets/extracted/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_1.png");
 }
 
+select {
+	padding: 0.5em;
+	background: #444;
+	color: white;
+	border: 1px solid #444;
+	border-radius: 0.5em;
+}
+
 .clickable {
 	cursor: pointer;
 }

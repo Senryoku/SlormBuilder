@@ -5,7 +5,11 @@
 				<GearSlot
 					:type="t"
 					:item="gear[t]"
-					:class="{ selected: selectedSlot === t }"
+					:class="{
+						selected: selectedSlot === t,
+						primary: hoveredStat?.[t.startsWith('ring') ? 'ring' : t] === 'P',
+						secondary: hoveredStat?.[t.startsWith('ring') ? 'ring' : t] === 'S',
+					}"
 					@click="select(t)"
 					@contextmenu.prevent="if (editable) gear[t] = null;"
 					@mouseenter="displayTooltip($event, t)"
@@ -52,6 +56,75 @@
 				</div>
 			</div>
 		</template>
+		<div class="stats-priority">
+			<h2>{{ t("Stats. Priority") }}</h2>
+			<div v-if="statPriority.length === 0" style="text-align: center">
+				{{ t("Priority list is empty.") }}
+			</div>
+			<draggable
+				v-model="statPriority"
+				group="statPriority"
+				tag="ol"
+				item-key="REF"
+			>
+				<template #item="{ element, index }">
+					<li
+						@mouseenter="hoveredStat = element"
+						@mouseleave="hoveredStat = null"
+					>
+						<span
+							>{{ index + 1 }}. {{ translate(element.REF)
+							}}{{ element.PERCENT === "%" ? " (%)" : "" }}</span
+						>
+						<div
+							class="minus-button"
+							@click="statPriority.splice(index, 1)"
+							v-if="editable"
+						></div>
+					</li>
+				</template>
+			</draggable>
+			<template v-if="editable">
+				<select v-model="selectedStat">
+					<option v-for="s in orderedStats" :key="s.REF_NB" :value="s">
+						{{ translate(s.REF) }}{{ s.PERCENT === "%" ? " (%)" : "" }}
+					</option>
+				</select>
+				<div
+					class="plus-button"
+					@click="
+						if (selectedStat) {
+							statPriority.push(selectedStat);
+							selectedStat = orderedStats[0];
+						}
+					"
+				></div>
+				<div class="help">
+					{{
+						t(
+							"Add stats. to the list using the dropdown and re-order them by drag & dropping."
+						)
+					}}
+				</div>
+			</template>
+			<div class="help">
+				{{ t("Hover over a stat to see on which item slots you can find it.") }}
+				<div>
+					<div
+						class="primary"
+						style="display: inline-block; margin: 10px; padding: 4px"
+					>
+						{{ t("Primary") }}
+					</div>
+					<div
+						class="secondary"
+						style="display: inline-block; margin: 10px; padding: 4px"
+					>
+						{{ t("Secondary") }}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<tooltip ref="tooltip"><Legendary :item="hoveredItem"></Legendary></tooltip>
 	<tooltip ref="reapertooltip"
@@ -62,6 +135,8 @@
 <script>
 import { ref } from "vue";
 import { ItemSlots, Reapers } from "../utils.js";
+import draggable from "vuedraggable";
+import Stats from "../assets/data/item_stats.json";
 import GearSlot from "./GearSlot.vue";
 import GearPanel from "./GearPanel.vue";
 import Legendary from "./Legendary.vue";
@@ -79,17 +154,16 @@ export default {
 		Reaper,
 		ReaperGallery,
 		Tooltip,
+		draggable,
 	},
-	data(props) {
-		let gear = {};
-		for (let s in props.import)
-			if (s !== "reaper" && props.import[s] !== -1)
-				gear[s] = Legendaries.find((o) => o.REF === props.import[s]);
-		if (props.import?.["reaper"] && props.import?.["reaper"] !== -1)
-			gear["reaper"] = Reapers.find((o) => o.REF === props.import["reaper"]);
+	data() {
 		return {
-			gear: ref(gear),
+			Stats,
+			gear: ref({}),
 			selectedSlot: "helm",
+			statPriority: ref([]),
+			selectedStat: ref(Stats[0]),
+			hoveredStat: ref(null),
 			tooltip: ref(null),
 			reapertooltip: ref(null),
 			hoveredItem: null,
@@ -98,12 +172,6 @@ export default {
 	},
 	props: {
 		className: { type: String },
-		import: {
-			type: Object,
-			default: () => {
-				return {};
-			},
-		},
 		editable: { type: Boolean, default: true },
 	},
 	methods: {
@@ -124,7 +192,23 @@ export default {
 			let r = [];
 			for (let slot of ItemSlots) r.push(this.gear[slot]?.REF ?? -1);
 			r.push(this.gear["reaper"]?.REF ?? -1);
+			r.push(this.statPriority.length);
+			for (let s of this.statPriority) r.push(s.REF_NB);
 			return r.join();
+		},
+		import(importGear, statPriority) {
+			let gear = {};
+			for (let s in importGear)
+				if (s !== "reaper" && importGear[s] !== -1)
+					gear[s] = Legendaries.find((o) => o.REF === importGear[s]);
+			if (importGear?.["reaper"] && importGear?.["reaper"] !== -1)
+				gear["reaper"] = Reapers.find((o) => o.REF === importGear["reaper"]);
+			this.gear = gear;
+
+			if (statPriority)
+				this.statPriority = statPriority.map((ref) =>
+					this.Stats.find((s) => s.REF_NB === ref)
+				);
 		},
 		importSave(gear) {
 			this.gear = {};
@@ -154,6 +238,11 @@ export default {
 			else n = n[0];
 			return this.t(n, this.t(this.reaperType));
 		},
+		orderedStats() {
+			return this.Stats.filter((s) => !this.statPriority.includes(s)).sort(
+				(a, b) => this.translate(a.REF) > this.translate(b.REF)
+			);
+		},
 	},
 };
 </script>
@@ -165,12 +254,14 @@ export default {
 
 .gear-builder.editable {
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: auto auto auto;
 	gap: 1em;
 }
 
-.gear-panel:not(.editable) {
-	margin: auto;
+.gear-builder:not(.editable) {
+	display: flex;
+	justify-content: center;
+	gap: 3em;
 }
 
 .editable .reaper-slot,
@@ -178,8 +269,18 @@ export default {
 	cursor: pointer;
 }
 
-.selected {
+.editable .selected {
 	outline: 4px solid rgb(72, 22, 17);
+}
+
+.editable .selected.primary,
+.primary {
+	outline: 4px solid var(--color-rare);
+}
+
+.editable .selected.secondary,
+.secondary {
+	outline: 4px solid var(--color-magic);
 }
 
 .reaper-slot {
@@ -198,9 +299,11 @@ export default {
 	flex-wrap: wrap;
 	justify-content: space-around;
 	overflow-y: scroll;
-	margin-top: 30px;
-	margin-bottom: 12px;
 	padding: 4px;
+}
+
+.item-gallery,
+.stats-priority {
 	border-style: solid;
 	border-image-source: url("../assets/img/skill-tree-border.png");
 	border-image-slice: 16 16 16 16;
@@ -208,5 +311,56 @@ export default {
 	border-image-outset: 0px 0px 0px 0px;
 	border-image-repeat: stretch stretch;
 	border-image-outset: 12px;
+	margin-top: 30px;
+	margin-bottom: 12px;
+}
+
+.stats-priority li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: grab;
+}
+
+.stats-priority ol {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+.minus-button,
+.plus-button {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.stats-priority .help {
+	font-size: 0.9em;
+	color: #888;
+	margin: 0.5em auto;
+	max-width: 17em;
+	text-align: center;
+}
+
+.plus-button {
+	background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_0.png");
+}
+.plus-button:hover {
+	background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_1.png");
+}
+.plus-button:active {
+	background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_2.png");
+}
+
+.minus-button {
+	background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_0.png");
+}
+.minus-button:hover {
+	background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_1.png");
+}
+.minus-button:active {
+	background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_2.png");
 }
 </style>
