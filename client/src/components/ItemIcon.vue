@@ -1,6 +1,6 @@
 <template>
 	<div class="item-icon">
-		<img :src="image" />
+		<img :src="image" :alt="name" />
 	</div>
 </template>
 
@@ -37,6 +37,11 @@ export default {
 		return {
 			image,
 		};
+	},
+	computed: {
+		name() {
+			return this.item[this.settings.language + "_NAME"];
+		},
 	},
 };
 </script>

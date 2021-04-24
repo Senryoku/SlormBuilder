@@ -1,5 +1,5 @@
 <template>
-	<img :src="image" />
+	<img :src="image" :alt="name" />
 </template>
 
 <script>
@@ -7,6 +7,15 @@ export default {
 	props: {
 		type: { type: String, required: true },
 		item: { type: Object, required: true },
+	},
+	methods: {
+		transformName(name) {
+			if (!name) return "";
+			let n = name.split("/");
+			if (n.length > 1 && this.type === "sword") n = n[1];
+			else n = n[0];
+			return n.replace("$", this.t(this.type));
+		},
 	},
 	computed: {
 		image() {
@@ -25,6 +34,9 @@ export default {
 					}.png`);
 			}
 			return require("../assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png");
+		},
+		name() {
+			return this.transformName(this.item[this.settings.language + "_NAME"]);
 		},
 	},
 };

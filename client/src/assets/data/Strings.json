@@ -50,7 +50,7 @@
 	"Skills": { "FR": "Compétences" },
 	"Attributes": { "FR": "Attributs" },
 	"Gear": { "FR": "Équipement" },
-	"Elements": { "FR": "Éléments" },
+	"Elements": { "EN": "Legacy", "FR": "Héritage" },
 	"Import Save": { "FR": "Importer une sauvegarde" },
 	"Share": { "FR": "Partager" },
 	"Edit this build": { "FR": "Editer ce build" },
@@ -95,5 +95,17 @@
 	"By": { "FR": "Par" },
 	"Primordial Benediction": { "FR": "Bénédiction Primordiale" },
 	"Primordial Malediction": { "FR": "Malédiction Primordiale" },
-	"Gain Ancestral Skill": { "FR": "Accorde la compétence ancestrale" }
+	"Gain Ancestral Skill": { "FR": "Accorde la compétence ancestrale" },
+
+	"Min. Level": { "FR": "Niveau Min." },
+	"Where can you find": { "FR": "Où peut-on trouver" },
+	"What stats can be found on": {
+		"FR": "Quelles stats. peut-on trouver sur"
+	},
+	"Item Stats": { "FR": "Stats. d'Objet" },
+	"Item Slots": { "FR": "Emplacements d'Objet" },
+	"Item Slot": { "FR": "Emplacement d'Objet" },
+	"Primary": { "FR": "Primaire" },
+	"Secondary": { "FR": "Secondaire" },
+	"Category": { "FR": "Catégorie" }
 }

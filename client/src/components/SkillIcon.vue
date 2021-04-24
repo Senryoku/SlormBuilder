@@ -9,6 +9,7 @@
 			}"
 			class="skill-image"
 			:style="`background-image: url(${image})`"
+			:alt="skill.EN_NAME"
 		></div>
 		<div class="level" v-if="skill.selected && skill.rank !== null">
 			{{ skill.rank === skill.UPGRADE_NUMBER ? "Max" : skill.rank }}

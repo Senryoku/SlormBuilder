@@ -3,6 +3,7 @@
 		<div class="header-left">
 			<router-link to="/"
 				><img
+					alt="The Slormancer Logo"
 					:src="
 						require('@/assets/extracted/sprites/spr_game_logo/spr_game_logo_0.png')
 					"
@@ -25,16 +26,40 @@
 		>
 		<div id="nav" style="text-align: right">
 			<router-link to="/">Builder</router-link> |
-			<router-link
-				to="/build/MSwwLDAsMCwwLDMwLDE1LDAsMCwtMSwtMSwtMSwtMSwtMSwtMSwtMSw3LC0xLC0xLDQ2LG1hZ2UsMCw0LDYsMTQzLDEwLDE0NSwxMCwxNDksMTAsMTUyLDEwLDE1NSwxLDE1NiwxLDE1OSwxMCwxNjQsMTAsNzcsMTAsODEsMTAsODMsNSw4NywxLDg5LDEwLDEwOSwxMCwxMTYsMTAsMTIwLDUsMTIzLDE="
-				>{{ t("Build Example (Debug)") }}</router-link
-			>
-			| <router-link to="/reapers">Reapers</router-link> |
+			<router-link to="/reapers">Reapers</router-link> |
 			<router-link to="/legendaries">{{ t("Legendaries") }}</router-link> |
 			<router-link to="/stats">{{ t("Stats") }}</router-link>
 			<span style="margin-left: 1rem; text-align: right">
 				{{ t("Made by") }} <a href="https://senryoku.github.io/">Senryoku</a>
 			</span>
+			<form
+				action="https://www.paypal.com/donate"
+				method="post"
+				target="_top"
+				style="
+					display: inline-block;
+					vertical-align: text-top;
+					margin-left: 0.5em;
+					line-height: initial;
+				"
+			>
+				<input type="hidden" name="hosted_button_id" value="4WQRX5MFZG6HJ" />
+				<input
+					type="image"
+					src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"
+					border="0"
+					name="submit"
+					title="PayPal - The safer, easier way to pay online!"
+					alt="Donate with PayPal button"
+				/>
+				<img
+					alt=""
+					border="0"
+					src="https://www.paypal.com/en_FR/i/scr/pixel.gif"
+					width="1"
+					height="1"
+				/>
+			</form>
 		</div>
 	</div>
 	<router-view :key="$route.fullPath" />
