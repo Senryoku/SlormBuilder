@@ -66,6 +66,7 @@
 				group="statPriority"
 				tag="ol"
 				item-key="REF"
+				:disabled="!editable"
 			>
 				<template #item="{ element, index }">
 					<li
@@ -85,20 +86,22 @@
 				</template>
 			</draggable>
 			<template v-if="editable">
-				<select v-model="selectedStat">
-					<option v-for="s in orderedStats" :key="s.REF_NB" :value="s">
-						{{ translate(s.REF) }}{{ s.PERCENT === "%" ? " (%)" : "" }}
-					</option>
-				</select>
-				<div
-					class="plus-button"
-					@click="
-						if (selectedStat) {
-							statPriority.push(selectedStat);
-							selectedStat = orderedStats[0];
-						}
-					"
-				></div>
+				<div style="display: flex; justify-content: center">
+					<select v-model="selectedStat">
+						<option v-for="s in orderedStats" :key="s.REF_NB" :value="s">
+							{{ translate(s.REF) }}{{ s.PERCENT === "%" ? " (%)" : "" }}
+						</option>
+					</select>
+					<div
+						class="plus-button"
+						@click="
+							if (selectedStat) {
+								statPriority.push(selectedStat);
+								selectedStat = orderedStats[0];
+							}
+						"
+					></div>
+				</div>
 				<div class="help">
 					{{
 						t(
@@ -316,10 +319,29 @@ export default {
 }
 
 .stats-priority li {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	cursor: default;
+}
+
+.editable .stats-priority li {
 	cursor: grab;
+}
+
+.stats-priority li:hover {
+	color: white;
+}
+
+.stats-priority li:hover::before {
+	position: absolute;
+	content: "";
+	left: -1em;
+	background-image: url("../assets/extracted/sprites/spr_tutorial_arrow/spr_tutorial_arrow_0.png");
+	background-size: contain;
+	width: 0.82em;
+	height: 1em;
 }
 
 .stats-priority ol {
