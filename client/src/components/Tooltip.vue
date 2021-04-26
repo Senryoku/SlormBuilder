@@ -67,6 +67,7 @@ export default {
 	top: 0;
 	z-index: 99;
 	pointer-events: none;
+	filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.75));
 }
 
 .fade-enter-active,

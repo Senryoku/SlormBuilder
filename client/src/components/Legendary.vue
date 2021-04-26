@@ -50,6 +50,7 @@ export default {
 				value_base: "VALUE",
 				value_type: "TYPE",
 				value_stat: "STAT",
+				value_level: "UPGRADABLE",
 			});
 		},
 		associatedSkill() {
@@ -129,5 +130,10 @@ export default {
 
 .effect-text ::v-deep(.number) {
 	color: white;
+}
+
+:deep(.small) {
+	color: #444;
+	font-size: 0.9em;
 }
 </style>

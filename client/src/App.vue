@@ -104,6 +104,7 @@ body {
 	--color-epic: rgb(219, 164, 21);
 	--color-legendary: rgb(206, 70, 7);
 	--color-ancestral: rgb(203, 33, 246);
+	--color-reaper: rgb(15, 109, 105);
 
 	min-height: 100%;
 }

@@ -12,7 +12,7 @@
 					</div>
 					<div>{{ t("Reaper Damage") }}</div>
 					<!-- TODO: These values are wrong. -->
-					<div class="smaller">
+					<div class="small">
 						{{
 							item.BASE_DMG_MIN +
 							item.DMG_MULTIPLIER * item.MAX_LVL * item.MIN_DMG_LVL
@@ -45,8 +45,16 @@
 					</div>
 				</div>
 			</div>
+			<div v-if="item.previous" class="evolve-reminder">
+				{{
+					t(
+						"(Includes every effect from $)",
+						transformName(item.previous[settings.language + "_NAME"])
+					)
+				}}
+			</div>
 			<div class="description" v-html="description"></div>
-			<AncestralSkill :skill="associatedSkill" />
+			<AncestralSkill v-for="s in associatedSkills" :key="s.REF" :skill="s" />
 			<img
 				style="margin: 16px 0 8px 0"
 				src="../assets/extracted/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
@@ -87,7 +95,6 @@ export default {
 			return n.replace("$", this.translatedType);
 		},
 		transformText(txt) {
-			// Todo
 			return txt.replaceAll("#", "\n");
 		},
 	},
@@ -102,8 +109,8 @@ export default {
 		name() {
 			return this.transformName(this.item[this.settings.language + "_NAME"]);
 		},
-		associatedSkill() {
-			let s = AncestralSkills.find(
+		associatedSkills() {
+			let s = AncestralSkills.filter(
 				(s) => s.BASED_ON === "reaper" && s.ID_BASED_ON === this.item.REF
 			);
 			return s ? s : null;
@@ -140,7 +147,7 @@ export default {
 }
 
 .body-top {
-	margin: 0 0 25px 20px;
+	margin: 0 10px 10px 20px;
 	display: grid;
 	gap: 25px;
 	grid-template-columns: auto 1fr;
@@ -183,6 +190,11 @@ export default {
 	font-size: 2em;
 }
 
+.evolve-reminder {
+	color: #444;
+	font-size: 0.8em;
+}
+
 .description {
 	margin: 0 8px;
 }
@@ -193,12 +205,13 @@ export default {
 	white-space: pre-line;
 }
 
-:deep(.smaller) {
+:deep(.small) {
 	color: #444;
 	font-size: 0.9em;
 }
 
 :deep(.number) {
-	color: white;
+	font-weight: 600;
+	color: var(--color-reaper);
 }
 </style>

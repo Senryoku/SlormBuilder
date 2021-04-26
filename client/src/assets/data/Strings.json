@@ -59,6 +59,7 @@
 	},
 	"Level": { "FR": "Niveau" },
 	"Reaper Damage": { "FR": "Dégâts de Reaper" },
+	"(Includes every effect from $)": { "FR": "(Inclut tous les effets de $)" },
 
 	"Specialisation (Support Skill)": {
 		"FR": "Spécialisation (Compétence de support)"
@@ -74,6 +75,8 @@
 	"at level $": { "FR": "au niveau $" },
 	"Evolves from $ at level $": { "FR": "Évolue depuis $ au niveau $" },
 
+	"per upgrade": { "FR": "par amélioration" },
+	"per level": { "FR": "par niveau" },
 	"per rank": { "FR": "par rang" },
 	"Rank": { "FR": "Rang" },
 	"Cooldown": { "FR": "Temps de rechargement" },

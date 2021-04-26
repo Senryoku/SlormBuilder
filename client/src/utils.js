@@ -115,6 +115,12 @@ export function parseText(item, lang, format = {}, options = { rank: 0 }) {
 	const levels = item?.[format.value_level]
 		? item[format.value_level].split("|").map((f) => parseFloat(f))
 		: null;
+	// Reaper level
+	const reaperLevels = item?.[format.value_level]
+		?.split("|")
+		.map((l) => l === "rl");
+	// Item upgrades
+	const itemRanges = item["RANGE"]?.split("|").map((r) => r === "1");
 
 	let types = item[format.value_type].split("|");
 	for (let s of item[format.value_stat].split("|"))
@@ -124,35 +130,50 @@ export function parseText(item, lang, format = {}, options = { rank: 0 }) {
 	for (let [idx, v] of values.entries()) {
 		const mult = item[format.value_real] === "negative" ? -1 : 1;
 		const t = types[idx] && !types[idx].includes(":") ? types[idx] : "";
-		const currentValue =
-			levels && !isNaN(levels[idx])
+		const valueRange = itemRanges?.[idx] ? `[${0.75 * v} - ${v}]` : v;
+		if (reaperLevels?.[idx]) {
+			r = r.replace(
+				"@",
+				`${n(v)}${t} ${s(`(+${v}${t} ${translate("per level")})`)}`
+			);
+		} else {
+			const currentValue = itemRanges?.[idx]
+				? valueRange
+				: levels && !isNaN(levels[idx])
 				? v + mult * levels?.[idx] * options.rank
 				: v;
-		let value_explanation = item.UPGRADE_NUMBER > 1 && !r.includes("µ");
-		r = r.replace(
-			"@",
-			n(`${currentValue}${t}`) +
-				(value_explanation && levels?.[idx]
-					? s(
-							` (${v}${t} + ${levels?.[idx]}${t} ${localize(
-								lang,
-								"per rank"
-							)})`
-					  )
-					: "")
-		);
-		if (!value_explanation && levels?.[idx]) {
-			r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
-				s(group)
-			);
+			let value_explanation =
+				(item.UPGRADE_NUMBER > 1 ||
+					format.value_level === "UPGRADABLE") &&
+				!r.includes("µ");
+			const levelStr =
+				format.value_level === "UPGRADABLE"
+					? "per upgrade"
+					: "per rank";
 			r = r.replace(
-				"_",
-				`${values[idx] + mult * levels[idx] * options.rank}${
-					types[idx]
-				}`
+				"@",
+				n(`${currentValue}${t}`) +
+					(value_explanation && levels?.[idx]
+						? s(
+								` (${valueRange}${t} + ${
+									levels?.[idx]
+								}${t} ${localize(lang, levelStr)})`
+						  )
+						: "")
 			);
-			r = r.replace("µ", values[idx]);
-			r = r.replace("µ", levels[idx]);
+			if (!value_explanation && levels?.[idx]) {
+				r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
+					s(group)
+				);
+				r = r.replace(
+					"_",
+					`${values[idx] + mult * levels[idx] * options.rank}${
+						types[idx]
+					}`
+				);
+				r = r.replace("µ", values[idx]);
+				r = r.replace("µ", levels[idx]);
+			}
 		}
 	}
 
