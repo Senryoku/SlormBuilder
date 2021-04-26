@@ -42,4 +42,12 @@ export default {
 .toggle:not(.checked) .toggle-image {
 	filter: brightness(40%);
 }
+
+.toggle:not(.checked):hover .toggle-image {
+	filter: brightness(60%);
+}
+
+.toggle.checked:hover .toggle-image {
+	filter: brightness(120%);
+}
 </style>

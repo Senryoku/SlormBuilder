@@ -119,5 +119,12 @@
 	},
 	"Hover over a stat to see on which item slots you can find it.": {
 		"FR": "Survolez une stat. pour voir dans quel emplacement d'objet vous pourrez la trouver."
+	},
+
+	"All": {
+		"FR": "Tous"
+	},
+	"Lootable Only": {
+		"FR": "Lootable Seulement"
 	}
 }

@@ -46,6 +46,7 @@
 				<div class="mechanic-summary-name">{{ r }}</div>
 			</template>
 		</p>
+		<!--
 		<template v-if="skill.rank">
 			<img
 				style="max-width: 100%"
@@ -55,7 +56,7 @@
 			/>
 			<div>{{ t("Next Rank") }}:</div>
 			<div>{{ t("Max Rank") }}:</div></template
-		>
+		>-->
 	</div>
 </template>
 
@@ -167,10 +168,10 @@ export default {
 					}
 					// Synergies
 					r = r.replace("_", c(current_value + "%"));
-				}
 
-				if (r.includes("£")) {
-					r = r.replace("£", c(value_name[0]));
+					if (r.includes("£")) {
+						r = r.replace("£", c(value_name[idx]));
+					}
 				}
 			}
 

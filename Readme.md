@@ -2,5 +2,4 @@
 
 -   Skills
 -   -   Remove "duplicated code" for description parsing.
--	Legendaries
--	-	Filters
+-   -	Next Rank/Max Rank
