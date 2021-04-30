@@ -33,12 +33,13 @@ import ReaperGallery from "./ReaperGallery.vue";
 
 export default {
 	name: "Reapers",
+	props: { large: { type: Boolean, default: false } },
 	components: { ReaperGallery, Toggle },
-	data() {
+	data(props) {
 		return {
 			type: "sword",
 			lootable: false,
-			smallDisplay: true,
+			smallDisplay: props.large ? false : true,
 		};
 	},
 };
