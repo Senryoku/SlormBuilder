@@ -197,6 +197,11 @@ export default {
 
 		function splitToRows(array, className, idx) {
 			let result = [];
+			array.sort((l, r) =>
+				l.UNLOCK_LEVEL === r.UNLOCK_LEVEL
+					? l.ORDER > r.ORDER
+					: l.UNLOCK_LEVEL > r.UNLOCK_LEVEL
+			);
 			for (let count of TreeShapes[className][idx]) {
 				let row = array.splice(0, Math.min(count, array.length));
 				result.push(row);
