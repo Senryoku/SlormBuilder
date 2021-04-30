@@ -1,19 +1,21 @@
 <template>
-	<div class="header">
-		<h1>{{ t("Legendaries") }}</h1>
-	</div>
-	<div class="filters">
-		<div>
-			<label for="slot" style="margin-right: 1em">{{ t("Item Slot") }}</label>
-			<select id="slot" v-model="selectedSlot">
-				<option value="">{{ t("All") }}</option>
-				<option v-for="s in ItemTypes" :key="s" :value="s">{{ t(s) }}</option>
-			</select>
+	<div class="legendaries">
+		<div class="header">
+			<h1>{{ t("Legendaries") }}</h1>
 		</div>
-		<Toggle v-model="lootable">{{ t("Lootable Only") }}</Toggle>
-	</div>
-	<div class="gallery">
-		<Legendary v-for="l in filteredList" :key="l.REF" :item="l" />
+		<div class="filters">
+			<div>
+				<label for="slot" style="margin-right: 1em">{{ t("Item Slot") }}</label>
+				<select id="slot" v-model="selectedSlot">
+					<option value="">{{ t("All") }}</option>
+					<option v-for="s in ItemTypes" :key="s" :value="s">{{ t(s) }}</option>
+				</select>
+			</div>
+			<Toggle v-model="lootable">{{ t("Lootable Only") }}</Toggle>
+		</div>
+		<div class="gallery">
+			<Legendary v-for="l in filteredList" :key="l.REF" :item="l" />
+		</div>
 	</div>
 </template>
 

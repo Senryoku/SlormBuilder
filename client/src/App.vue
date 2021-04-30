@@ -183,6 +183,7 @@ button.large.blue:hover {
 }
 
 select {
+	font-family: "Slorm", Avenir, Helvetica, Arial, sans-serif;
 	padding: 0.5em;
 	background: #444;
 	color: white;
