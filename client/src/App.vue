@@ -1,5 +1,5 @@
 <template>
-	<div class="header">
+	<div class="header" v-if="!$route.meta.singleComponent">
 		<div class="header-left">
 			<router-link to="/"
 				><img

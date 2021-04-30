@@ -38,6 +38,7 @@ const routes = [
 			};
 		},
 		component: Legendary,
+		meta: { singleComponent: true },
 	},
 	{
 		path: "/reaper/:type/:id",
@@ -50,6 +51,7 @@ const routes = [
 			};
 		},
 		component: Reaper,
+		meta: { singleComponent: true },
 	},
 	{ path: "/stats", component: Stats },
 	{ path: "/:pathMatch(.*)", component: NotFound },

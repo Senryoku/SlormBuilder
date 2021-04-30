@@ -13,8 +13,8 @@ async function generateImage() {
 				
 				await page.evaluate(() => {
 					document.querySelector('body').style.backgroundColor = "transparent";
-					let header = document.querySelector('.header');
-					header.parentNode.removeChild(header);
+					//let header = document.querySelector('.header');
+					//header.parentNode.removeChild(header);
 				});
 				
 				await page.waitForSelector('.reaper');
