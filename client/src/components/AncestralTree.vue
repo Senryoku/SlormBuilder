@@ -323,6 +323,8 @@ export default {
 
 	transform: scale(1);
 	transition: transform 0.2s ease;
+	background-size: 138%;
+	image-rendering: crisp-edges;
 }
 
 .tree.panning {
