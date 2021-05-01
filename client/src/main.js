@@ -1,5 +1,6 @@
 import { createApp, reactive } from "vue";
 import Toaster from "@meforma/vue-toaster";
+import fuzzysort from "fuzzysort";
 import App from "./App.vue";
 import { translate, Settings, localize } from "./utils.js";
 const Builder = () => import("./Builder.vue");
@@ -31,10 +32,20 @@ const routes = [
 	{
 		path: "/legendary/:id",
 		props: (route) => {
-			return {
-				item: LegendariesData.find(
+			let id = parseInt(route.params.id);
+			let item = null;
+			if (isNaN(id)) {
+				const results = fuzzysort.go(route.params.id, LegendariesData, {
+					key: "EN_NAME",
+				});
+				item = results[0].obj;
+			} else {
+				item = LegendariesData.find(
 					(o) => o.REF === parseInt(route.params.id)
-				),
+				);
+			}
+			return {
+				item: item,
 			};
 		},
 		component: Legendary,
@@ -43,11 +54,21 @@ const routes = [
 	{
 		path: "/reaper/:type/:id",
 		props: (route) => {
+			let id = parseInt(route.params.id);
+			let item = null;
+			if (isNaN(id)) {
+				const results = fuzzysort.go(route.params.id, ReaperData, {
+					key: "EN_NAME",
+				});
+				item = results[0].obj;
+			} else {
+				item = ReaperData.find(
+					(o) => o.REF === parseInt(route.params.id)
+				);
+			}
 			return {
 				type: route.params.type,
-				item: ReaperData.find(
-					(o) => o.REF === parseInt(route.params.id)
-				),
+				item: item,
 			};
 		},
 		component: Reaper,
