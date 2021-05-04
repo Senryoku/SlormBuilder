@@ -36,9 +36,25 @@
 		<p v-for="r in reminders" :key="r" class="mechanic-summary">
 			<template v-if="r.EN_NAME">
 				<!-- TODO Add Infos here -->
-				<img :src="mechanicIcon(r)" width="44" height="44" />
-				<div class="mechanic-summary-name">
-					{{ r[this.settings.language + "_NAME"] }}
+				<img
+					:src="mechanicIcon(r)"
+					width="44"
+					height="44"
+					style="margin: 8px"
+				/>
+				<div style="text-align: left">
+					<div class="mechanic-name">
+						{{ r[this.settings.language + "_NAME"] }}
+					</div>
+					<div
+						class="mechanic-desc"
+						v-html="
+							r[this.settings.language + '_DESCRIPTION'].replaceAll(
+								'#',
+								'<br />'
+							)
+						"
+					></div>
 				</div>
 			</template>
 			<!-- TEMP -->
@@ -76,17 +92,19 @@ export default {
 	},
 	computed: {
 		reminders() {
-			return [
-				...this.skill[this.settings.language + "_DESCRIPTION"].matchAll(
-					/<([^>]*)>/g
-				),
-			]
+			return [...this.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
 				.map((arr) => {
 					if (arr[1] in Mechanics) return Mechanics[arr[1]];
-					else console.log(arr[1] + " not found in Mechanics");
+					else {
+						const candidates = Object.keys(Mechanics).filter(
+							(k) => k.includes(arr[1]) || arr[1].includes(k)
+						);
+						if (candidates.length > 0) return Mechanics[candidates[0]];
+						console.log(arr[1] + " not found in Mechanics");
+					}
 					return arr[1];
 				})
-				.filter((e, idx, arr) => arr.indexOf(e) === idx);
+				.filter((e, idx, arr) => arr.indexOf(e) === idx); // De-duplicate
 		},
 		description() {
 			if (!this.skill) return "";
@@ -269,11 +287,19 @@ h2 {
 	align-content: center;
 	justify-content: flex-start;
 	background-color: #282828;
-	height: 44px;
+	min-height: 44px;
 }
 
 .mechanic-summary-name {
 	padding-left: 8px;
 	line-height: 44px;
+}
+
+.mechanic-name {
+	font-weight: 600;
+}
+
+.mechanic-desc {
+	font-size: 0.8em;
 }
 </style>
