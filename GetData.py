@@ -17,7 +17,3 @@ for filePath in GameFiles:
                 print("Wrote {}".format(destName))
     except:
         print("Unexpected error handling '{}':".format(destName), sys.exc_info()[0])
-   
-#os.system(".\\tools\\quickbms\\quickbms.exe .\\tools\\quickbms\\yoyogames.bms \"{}/data.win\" {}".format(GamePath, DestinationFolder+"bms/"))
-
-os.system(".\\tools\\GMExtract_v1.1\\GMExtract.exe \"{}/data.win\" {} -s".format(GamePath, DestinationFolder))

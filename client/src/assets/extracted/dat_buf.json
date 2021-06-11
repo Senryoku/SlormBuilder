@@ -3030,7 +3030,7 @@
    "PT_DESCRIPTION": "",
    "ASSOCIATED_EFFECT": "",
    "SPRITE": "skills",
-   "INDEX": 61,
+   "INDEX": 60,
    "BUFF_OR_DEBUFF": "debuff",
    "VISUAL": "none",
    "FLOAT_TEXT": "",
