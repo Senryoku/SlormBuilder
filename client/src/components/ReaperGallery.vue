@@ -96,7 +96,7 @@ export default {
 	overflow: hidden;
 	width: 88px;
 	height: 88px;
-	margin: 16px;
+	margin: 13.5px 16px 16px 13.5px;
 }
 
 .weapon-spot img {
