@@ -38,20 +38,15 @@
 						{{
 							t(
 								"Evolves from $ at level $",
-								transformName(item.previous[settings.language + "_NAME"]),
-								item.previous.MAX_LVL
+								previousReapers(),
+								item.previous[0].MAX_LVL
 							)
 						}}
 					</div>
 				</div>
 			</div>
 			<div v-if="item.previous" class="evolve-reminder">
-				{{
-					t(
-						"(Includes every effect from $)",
-						transformName(item.previous[settings.language + "_NAME"])
-					)
-				}}
+				{{ t("(Includes every effect from $)", previousReapers()) }}
 			</div>
 			<div class="description" v-html="description"></div>
 			<AncestralSkill v-for="s in associatedSkills" :key="s.REF" :skill="s" />
@@ -87,6 +82,13 @@ export default {
 		};
 	},
 	methods: {
+		previousReapers() {
+			if (!this.item.previous) return "";
+			return this.item.previous
+				.map((o) => o[this.settings.language + "_NAME"])
+				.map(this.transformName)
+				.join(this.t(" and "));
+		},
 		transformName(name) {
 			if (!name) return "";
 			let n = name.split("/");

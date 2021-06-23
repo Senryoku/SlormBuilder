@@ -222,7 +222,11 @@ export const Reapers = ReapersData;
 for (let r of ReapersData) {
 	if (r.EVOLVE_IN) {
 		let e = ReapersData.find((e) => e.REF === r.EVOLVE_IN);
-		e.previous = r;
+		if (e.previous) {
+			e.previous.push(r);
+		} else {
+			e.previous = [r];
+		}
 	}
 }
 ReapersData.sort((l, r) => l.ORDER - r.ORDER);

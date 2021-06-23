@@ -126,5 +126,8 @@
 	},
 	"Lootable Only": {
 		"FR": "Lootable Seulement"
+	},
+	" and ": {
+		"FR": " et "
 	}
 }
