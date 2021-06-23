@@ -813,8 +813,8 @@
    "COST_LEVEL": 0,
    "COST_TYPE": "none",
    "DESC_VALUE": "elemental_damage",
-   "DESC_VALUE_BASE": "40",
-   "DESC_VALUE_PER_LVL": "5",
+   "DESC_VALUE_BASE": "80",
+   "DESC_VALUE_PER_LVL": "10",
    "DESC_VALUE_TYPE": "%",
    "DESC_VALUE_REAL": "",
    "EXTRA_NBR": ""
@@ -1347,7 +1347,7 @@
    "COST_TYPE": "mana",
    "DESC_VALUE": "elemental_damage",
    "DESC_VALUE_BASE": "15",
-   "DESC_VALUE_PER_LVL": "3",
+   "DESC_VALUE_PER_LVL": "8",
    "DESC_VALUE_TYPE": "%",
    "DESC_VALUE_REAL": "min",
    "EXTRA_NBR": "7"
@@ -2175,7 +2175,7 @@
  {
    "REF": 53,
    "EN_NAME": "Flashing Darts",
-   "EN_DESCRIPTION": "While this Aura is toggled on, whenever you hit an enemy with a Skill in your Primary or Secondary Slot, you create a <Flashing Dart>.#While this Aura is toggled on, you have no longer have Mana Regeneration.",
+   "EN_DESCRIPTION": "While this Aura is toggled on, whenever you hit an enemy with a Skill in your Primary or Secondary Slot, you create a <Flashing Dart>.#While this Aura is toggled on, you no longer have Mana Regeneration.",
    "FR_NAME": "Éclat de Lumière",
    "FR_DESCRIPTION": "Tant que cette Aura est active, lorsque vous infligez des dégâts à un ennemi avec votre Compétence Primaire ou votre Compétence Secondaire, vous créez un Éclat de Lumière.#Tant que cette Aura est active, vous n'avez plus de Régénération de Mana.",
    "CH_NAME": "闪光飞镖",
@@ -3310,15 +3310,15 @@
    "UPGRADE_NUMBER": 10,
    "REALM": 9,
    "REALM_COLOR": 5,
-   "COST": 16,
-   "COST_LEVEL": 4,
-   "COST_TYPE": "life",
+   "COST": 5,
+   "COST_LEVEL": 0,
+   "COST_TYPE": "life_percent",
    "DESC_VALUE": "basic_damage_percent|crit_damage_percent",
-   "DESC_VALUE_BASE": "20|50",
-   "DESC_VALUE_PER_LVL": "3|5",
+   "DESC_VALUE_BASE": "10|25",
+   "DESC_VALUE_PER_LVL": "2|3",
    "DESC_VALUE_TYPE": "%|%",
    "DESC_VALUE_REAL": "|",
-   "EXTRA_NBR": "12"
+   "EXTRA_NBR": "7"
  },
  {
    "REF": 81,
@@ -4176,7 +4176,7 @@
    "COST_TYPE": "none",
    "DESC_VALUE": "min_elemental_damage_add",
    "DESC_VALUE_BASE": "110",
-   "DESC_VALUE_PER_LVL": "18",
+   "DESC_VALUE_PER_LVL": "50",
    "DESC_VALUE_TYPE": "",
    "DESC_VALUE_REAL": "",
    "EXTRA_NBR": "25"

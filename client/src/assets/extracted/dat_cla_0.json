@@ -897,7 +897,7 @@
    "EN_NAME": "Practice Makes Perfect",
    "EN_DESCRIPTION": "The Mighty Swing has an additional +@ £.#Additional Critical Strike Chance is equal to your Mastery Level of The Mighty Swing.",
    "FR_NAME": "La Répétition fait la Perfection",
-   "FR_DESCRIPTION": "Coup Puissant a +@ de £ supplémentaire.Cette Chance de Coup Critique supplémentaire est équivalente à votre niveau de Maîtrise de Coup Puissant.",
+   "FR_DESCRIPTION": "Coup Puissant a +@ de £ supplémentaire. Cette Chance de Coup Critique supplémentaire est équivalente à votre niveau de Maîtrise de Coup Puissant.",
    "CH_NAME": "熟能生巧",
    "CH_DESCRIPTION": "强力挥击获得额外的+@£。#额外暴击率等于强力挥击的精通等级。",
    "TW_NAME": "熟能生巧",
@@ -925,8 +925,8 @@
    "UPGRADE_NUMBER": 1,
    "DMG_TYPE": "",
    "DESC_VALUE": "critical_chance",
-   "DESC_VALUE_BASE": "1",
-   "DESC_VALUE_PER_LVL": "1",
+   "DESC_VALUE_BASE": "0.5",
+   "DESC_VALUE_PER_LVL": "0.5",
    "DESC_VALUE_TYPE": "%",
    "DESC_VALUE_REAL": "based_on_mastery:3",
    "SLORM_TIER": "",
@@ -1877,7 +1877,7 @@
    "CAST_SPEED": null,
    "KNOCKBACK": null,
    "COOLDOWN": null,
-   "EXTRA_NBR": "10"
+   "EXTRA_NBR": "6"
  },
  {
    "REF": 40,
@@ -2587,13 +2587,13 @@
  {
    "REF": 55,
    "EN_NAME": "Triple Fun",
-   "EN_DESCRIPTION": "Throwing Sword has +¥ Additional Projectiles.#This effect is doubled if the cast is <Fortunate> or <Perfect>.",
+   "EN_DESCRIPTION": "Throwing Sword has +@ £ to fire ¥ Additional Projectiles.##¥% Chance if the cast is <Fortunate> or <Perfect>.",
    "FR_NAME": "Triple Plaisir",
-   "FR_DESCRIPTION": "Epée de Lancer à +¥ Projectiles Supplémentaires.#Cet effet est doublé si le lancer est Favorable ou Parfait.",
+   "FR_DESCRIPTION": "Epée de Lancer à +@ de £ de tirer ¥ Projectiles Supplémentaires.#¥% de Chance si le lancer est Favorable ou Parfait.",
    "CH_NAME": "三倍快乐",
-   "CH_DESCRIPTION": "投掷剑获得+¥个额外投射物。#若施放效果为<Fortunate>或<Perfect>，该效果变为两倍。",
+   "CH_DESCRIPTION": "投掷剑获得+¥个额外投射物。#若施放效果为<Fortunate>或<Perfect>，该效果变为两倍。@ £ ¥",
    "TW_NAME": "三倍快樂",
-   "TW_DESCRIPTION": "投擲劍獲得+¥個額外投射物。 #若施放效果為<Fortunate>或<Perfect>，該效果變為兩倍。",
+   "TW_DESCRIPTION": "投擲劍獲得+¥個額外投射物。 #若施放效果為<Fortunate>或<Perfect>，該效果變為兩倍。@ £ ¥",
    "JP_NAME": "",
    "JP_DESCRIPTION": "",
    "DE_NAME": "",
@@ -2609,17 +2609,17 @@
    "ORDER": "",
    "ACTIVE_BOX": 5,
    "UNLOCK_LEVEL": 5,
-   "COST": 68,
-   "COST_LEVEL": 0,
+   "COST": 14,
+   "COST_LEVEL": 3,
    "COST_TYPE": "mana",
    "GENRE": "",
    "TYPE": "upgrade",
-   "UPGRADE_NUMBER": 1,
+   "UPGRADE_NUMBER": 10,
    "DMG_TYPE": "",
-   "DESC_VALUE": "",
-   "DESC_VALUE_BASE": "",
-   "DESC_VALUE_PER_LVL": "",
-   "DESC_VALUE_TYPE": "",
+   "DESC_VALUE": "chance",
+   "DESC_VALUE_BASE": "10",
+   "DESC_VALUE_PER_LVL": "2",
+   "DESC_VALUE_TYPE": "%",
    "DESC_VALUE_REAL": "",
    "SLORM_TIER": "",
    "POSE_TYPE": "",
@@ -2629,7 +2629,7 @@
    "CAST_SPEED": null,
    "KNOCKBACK": null,
    "COOLDOWN": null,
-   "EXTRA_NBR": "2"
+   "EXTRA_NBR": "2|100"
  },
  {
    "REF": 56,
@@ -2770,7 +2770,7 @@
    "CAST_SPEED": null,
    "KNOCKBACK": null,
    "COOLDOWN": null,
-   "EXTRA_NBR": "0.5|100"
+   "EXTRA_NBR": "1|100"
  },
  {
    "REF": 59,
@@ -3670,7 +3670,7 @@
    "EN_NAME": "Captain Hook",
    "EN_DESCRIPTION": "Whenever you cast Grappling Hook, you now pull every enemy within a ~ yard radius toward you.#Grappling Hook deals ¥% Reduced Damage.",
    "FR_NAME": "Capitaine Crochet",
-   "FR_DESCRIPTION": "Lorsque vous lancez Grappin, vous attirez désormais vers vous tous les ennemis dans un rayon de ~ mètres.#Grappin inflige ¥ de Dégâts Réduits.",
+   "FR_DESCRIPTION": "Lorsque vous lancez Grappin, vous attirez désormais vers vous tous les ennemis dans un rayon de ~ mètres.#Grappin inflige ¥% de Dégâts Réduits.",
    "CH_NAME": "霍克船长",
    "CH_DESCRIPTION": "施放抓钩时，将~码半径内的所有敌人拉向自己。#抓钩造成的伤害减少¥%。",
    "TW_NAME": "霍克船長",
@@ -3992,7 +3992,7 @@
    "CAST_SPEED": null,
    "KNOCKBACK": null,
    "COOLDOWN": null,
-   "EXTRA_NBR": "4"
+   "EXTRA_NBR": "8"
  },
  {
    "REF": 85,
@@ -5548,13 +5548,13 @@
  {
    "REF": 118,
    "EN_NAME": "Static Vortex",
-   "EN_DESCRIPTION": "While channeling Whirlwind, enemies within a ~ yard radius are constantly pulled toward you but you can no longer move.#Whirlwind has no Cooldown.",
+   "EN_DESCRIPTION": "While channeling Whirlwind, enemies within a ~ yard radius are constantly pulled toward you but you can no longer move.",
    "FR_NAME": "Vortex Statique",
-   "FR_DESCRIPTION": "Tant que vous canalisez Tourbillon, les ennemis dans un rayon de ~ mètres sont continuellement attirés à vous mais vous ne pouvez plus vous déplacer.#Tourbillon n'a plus de Temps de Recharge.",
+   "FR_DESCRIPTION": "Tant que vous canalisez Tourbillon, les ennemis dans un rayon de ~ mètres sont continuellement attirés à vous mais vous ne pouvez plus vous déplacer.",
    "CH_NAME": "静态漩涡",
-   "CH_DESCRIPTION": "引导旋风时，~码半径内的敌人被持续拉向自身，但自身无法移动。#旋风没有冷却时间。",
+   "CH_DESCRIPTION": "引导旋风时，~码半径内的敌人被持续拉向自身，但自身无法移动。",
    "TW_NAME": "靜態漩渦",
-   "TW_DESCRIPTION": "引導旋風時，~碼半徑內的敵人被持續拉向自身，但自身無法移動。 #旋風沒有冷卻時間。",
+   "TW_DESCRIPTION": "引導旋風時，~碼半徑內的敵人被持續拉向自身，但自身無法移動。 ",
    "JP_NAME": "",
    "JP_DESCRIPTION": "",
    "DE_NAME": "",
@@ -6676,9 +6676,9 @@
  {
    "REF": 142,
    "EN_NAME": "Friendly Knight",
-   "EN_DESCRIPTION": "You have +@ £. Critical Strike Damage is equal to the combined Level of the Fierce Huntress and the Mischievous Mage.",
+   "EN_DESCRIPTION": "You have +@ £. Critical Strike Damage is equal to the highest Level among The Fierce Huntress and The Mischievous Mage.",
    "FR_NAME": "Le Chevalier et ses amis",
-   "FR_DESCRIPTION": "Vous avez +@ de £. Les Dégâts de Coup Critique sont équivalents au niveau total combiné de la Chasseresse Féroce et du Mage Malicieux.",
+   "FR_DESCRIPTION": "Vous avez +@ de £. Les Dégâts de Coup Critique sont équivalents au Niveau le plus élevé entre la Chasseresse Féroce et le Mage Malicieux.",
    "CH_NAME": "友好骑士",
    "CH_DESCRIPTION": "你拥有+@£。暴击伤害等于猎手和法师的等级之和。",
    "TW_NAME": "友好騎士",
@@ -7928,7 +7928,7 @@
    "UPGRADE_NUMBER": 10,
    "DMG_TYPE": "",
    "DESC_VALUE": "chance",
-   "DESC_VALUE_BASE": "30",
+   "DESC_VALUE_BASE": "10",
    "DESC_VALUE_PER_LVL": "3",
    "DESC_VALUE_TYPE": "%",
    "DESC_VALUE_REAL": "",
@@ -8175,7 +8175,7 @@
    "CAST_SPEED": null,
    "KNOCKBACK": null,
    "COOLDOWN": null,
-   "EXTRA_NBR": "3"
+   "EXTRA_NBR": "2"
  },
  {
    "REF": 174,
