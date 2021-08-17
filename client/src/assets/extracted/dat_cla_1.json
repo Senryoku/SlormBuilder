@@ -2102,7 +2102,7 @@
    "DMG_TYPE": "",
    "DESC_VALUE": "increased_damage|increased_mana",
    "DESC_VALUE_BASE": "0|0",
-   "DESC_VALUE_PER_LVL": "3|2",
+   "DESC_VALUE_PER_LVL": "2|3",
    "DESC_VALUE_TYPE": "%|%",
    "DESC_VALUE_REAL": "|",
    "SLORM_TIER": "",
