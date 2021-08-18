@@ -14,8 +14,9 @@
 			></div>
 			<div style="margin-left: 20px; text-align: left">
 				<ul>
-					<li v-if="skill.rank">
-						{{ t("Rank") }}: {{ skill.rank }} / {{ skill.UPGRADE_NUMBER }}
+					<li v-if="skill.UPGRADE_NUMBER">
+						{{ t("Rank") }}: {{ skill.rank ? skill.rank : 0 }} /
+						{{ skill.UPGRADE_NUMBER }}
 					</li>
 					<li v-show="genres">{{ genres }}</li>
 					<li v-show="skill.COOLDOWN">
@@ -144,36 +145,49 @@ export default {
 				let value_per_level = this.skill.DESC_VALUE_PER_LVL.split("|");
 				value_per_level = value_per_level.map((v) => parseFloat(v));
 				let value_type = this.skill.DESC_VALUE_TYPE.split("|");
+				const value_regex = /@([^@]+)£/;
 				for (let idx = 0; idx < value_name.length; ++idx) {
-					let value_explanation =
-						this.skill.UPGRADE_NUMBER > 1 && !r.includes("µ");
 					let current_value =
-						value_base[idx] +
-						negative[idx] * Math.max(1, this.skill.rank) * value_per_level[idx];
+						Math.round(
+							100 *
+								(value_base[idx] +
+									negative[idx] *
+										Math.max(0, this.skill.rank) *
+										value_per_level[idx])
+						) / 100;
 					let index = r.search("@");
-					if (index > 0) {
-						if (r.slice(index, index + 3) === "@ £") {
-							r = splice(
-								r,
-								index,
-								3,
-								`${c(current_value + value_type[idx])}${
+					let next_index = r.substr(index + 1).search("@");
+					let value_explanation =
+						this.skill.UPGRADE_NUMBER > 1 &&
+						index >= 0 &&
+						!r
+							.substr(index, next_index > 0 ? next_index : undefined)
+							.includes("µ");
+					if (index >= 0) {
+						// Search corresponding £
+						let matching_name = value_regex.exec(r);
+						if (matching_name) {
+							r = r.replace(value_regex, (match, separator) => {
+								return `${c(current_value + value_type[idx])}${separator}${
+									value_name[idx]
+								}${
 									value_explanation
 										? small(
 												` (${value_base[idx]}${value_type[idx]} ${
 													negative < 0 ? "-" : "+"
-												} ${value_per_level[idx]}${value_type[idx]} per rank)`
+												} ${value_per_level[idx]}${value_type[idx]} ${this.t(
+													"per rank"
+												)})`
 										  )
 										: ""
-								} ${value_name[idx]}`
-							);
+								}`;
+							});
 						} else {
-							let current_value =
-								value_base[idx] +
-								negative[idx] *
-									Math.max(1, this.skill.rank) *
-									value_per_level[idx];
 							r = splice(r, index, 1, c(current_value + value_type[idx]));
+						}
+					} else {
+						if (r.includes("£")) {
+							r = r.replace("£", c(value_name[idx]));
 						}
 					}
 
@@ -186,10 +200,6 @@ export default {
 					}
 					// Synergies
 					r = r.replace("_", c(current_value + "%"));
-
-					if (r.includes("£")) {
-						r = r.replace("£", c(value_name[idx]));
-					}
 				}
 			}
 
