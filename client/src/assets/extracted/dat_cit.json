@@ -137,7 +137,7 @@
    "SPRITE": "ormos",
    "XX": 2458,
    "YY": 486,
-   "UNLOCK": 99
+   "UNLOCK": 18
  },
  {
    "REF": 5,
@@ -165,7 +165,7 @@
    "SPRITE": "oleros",
    "XX": 2463,
    "YY": 686,
-   "UNLOCK": 99
+   "UNLOCK": 19
  },
  {
    "REF": 6,
@@ -193,7 +193,7 @@
    "SPRITE": "almerolis",
    "XX": 2138,
    "YY": 718,
-   "UNLOCK": 99
+   "UNLOCK": 26
  },
  {
    "REF": 7,
@@ -249,7 +249,7 @@
    "SPRITE": "friedrich",
    "XX": 2453,
    "YY": 936,
-   "UNLOCK": 99
+   "UNLOCK": 20
  },
  {
    "REF": 9,
@@ -277,7 +277,7 @@
    "SPRITE": "rick",
    "XX": 2098,
    "YY": 1008,
-   "UNLOCK": 99
+   "UNLOCK": 17
  },
  {
    "REF": 10,
@@ -305,7 +305,7 @@
    "SPRITE": "storage",
    "XX": 2626,
    "YY": 896,
-   "UNLOCK": 99
+   "UNLOCK": 16
  },
  {
    "REF": 11,
@@ -641,7 +641,7 @@
    "SPRITE": "archmage",
    "XX": 1328,
    "YY": 1216,
-   "UNLOCK": 99
+   "UNLOCK": 24
  },
  {
    "REF": 23,

@@ -51,7 +51,7 @@
 	"Attributes": { "FR": "Attributs" },
 	"Gear": { "FR": "Équipement" },
 	"Elements": { "EN": "Legacy", "FR": "Héritage" },
-	"Import Save": { "FR": "Importer une sauvegarde" },
+	"Import Save": { "FR": "Importer sauvegarde" },
 	"Share": { "FR": "Partager" },
 	"Edit this build": { "FR": "Editer ce build" },
 	"Saves are located in $": {

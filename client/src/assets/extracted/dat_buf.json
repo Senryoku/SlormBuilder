@@ -303,7 +303,7 @@
    "ASSOCIATED_EFFECT": "",
    "SPRITE": "spr_buffs",
    "INDEX": 86,
-   "BUFF_OR_DEBUFF": "buff",
+   "BUFF_OR_DEBUFF": "debuff",
    "VISUAL": "asleep",
    "FLOAT_TEXT": "buff_sleep",
    "IS_TICKING": null,
@@ -3593,7 +3593,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": true,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "fire_loweys_gratitude",
@@ -3624,7 +3624,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "fire_burning_rage",
@@ -3655,7 +3655,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": true,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "fire_loweys_creation",
@@ -3686,7 +3686,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "ice_conditioner",
@@ -3717,7 +3717,7 @@
    "VISUAL": "ice_conditioner",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "ice_shield",
@@ -3748,7 +3748,7 @@
    "VISUAL": "ice_shield",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "lightning_spark",
@@ -3779,7 +3779,7 @@
    "VISUAL": "spark_machine",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "lightning_consistency",
@@ -3810,7 +3810,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "light_shield",
@@ -3841,7 +3841,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "light_dart",
@@ -3872,7 +3872,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "light_judge",
@@ -3903,7 +3903,7 @@
    "VISUAL": "judge_of_light",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "darkness_blorm",
@@ -3934,7 +3934,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "darkness_pact",
@@ -3965,7 +3965,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "darkness_retribution",
@@ -3996,7 +3996,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_instability",
@@ -4027,7 +4027,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_slap",
@@ -4058,7 +4058,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_swap",
@@ -4089,7 +4089,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_risk",
@@ -4120,7 +4120,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_rite",
@@ -4151,7 +4151,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "neutral_aura",
@@ -4182,7 +4182,7 @@
    "VISUAL": "none",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
-   "KEEP_ON_HUB": null
+   "KEEP_ON_HUB": true
  },
  {
    "REF": "elem_emergency",
@@ -7380,9 +7380,9 @@
  {
    "REF": "soul_curse",
    "EN_NAME": "Decaying Soul",
-   "EN_DESCRIPTION": "You have been hit by a Suffering Soul.#Decaying Soul deals Elemental Damage over time to you.",
+   "EN_DESCRIPTION": "You have been hit by a Suffering Soul.#Decaying Soul deals Elemental Damage over time to you.##Destroy the Suffering Soul to remove this effect.",
    "FR_NAME": "Âme en Décomposition",
-   "FR_DESCRIPTION": "Vous avez été touché par une Âme en Peine.#Âme en Décomposition vous inflige des Dégâts Élémentaires sur la durée.",
+   "FR_DESCRIPTION": "Vous avez été touché par une Âme en Peine.#Âme en Décomposition vous inflige des Dégâts Élémentaires sur la durée.##Détruisez l'Âme en Peine pour retirer cet effet.",
    "CH_NAME": "",
    "CH_DESCRIPTION": "",
    "TW_NAME": "",
@@ -7437,6 +7437,37 @@
    "VISUAL": "slow",
    "FLOAT_TEXT": "",
    "IS_TICKING": null,
+   "KEEP_ON_HUB": null
+ },
+ {
+   "REF": "enemy_shield_guardian",
+   "EN_NAME": "Shield",
+   "EN_DESCRIPTION": "Invulnerable.",
+   "FR_NAME": "Bouclier",
+   "FR_DESCRIPTION": "Invulnérable.",
+   "CH_NAME": "护盾",
+   "CH_DESCRIPTION": "毫无弱点。",
+   "TW_NAME": "護盾",
+   "TW_DESCRIPTION": "毫無弱點。",
+   "JP_NAME": "",
+   "JP_DESCRIPTION": "",
+   "DE_NAME": "",
+   "DE_DESCRIPTION": "",
+   "ES_NAME": "",
+   "ES_DESCRIPTION": "",
+   "IT_NAME": "",
+   "IT_DESCRIPTION": "",
+   "RU_NAME": "",
+   "RU_DESCRIPTION": "",
+   "PT_NAME": "",
+   "PT_DESCRIPTION": "",
+   "ASSOCIATED_EFFECT": "invulnerable",
+   "SPRITE": "spr_buffs",
+   "INDEX": 4,
+   "BUFF_OR_DEBUFF": "buff",
+   "VISUAL": "guardian_shield",
+   "FLOAT_TEXT": "",
+   "IS_TICKING": true,
    "KEEP_ON_HUB": null
  },
  {
@@ -7620,8 +7651,39 @@
    "SPRITE": "spr_buffs",
    "INDEX": 0,
    "BUFF_OR_DEBUFF": "debuff",
-   "VISUAL": "",
+   "VISUAL": "none",
    "FLOAT_TEXT": "buff_confused",
+   "IS_TICKING": null,
+   "KEEP_ON_HUB": null
+ },
+ {
+   "REF": "escort_link",
+   "EN_NAME": "Escort Link",
+   "EN_DESCRIPTION": "",
+   "FR_NAME": "Lien d'Escorte",
+   "FR_DESCRIPTION": "",
+   "CH_NAME": "",
+   "CH_DESCRIPTION": "",
+   "TW_NAME": "",
+   "TW_DESCRIPTION": "",
+   "JP_NAME": "",
+   "JP_DESCRIPTION": "",
+   "DE_NAME": "",
+   "DE_DESCRIPTION": "",
+   "ES_NAME": "",
+   "ES_DESCRIPTION": "",
+   "IT_NAME": "",
+   "IT_DESCRIPTION": "",
+   "RU_NAME": "",
+   "RU_DESCRIPTION": "",
+   "PT_NAME": "",
+   "PT_DESCRIPTION": "",
+   "ASSOCIATED_EFFECT": "",
+   "SPRITE": "spr_buffs",
+   "INDEX": 6,
+   "BUFF_OR_DEBUFF": "buff",
+   "VISUAL": "escort_bound",
+   "FLOAT_TEXT": "",
    "IS_TICKING": null,
    "KEEP_ON_HUB": null
  },
