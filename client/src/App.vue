@@ -11,7 +11,9 @@
 			/></router-link>
 			<div>
 				<a @click="changeLanguage('FR')">FR</a> |
-				<a @click="changeLanguage('EN')">EN</a>
+				<a @click="changeLanguage('EN')">EN</a> |
+				<a @click="changeLanguage('CH')">CH</a> |
+				<a @click="changeLanguage('TW')">TW</a>
 			</div>
 		</div>
 		<router-link to="/" custom v-slot="{ href, navigate, isActive }"

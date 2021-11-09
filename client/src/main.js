@@ -62,9 +62,7 @@ const routes = [
 				});
 				item = results[0].obj;
 			} else {
-				item = ReaperData.find(
-					(o) => o.REF === parseInt(route.params.id)
-				);
+				item = ReaperData.find((o) => o.REF === id);
 			}
 			return {
 				type: route.params.type,
