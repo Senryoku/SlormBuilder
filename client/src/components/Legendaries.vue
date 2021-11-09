@@ -34,7 +34,7 @@ export default {
 			ItemTypes,
 			Legendaries,
 			selectedSlot: ref(""),
-			lootable: ref(false),
+			lootable: ref(true),
 		};
 	},
 	computed: {
