@@ -25,7 +25,7 @@
 		"eslint": "^6.7.2",
 		"eslint-config-prettier": "^8.2.0",
 		"eslint-plugin-vue": "^7.0.0",
-		"image-webpack-loader": "^7.0.1"
+		"image-webpack-loader": "^8.1.0"
 	},
 	"eslintConfig": {
 		"root": true,
