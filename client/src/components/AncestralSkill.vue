@@ -4,7 +4,7 @@
 			<img
 				class="icon"
 				:src="
-					require(`../assets/extracted/sprites/spr_actives/spr_actives_${skill.REF}.png`)
+					iconImage
 				"
 			/>
 			<div class="infos">
@@ -45,6 +45,13 @@ export default {
 				value_real: "DESC_VALUE_REAL",
 			});
 		},
+		iconImage() {
+			try {
+				return require(`../assets/extracted/sprites/spr_actives/spr_actives_${this.skill.REF}.png`);
+			} catch(e) { 
+				return require(`../assets/img/spr_actives_missing.png`);
+			}
+		}
 	},
 };
 </script>
