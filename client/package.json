@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@meforma/vue-toaster": "^1.3.0",
-		"core-js": "^3.21.1",
+		"core-js": "^3.22.0",
 		"fuzzysort": "^1.2.1",
 		"vue": "^3.2.32",
 		"vue-router": "^4.0.14",
