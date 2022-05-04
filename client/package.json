@@ -14,7 +14,7 @@
 		"eslint-scope": "^7.1.1",
 		"fuzzysort": "^1.2.1",
 		"vue": "^3.2.33",
-		"vue-router": "^4.0.14",
+		"vue-router": "^4.0.15",
 		"vuedraggable": "^4.1.0"
 	},
 	"devDependencies": {
