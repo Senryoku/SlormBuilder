@@ -13,7 +13,7 @@
 		"core-js": "^3.22.5",
 		"eslint-scope": "^7.1.1",
 		"fuzzysort": "^1.9.0",
-		"vue": "^3.2.33",
+		"vue": "^3.2.35",
 		"vue-router": "^4.0.15",
 		"vuedraggable": "^4.1.0"
 	},
