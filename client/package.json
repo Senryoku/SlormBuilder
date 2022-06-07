@@ -13,7 +13,7 @@
 		"core-js": "^3.22.5",
 		"eslint-scope": "^7.1.1",
 		"fuzzysort": "^1.9.0",
-		"vue": "^3.2.33",
+		"vue": "^3.2.37",
 		"vue-router": "^4.0.15",
 		"vuedraggable": "^4.1.0"
 	},
@@ -23,7 +23,7 @@
 		"@vue/cli-service": "~5.0.4",
 		"@vue/compiler-sfc": "^3.2.33",
 		"@babel/eslint-parser": "^7.5.4",
-		"eslint": "^8.15.0",
+		"eslint": "^8.17.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-vue": "^8.7.1",
 		"file-loader": "^6.2.0",
