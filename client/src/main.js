@@ -1,4 +1,5 @@
 import { createApp, reactive } from "vue";
+import { publicPath } from "../vue.config";
 import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
@@ -77,19 +78,17 @@ const routes = [
 ];
 
 const router = createRouter({
-	history: createWebHistory(),
+	history: createWebHistory(publicPath),
 	routes,
 });
 
-const app = createApp(App)
-	.use(router)
-	.use(Toaster);
+const app = createApp(App).use(router).use(Toaster);
 
 app.config.globalProperties.settings = reactive(Settings);
 app.config.globalProperties.translate = (s) =>
 	translate(s, app.config.globalProperties.settings.language);
 
-app.config.globalProperties.t = function() {
+app.config.globalProperties.t = function () {
 	return localize(
 		app.config.globalProperties.settings.language,
 		...arguments
