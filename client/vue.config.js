@@ -1,5 +1,5 @@
 module.exports = {
-	publicPath: "SlormBuilder/",
+	publicPath: "/SlormBuilder/",
 	configureWebpack: {
 		optimization: {
 			splitChunks: {
