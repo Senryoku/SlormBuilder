@@ -109,7 +109,7 @@
    "SPRITE": "alena",
    "XX": 1992,
    "YY": 490,
-   "UNLOCK": 99
+   "UNLOCK": 52
  },
  {
    "REF": 4,
@@ -361,7 +361,7 @@
    "SPRITE": "innkeeper",
    "XX": 1798,
    "YY": 1054,
-   "UNLOCK": 99
+   "UNLOCK": 46
  },
  {
    "REF": 13,
@@ -585,7 +585,7 @@
    "SPRITE": "jeanpierre",
    "XX": 2268,
    "YY": 1000,
-   "UNLOCK": 99
+   "UNLOCK": 39
  },
  {
    "REF": 21,
