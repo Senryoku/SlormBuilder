@@ -350,7 +350,7 @@
 
 		transform: scale(1);
 		transition: transform 0.2s ease;
-		background-size: 138%;
+		background-size: cover;
 		image-rendering: crisp-edges;
 	}
 
