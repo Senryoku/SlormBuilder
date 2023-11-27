@@ -15,3 +15,4 @@ Outdated character builder for Slormancer.
 - Skills
   - Remove "duplicated code" for description parsing.
   -	Next Rank/Max Rank
+- Debug tooltip on dev server (they still work in prod)
