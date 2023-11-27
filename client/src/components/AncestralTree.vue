@@ -64,7 +64,7 @@
 					</div></div
 			></template>
 			<div
-				v-for="(bridge, idx) in Bridges.filter((b) => b.selected)"
+				v-for="(bridge, idx) in Bridges.filter((b) => true)"
 				:key="idx"
 				class="bridge"
 				:style="`left: ${bridge.coords[0]}px; top: ${bridge.coords[1]}px`"
@@ -86,6 +86,9 @@
 	import SkillIcon from "./SkillIcon.vue";
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
+
+	const size = 4 * 732;
+	const halfSize = size / 2;
 
 	export default {
 		name: "AncestralTree",
@@ -113,12 +116,12 @@
 			}
 
 			const radialCoords = (i, d, r, p = 0) => [
-				1500 + r * Math.cos(p + ((2 * Math.PI * 1) / d) * (i % d)),
-				1500 + r * Math.sin(p + ((2 * Math.PI * 1) / d) * (i % d)),
+				halfSize + r * Math.cos(p + ((2 * Math.PI * 1) / d) * (i % d)),
+				halfSize + r * Math.sin(p + ((2 * Math.PI * 1) / d) * (i % d)),
 			];
 
 			for (let i = 0; i < 10; i++) {
-				Realms[i].coords = radialCoords(i, 10, 237, (-2 * Math.PI) / 5);
+				Realms[i].coords = radialCoords(i, 10, 234, (-2 * Math.PI) / 5);
 				Realms[i].offsets.push([0, 0]);
 				Realms[i].type = "small";
 			}
@@ -126,17 +129,17 @@
 				Realms[10 + i].coords = radialCoords(
 					i,
 					10,
-					368,
+					372,
 					(-1.5 * Math.PI) / 5
 				);
 				Realms[10 + i].offsets.push([0, 0]);
 				Realms[10 + i].type = "small";
 			}
 			for (let i = 0; i < 10; i++) {
-				let center = radialCoords(i, 10, 508, (-2 * Math.PI) / 5);
+				let center = radialCoords(i, 10, 518, (-2 * Math.PI) / 5);
 				Realms[20 + i].coords = center;
 				Realms[20 + i].type = "mid";
-				if (center[0] > 1500) {
+				if (center[0] > halfSize) {
 					Realms[20 + i].offsets.push([-36, +24]);
 					Realms[20 + i].offsets.push([+36, -24]);
 				} else {
@@ -163,7 +166,7 @@
 				return [a[0] / mag, a[1] / mag];
 			};
 			const gemPos = (a, b) => {
-				const r = { small: 80, mid: 116, large: 180 }[b.type];
+				const r = { small: 82, mid: 116, large: 176 }[b.type];
 				const dir = normalize(sub(a.coords, b.coords));
 				return [b.coords[0] + r * dir[0], b.coords[1] + r * dir[1]];
 			};
@@ -172,7 +175,7 @@
 			const Bridges = [];
 			for (let i = 0; i < 10; i++)
 				Bridges.push({
-					coords: radialCoords(i, 10, 160, (-2 * Math.PI) / 5),
+					coords: radialCoords(i, 10, 162, (-2 * Math.PI) / 5),
 					prev: null,
 					next: i,
 				});
@@ -215,9 +218,9 @@
 			recenter() {
 				this.$nextTick(() => {
 					this.$refs.el.scrollLeft =
-						1500 - this.$refs.el.clientWidth / 2;
+						halfSize - this.$refs.el.clientWidth / 2;
 					this.$refs.el.scrollTop =
-						1500 - this.$refs.el.clientHeight / 2;
+						halfSize - this.$refs.el.clientHeight / 2;
 				});
 			},
 			help(e) {
@@ -284,8 +287,8 @@
 				this.scale = clamp(
 					this.scale + 0.1 * (e.deltaY > 0 ? -1 : 1),
 					Math.max(
-						this.$refs.el.clientWidth / 3000,
-						this.$refs.el.clientHeight / 3000
+						this.$refs.el.clientWidth / size,
+						this.$refs.el.clientHeight / size
 					),
 					1
 				);
@@ -339,18 +342,18 @@
 
 	.tree {
 		position: relative;
-		width: 3000px;
-		height: 3000px;
+		width: calc(4 * 732px);
+		height: calc(4 * 732px);
 		background-color: #111;
 		background-image: url("../assets/extracted/sprites/spr_menu_element_tree/spr_menu_element_tree_0.png"),
 			url("../assets/extracted/sprites/spr_menu_element_tree_back/spr_menu_element_tree_back_0.png");
-		background-position: 50%;
+		background-position: calc(50% + 4px) calc(50% + 2px);
 		transform-origin: 50% 50%;
 		cursor: grab;
 
 		transform: scale(1);
 		transition: transform 0.2s ease;
-		background-size: cover;
+		background-size: cover, 140%;
 		image-rendering: crisp-edges;
 	}
 
@@ -376,8 +379,8 @@
 	.bridge {
 		position: absolute;
 		transform: translate(-50%, -50%);
-		width: 52px;
-		height: 52px;
+		width: 20px;
+		height: 20px;
 		background-image: url("../assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
 	}
 </style>
