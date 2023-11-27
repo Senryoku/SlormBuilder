@@ -297,6 +297,7 @@
 	.gear-builder:not(.editable) {
 		display: flex;
 		justify-content: center;
+		align-items: start;
 		gap: 3em;
 	}
 
@@ -347,8 +348,9 @@
 		border-image-outset: 0px 0px 0px 0px;
 		border-image-repeat: stretch stretch;
 		border-image-outset: 12px;
+		margin: 6px;
 		margin-top: 30px;
-		margin-bottom: 12px;
+		margin-bottom: 18px;
 	}
 
 	.stats-priority li {
