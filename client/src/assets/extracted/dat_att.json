@@ -4,9 +4,9 @@
    "TRAIT": 0,
    "ADDITIVE": 1,
    "LEVEL": 1,
-   "VALUE": "19",
-   "TYPE": "",
-   "STAT": "res_phy_add",
+   "VALUE": "1",
+   "TYPE": "%",
+   "STAT": "res_phy_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -16,7 +16,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 1,
@@ -35,7 +38,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 2,
@@ -54,7 +60,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 3,
@@ -73,7 +82,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 4,
@@ -92,7 +104,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 5,
@@ -111,7 +126,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 6,
@@ -130,7 +148,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 7,
@@ -149,7 +170,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 8,
@@ -168,18 +192,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 9,
    "TRAIT": 0,
    "ADDITIVE": null,
    "LEVEL": 45,
-   "VALUE": "10|4",
+   "VALUE": "30|4",
    "TYPE": "%|",
    "STAT": "seconds",
-   "EN_TEXT": "Skills in your Primary Slot and in your Secondary Slot have @ Chance to <Blind> enemies hit for the next @ £.",
-   "FR_TEXT": "Les Compétences dans votre Emplacement Primaire et dans votre Emplacement Secondaire ont @ de Chance d'<Aveugler> les ennemis pour les @ prochaines £.",
+   "EN_TEXT": "Your Secondary Skill has @ Chance to <Blind> enemies hit for the next @ £.",
+   "FR_TEXT": "Votre Compétence Secondaire a @ de Chance d'<Aveugler> les ennemis pour les @ prochaines £.",
    "CH_TEXT": "主技能和副技能有@几率将敌人<Blind>，持续@£。",
    "TW_TEXT": "主技能和副技能有@几率将敌人<Blind>，持续@£。",
    "JP_TEXT": "",
@@ -187,7 +214,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 10,
@@ -195,8 +225,8 @@
    "ADDITIVE": null,
    "LEVEL": 50,
    "VALUE": "6",
-   "TYPE": "",
-   "STAT": "health_regen_add",
+   "TYPE": "%",
+   "STAT": "reduced_damage_from_all_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -206,7 +236,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 11,
@@ -214,8 +247,8 @@
    "ADDITIVE": null,
    "LEVEL": 55,
    "VALUE": "9",
-   "TYPE": "",
-   "STAT": "health_regen_add",
+   "TYPE": "%",
+   "STAT": "reduced_damage_from_all_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -225,7 +258,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 12,
@@ -244,14 +280,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 13,
    "TRAIT": 0,
    "ADDITIVE": null,
    "LEVEL": 65,
-   "VALUE": "101",
+   "VALUE": "699",
    "TYPE": "",
    "STAT": "thorns_add",
    "EN_TEXT": "",
@@ -263,14 +302,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 14,
    "TRAIT": 0,
    "ADDITIVE": null,
    "LEVEL": 70,
-   "VALUE": "149",
+   "VALUE": "801",
    "TYPE": "",
    "STAT": "thorns_add",
    "EN_TEXT": "",
@@ -282,18 +324,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 15,
    "TRAIT": 0,
    "ADDITIVE": null,
    "LEVEL": 75,
-   "VALUE": "15|4",
+   "VALUE": "30|6",
    "TYPE": "%|",
    "STAT": "seconds",
-   "EN_TEXT": "Skills in your Primary Slot and in your Secondary Slot have @ Chance to <Daze> enemies hit for the next @ £.",
-   "FR_TEXT": "Les Compétences dans votre Emplacement Primaire et dans votre Emplacement Secondaire ont @ de Chance d'<Hébeter> les ennemis pour les @ prochaines £.",
+   "EN_TEXT": "Your Secondary Skill has @ Chance to <Daze> enemies hit for the next @ £.",
+   "FR_TEXT": "Votre Compétence Secondaire a @ de Chance d'<Hébeter> les ennemis pour les @ prochaines £.",
    "CH_TEXT": "主技能和副技能有@几率将敌人<Daze>，持续@£。",
    "TW_TEXT": "主技能和副技能有@几率将敌人<Daze>，持续@£。",
    "JP_TEXT": "",
@@ -301,16 +346,19 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 16,
    "TRAIT": 1,
    "ADDITIVE": 1,
    "LEVEL": 1,
-   "VALUE": "4",
-   "TYPE": "",
-   "STAT": "min_basic_damage_add",
+   "VALUE": "1",
+   "TYPE": "%",
+   "STAT": "basic_damage_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -320,7 +368,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 23,
@@ -339,7 +390,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 24,
@@ -358,18 +412,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 19,
    "TRAIT": 1,
    "ADDITIVE": null,
    "LEVEL": 15,
-   "VALUE": "15",
+   "VALUE": "25",
    "TYPE": "%",
    "STAT": "",
-   "EN_TEXT": "The Skill in your Secondary Slot has @ Chance to ignore Armor.",
-   "FR_TEXT": "La Compétence dans votre Emplacement Secondaire a @ de Chance d'ignorer l'Armure.",
+   "EN_TEXT": "Your Secondary Skill has @ Chance to ignore Armor.",
+   "FR_TEXT": "Votre Compétence Secondaire a @ de Chance d'ignorer l'Armure.",
    "CH_TEXT": "副技能有@几率无视护甲。",
    "TW_TEXT": "副技能有@几率无视护甲。",
    "JP_TEXT": "",
@@ -377,7 +434,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 20,
@@ -396,7 +456,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 21,
@@ -415,7 +478,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 22,
@@ -434,7 +500,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 17,
@@ -453,7 +522,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 18,
@@ -472,7 +544,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 25,
@@ -491,7 +566,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 26,
@@ -510,7 +588,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 27,
@@ -529,7 +610,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 28,
@@ -548,7 +632,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 29,
@@ -567,7 +654,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 30,
@@ -586,7 +676,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 31,
@@ -596,8 +689,8 @@
    "VALUE": "100",
    "TYPE": "%",
    "STAT": "crit_chance_global_mult",
-   "EN_TEXT": "Whenever you're dealt damage, the next Skill you cast (Primary or Secondary) has +@ £. ",
-   "FR_TEXT": "Lorsque vous subissez des dégâts, la prochaine Compétence que vous lancez (Primaire ou Secondaire) a +@ de £.",
+   "EN_TEXT": "Whenever you're dealt damage, the next Secondary Skill cast has +@ £. ",
+   "FR_TEXT": "Lorsque vous subissez des dégâts, la prochaine Compétence Secondaire que vous lancez a +@ de £.",
    "CH_TEXT": "受到伤害时，下一个施放的技能（主技能或副技能）获得+@£。",
    "TW_TEXT": "受到伤害时，下一个施放的技能（主技能或副技能）获得+@£。",
    "JP_TEXT": "",
@@ -605,16 +698,19 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 32,
    "TRAIT": 2,
    "ADDITIVE": 1,
    "LEVEL": 1,
-   "VALUE": "17",
-   "TYPE": "",
-   "STAT": "dodge_add",
+   "VALUE": "1",
+   "TYPE": "%",
+   "STAT": "dodge_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -624,7 +720,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 33,
@@ -643,7 +742,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 34,
@@ -662,7 +764,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 35,
@@ -681,7 +786,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 36,
@@ -700,7 +808,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 37,
@@ -719,7 +830,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 38,
@@ -729,8 +843,8 @@
    "VALUE": "30",
    "TYPE": "%",
    "STAT": "weapon_damage_mult",
-   "EN_TEXT": "Whenever you cast a Movement Skill, the next Skill you cast (Primary or Secondary) has +@ £. ",
-   "FR_TEXT": "Lorsque vous lancez une Compétence de Mouvement, la prochaine Compétence que vous lancez (Primaire ou Secondaire) a +@ de £.",
+   "EN_TEXT": "Whenever you cast a Movement Skill, the next Secondary Skill cast has +@ £. ",
+   "FR_TEXT": "Lorsque vous lancez une Compétence de Mouvement, la prochaine Compétence Secondaire que vous lancez a +@ de £.",
    "CH_TEXT": "施放位移技能时，下一个施放的技能（主技能或副技能）获得+@£。",
    "TW_TEXT": "施放位移技能时，下一个施放的技能（主技能或副技能）获得+@£。",
    "JP_TEXT": "",
@@ -738,7 +852,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 39,
@@ -757,7 +874,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 40,
@@ -776,18 +896,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 41,
    "TRAIT": 2,
    "ADDITIVE": null,
    "LEVEL": 45,
-   "VALUE": "20|2",
+   "VALUE": "20|4",
    "TYPE": "%|",
-   "STAT": "cooldown_reduction_global_mult|seconds",
-   "EN_TEXT": "Whenever you deal Critical Strike Damage, the Skill in your Primary Slot has +@ £ for the next @ £.",
-   "FR_TEXT": "Lorsque vous infligez des Dégâts Critiques, la Compétence dans votre Emplacement Primaire a +@ £ pour les @ prochaines £.",
+   "STAT": "attack_speed_global_mult|seconds",
+   "EN_TEXT": "Whenever you deal Critical Strike Damage with your Secondary Skill, you gain +@ £ for the next @ £.",
+   "FR_TEXT": "Lorsque vous infligez des Dégâts Critiques avec votre Compétence Secondaire, vous gagnez +@ £ pour les @ prochaines £.",
    "CH_TEXT": "造成暴击伤害时，主技能获得+@£，持续@£。",
    "TW_TEXT": "造成暴击伤害时，主技能获得+@£，持续@£。",
    "JP_TEXT": "",
@@ -795,7 +918,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 42,
@@ -814,7 +940,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 43,
@@ -833,7 +962,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 44,
@@ -843,8 +975,8 @@
    "VALUE": "100",
    "TYPE": "%",
    "STAT": "overdrive_bounce_number_global_mult",
-   "EN_TEXT": "The Skill in your Secondary Slot has +@ £.",
-   "FR_TEXT": "La Compétence dans votre Emplacement Secondaire a +@ de £.",
+   "EN_TEXT": "Your Secondary Skill has +@ £.",
+   "FR_TEXT": "Votre Compétence Secondaire a +@ de £.",
    "CH_TEXT": "副技能获得+@£。",
    "TW_TEXT": "副技能获得+@£。",
    "JP_TEXT": "",
@@ -852,7 +984,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 45,
@@ -871,7 +1006,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 46,
@@ -890,7 +1028,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 47,
@@ -909,16 +1050,19 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 48,
    "TRAIT": 3,
    "ADDITIVE": 1,
    "LEVEL": 1,
-   "VALUE": "20",
-   "TYPE": "",
-   "STAT": "res_mag_add",
+   "VALUE": "1",
+   "TYPE": "%",
+   "STAT": "res_mag_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -928,14 +1072,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 49,
    "TRAIT": 3,
    "ADDITIVE": null,
    "LEVEL": 5,
-   "VALUE": "14",
+   "VALUE": "28",
    "TYPE": "",
    "STAT": "mana_regen_add",
    "EN_TEXT": "",
@@ -947,14 +1094,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 50,
    "TRAIT": 3,
    "ADDITIVE": 1,
    "LEVEL": 10,
-   "VALUE": "1",
+   "VALUE": "2",
    "TYPE": "",
    "STAT": "mana_regen_add",
    "EN_TEXT": "",
@@ -966,14 +1116,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 51,
    "TRAIT": 3,
    "ADDITIVE": 2,
    "LEVEL": 15,
-   "VALUE": "1|5",
+   "VALUE": "2|5",
    "TYPE": "|",
    "STAT": "health_on_hit_add|seconds",
    "EN_TEXT": "Whenever you deal Critical Strike Damage, you have +@ £ (+µ for every point after this one in this Trait) for the next @ £.",
@@ -985,7 +1138,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 52,
@@ -1004,7 +1160,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 53,
@@ -1023,7 +1182,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 54,
@@ -1042,7 +1204,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 55,
@@ -1061,7 +1226,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 56,
@@ -1080,7 +1248,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 57,
@@ -1099,7 +1270,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 58,
@@ -1118,7 +1292,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 59,
@@ -1137,16 +1314,19 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 60,
    "TRAIT": 3,
    "ADDITIVE": null,
    "LEVEL": 60,
-   "VALUE": "40|50",
+   "VALUE": "50|50",
    "TYPE": "%|%",
-   "STAT": "retaliate_percent",
+   "STAT": "retaliate_global_mult",
    "EN_TEXT": "You have +@ £ if you have less than @ Life.",
    "FR_TEXT": "Vous avez +@ de £ si vous avez moins de @ de Vie.",
    "CH_TEXT": "当你的生命值低于@时将拥有@£。",
@@ -1156,7 +1336,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 61,
@@ -1175,7 +1358,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 62,
@@ -1194,14 +1380,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 63,
    "TRAIT": 3,
    "ADDITIVE": null,
    "LEVEL": 75,
-   "VALUE": "15|10",
+   "VALUE": "25|100",
    "TYPE": "%|%",
    "STAT": "chance",
    "EN_TEXT": "Whenever you cast a Skill in Combat, you have @ £ to restore Life equal to @ of its Mana cost.",
@@ -1213,7 +1402,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 64,
@@ -1232,7 +1424,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 65,
@@ -1251,7 +1446,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 66,
@@ -1270,18 +1468,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 67,
    "TRAIT": 4,
    "ADDITIVE": null,
    "LEVEL": 15,
-   "VALUE": "1|10",
+   "VALUE": "5|10",
    "TYPE": "%|",
    "STAT": "seconds",
-   "EN_TEXT": "The cost of Skills you cast is reduced by @ for each Skill cast in the last @ £.",
-   "FR_TEXT": "Le coût des Compétences que vous lancez est réduit de @ pour chaque Compétence lancée dans les @ dernières £.",
+   "EN_TEXT": "The cost of Skills you cast is reduced by @ for each Secondary Skill cast in the last @ £.",
+   "FR_TEXT": "Le coût des Compétences que vous lancez est réduit de @ pour chaque Compétence Secondaire lancée dans les @ dernières £.",
    "CH_TEXT": "此前@£中施放的每个法术使你的技能消耗减少@。",
    "TW_TEXT": "此前@£中施放的每个法术使你的技能消耗减少@。",
    "JP_TEXT": "",
@@ -1289,7 +1490,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 68,
@@ -1308,7 +1512,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 69,
@@ -1327,7 +1534,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 70,
@@ -1346,14 +1556,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 71,
    "TRAIT": 4,
    "ADDITIVE": null,
    "LEVEL": 35,
-   "VALUE": "10",
+   "VALUE": "40",
    "TYPE": "",
    "STAT": "mana_on_hit_add",
    "EN_TEXT": "",
@@ -1365,14 +1578,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 72,
    "TRAIT": 4,
    "ADDITIVE": 1,
    "LEVEL": 40,
-   "VALUE": "1",
+   "VALUE": "2",
    "TYPE": "",
    "STAT": "mana_on_hit_add",
    "EN_TEXT": "",
@@ -1384,7 +1600,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 73,
@@ -1403,7 +1622,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 74,
@@ -1422,7 +1644,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 75,
@@ -1441,13 +1666,16 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 76,
    "TRAIT": 4,
    "ADDITIVE": null,
-   "LEVEL": 60,
+   "LEVEL": 75,
    "VALUE": "25",
    "TYPE": "%",
    "STAT": "chance",
@@ -1460,14 +1688,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 77,
    "TRAIT": 4,
    "ADDITIVE": null,
    "LEVEL": 65,
-   "VALUE": "3",
+   "VALUE": "90",
    "TYPE": "",
    "STAT": "health_regen_add",
    "EN_TEXT": "",
@@ -1479,14 +1710,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 78,
    "TRAIT": 4,
    "ADDITIVE": 1,
    "LEVEL": 70,
-   "VALUE": "2",
+   "VALUE": "22",
    "TYPE": "",
    "STAT": "health_regen_add",
    "EN_TEXT": "",
@@ -1498,18 +1732,21 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 79,
    "TRAIT": 4,
    "ADDITIVE": null,
-   "LEVEL": 75,
-   "VALUE": "13|1",
+   "LEVEL": 60,
+   "VALUE": "25|1",
    "TYPE": "%|",
    "STAT": "chance|seconds",
-   "EN_TEXT": "Skills in your Primary and Secondary Slots have @ £ to <Silence> enemies hit for the next @ £.",
-   "FR_TEXT": "Les Compétences dans votre Emplacement Primaire et dans votre Emplacement Secondaire ont @ de £ d'appliquer <Silence> aux ennemis touchés pour les @ prochaines £.",
+   "EN_TEXT": "Your Secondary Skill has @ £ to <Silence> enemies hit for the next @ £.",
+   "FR_TEXT": "Vos Compétences Primaires et Secondaires ont @ de £ d'appliquer <Silence> aux ennemis touchés pour les @ prochaines £.",
    "CH_TEXT": "主技能和副技能有@£，可使击中的敌人<Silence>，持续@£。",
    "TW_TEXT": "主技能和副技能有@£，可使击中的敌人<Silence>，持续@£。",
    "JP_TEXT": "",
@@ -1517,16 +1754,19 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 80,
    "TRAIT": 5,
    "ADDITIVE": 1,
    "LEVEL": 1,
-   "VALUE": "9",
-   "TYPE": "",
-   "STAT": "min_elemental_damage_add",
+   "VALUE": "1",
+   "TYPE": "%",
+   "STAT": "elemental_damage_percent",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -1536,7 +1776,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 81,
@@ -1555,7 +1798,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 82,
@@ -1574,14 +1820,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 83,
    "TRAIT": 5,
    "ADDITIVE": null,
    "LEVEL": 15,
-   "VALUE": "30|20",
+   "VALUE": "30|30",
    "TYPE": "%|%",
    "STAT": "aoe_increased_effect_percent",
    "EN_TEXT": "You have +@ £ if you have less than @ Mana.",
@@ -1593,7 +1842,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 84,
@@ -1612,7 +1864,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 85,
@@ -1631,7 +1886,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 92,
@@ -1650,7 +1908,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 87,
@@ -1669,7 +1930,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 88,
@@ -1688,7 +1952,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 89,
@@ -1707,7 +1974,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 90,
@@ -1726,7 +1996,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 91,
@@ -1745,7 +2018,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 86,
@@ -1755,8 +2031,8 @@
    "VALUE": "2|12",
    "TYPE": "%|",
    "STAT": "elemental_damage_percent|seconds",
-   "EN_TEXT": "Whenever you deal Ancestral Strike Damage, you gain <Elemental Prowess>, granting you +@ £ (+µ for every point after this one in this Trait) for the next @ £.",
-   "FR_TEXT": "Lorsque vous infligez des Dégats Ancestraux, vous gagnez <Prouesse Elementaire>, vous conférant +@ de £ (+µ pour chaque point dans ce Trait à partir de celui-ci) pour les @ prochaines £.",
+   "EN_TEXT": "Whenever you deal Ancestral Strike Damage with your Secondary Skill, you gain <Elemental Prowess>, granting you +@ £ (+µ for every point after this one in this Trait) for the next @ £.",
+   "FR_TEXT": "Lorsque vous infligez des Dégats Ancestraux avec votre Compétence Secondaire, vous gagnez <Prouesse Elementaire>, vous conférant +@ de £ (+µ pour chaque point dans ce Trait à partir de celui-ci) pour les @ prochaines £.",
    "CH_TEXT": "造成先祖攻击伤害时，获得一层<Elemental Prowess>，为你赋予+@£（此后每一点，该特质+µ），持续@£。",
    "TW_TEXT": "造成先祖攻击伤害时，获得一层<Elemental Prowess>，为你赋予+@£（此后每一点，该特质+µ），持续@£。",
    "JP_TEXT": "",
@@ -1764,14 +2040,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 93,
    "TRAIT": 5,
    "ADDITIVE": null,
    "LEVEL": 65,
-   "VALUE": "5",
+   "VALUE": "12",
    "TYPE": "%",
    "STAT": "elemental_penetration_percent",
    "EN_TEXT": "",
@@ -1783,14 +2062,17 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 94,
    "TRAIT": 5,
    "ADDITIVE": null,
    "LEVEL": 70,
-   "VALUE": "10",
+   "VALUE": "22",
    "TYPE": "%",
    "STAT": "elemental_penetration_percent",
    "EN_TEXT": "",
@@ -1802,7 +2084,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 95,
@@ -1821,7 +2106,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 96,
@@ -1830,7 +2118,7 @@
    "LEVEL": 1,
    "VALUE": "0.5",
    "TYPE": "%",
-   "STAT": "cooldown_reduction_percent",
+   "STAT": "attack_speed_global_mult",
    "EN_TEXT": "",
    "FR_TEXT": "",
    "CH_TEXT": "",
@@ -1840,7 +2128,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 97,
@@ -1859,7 +2150,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 98,
@@ -1878,26 +2172,32 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 99,
    "TRAIT": 6,
    "ADDITIVE": null,
-   "LEVEL": 15,
-   "VALUE": "1|200",
+   "LEVEL": 30,
+   "VALUE": "1|60",
    "TYPE": "%|",
    "STAT": "totem_increased_effect_percent",
-   "EN_TEXT": "While in Combat, you gain a <Totemic Dexterity> stack every second, granting you +@ £.#You lose <Totemic Dexterity> whenever you cast a non-Totem Primary or Secondary Skill.#This effect can stack up to @ times.",
-   "FR_TEXT": "En Combat, vous gagnez un cumul de <Dextérité Totémique> chaque seconde, vous conférant +@ de £.#Vous perdez Dextérité Totémique lorsque vous lancez une Compétence Primaire ou Secondaire non-Totem.#Cet effet peut se cumuler jusqu'à @ fois.",
-   "CH_TEXT": "在战斗中，每秒获得一层<Totemic Dexterity>，为你赋予+@£。#施放非图腾类主技能或副技能时，失去<Totemic Dexterity>效果。#该效果可叠加@次。",
-   "TW_TEXT": "在战斗中，每秒获得一层<Totemic Dexterity>，为你赋予+@£。#施放非图腾类主技能或副技能时，失去<Totemic Dexterity>效果。#该效果可叠加@次。",
+   "EN_TEXT": "While in Combat, as long as the last Skill you've cast is a Totem, you gain a Totemic Dexterity stack every second, granting you +@ £, otherwise you lose a Totemic Dexterity stack per second.#This effect can stack up to @.",
+   "FR_TEXT": "En Combat, tant que la dernière Compétence que vous avez lancée est un Totem, vous gagnez un cumul de Dextérité Totémique chaque seconde, vous conférant +@ £. Sinon, vous perdez un cumul de Dextérité Totémique par seconde.#Cet effet peut se cumuler jusqu'à @ fois.",
+   "CH_TEXT": "",
+   "TW_TEXT": "",
    "JP_TEXT": "",
    "DE_TEXT": "",
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 100,
@@ -1916,7 +2216,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 101,
@@ -1935,26 +2238,32 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 102,
    "TRAIT": 6,
    "ADDITIVE": null,
-   "LEVEL": 30,
-   "VALUE": "20|30|5",
+   "LEVEL": 15,
+   "VALUE": "40|30|5",
    "TYPE": "%|%|",
    "STAT": "chance|seconds",
-   "EN_TEXT": "The Skill in your Primary Slot has @ £ to <Slow> enemies hit by @ for the next @ £.",
-   "FR_TEXT": "La Compétence dans votre Emplacement Principal a @ de £ de <Ralentir> les ennemis touchés de @ pour les @ prochaines £.",
-   "CH_TEXT": "主技能击中@个敌人时，有@£施加<Slow>，持续@£。",
-   "TW_TEXT": "主技能击中@个敌人时，有@£施加<Slow>，持续@£。",
+   "EN_TEXT": "Your Secondary Skill has @ £ to <Slow> enemies hit by @ for the next @ £.",
+   "FR_TEXT": "Votre Compétence Secondaire a @ de £ de <Ralentir> les ennemis touchés de @ pour les @ prochaines £.",
+   "CH_TEXT": "",
+   "TW_TEXT": "",
    "JP_TEXT": "",
    "DE_TEXT": "",
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 103,
@@ -1973,7 +2282,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 104,
@@ -1992,7 +2304,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 105,
@@ -2011,7 +2326,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 106,
@@ -2030,7 +2348,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 107,
@@ -2049,7 +2370,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 108,
@@ -2068,7 +2392,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 109,
@@ -2087,7 +2414,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 110,
@@ -2106,7 +2436,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 111,
@@ -2125,7 +2458,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 112,
@@ -2144,7 +2480,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 113,
@@ -2163,7 +2502,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 114,
@@ -2182,7 +2524,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 118,
@@ -2201,7 +2546,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 116,
@@ -2220,7 +2568,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 117,
@@ -2239,7 +2590,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 121,
@@ -2258,7 +2612,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 119,
@@ -2277,7 +2634,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 120,
@@ -2296,7 +2656,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 124,
@@ -2315,7 +2678,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 122,
@@ -2334,7 +2700,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 123,
@@ -2353,7 +2722,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 127,
@@ -2372,7 +2744,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 125,
@@ -2391,7 +2766,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 126,
@@ -2410,7 +2788,10 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  },
  {
    "REF": 115,
@@ -2429,6 +2810,9 @@
    "ES_TEXT": "",
    "IT_TEXT": "",
    "RU_TEXT": "",
-   "PT_TEXT": ""
+   "PT_TEXT": "",
+   "PO_TEXT": "",
+   "KR_TEXT": "",
+   "TUR_TEXT": ""
  }
 ]
