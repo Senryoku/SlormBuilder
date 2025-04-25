@@ -1,6 +1,6 @@
 <template>
 	<div class="tooltip" ref="el">
-		<transition name="fade" mode="out-in" @enter="transitionEnter">
+		<transition name="fade" @enter="transitionEnter">
 			<div v-show="show" :key="triggerCount"><slot /></div>
 		</transition>
 	</div>
