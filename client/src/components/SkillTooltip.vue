@@ -20,7 +20,8 @@
 					</li>
 					<li v-show="genres">{{ genres }}</li>
 					<li v-show="skill.COOLDOWN">
-						{{ t("Cooldown") }}: {{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
+						{{ t("Cooldown") }}:
+						{{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
 					</li>
 					<li>{{ t("Base Cost") }}: {{ skill.COST }}</li>
 				</ul>
@@ -50,10 +51,9 @@
 					<div
 						class="mechanic-desc"
 						v-html="
-							r[this.settings.language + '_DESCRIPTION'].replaceAll(
-								'#',
-								'<br />'
-							)
+							r[
+								this.settings.language + '_DESCRIPTION'
+							].replaceAll('#', '<br />')
 						"
 					></div>
 				</div>
@@ -78,238 +78,268 @@
 </template>
 
 <script>
-import Mechanics from "../assets/data/mechanics.json";
+	import Mechanics from "../assets/data/mechanics.json";
 
-export default {
-	props: {
-		language: { type: String, default: "EN" },
-		className: { type: String, required: true },
-		skill: { type: Object },
-	},
-	methods: {
-		mechanicIcon(r) {
-			return require(`../assets/extracted/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
+	function require(url) {
+		return new URL(url, import.meta.url).href;
+	}
+	export default {
+		props: {
+			language: { type: String, default: "EN" },
+			className: { type: String, required: true },
+			skill: { type: Object },
 		},
-	},
-	computed: {
-		reminders() {
-			return [...this.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
-				.map((arr) => {
-					if (arr[1] in Mechanics) return Mechanics[arr[1]];
-					else {
-						const candidates = Object.keys(Mechanics).filter(
-							(k) => k.includes(arr[1]) || arr[1].includes(k)
-						);
-						if (candidates.length > 0) return Mechanics[candidates[0]];
-						console.log(arr[1] + " not found in Mechanics");
-					}
-					return arr[1];
-				})
-				.filter((e, idx, arr) => arr.indexOf(e) === idx); // De-duplicate
+		methods: {
+			require(url) {
+				return require(url);
+			},
+			mechanicIcon(r) {
+				return require(`../assets/extracted/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
+			},
 		},
-		description() {
-			if (!this.skill) return "";
-			let r = this.skill[this.settings.language + "_DESCRIPTION"];
-			// New lines
-			r = r.replaceAll("#", "\n");
-
-			// Reminders
-			r = r.replaceAll(/<([^>]*)>/g, (match, group) => {
-				return `<span class="keyword">${group}</span>`;
-			});
-			function small(s) {
-				return `<span class="smaller">${s}</span>`;
-			}
-
-			function c(n) {
-				return `<span class="colored">${n}</span>`;
-			}
-
-			if (this.skill.DESC_VALUE_REAL) {
-				let reals = this.skill.DESC_VALUE_REAL.split("|");
-				for (let e of reals) r = r.replace("$", this.translate(e));
-			}
-
-			function splice(str, start, count, insert) {
-				return str.slice(0, start) + insert + str.slice(start + count);
-			}
-
-			if (this.skill.DESC_VALUE) {
-				let negative = this.skill.DESC_VALUE_REAL.split("|").map((v) =>
-					v === "negative" ? -1 : 1
-				);
-				let value_name = this.skill.DESC_VALUE.split("|");
-				value_name = value_name.map((n) => this.translate(n));
-				let value_base = this.skill.DESC_VALUE_BASE.split("|");
-				value_base = value_base.map((v) => parseFloat(v));
-				let value_per_level = this.skill.DESC_VALUE_PER_LVL.split("|");
-				value_per_level = value_per_level.map((v) => parseFloat(v));
-				let value_type = this.skill.DESC_VALUE_TYPE.split("|");
-				const value_regex = /@([^@]+)£/;
-				for (let idx = 0; idx < value_name.length; ++idx) {
-					let current_value =
-						Math.round(
-							100 *
-								(value_base[idx] +
-									negative[idx] *
-										Math.max(0, this.skill.rank) *
-										value_per_level[idx])
-						) / 100;
-					let index = r.search("@");
-					let next_index = r.substr(index + 1).search("@");
-					let value_explanation =
-						this.skill.UPGRADE_NUMBER > 1 &&
-						index >= 0 &&
-						!r
-							.substr(index, next_index > 0 ? next_index : undefined)
-							.includes("µ");
-					if (index >= 0) {
-						// Search corresponding £
-						let matching_name = value_regex.exec(r);
-						if (matching_name) {
-							r = r.replace(value_regex, (match, separator) => {
-								return `${c(current_value + value_type[idx])}${separator}${
-									value_name[idx]
-								}${
-									value_explanation
-										? small(
-												` (${value_base[idx]}${value_type[idx]} ${
-													negative < 0 ? "-" : "+"
-												} ${value_per_level[idx]}${value_type[idx]} ${this.t(
-													"per rank"
-												)})`
-										  )
-										: ""
-								}`;
-							});
-						} else {
-							r = splice(r, index, 1, c(current_value + value_type[idx]));
+		computed: {
+			reminders() {
+				return [...this.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
+					.map((arr) => {
+						if (arr[1] in Mechanics) return Mechanics[arr[1]];
+						else {
+							const candidates = Object.keys(Mechanics).filter(
+								(k) => k.includes(arr[1]) || arr[1].includes(k)
+							);
+							if (candidates.length > 0)
+								return Mechanics[candidates[0]];
+							console.log(arr[1] + " not found in Mechanics");
 						}
-					} else {
-						if (r.includes("£")) {
-							r = r.replace("£", c(value_name[idx]));
-						}
-					}
+						return arr[1];
+					})
+					.filter((e, idx, arr) => arr.indexOf(e) === idx); // De-duplicate
+			},
+			description() {
+				if (!this.skill) return "";
+				let r = this.skill[this.settings.language + "_DESCRIPTION"];
+				// New lines
+				r = r.replaceAll("#", "\n");
 
-					if (!value_explanation) {
-						r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
-							small(group)
-						);
-						r = r.replace("µ", value_base[idx]);
-						r = r.replace("µ", value_per_level[idx]);
-					}
-					// Synergies
-					r = r.replace("_", c(current_value + "%"));
+				// Reminders
+				r = r.replaceAll(/<([^>]*)>/g, (match, group) => {
+					return `<span class="keyword">${group}</span>`;
+				});
+				function small(s) {
+					return `<span class="smaller">${s}</span>`;
 				}
-			}
 
-			if (this.skill.EXTRA_NBR) {
-				let extras = this.skill.EXTRA_NBR.split("|");
-				for (let e of extras) r = r.replace("¥", e);
-			}
+				function c(n) {
+					return `<span class="colored">${n}</span>`;
+				}
 
-			// Wth is ¤?
-			return r;
+				if (this.skill.DESC_VALUE_REAL) {
+					let reals = this.skill.DESC_VALUE_REAL.split("|");
+					for (let e of reals) r = r.replace("$", this.translate(e));
+				}
+
+				function splice(str, start, count, insert) {
+					return (
+						str.slice(0, start) + insert + str.slice(start + count)
+					);
+				}
+
+				if (this.skill.DESC_VALUE) {
+					let negative = this.skill.DESC_VALUE_REAL.split("|").map(
+						(v) => (v === "negative" ? -1 : 1)
+					);
+					let value_name = this.skill.DESC_VALUE.split("|");
+					value_name = value_name.map((n) => this.translate(n));
+					let value_base = this.skill.DESC_VALUE_BASE.split("|");
+					value_base = value_base.map((v) => parseFloat(v));
+					let value_per_level =
+						this.skill.DESC_VALUE_PER_LVL.split("|");
+					value_per_level = value_per_level.map((v) => parseFloat(v));
+					let value_type = this.skill.DESC_VALUE_TYPE.split("|");
+					const value_regex = /@([^@]+)£/;
+					for (let idx = 0; idx < value_name.length; ++idx) {
+						let current_value =
+							Math.round(
+								100 *
+									(value_base[idx] +
+										negative[idx] *
+											Math.max(0, this.skill.rank) *
+											value_per_level[idx])
+							) / 100;
+						let index = r.search("@");
+						let next_index = r.substr(index + 1).search("@");
+						let value_explanation =
+							this.skill.UPGRADE_NUMBER > 1 &&
+							index >= 0 &&
+							!r
+								.substr(
+									index,
+									next_index > 0 ? next_index : undefined
+								)
+								.includes("µ");
+						if (index >= 0) {
+							// Search corresponding £
+							let matching_name = value_regex.exec(r);
+							if (matching_name) {
+								r = r.replace(
+									value_regex,
+									(match, separator) => {
+										return `${c(
+											current_value + value_type[idx]
+										)}${separator}${value_name[idx]}${
+											value_explanation
+												? small(
+														` (${value_base[idx]}${
+															value_type[idx]
+														} ${
+															negative < 0
+																? "-"
+																: "+"
+														} ${
+															value_per_level[idx]
+														}${
+															value_type[idx]
+														} ${this.t(
+															"per rank"
+														)})`
+												  )
+												: ""
+										}`;
+									}
+								);
+							} else {
+								r = splice(
+									r,
+									index,
+									1,
+									c(current_value + value_type[idx])
+								);
+							}
+						} else {
+							if (r.includes("£")) {
+								r = r.replace("£", c(value_name[idx]));
+							}
+						}
+
+						if (!value_explanation) {
+							r = r.replace(
+								/([(（]µ[^µ)]*µ[^)]*[)）])/,
+								(match, group) => small(group)
+							);
+							r = r.replace("µ", value_base[idx]);
+							r = r.replace("µ", value_per_level[idx]);
+						}
+						// Synergies
+						r = r.replace("_", c(current_value + "%"));
+					}
+				}
+
+				if (this.skill.EXTRA_NBR) {
+					let extras = this.skill.EXTRA_NBR.split("|");
+					for (let e of extras) r = r.replace("¥", e);
+				}
+
+				// Wth is ¤?
+				return r;
+			},
+			genres() {
+				if (!this.skill.GENRE) return null;
+				return this.skill.GENRE.split(",")
+					?.map((str) => "atk_" + str)
+					.map((s) => this.translate(s))
+					.join(", ");
+			},
 		},
-		genres() {
-			if (!this.skill.GENRE) return null;
-			return this.skill.GENRE.split(",")
-				?.map((str) => "atk_" + str)
-				.map((s) => this.translate(s))
-				.join(", ");
-		},
-	},
-};
+	};
 </script>
 
 <style>
-.skill-tooltip {
-	box-sizing: border-box;
-	width: 396px;
-	padding: 20px;
-	background-color: #222;
-	z-index: 99;
-	pointer-events: none;
+	.skill-tooltip {
+		box-sizing: border-box;
+		width: 396px;
+		padding: 20px;
+		background-color: #222;
+		z-index: 99;
+		pointer-events: none;
 
-	background-image: url("../assets/extracted/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
-	background-repeat: no-repeat;
-	border-style: solid;
-	border-image-source: url("../assets/img/skill-tree-border.png");
-	border-image-slice: 16 16 16 16;
-	border-image-width: 12px;
-	border-image-outset: 0px 0px 0px 0px;
-	border-image-repeat: stretch stretch;
-	border-image-outset: 12px;
-}
+		background-image: url("../assets/extracted/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
+		background-repeat: no-repeat;
+		border-style: solid;
+		border-image-source: url("../assets/img/skill-tree-border.png");
+		border-image-slice: 16 16 16 16;
+		border-image-width: 12px;
+		border-image-outset: 0px 0px 0px 0px;
+		border-image-repeat: stretch stretch;
+		border-image-outset: 12px;
+	}
 
-.skill-tooltip ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
+	.skill-tooltip ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
 
-h2 {
-	margin-top: 0;
-	text-align: center;
-}
+	h2 {
+		margin-top: 0;
+		text-align: center;
+	}
 
-.skill-image {
-	width: 96px;
-	height: 96px;
-	flex-shrink: 0;
+	.skill-image {
+		width: 96px;
+		height: 96px;
+		flex-shrink: 0;
 
-	border-style: solid;
-	border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_4.png");
-	border-image-slice: 12 12 12 12;
-	border-image-width: 12px;
-	border-image-outset: 0px 0px 0px 0px;
-	border-image-repeat: stretch stretch;
-	border-image-outset: 4px;
-	background-size: cover;
-	image-rendering: crisp-edges;
-	z-index: 2;
-}
+		border-style: solid;
+		border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_4.png");
+		border-image-slice: 12 12 12 12;
+		border-image-width: 12px;
+		border-image-outset: 0px 0px 0px 0px;
+		border-image-repeat: stretch stretch;
+		border-image-outset: 4px;
+		background-size: cover;
+		image-rendering: crisp-edges;
+		z-index: 2;
+	}
 
-.description {
-	white-space: pre-line;
-}
+	.description {
+		white-space: pre-line;
+	}
 
-.colored {
-	color: #b13d07;
-}
+	.colored {
+		color: #b13d07;
+	}
 
-.smaller {
-	color: #666;
-	font-size: 0.9em;
-}
+	.smaller {
+		color: #666;
+		font-size: 0.9em;
+	}
 
-.keyword {
-	font-weight: 600;
-}
+	.keyword {
+		font-weight: 600;
+	}
 
-.details {
-	word-wrap: break-word;
-	text-align: left;
-}
+	.details {
+		word-wrap: break-word;
+		text-align: left;
+	}
 
-.mechanic-summary {
-	display: flex;
-	align-content: center;
-	justify-content: flex-start;
-	background-color: #282828;
-	min-height: 44px;
-}
+	.mechanic-summary {
+		display: flex;
+		align-content: center;
+		justify-content: flex-start;
+		background-color: #282828;
+		min-height: 44px;
+	}
 
-.mechanic-summary-name {
-	padding-left: 8px;
-	line-height: 44px;
-}
+	.mechanic-summary-name {
+		padding-left: 8px;
+		line-height: 44px;
+	}
 
-.mechanic-name {
-	font-weight: 600;
-}
+	.mechanic-name {
+		font-weight: 600;
+	}
 
-.mechanic-desc {
-	font-size: 0.8em;
-}
+	.mechanic-desc {
+		font-size: 0.8em;
+	}
 </style>

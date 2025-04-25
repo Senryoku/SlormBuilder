@@ -1,5 +1,4 @@
 import { createApp, reactive } from "vue";
-import { publicPath } from "../vue.config";
 import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
@@ -77,6 +76,7 @@ const routes = [
 	{ path: "/:pathMatch(.*)", component: NotFound },
 ];
 
+const publicPath = "/SlormBuilder/";
 const router = createRouter({
 	history: createWebHistory(publicPath),
 	routes,

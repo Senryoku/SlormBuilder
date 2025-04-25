@@ -27,6 +27,10 @@
 	import ItemIcon from "./ItemIcon.vue";
 	import AncestralSkill from "./AncestralSkill.vue";
 
+	function require(url) {
+		return new URL(url, import.meta.url).href;
+	}
+
 	export default {
 		name: "Legendary",
 		components: { ItemIcon, AncestralSkill },

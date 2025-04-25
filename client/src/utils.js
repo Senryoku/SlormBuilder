@@ -231,33 +231,31 @@ for (let r of ReapersData) {
 }
 ReapersData.sort((l, r) => l.ORDER - r.ORDER);
 
+export function require(url) {
+	return new URL(url, import.meta.url).href;
+}
+
 export function getSkillSprite(className, skill, support = false) {
 	let sprite = require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png");
+
 	try {
-		switch (className) {
-			case "knight":
-				sprite = support
-					? require(`./assets/extracted/sprites/spr_supports_knight/spr_supports_knight_${skill.REF}.png`)
-					: require(`./assets/extracted/sprites/spr_skills_knight/spr_skills_knight_${skill.REF}.png`);
-				break;
-			case "huntress":
-				sprite = support
-					? require(`./assets/extracted/sprites/spr_supports_huntress/spr_supports_huntress_${skill.REF}.png`)
-					: require(`./assets/extracted/sprites/spr_skills_huntress/spr_skills_huntress_${skill.REF}.png`);
-				break;
-			case "mage":
-				sprite = support
-					? require(`./assets/extracted/sprites/spr_supports_mage/spr_supports_mage_${skill.REF}.png`)
-					: require(`./assets/extracted/sprites/spr_skills_mage/spr_skills_mage_${skill.REF}.png`);
-				break;
-		}
+		const folder = `spr_${support ? "supports" : "skills"}_${className}`;
+		return require(`./assets/extracted/sprites/${folder}/${folder}_${skill.REF}.png`);
 	} catch (e) {
 		console.warn(`'spr_skills_${className}_${skill.REF}.png' not found.`);
-		//console.error(e);
 	}
 	return sprite;
 }
 
 export function clamp(val, min, max) {
 	return Math.max(min, Math.min(val, max));
+}
+
+export function spritesByIndex(a) {
+	return Object.fromEntries(
+		Object.entries(a).map(([path, url]) => {
+			const m = path.match(/.+_(\d+)\.png/);
+			return [m[1], url];
+		})
+	);
 }

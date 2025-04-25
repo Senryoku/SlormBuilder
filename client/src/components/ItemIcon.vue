@@ -18,6 +18,9 @@
 		cape: 178,
 	};
 
+	function require(url) {
+		return new URL(url, import.meta.url).href;
+	}
 	export default {
 		name: "ItemIcon",
 		props: {

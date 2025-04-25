@@ -15,9 +15,7 @@
 					<img
 						@mouseenter="displayTooltip($event, idx)"
 						class="attr-icon"
-						:src="
-							require(`@/assets/extracted/sprites/spr_trait_icons/spr_trait_icons_${idx}.png`)
-						"
+						:src="traitIcons(idx)"
 					/>
 					<img
 						v-for="e in effects[idx].filter(
@@ -26,9 +24,7 @@
 						:key="e.REF"
 						class="effect-level"
 						:style="`left: ${76 + additiveEffectMargin(e.LEVEL)}px`"
-						:src="
-							require(`@/assets/extracted/sprites/spr_trait_evolve/spr_trait_evolve_${idx}.png`)
-						"
+						:src="traitEvolve(idx)"
 					/>
 					<div class="attr-indicators">
 						<div
@@ -68,11 +64,55 @@
 
 <script>
 	import { ref } from "vue";
-	import { clamp } from "../utils.js";
+	import { clamp, spritesByIndex } from "../utils.js";
 	import AttributeData from "../assets/extracted/dat_att.json";
 
 	import Tooltip from "./Tooltip.vue";
 	import Attribute from "./Attribute.vue";
+
+	const Animation = spritesByIndex(
+		import.meta.glob(
+			"../assets/extracted/sprites/spr_class_ui_animation_mini/*.png",
+			{ eager: true, query: "?url", import: "default" }
+		)
+	);
+
+	const TraitIcons = spritesByIndex(
+		import.meta.glob("../assets/extracted/sprites/spr_trait_icons/*.png", {
+			eager: true,
+			query: "?url",
+			import: "default",
+		})
+	);
+
+	const TraitEvolve = spritesByIndex(
+		import.meta.glob("../assets/extracted/sprites/spr_trait_evolve/*.png", {
+			eager: true,
+			query: "?url",
+			import: "default",
+		})
+	);
+
+	const TraitPoints = {
+		default: spritesByIndex(
+			import.meta.glob(
+				"../assets/extracted/sprites/spr_trait_point_default/*.png",
+				{ eager: true, query: "?url", import: "default" }
+			)
+		),
+		losange: spritesByIndex(
+			import.meta.glob(
+				"../assets/extracted/sprites/spr_trait_point_losange/*.png",
+				{ eager: true, query: "?url", import: "default" }
+			)
+		),
+		square: spritesByIndex(
+			import.meta.glob(
+				"../assets/extracted/sprites/spr_trait_point_square/*.png",
+				{ eager: true, query: "?url", import: "default" }
+			)
+		),
+	};
 
 	export default {
 		name: "Attributes",
@@ -130,17 +170,20 @@
 			// Preload animation
 			for (let i = 0; i < 8; ++i) {
 				const img = new Image();
-				img.src = require(`../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_${i}.png`);
+				img.src = Animation[i];
 			}
 		},
 		methods: {
+			traitEvolve(idx) {
+				return TraitEvolve[idx];
+			},
+			traitIcons(idx) {
+				return TraitIcons[idx];
+			},
 			attrPointImage(idx, i) {
-				if (i > 0 && i % 15 === 0)
-					return require(`@/assets/extracted/sprites/spr_trait_point_losange/spr_trait_point_losange_${idx}.png`);
-				else if (i > 0 && i % 5 === 0)
-					return require(`@/assets/extracted/sprites/spr_trait_point_square/spr_trait_point_square_${idx}.png`);
-				else
-					return require(`@/assets/extracted/sprites/spr_trait_point_default/spr_trait_point_default_${idx}.png`);
+				if (i > 0 && i % 15 === 0) return TraitPoints.losange[idx];
+				else if (i > 0 && i % 5 === 0) return TraitPoints.square[idx];
+				else return TraitPoints.default[idx];
 			},
 			additiveEffectMargin(i) {
 				--i;
@@ -300,6 +343,9 @@
 		animation-timing-function: step-start;
 		animation-name: attr-gain-animation;
 		animation-direction: forward;
+
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
 	.attr-point:nth-child(15n) .attr-gain {

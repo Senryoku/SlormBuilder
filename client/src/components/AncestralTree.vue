@@ -81,7 +81,7 @@
 
 <script>
 	import { ref } from "vue";
-	import { clamp } from "../utils.js";
+	import { clamp, spritesByIndex } from "../utils.js";
 	import Elements from "../assets/extracted/dat_ele.json";
 	import SkillIcon from "./SkillIcon.vue";
 	import ElementComponent from "./Element.vue";
@@ -89,6 +89,14 @@
 
 	const size = 4 * 732;
 	const halfSize = size / 2;
+
+	const ElementSprites = spritesByIndex(
+		import.meta.glob("../assets/extracted/sprites/spr_elements/*.png", {
+			eager: true,
+			query: "?url",
+			import: "default",
+		})
+	);
 
 	export default {
 		name: "AncestralTree",
@@ -112,7 +120,7 @@
 				const el = props?.import?.find((el) => el.REF === e.REF);
 				e.rank = el?.rank ?? 0;
 				e.selected = !!el;
-				e.image = require(`../assets/extracted/sprites/spr_elements/spr_elements_${e.REF}.png`);
+				e.image = ElementSprites[e.REF];
 			}
 
 			const radialCoords = (i, d, r, p = 0) => [

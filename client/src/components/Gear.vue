@@ -199,6 +199,9 @@
 			editable: { type: Boolean, default: true },
 		},
 		methods: {
+			require(url) {
+				return new URL(url, import.meta.url).href;
+			},
 			select(type) {
 				this.selectedSlot = type;
 			},
