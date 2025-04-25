@@ -11,26 +11,22 @@
 	</div>
 </template>
 
-<script>
-	function require(url) {
-		return new URL(url, import.meta.url).href;
+<script setup lang="ts">
+	import { computed } from "vue";
+	import ImageOn from "../assets/extracted/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png";
+	import ImageOff from "../assets/extracted/sprites/spr_menu_toggler/spr_menu_toggler_0.png";
+
+	const props = defineProps<{ modelValue: boolean }>();
+
+	const emit = defineEmits<{ "update:modelValue": [value: boolean] }>();
+
+	function toggle() {
+		emit("update:modelValue", !props.modelValue);
 	}
-	export default {
-		name: "Toggle",
-		props: { modelValue: { type: Boolean, required: true } },
-		methods: {
-			toggle() {
-				this.$emit("update:modelValue", !this.modelValue);
-			},
-		},
-		computed: {
-			image() {
-				return this.modelValue
-					? require("../assets/extracted/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png")
-					: require("../assets/extracted/sprites/spr_menu_toggler/spr_menu_toggler_0.png");
-			},
-		},
-	};
+
+	const image = computed(() => {
+		return props.modelValue ? ImageOn : ImageOff;
+	});
 </script>
 
 <style>

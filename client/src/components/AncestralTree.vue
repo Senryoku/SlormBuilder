@@ -86,17 +86,10 @@
 	import SkillIcon from "./SkillIcon.vue";
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
+	import ElementIcons from "../ElementIcons.ts";
 
 	const size = 4 * 732;
 	const halfSize = size / 2;
-
-	const ElementSprites = spritesByIndex(
-		import.meta.glob("../assets/extracted/sprites/spr_elements/*.png", {
-			eager: true,
-			query: "?url",
-			import: "default",
-		})
-	);
 
 	export default {
 		name: "AncestralTree",
@@ -120,7 +113,7 @@
 				const el = props?.import?.find((el) => el.REF === e.REF);
 				e.rank = el?.rank ?? 0;
 				e.selected = !!el;
-				e.image = ElementSprites[e.REF];
+				e.image = ElementIcons[e.REF];
 			}
 
 			const radialCoords = (i, d, r, p = 0) => [

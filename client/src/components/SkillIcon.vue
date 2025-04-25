@@ -4,7 +4,7 @@
 			:class="{
 				support: support,
 				passive: round,
-				selected: skill.selected || selected,
+				selected: skill.selected ?? selected,
 				maxed: skill.rank === skill.UPGRADE_NUMBER,
 			}"
 			class="skill-image"
@@ -17,30 +17,32 @@
 	</div>
 </template>
 
-<script>
-	import { getSkillSprite } from "../utils.js";
-	export default {
+<script setup lang="ts">
+	import { getSkillSprite } from "../utils";
+
+	defineOptions({
 		name: "SkillIcon",
-		props: {
-			className: { type: String },
-			skill: { type: Object },
-			selected: { type: Boolean },
-			support: { type: Boolean, default: false },
-			round: { type: Boolean, default: false },
-		},
-		data(props) {
-			let sprite = props.skill.image;
-			if (!sprite || props.support)
-				sprite = getSkillSprite(
-					props.className,
-					props.skill,
-					props.support
-				);
-			return {
-				image: sprite,
-			};
-		},
-	};
+	});
+
+	const props = withDefaults(
+		defineProps<{
+			className?: string;
+			skill: object;
+			selected?: boolean;
+			support?: boolean;
+			round?: boolean;
+		}>(),
+		{
+			selected: false,
+			support: false,
+			round: false,
+		}
+	);
+
+	let image = props.skill.image;
+	if (!image || props.support) {
+		image = getSkillSprite(props.className, props.skill, props.support);
+	}
 </script>
 
 <style scoped>

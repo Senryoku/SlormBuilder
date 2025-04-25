@@ -5,6 +5,10 @@
 </template>
 
 <script>
+	import { require } from "../utils";
+
+	import ItemIcons from "../ItemIcons";
+
 	const TypeOffsets = {
 		helm: 1,
 		body: 30,
@@ -18,27 +22,18 @@
 		cape: 178,
 	};
 
-	function require(url) {
-		return new URL(url, import.meta.url).href;
-	}
 	export default {
 		name: "ItemIcon",
 		props: {
 			item: { type: Object },
 		},
 		data(props) {
-			let image = "";
-			try {
-				image = require(`../assets/extracted/sprites/spr_inventory_items/spr_inventory_items_${
+			return {
+				image: ItemIcons[
 					props.item.SPRITE !== null
 						? TypeOffsets[props.item.ITEM] + props.item.SPRITE
 						: 0
-				}.png`);
-			} catch (e) {
-				//
-			}
-			return {
-				image,
+				],
 			};
 		},
 		computed: {

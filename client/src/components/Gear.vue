@@ -29,11 +29,7 @@
 				>
 					<div v-if="gear.reaper">
 						<img
-							:src="
-								require(`../assets/extracted/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
-									gear.reaper.REF ?? 0
-								}.png`)
-							"
+							:src="reaperIcon(reaperType, gear.reaper.REF ?? 0)"
 						/>
 						<div>
 							{{ reaperName }}
@@ -158,7 +154,7 @@
 
 <script>
 	import { ref } from "vue";
-	import { ItemSlots, Reapers } from "../utils.js";
+	import { ItemSlots, Reapers, spritesByIndex } from "../utils.js";
 	import draggable from "vuedraggable";
 	import Stats from "../assets/data/item_stats.json";
 	import GearSlot from "./GearSlot.vue";
@@ -168,6 +164,8 @@
 	import Reaper from "./Reaper.vue";
 	import ReaperGallery from "./ReaperGallery.vue";
 	import Tooltip from "./Tooltip.vue";
+
+	import ReaperIcons from "../ReaperIcons.ts";
 
 	export default {
 		name: "Gear",
@@ -199,8 +197,8 @@
 			editable: { type: Boolean, default: true },
 		},
 		methods: {
-			require(url) {
-				return new URL(url, import.meta.url).href;
+			reaperIcon(type, index) {
+				return ReaperIcons[type][index];
 			},
 			select(type) {
 				this.selectedSlot = type;

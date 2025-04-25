@@ -235,16 +235,80 @@ export function require(url) {
 	return new URL(url, import.meta.url).href;
 }
 
-export function getSkillSprite(className, skill, support = false) {
-	let sprite = require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png");
+const SkillSprites = {
+	knight: {
+		skills: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_skills_knight/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+		supports: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_supports_knight/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+	},
+	huntress: {
+		skills: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_skills_huntress/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+		supports: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_supports_huntress/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+	},
+	mage: {
+		skills: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_skills_mage/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+		supports: spritesByIndex(
+			import.meta.glob(
+				"./assets/extracted/sprites/spr_supports_mage/*.png",
+				{
+					eager: true,
+					query: "?url",
+					import: "default",
+				}
+			)
+		),
+	},
+};
 
-	try {
-		const folder = `spr_${support ? "supports" : "skills"}_${className}`;
-		return require(`./assets/extracted/sprites/${folder}/${folder}_${skill.REF}.png`);
-	} catch (e) {
-		console.warn(`'spr_skills_${className}_${skill.REF}.png' not found.`);
-	}
-	return sprite;
+export function getSkillSprite(className, skill, support = false) {
+	return (
+		SkillSprites[className][support ? "supports" : "skills"][skill.REF] ??
+		require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
+	);
 }
 
 export function clamp(val, min, max) {

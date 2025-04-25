@@ -3,9 +3,7 @@
 		<h2 class="colored">{{ skill[this.settings.language + "_NAME"] }}</h2>
 		<img
 			style="max-width: 100%"
-			:src="
-				require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
-			"
+			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
 		/>
 		<div style="display: flex; margin: 1em; min-height: 96px">
 			<div
@@ -29,9 +27,7 @@
 		</div>
 		<img
 			style="max-width: 100%"
-			:src="
-				require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
-			"
+			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
 		/>
 		<p class="description" v-html="description"></p>
 		<!-- TODO -->
@@ -79,10 +75,8 @@
 
 <script>
 	import Mechanics from "../assets/data/mechanics.json";
+	import { getSkillSprite } from "../utils";
 
-	function require(url) {
-		return new URL(url, import.meta.url).href;
-	}
 	export default {
 		props: {
 			language: { type: String, default: "EN" },
@@ -90,11 +84,8 @@
 			skill: { type: Object },
 		},
 		methods: {
-			require(url) {
-				return require(url);
-			},
 			mechanicIcon(r) {
-				return require(`../assets/extracted/sprites/spr_skills_${this.className}/spr_skills_${this.className}_${r.REF}.png`);
+				return getSkillSprite(this.className, r);
 			},
 		},
 		computed: {

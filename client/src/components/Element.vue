@@ -1,11 +1,7 @@
 <template>
 	<div class="element" v-if="element">
 		<div class="header">
-			<img
-				:src="
-					require(`../assets/extracted/sprites/spr_elements/spr_elements_${element.REF}.png`)
-				"
-			/>
+			<img :src="icon" />
 			<div class="infos">
 				<div class="name">{{ name }}</div>
 				<div v-if="element.TYPE">
@@ -35,11 +31,13 @@
 
 <script>
 	import { parseText, require } from "../utils.js";
+	import ElementIcons from "../ElementIcons.ts";
+
 	export default {
 		props: { element: { type: Object } },
 		computed: {
-			require(url) {
-				return require(url);
+			icon() {
+				return ElementIcons[this.element.REF];
 			},
 			name() {
 				return this.translate(

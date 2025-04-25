@@ -3,9 +3,9 @@
 </template>
 
 <script>
-	function require(url) {
-		return new URL(url, import.meta.url).href;
-	}
+	import { require } from "../utils";
+	import ReaperIcons from "../ReaperIcons.ts";
+
 	export default {
 		props: {
 			type: { type: String, required: true },
@@ -22,21 +22,10 @@
 		},
 		computed: {
 			image() {
-				switch (this.type) {
-					case "sword":
-						return require(`../assets/extracted/sprites/spr_reapers_swords/spr_reapers_swords_${
-							this.item.REF ?? 0
-						}.png`);
-					case "bow":
-						return require(`../assets/extracted/sprites/spr_reapers_bows/spr_reapers_bows_${
-							this.item.REF ?? 0
-						}.png`);
-					case "staff":
-						return require(`../assets/extracted/sprites/spr_reapers_staffs/spr_reapers_staffs_${
-							this.item.REF ?? 0
-						}.png`);
-				}
-				return require("../assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png");
+				return (
+					ReaperIcons[this.type][this.item.REF ?? 0] ??
+					require("../assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
+				);
 			},
 			name() {
 				return this.transformName(

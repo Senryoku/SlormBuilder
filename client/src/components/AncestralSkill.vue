@@ -26,11 +26,15 @@
 </template>
 
 <script>
-	import { parseText } from "../utils.js";
+	import { parseText, require, spritesByIndex } from "../utils.js";
 
-	function require(url) {
-		return new URL(url, import.meta.url).href;
-	}
+	const IconSprites = spritesByIndex(
+		import.meta.glob("../assets/extracted/sprites/spr_actives/*.png", {
+			eager: true,
+			query: "?url",
+			import: "default",
+		})
+	);
 
 	export default {
 		props: { skill: { type: Object } },
@@ -48,11 +52,10 @@
 				});
 			},
 			iconImage() {
-				try {
-					return require(`../assets/extracted/sprites/spr_actives/spr_actives_${this.skill.REF}.png`);
-				} catch (e) {
-					return require(`../assets/img/spr_actives_missing.png`);
-				}
+				return (
+					IconSprites[this.skill.REF] ??
+					require(`../assets/img/spr_actives_missing.png`)
+				);
 			},
 		},
 	};

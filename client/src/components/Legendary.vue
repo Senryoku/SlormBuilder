@@ -22,14 +22,10 @@
 </template>
 
 <script>
-	import { parseText } from "../utils.js";
+	import { parseText, require } from "../utils.js";
 	import AncestralSkills from "../assets/extracted/dat_act.json";
 	import ItemIcon from "./ItemIcon.vue";
 	import AncestralSkill from "./AncestralSkill.vue";
-
-	function require(url) {
-		return new URL(url, import.meta.url).href;
-	}
 
 	export default {
 		name: "Legendary",
