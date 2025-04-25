@@ -23,7 +23,7 @@
 				</div></template
 			><template v-else>
 				<div class="class-name selected" style="font-size: 1.2em">
-					<img :src="selectedClassIcon()" height="44" />
+					<img :src="selectedClassIcon" height="44" />
 					{{ selectedClass }} Build
 				</div></template
 			>
@@ -149,6 +149,8 @@
 		)
 	);
 
+	const classes = ["knight", "huntress", "mage"];
+
 	export default {
 		components: {
 			Class,
@@ -170,7 +172,6 @@
 			};
 		},
 		data() {
-			let classes = ["knight", "huntress", "mage"];
 			const r = {
 				classes: classes,
 				selectedClass: classes[0],
@@ -304,7 +305,9 @@
 		},
 		computed: {
 			selectedClassIcon() {
-				return classIcon(classes.findIndex((s) => s === selectedClass));
+				return ClassIcons[
+					classes.findIndex((s) => s === this.selectedClass)
+				];
 			},
 		},
 		methods: {
@@ -330,11 +333,13 @@
 				return str;
 			},
 			genURL() {
+				// FIXME: Should use the vite base path
+				const basePath = "SlormBuilder/";
 				return `${window.location.protocol}//${
 					window.location.hostname
 				}${
 					window.location.port ? ":" + window.location.port : ""
-				}/build/${window.btoa(this.serialize())}`;
+				}/${basePath}build/${window.btoa(this.serialize())}`;
 			},
 			share() {
 				copyToClipboard(this.genURL());
@@ -407,7 +412,7 @@
 							.split("|");
 					};
 
-					const classIdx = this.classes.findIndex(
+					const classIdx = classes.findIndex(
 						(c) => c === this.selectedClass
 					);
 					let dataFields = {};
@@ -503,7 +508,7 @@
 								selected: dat[ref] !== -1,
 							});
 						}
-						this.classComponents[this.classes[i]].importSave(
+						this.classComponents[classes[i]].importSave(
 							selections[i],
 							upgrades[i]
 						);
@@ -519,7 +524,7 @@
 					this.$toast.success(
 						this.t(
 							`Save successfully imported! (Every Skills and Attributes, Legendaries and Elements for the $)`,
-							capitalize(this.t(this.classes[classIdx]))
+							capitalize(this.t(classes[classIdx]))
 						)
 					);
 				} catch (e) {

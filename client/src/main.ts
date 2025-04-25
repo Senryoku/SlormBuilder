@@ -2,7 +2,7 @@ import { createApp, reactive } from "vue";
 import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
-import { translate, Settings, localize } from "./utils.js";
+import { translate, localize } from "./utils.js";
 const Builder = () => import("./Builder.vue");
 
 import ReaperData from "./assets/extracted/dat_rea.json";
@@ -11,11 +11,13 @@ const Reapers = () => import("./components/Reapers.vue");
 
 import LegendariesData from "./assets/extracted/dat_leg.json";
 const Legendary = () => import("./components/Legendary.vue");
-const Legendaries = () => import("./components/Legendaries.vue");
+const Legendaries = () => import("./pages/Legendaries.vue");
 
 const NotFound = () => import("./components/NotFound.vue");
 const Stats = () => import("./components/Stats.vue");
 import { createRouter, createWebHistory } from "vue-router";
+
+import { useSettings } from "./Settings.js";
 
 const routes = [
 	{ path: "/", component: Builder },
@@ -31,7 +33,7 @@ const routes = [
 	{ path: "/legendaries", component: Legendaries },
 	{
 		path: "/legendary/:id",
-		props: (route) => {
+		props: (route: any) => {
 			let id = parseInt(route.params.id);
 			let item = null;
 			if (isNaN(id)) {
@@ -53,7 +55,7 @@ const routes = [
 	},
 	{
 		path: "/reaper/:type/:id",
-		props: (route) => {
+		props: (route: any) => {
 			let id = parseInt(route.params.id);
 			let item = null;
 			if (isNaN(id)) {
@@ -84,15 +86,22 @@ const router = createRouter({
 
 const app = createApp(App).use(router).use(Toaster);
 
-app.config.globalProperties.settings = reactive(Settings);
-app.config.globalProperties.translate = (s) =>
-	translate(s, app.config.globalProperties.settings.language);
+app.config.globalProperties.settings = useSettings();
 
-app.config.globalProperties.t = function () {
-	return localize(
-		app.config.globalProperties.settings.language,
-		...arguments
-	);
+app.config.globalProperties.translate = (s: string) =>
+	translate(s, app.config.globalProperties.settings.value.language);
+
+app.config.globalProperties.t = (key: string) => {
+	return localize(app.config.globalProperties.settings.value.language, key);
 };
 
 app.mount("#app");
+
+declare module "@vue/runtime-core" {
+	interface ComponentCustomProperties {
+		settings: ReturnType<typeof useSettings>;
+		t: (key: string) => string;
+		translate: (key: string) => string;
+	}
+}
+export {};

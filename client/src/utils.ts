@@ -1,5 +1,5 @@
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
-export const copyToClipboard = (str) => {
+export const copyToClipboard = (str: string) => {
 	const el = document.createElement("textarea"); // Create a <textarea> element
 	el.value = str; // Set its value to the string that you want copied
 	el.setAttribute("readonly", ""); // Make it readonly to be tamper-proof
@@ -7,50 +7,55 @@ export const copyToClipboard = (str) => {
 	el.style.left = "-9999px"; // Move outside the screen to make it invisible
 	document.body.appendChild(el); // Append the <textarea> element to the HTML document
 	const selected =
-		document.getSelection().rangeCount > 0 // Check if there is any content selected previously
-			? document.getSelection().getRangeAt(0) // Store selection if found
+		document.getSelection()!.rangeCount > 0 // Check if there is any content selected previously
+			? document.getSelection()!.getRangeAt(0) // Store selection if found
 			: false; // Mark as false to know no selection existed before
 	el.select(); // Select the <textarea> content
 	document.execCommand("copy"); // Copy - only works as a result of a user action (e.g. click events)
 	document.body.removeChild(el); // Remove the <textarea> element
 	if (selected) {
 		// If a selection existed before copying
-		document.getSelection().removeAllRanges(); // Unselect everything on the HTML document
-		document.getSelection().addRange(selected); // Restore the original selection
+		document.getSelection()!.removeAllRanges(); // Unselect everything on the HTML document
+		document.getSelection()!.addRange(selected); // Restore the original selection
 	}
 };
 
 import GameStrings from "./assets/extracted/dat_str.json";
 
-export function translate(id, lang = "EN") {
+export type Language = Omit<"Key", keyof (typeof GameStrings)[number]>;
+
+export function translate(id: string, lang: Language = "EN") {
 	if (!id || id === "" || typeof id !== "string") return "";
 	id = id.replace("\n", ""); // Wup.
 	if (id.includes(":")) id = id.split(":")[1];
 	let t = GameStrings.find((o) => o.REF === id);
-	if (t) return t[lang];
+	if (t) return t[lang as keyof typeof t];
 	else return id;
 }
 
-export function capitalize(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
+export function capitalize(str: string) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-export const Settings = { language: "EN" };
 
 import Strings from "./assets/data/Strings.json";
 
-export function localize(lang, str) {
-	str = Strings?.[str]?.[lang] ?? str;
+export function localize(lang: Language, str: keyof typeof Strings) {
+	let r = Strings[str as keyof typeof Strings]?.[lang] ?? str;
 	if (arguments.length > 2) {
 		for (let i = 2; i < arguments.length; ++i)
-			str = str.replace("$", arguments[i]);
+			r = r.replace("$", arguments[i]);
 	}
-	return str;
+	return r;
 }
 
 import Act from "./assets/extracted/dat_act.json";
 
-export function parseText(item, lang, format = {}, options = { rank: 0 }) {
+export function parseText(
+	item: Record<string, string>,
+	lang: Language,
+	format: Record<string, string> = {},
+	options = { rank: 0 }
+) {
 	format = {
 		text: format.text ?? lang + "_DESC",
 		value_base: format.value_base ?? "VALUE_BASE",
@@ -60,8 +65,8 @@ export function parseText(item, lang, format = {}, options = { rank: 0 }) {
 		value_real: format.value_real ?? "VALUE_REAL",
 	};
 
-	const n = (s) => `<span class="number">${s}</span>`;
-	const s = (str) => `<span class="small">${str}</span>`;
+	const n = (s: string) => `<span class="number">${s}</span>`;
+	const s = (str: string) => `<span class="small">${str}</span>`;
 
 	let r = item[format.text]
 		.replace(/</g, "&lt;") // <Buffs>
@@ -72,15 +77,15 @@ export function parseText(item, lang, format = {}, options = { rank: 0 }) {
 	r = r
 		.replaceAll("/\n", "")
 		.split("|")
-		.filter((p) => p !== "")
-		.map((para) =>
+		.filter((p: string) => p !== "")
+		.map((para: string) =>
 			para
 				.split("*")
 				.filter((sentence) => sentence !== "")
 				.join("<br />")
 		)
 		.map(
-			(s, idx, arr) =>
+			(s: string, idx: number, arr: string[]) =>
 				`<p>${
 					arr.length >= 3 && idx >= arr.length - 2
 						? `<div class="primordial ${
@@ -217,11 +222,14 @@ export const ItemSlots = [
 ];
 
 import ReapersData from "./assets/extracted/dat_rea.json";
-export const Reapers = ReapersData;
 
-for (let r of ReapersData) {
+type Reaper = (typeof ReapersData)[number];
+
+export const Reapers: (Reaper & { previous?: Reaper[] })[] = ReapersData;
+
+for (let r of Reapers) {
 	if (r.EVOLVE_IN) {
-		let e = ReapersData.find((e) => e.REF === r.EVOLVE_IN);
+		let e = Reapers.find((e) => e.REF === r.EVOLVE_IN)!;
 		if (e.previous) {
 			e.previous.push(r);
 		} else {
@@ -231,7 +239,7 @@ for (let r of ReapersData) {
 }
 ReapersData.sort((l, r) => l.ORDER - r.ORDER);
 
-export function require(url) {
+export function require(url: string) {
 	return new URL(url, import.meta.url).href;
 }
 
@@ -304,21 +312,29 @@ const SkillSprites = {
 	},
 };
 
-export function getSkillSprite(className, skill, support = false) {
+export function getSkillSprite(
+	className: keyof typeof SkillSprites,
+	skill: { REF: number },
+	support: boolean = false
+) {
 	return (
 		SkillSprites[className][support ? "supports" : "skills"][skill.REF] ??
 		require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
 	);
 }
 
-export function clamp(val, min, max) {
+export function clamp<T extends number>(val: T, min: T, max: T) {
 	return Math.max(min, Math.min(val, max));
 }
 
-export function spritesByIndex(a) {
+export function spritesByIndex(a: object) {
 	return Object.fromEntries(
 		Object.entries(a).map(([path, url]) => {
 			const m = path.match(/.+_(\d+)\.png/);
+			if (!m) {
+				console.error(`Invalid sprite path: ${path}`);
+				return [0, url];
+			}
 			return [m[1], url];
 		})
 	);

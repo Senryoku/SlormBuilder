@@ -23,35 +23,23 @@
 	</div>
 </template>
 
-<script>
-	import { ref } from "vue";
-	import { ItemTypes } from "../utils.js";
-	import Toggle from "./Toggle.vue";
-	import Legendary from "./Legendary.vue";
+<script setup lang="ts">
+	import { ref, computed } from "vue";
+	import { ItemTypes } from "../utils";
+	import Toggle from "../components/Toggle.vue";
+	import Legendary from "../components/Legendary.vue";
 	import Legendaries from "../assets/extracted/dat_leg.json";
 
-	export default {
-		name: "Legendaries",
-		components: { Toggle, Legendary },
-		data() {
-			return {
-				ItemTypes,
-				Legendaries,
-				selectedSlot: ref(""),
-				lootable: ref(true),
-			};
-		},
-		computed: {
-			filteredList() {
-				return Legendaries.filter(
-					(l) =>
-						(this.selectedSlot === "" ||
-							l.ITEM === this.selectedSlot) &&
-						(!this.lootable || l.LOOTABLE)
-				);
-			},
-		},
-	};
+	const selectedSlot = ref("");
+	const lootable = ref(true);
+
+	const filteredList = computed(() => {
+		return Legendaries.filter(
+			(l) =>
+				(selectedSlot.value === "" || l.ITEM === selectedSlot.value) &&
+				(!lootable.value || l.LOOTABLE)
+		);
+	});
 </script>
 
 <style scoped>

@@ -263,7 +263,7 @@
 			reaperName() {
 				let n =
 					this.gear?.reaper?.[
-						this.settings.language + "_NAME"
+						this.settings.value.language + "_NAME"
 					]?.split("/");
 				if (!n) return "";
 				if (n.length > 1 && this.reaperType === "sword") n = n[1];

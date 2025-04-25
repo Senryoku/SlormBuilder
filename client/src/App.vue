@@ -71,26 +71,31 @@
 	<router-view :key="$route.fullPath" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 	import { onMounted } from "vue";
+	import type { Language } from "./utils";
+	import { useSettings } from "./Settings";
+
+	const settings = useSettings();
 
 	onMounted(() => {
 		try {
-			let settings = localStorage.getItem("settings") ?? "{}";
-			let json = JSON.parse(settings);
-			for (const [k, v] of Object.entries(json)) this.settings[k] = v;
+			let storedSettings = localStorage.getItem("settings") ?? "{}";
+			let json = JSON.parse(storedSettings);
+			for (const [k, v] of Object.entries(json))
+				(settings.value as Record<string, unknown>)[k] = v;
 		} catch (e) {
 			console.error("Error getting local settings: ", e);
 		}
 	});
 
-	function changeLanguage(val) {
-		this.settings.language = val;
-		this.saveSettings();
+	function changeLanguage(val: Language) {
+		settings.value.language = val;
+		saveSettings();
 	}
 
 	function saveSettings() {
-		localStorage.setItem("settings", JSON.stringify(this.settings));
+		localStorage.setItem("settings", JSON.stringify(settings.value));
 	}
 </script>
 

@@ -1,6 +1,8 @@
 <template>
 	<div class="skill-tooltip" v-if="skill" ref="el" :key="skill.REF">
-		<h2 class="colored">{{ skill[this.settings.language + "_NAME"] }}</h2>
+		<h2 class="colored">
+			{{ skill[this.settings.value.language + "_NAME"] }}
+		</h2>
 		<img
 			style="max-width: 100%"
 			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
@@ -42,13 +44,13 @@
 				/>
 				<div style="text-align: left">
 					<div class="mechanic-name">
-						{{ r[this.settings.language + "_NAME"] }}
+						{{ r[this.settings.value.language + "_NAME"] }}
 					</div>
 					<div
 						class="mechanic-desc"
 						v-html="
 							r[
-								this.settings.language + '_DESCRIPTION'
+								this.settings.value.language + '_DESCRIPTION'
 							].replaceAll('#', '<br />')
 						"
 					></div>
@@ -107,7 +109,8 @@
 			},
 			description() {
 				if (!this.skill) return "";
-				let r = this.skill[this.settings.language + "_DESCRIPTION"];
+				let r =
+					this.skill[this.settings.value.language + "_DESCRIPTION"];
 				// New lines
 				r = r.replaceAll("#", "\n");
 

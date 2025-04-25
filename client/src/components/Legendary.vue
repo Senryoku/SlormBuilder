@@ -48,8 +48,8 @@
 		},
 		computed: {
 			effect() {
-				return parseText(this.item, this.settings.language, {
-					text: this.settings.language + "_DESC",
+				return parseText(this.item, this.settings.value.language, {
+					text: this.settings.value.language + "_DESC",
 					value_base: "VALUE",
 					value_type: "TYPE",
 					value_stat: "STAT",

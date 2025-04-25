@@ -50,7 +50,7 @@
 		data() {
 			return {
 				Reapers: Reapers.filter(
-					(r) => r[this.settings.language + "_NAME"]
+					(r) => r[this.settings.value.language + "_NAME"]
 				),
 				tooltip: ref(null),
 				hoveredReaper: ref(Reapers[0]),

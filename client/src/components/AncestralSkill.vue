@@ -40,11 +40,11 @@
 		props: { skill: { type: Object } },
 		computed: {
 			name() {
-				return this.skill[this.settings.language + "_NAME"];
+				return this.skill[this.settings.value.language + "_NAME"];
 			},
 			desc() {
-				return parseText(this.skill, this.settings.language, {
-					text: this.settings.language + "_DESCRIPTION",
+				return parseText(this.skill, this.settings.value.language, {
+					text: this.settings.value.language + "_DESCRIPTION",
 					value_base: "DESC_VALUE_BASE",
 					value_type: "DESC_VALUE_TYPE",
 					value_stat: "DESC_VALUE",

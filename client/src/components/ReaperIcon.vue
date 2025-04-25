@@ -3,7 +3,7 @@
 </template>
 
 <script>
-	import { require } from "../utils";
+	import { require } from "../utils.ts";
 	import ReaperIcons from "../ReaperIcons.ts";
 
 	export default {
@@ -29,7 +29,7 @@
 			},
 			name() {
 				return this.transformName(
-					this.item[this.settings.language + "_NAME"]
+					this.item[this.settings.value.language + "_NAME"]
 				);
 			},
 		},

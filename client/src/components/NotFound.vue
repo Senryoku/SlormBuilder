@@ -5,12 +5,10 @@
 	</div>
 </template>
 
-<script>
-export default {};
-</script>
+<script setup lang="ts"></script>
 
 <style>
-.not-found {
-	text-align: center;
-}
+	.not-found {
+		text-align: center;
+	}
 </style>

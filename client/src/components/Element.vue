@@ -29,44 +29,43 @@
 	</div>
 </template>
 
-<script>
-	import { parseText, require } from "../utils.js";
+<script setup lang="ts">
+	import { computed } from "vue";
+	import { parseText, translate } from "../utils.js";
 	import ElementIcons from "../ElementIcons.ts";
+	import { useSettings } from "../Settings.ts";
+	import type { AugmentedElement } from "./Elements.ts";
 
-	export default {
-		props: { element: { type: Object } },
-		computed: {
-			icon() {
-				return ElementIcons[this.element.REF];
+	const settings = useSettings();
+
+	const props = defineProps<{ element: AugmentedElement }>();
+
+	const icon = computed(() => {
+		return ElementIcons[props.element.REF];
+	});
+	const name = computed(() => {
+		return translate(props.element[settings.value.language + "_NAME"]);
+	});
+	const cost = computed(() => {
+		return props.element.COST_LEVEL
+			? props.element.COST + props.element.COST_LEVEL * props.element.rank
+			: props.element.rank;
+	});
+	const desc = computed(() => {
+		return parseText(
+			props.element,
+			settings.value.language,
+			{
+				text: settings.value.language + "_DESCRIPTION",
+				value_base: "DESC_VALUE_BASE",
+				value_type: "DESC_VALUE_TYPE",
+				value_level: "DESC_VALUE_PER_LVL",
+				value_stat: "DESC_VALUE",
+				value_real: "DESC_VALUE_REAL",
 			},
-			name() {
-				return this.translate(
-					this.element[this.settings.language + "_NAME"]
-				);
-			},
-			cost() {
-				return this.element.COST_LEVEL
-					? this.element.COST +
-							this.element.COST_LEVEL * this.element.rank
-					: this.element.rank;
-			},
-			desc() {
-				return parseText(
-					this.element,
-					this.settings.language,
-					{
-						text: this.settings.language + "_DESCRIPTION",
-						value_base: "DESC_VALUE_BASE",
-						value_type: "DESC_VALUE_TYPE",
-						value_level: "DESC_VALUE_PER_LVL",
-						value_stat: "DESC_VALUE",
-						value_real: "DESC_VALUE_REAL",
-					},
-					{ rank: this.element.rank ?? 0 }
-				);
-			},
-		},
-	};
+			{ rank: props.element.rank ?? 0 }
+		);
+	});
 </script>
 
 <style scoped>

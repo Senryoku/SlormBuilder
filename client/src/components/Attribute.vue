@@ -40,8 +40,8 @@
 				let others = [];
 				for (let e of this.attr.effects) {
 					if (
-						!e[this.settings.language + "_TEXT"] ||
-						e[this.settings.language + "_TEXT"] === ""
+						!e[this.settings.value.language + "_TEXT"] ||
+						e[this.settings.value.language + "_TEXT"] === ""
 					) {
 						let types = e.TYPE.split("|");
 						let stats = e.STAT.split("|");
@@ -78,8 +78,8 @@
 					} else {
 						others.push({
 							level: e.LEVEL,
-							text: parseText(e, this.settings.language, {
-								text: this.settings.language + "_TEXT",
+							text: parseText(e, this.settings.value.language, {
+								text: this.settings.value.language + "_TEXT",
 								value_base: "VALUE",
 								value_type: "TYPE",
 								value_stat: "STAT",

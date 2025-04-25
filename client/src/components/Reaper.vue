@@ -101,7 +101,7 @@
 			previousReapers() {
 				if (!this.item.previous) return "";
 				return this.item.previous
-					.map((o) => o[this.settings.language + "_NAME"])
+					.map((o) => o[this.settings.value.language + "_NAME"])
 					.map(this.transformName)
 					.join(this.t(" and "));
 			},
@@ -122,11 +122,11 @@
 			},
 			description() {
 				if (!this.item) return "";
-				return parseText(this.item, this.settings.language);
+				return parseText(this.item, this.settings.value.language);
 			},
 			name() {
 				return this.transformName(
-					this.item[this.settings.language + "_NAME"]
+					this.item[this.settings.value.language + "_NAME"]
 				);
 			},
 			associatedSkills() {

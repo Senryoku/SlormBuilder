@@ -4,7 +4,7 @@
 			:class="{
 				support: support,
 				passive: round,
-				selected: skill.selected ?? selected,
+				selected: skill.selected || selected,
 				maxed: skill.rank === skill.UPGRADE_NUMBER,
 			}"
 			class="skill-image"

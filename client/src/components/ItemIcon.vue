@@ -38,7 +38,7 @@
 		},
 		computed: {
 			name() {
-				return this.item[this.settings.language + "_NAME"];
+				return this.item[this.settings.value.language + "_NAME"];
 			},
 		},
 	};
