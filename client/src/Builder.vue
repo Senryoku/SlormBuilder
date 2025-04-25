@@ -316,7 +316,7 @@
 			},
 			showElements() {
 				this.selectedTab = "elements";
-				this.$refs.elements.recenter();
+				this.$refs.elements?.recenter();
 			},
 			serialize() {
 				let version = "1.3";

@@ -6,62 +6,65 @@
 	</div>
 </template>
 
-<script>
-	import { ref } from "vue";
+<script setup lang="ts">
+	import { ref, useTemplateRef } from "vue";
 
-	export default {
-		name: "Tooltip",
-		setup() {
-			const show = ref(false);
-			const el = ref(null);
-			const target = ref(null);
+	const show = ref(false);
+	const el = useTemplateRef("el");
+	const target = ref<EventTarget | null>(null);
+	const lastEvent = ref<MouseEvent | null>(null);
+	const triggerCount = ref(0);
 
-			return { show, el, target, triggerCount: ref(0) };
-		},
-		methods: {
-			transitionEnter() {
-				this.mousemove(this.lastEvent);
-			},
-			mousemove(event) {
-				let w = window.innerWidth;
-				let h = window.innerHeight;
-				let x = this.$refs.el.clientWidth;
-				let y = this.$refs.el.clientHeight;
-				let targetX = 12 + event.clientX;
-				let targetY = 5 + event.clientY;
-				const margin = 10;
-				this.$refs.el.style.top =
-					window.innerHeight < y
-						? 0
-						: Math.min(targetY, h - y - margin) + "px";
-				this.$refs.el.style.left =
-					window.clientWidth < x
-						? 0
-						: Math.min(targetX, w - x - margin) + "px";
-				this.lastEvent = event;
-			},
-			mouseleave(event) {
-				this.hide(event.target);
-			},
-			display(event) {
-				++this.triggerCount;
-				this.show = true;
-				this.target = event.target;
-				this.target.addEventListener("mousemove", this.mousemove);
-				this.target.addEventListener("mouseleave", this.mouseleave);
-				this.lastEvent = event;
-			},
-			hide(el) {
-				if (this.target === el) {
-					++this.triggerCount;
-					this.show = false;
-					this.target = null;
-				}
-				el.removeEventListener("mouseleave", this.mouseleave);
-				el.removeEventListener("mousemove", this.mousemove);
-			},
-		},
-	};
+	function transitionEnter() {
+		mousemove(lastEvent.value!);
+	}
+
+	function mousemove(event: MouseEvent) {
+		let w = window.innerWidth;
+		let h = window.innerHeight;
+		let x = el.value!.clientWidth;
+		let y = el.value!.clientHeight;
+		let targetX = 12 + event.clientX;
+		let targetY = 5 + event.clientY;
+		const margin = 10;
+		el.value!.style.top =
+			window.innerHeight < y
+				? "0"
+				: Math.min(targetY, h - y - margin) + "px";
+		el.value!.style.left =
+			window.innerWidth < x
+				? "0"
+				: Math.min(targetX, w - x - margin) + "px";
+		lastEvent.value = event;
+	}
+
+	function mouseleave(event: MouseEvent): void {
+		hide(event.target!);
+	}
+
+	function display(event: MouseEvent) {
+		++triggerCount.value;
+		show.value = true;
+		target.value = event.target!;
+		target.value!.addEventListener("mousemove", mousemove as EventListener);
+		target.value!.addEventListener(
+			"mouseleave",
+			mouseleave as EventListener
+		);
+		lastEvent.value = event;
+	}
+
+	function hide(evtt: EventTarget) {
+		if (target.value === evtt) {
+			++triggerCount.value;
+			show.value = false;
+			target.value = null;
+		}
+		evtt.removeEventListener("mousemove", mousemove as EventListener);
+		evtt.removeEventListener("mouseleave", mouseleave as EventListener);
+	}
+
+	defineExpose({ display, hide });
 </script>
 
 <style>

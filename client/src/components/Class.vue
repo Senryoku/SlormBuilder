@@ -102,12 +102,12 @@
 <script>
 	import { ref, defineAsyncComponent } from "vue";
 	import { getSkillSprite, require } from "../utils.js";
-	import KnightSkills from "../assets/extracted/dat_cla_0.json";
-	import HuntressSkills from "../assets/extracted/dat_cla_1.json";
-	import MageSkills from "../assets/extracted/dat_cla_2.json";
 	import Skill from "./SkillIcon.vue";
 	import SkillTree from "./SkillTree.vue";
 	import Tooltip from "./Tooltip.vue";
+
+	import { KnightSkills, HuntressSkills, MageSkills } from "./Skills";
+
 	const SkillTooltip = defineAsyncComponent(() =>
 		import("./SkillTooltip.vue")
 	);

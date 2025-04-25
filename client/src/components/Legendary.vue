@@ -1,6 +1,6 @@
 <template>
 	<div class="legendary" v-if="item">
-		<div class="top">{{ item[settings.language + "_NAME"] }}</div>
+		<div class="top">{{ name }}</div>
 		<div class="body">
 			<div class="desc">
 				<ItemIcon :item="item" />
@@ -21,51 +21,42 @@
 	</div>
 </template>
 
-<script>
-	import { parseText, require } from "../utils.js";
+<script setup lang="ts">
+	import { computed } from "vue";
+	import { parseText } from "../utils.js";
 	import AncestralSkills from "../assets/extracted/dat_act.json";
 	import ItemIcon from "./ItemIcon.vue";
 	import AncestralSkill from "./AncestralSkill.vue";
+	import { useSettings } from "../Settings.js";
+	import type { Legendary } from "./Legendaries";
 
-	export default {
-		name: "Legendary",
-		components: { ItemIcon, AncestralSkill },
-		props: {
-			item: { type: Object },
-		},
-		data(props) {
-			let image = "";
-			try {
-				image = require(`../assets/extracted/sprites/spr_inventory_items/spr_inventory_items_${
-					props.item.SPRITE ?? 0
-				}.png`);
-			} catch (e) {
-				//
-			}
-			return {
-				image,
-			};
-		},
-		computed: {
-			effect() {
-				return parseText(this.item, this.settings.value.language, {
-					text: this.settings.value.language + "_DESC",
-					value_base: "VALUE",
-					value_type: "TYPE",
-					value_stat: "STAT",
-					value_level: "UPGRADABLE",
-				});
-			},
-			associatedSkill() {
-				let s = AncestralSkills.find(
-					(s) =>
-						s.BASED_ON === "legendary" &&
-						s.ID_BASED_ON === this.item.REF
-				);
-				return s ? s : null;
-			},
-		},
-	};
+	const settings = useSettings();
+
+	const props = defineProps<{ item: Legendary }>();
+
+	const name = computed(() => {
+		const key = `${settings.value.language}_NAME`;
+		if (key in props.item) return props.item[key];
+		return props.item[`EN_NAME`];
+	});
+
+	const effect = computed(() => {
+		return parseText(props.item, settings.value.language, {
+			text: `${settings.value.language}_DESC`,
+			value_base: "VALUE",
+			value_type: "TYPE",
+			value_stat: "STAT",
+			value_level: "UPGRADABLE",
+		});
+	});
+
+	const associatedSkill = computed(() => {
+		let s = AncestralSkills.find(
+			(s) =>
+				s.BASED_ON === "legendary" && s.ID_BASED_ON === props.item.REF
+		);
+		return s ? s : null;
+	});
 </script>
 
 <style scoped>

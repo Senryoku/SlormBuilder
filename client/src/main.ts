@@ -1,4 +1,4 @@
-import { createApp, reactive } from "vue";
+import { createApp } from "vue";
 import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
@@ -91,8 +91,12 @@ app.config.globalProperties.settings = useSettings();
 app.config.globalProperties.translate = (s: string) =>
 	translate(s, app.config.globalProperties.settings.value.language);
 
-app.config.globalProperties.t = (key: string) => {
-	return localize(app.config.globalProperties.settings.value.language, key);
+app.config.globalProperties.t = (key: string, ...args: string[]) => {
+	return localize(
+		app.config.globalProperties.settings.value.language,
+		key,
+		...args
+	);
 };
 
 app.mount("#app");

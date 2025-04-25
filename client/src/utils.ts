@@ -22,7 +22,7 @@ export const copyToClipboard = (str: string) => {
 
 import GameStrings from "./assets/extracted/dat_str.json";
 
-export type Language = Omit<"Key", keyof (typeof GameStrings)[number]>;
+export type Language = Exclude<keyof (typeof GameStrings)[number], "REF">;
 
 export function translate(id: string, lang: Language = "EN") {
 	if (!id || id === "" || typeof id !== "string") return "";
@@ -39,11 +39,17 @@ export function capitalize(str: string) {
 
 import Strings from "./assets/data/Strings.json";
 
-export function localize(lang: Language, str: keyof typeof Strings) {
-	let r = Strings[str as keyof typeof Strings]?.[lang] ?? str;
-	if (arguments.length > 2) {
-		for (let i = 2; i < arguments.length; ++i)
-			r = r.replace("$", arguments[i]);
+export function localize(
+	lang: Language,
+	str: keyof typeof Strings,
+	...args: string[]
+) {
+	let r =
+		Strings[str as keyof typeof Strings]?.[
+			lang as keyof (typeof Strings)[keyof typeof Strings]
+		] ?? str;
+	if (args.length > 0) {
+		for (let s of args) r = r.replace("$", s);
 	}
 	return r;
 }
@@ -51,7 +57,7 @@ export function localize(lang: Language, str: keyof typeof Strings) {
 import Act from "./assets/extracted/dat_act.json";
 
 export function parseText(
-	item: Record<string, string>,
+	item: Record<string, unknown>,
 	lang: Language,
 	format: Record<string, string> = {},
 	options = { rank: 0 }

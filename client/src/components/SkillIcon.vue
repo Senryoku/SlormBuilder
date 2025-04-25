@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 	import { getSkillSprite } from "../utils";
+	import type { Skill } from "./Skills";
 
 	defineOptions({
 		name: "SkillIcon",
@@ -27,7 +28,7 @@
 	const props = withDefaults(
 		defineProps<{
 			className?: string;
-			skill: object;
+			skill: Skill;
 			selected?: boolean;
 			support?: boolean;
 			round?: boolean;

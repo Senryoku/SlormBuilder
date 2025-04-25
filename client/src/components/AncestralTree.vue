@@ -83,10 +83,9 @@
 	import { nextTick, onMounted, ref, useTemplateRef } from "vue";
 	import { clamp } from "../utils.js";
 	import SkillIcon from "./SkillIcon.vue";
-	import { Elements } from "./Elements.ts";
+	import { Elements, type Element } from "./Elements.ts";
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
-	import ElementIcons from "../ElementIcons.ts";
 
 	const size = 4 * 732;
 	const halfSize = size / 2;
@@ -94,97 +93,139 @@
 	const props = withDefaults(
 		defineProps<{
 			editable?: boolean;
-			import?: object;
+			import?: { REF: number; rank: number }[];
 		}>(),
-		{ editable: true, import: null }
+		{ editable: true }
 	);
 
-	let Realms = [];
+	type Coord = [number, number];
+	type Realm = {
+		elements: Element[];
+		coords: Coord;
+		offsets: Coord[];
+		type: "small" | "mid" | "large";
+	};
+
+	let Realms = ref<Realm[]>([]);
 
 	for (let e of Elements) {
-		while (Realms.length - 1 < e.REALM)
-			Realms.push({
+		while (Realms.value.length - 1 < e.REALM)
+			Realms.value.push({
 				elements: [],
-				coords: {},
+				coords: [0, 0],
 				offsets: [],
-				type: null,
+				type: "mid",
 			});
-		Realms[e.REALM].elements.push(e);
 		const el = props?.import?.find((el) => el.REF === e.REF);
 		e.rank = el?.rank ?? 0;
 		e.selected = !!el;
-		e.image = ElementIcons[e.REF];
+		Realms.value[e.REALM].elements.push(e);
 	}
 
-	const radialCoords = (i, d, r, p = 0) => [
-		halfSize + r * Math.cos(p + ((2 * Math.PI * 1) / d) * (i % d)),
-		halfSize + r * Math.sin(p + ((2 * Math.PI * 1) / d) * (i % d)),
-	];
+	function radialCoords(
+		i: number,
+		d: number,
+		r: number,
+		p: number = 0
+	): [number, number] {
+		return [
+			halfSize + r * Math.cos(p + ((2 * Math.PI * 1) / d) * (i % d)),
+			halfSize + r * Math.sin(p + ((2 * Math.PI * 1) / d) * (i % d)),
+		];
+	}
 
 	for (let i = 0; i < 10; i++) {
-		Realms[i].coords = radialCoords(i, 10, 234, (-2 * Math.PI) / 5);
-		Realms[i].offsets.push([0, 0]);
-		Realms[i].type = "small";
+		Realms.value[i].coords = radialCoords(i, 10, 234, (-2 * Math.PI) / 5);
+		Realms.value[i].offsets.push([0, 0]);
+		Realms.value[i].type = "small";
 	}
 	for (let i = 0; i < 10; i++) {
-		Realms[10 + i].coords = radialCoords(i, 10, 372, (-1.5 * Math.PI) / 5);
-		Realms[10 + i].offsets.push([0, 0]);
-		Realms[10 + i].type = "small";
+		Realms.value[10 + i].coords = radialCoords(
+			i,
+			10,
+			372,
+			(-1.5 * Math.PI) / 5
+		);
+		Realms.value[10 + i].offsets.push([0, 0]);
+		Realms.value[10 + i].type = "small";
 	}
 	for (let i = 0; i < 10; i++) {
 		let center = radialCoords(i, 10, 518, (-2 * Math.PI) / 5);
-		Realms[20 + i].coords = center;
-		Realms[20 + i].type = "mid";
+		Realms.value[20 + i].coords = center;
+		Realms.value[20 + i].type = "mid";
 		if (center[0] > halfSize) {
-			Realms[20 + i].offsets.push([-36, +24]);
-			Realms[20 + i].offsets.push([+36, -24]);
+			Realms.value[20 + i].offsets.push([-36, +24]);
+			Realms.value[20 + i].offsets.push([+36, -24]);
 		} else {
-			Realms[20 + i].offsets.push([+36, +24]);
-			Realms[20 + i].offsets.push([-36, -24]);
+			Realms.value[20 + i].offsets.push([+36, +24]);
+			Realms.value[20 + i].offsets.push([-36, -24]);
 		}
 	}
 
 	for (let i = 0; i < 10; i++) {
-		Realms[30 + i].coords = radialCoords(i, 10, 596, (-2.5 * Math.PI) / 5);
-		Realms[30 + i].offsets.push([0, 0]);
-		Realms[30 + i].type = "small";
+		Realms.value[30 + i].coords = radialCoords(
+			i,
+			10,
+			596,
+			(-2.5 * Math.PI) / 5
+		);
+		Realms.value[30 + i].offsets.push([0, 0]);
+		Realms.value[30 + i].type = "small";
 	}
 
+	// TODO!
+	console.warn("TODO: Place all the realms!");
+	console.log(Realms.value.slice(40));
+
+	// FIXME: Temporary fix until all realms are placed
+	Realms.value = Realms.value.splice(0, 40);
+
 	//const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
-	const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
-	const normalize = (a) => {
+	const sub = (a: Coord, b: Coord): Coord => [a[0] - b[0], a[1] - b[1]];
+	const normalize = (a: Coord): Coord => {
 		const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
 		return [a[0] / mag, a[1] / mag];
 	};
-	const gemPos = (a, b) => {
+	const gemPos = (a: Realm, b: Realm): Coord => {
 		const r = { small: 82, mid: 116, large: 176 }[b.type];
 		const dir = normalize(sub(a.coords, b.coords));
 		return [b.coords[0] + r * dir[0], b.coords[1] + r * dir[1]];
 	};
 
 	// Bridges between realms
-	const Bridges = [];
+	const Bridges = ref<
+		{
+			selected: boolean;
+			coords: Coord;
+			prev: number | null;
+			next: number;
+		}[]
+	>([]);
 	for (let i = 0; i < 10; i++)
-		Bridges.push({
+		Bridges.value.push({
+			selected: false,
 			coords: radialCoords(i, 10, 162, (-2 * Math.PI) / 5),
 			prev: null,
 			next: i,
 		});
 	for (let i = 0; i < 10; i++) {
-		Bridges.push({
-			coords: gemPos(Realms[i], Realms[10 + ((i + 9) % 10)]),
+		Bridges.value.push({
+			selected: false,
+			coords: gemPos(Realms.value[i], Realms.value[10 + ((i + 9) % 10)]),
 			prev: i,
 			next: 10 + ((i + 9) % 10),
 		});
-		Bridges.push({
-			coords: gemPos(Realms[i], Realms[10 + (i % 10)]),
+		Bridges.value.push({
+			selected: false,
+			coords: gemPos(Realms.value[i], Realms.value[10 + (i % 10)]),
 			prev: i,
 			next: 10 + (i % 10),
 		});
 	}
 	for (let i = 0; i < 10; i++) {
-		Bridges.push({
-			coords: gemPos(Realms[i], Realms[20 + i]),
+		Bridges.value.push({
+			selected: false,
+			coords: gemPos(Realms.value[i], Realms.value[20 + i]),
 			prev: i,
 			next: 20 + i,
 		});
@@ -194,32 +235,36 @@
 	const tree = ref(null);
 	const tooltip = ref(null);
 	const pan = ref({ panning: false, start: { x: 0, y: 0 } });
-	const hoveredSkill = ref(null);
+	const hoveredSkill = ref<Element | null>(null);
 	const scale = ref(1);
 
 	onMounted(() => {
-		el.value.addEventListener("wheel", zoom);
+		el.value?.addEventListener("wheel", zoom);
 	});
 
 	function recenter() {
 		nextTick(() => {
-			el.value.scrollLeft = halfSize - el.value.clientWidth / 2;
-			el.value.scrollTop = halfSize - el.value.clientHeight / 2;
+			if (el.value) {
+				el.value.scrollLeft = halfSize - el.value.clientWidth / 2;
+				el.value.scrollTop = halfSize - el.value.clientHeight / 2;
+			}
 		});
 	}
 
-	function help(e) {
+	function help(e: MouseEvent) {
 		console.log([e.layerX, e.layerY]);
 	}
 
 	function mousedown() {
-		pan.value.panning = true;
-		pan.value.start.x = el.value.scrollLeft;
-		pan.value.start.y = el.value.scrollTop;
+		if (el.value) {
+			pan.value.panning = true;
+			pan.value.start.x = el.value.scrollLeft;
+			pan.value.start.y = el.value.scrollTop;
+		}
 	}
 
-	function mousemove(e) {
-		if (pan.value.panning) {
+	function mousemove(e: MouseEvent) {
+		if (el.value && pan.value.panning) {
 			el.value.scrollLeft = Math.min(
 				el.value.scrollWidth - el.value.clientWidth,
 				Math.max(0, el.value.scrollLeft - e.movementX)
@@ -235,18 +280,18 @@
 		pan.value.panning = false;
 	}
 
-	function mouseenter(e) {
+	function mouseenter(e: MouseEvent) {
 		if (!(e.buttons & 1))
 			// Primary button isn't down
 			pan.value.panning = false;
 	}
 
-	function displayTooltip(e, s) {
+	function displayTooltip(e: MouseEvent, s: Element) {
 		hoveredSkill.value = s;
-		tooltip.value.display(e);
+		tooltip.value?.display(e);
 	}
 
-	function selectSkill(e, skill) {
+	function selectSkill(e: MouseEvent, skill: Element) {
 		if (!props.editable) return;
 		let alt = e.getModifierState("Shift") || e.getModifierState("Alt");
 		if (skill.selected) {
@@ -259,7 +304,7 @@
 		}
 	}
 
-	function deselectSkill(e, skill) {
+	function deselectSkill(e: MouseEvent, skill: Element) {
 		e.preventDefault();
 		if (!props.editable) return;
 		let alt = e.getModifierState("Shift") || e.getModifierState("Alt");
@@ -271,21 +316,26 @@
 		if (skill.rank === 0) skill.selected = false;
 	}
 
-	function zoom(e) {
+	function zoom(e: WheelEvent) {
 		e.preventDefault();
-		scale.value = clamp(
-			scale.value + 0.1 * (e.deltaY > 0 ? -1 : 1),
-			Math.max(el.value.clientWidth / size, el.value.clientHeight / size),
-			1
-		);
+		if (el.value) {
+			scale.value = clamp(
+				scale.value + 0.1 * (e.deltaY > 0 ? -1 : 1),
+				Math.max(
+					el.value.clientWidth / size,
+					el.value.clientHeight / size
+				),
+				1
+			);
+		}
 	}
 
-	function importSave(equipped, ranks) {
+	function importSave(equipped: number[], ranks: number[]) {
 		for (let e of Elements) e.selected = false;
 		for (let idx = 0; idx < equipped.length; ++idx) {
 			if (equipped[idx]) {
-				Bridges[idx].selected = true;
-				for (let e of this.Realms[this.Bridges[idx].next].elements)
+				Bridges.value[idx].selected = true;
+				for (let e of Realms.value[Bridges.value[idx].next].elements)
 					e.selected = true;
 			}
 		}

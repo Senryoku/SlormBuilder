@@ -1,7 +1,9 @@
 import { ref } from "vue";
 import type { Language } from "./utils";
 
-export const DefaultSettings: { language: Language } = { language: "EN" };
+export const DefaultSettings: { language: Language } = {
+	language: "EN" as Language,
+};
 
 const settings = ref(DefaultSettings);
 

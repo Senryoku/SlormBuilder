@@ -41,8 +41,9 @@
 
 <script setup lang="ts">
 	import SkillIcon from "./SkillIcon.vue";
+	import type { Skill } from "./Skills";
 	defineProps<{
-		tree: { className: string; skill: object; upgrades: object };
+		tree: { className: string; skill: Skill; upgrades: Skill[][] };
 	}>();
 </script>
 

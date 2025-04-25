@@ -4,12 +4,13 @@
 	</div>
 </template>
 
-<script>
-	import { require } from "../utils";
-
+<script setup lang="ts">
+	import { computed } from "vue";
 	import ItemIcons from "../ItemIcons";
+	import { useSettings } from "../Settings";
+	import type { Legendary } from "./Legendaries";
 
-	const TypeOffsets = {
+	const TypeOffsets: Record<string, number> = {
 		helm: 1,
 		body: 30,
 		shoulder: 61,
@@ -22,26 +23,22 @@
 		cape: 178,
 	};
 
-	export default {
-		name: "ItemIcon",
-		props: {
-			item: { type: Object },
-		},
-		data(props) {
-			return {
-				image: ItemIcons[
-					props.item.SPRITE !== null
-						? TypeOffsets[props.item.ITEM] + props.item.SPRITE
-						: 0
-				],
-			};
-		},
-		computed: {
-			name() {
-				return this.item[this.settings.value.language + "_NAME"];
-			},
-		},
-	};
+	const settings = useSettings();
+
+	const props = defineProps<{
+		item: Legendary;
+	}>();
+
+	const image =
+		ItemIcons[
+			props.item.SPRITE !== null
+				? TypeOffsets[props.item.ITEM] + props.item.SPRITE
+				: 0
+		];
+
+	const name = computed(() => {
+		return props.item[`${settings.value.language}_NAME`];
+	});
 </script>
 
 <style scoped>

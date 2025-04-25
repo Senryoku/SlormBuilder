@@ -25,8 +25,11 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+	import { computed } from "vue";
 	import { parseText, require, spritesByIndex } from "../utils.js";
+	import { useSettings } from "../Settings.js";
+	import type { Element } from "./Elements.ts";
 
 	const IconSprites = spritesByIndex(
 		import.meta.glob("../assets/extracted/sprites/spr_actives/*.png", {
@@ -36,29 +39,30 @@
 		})
 	);
 
-	export default {
-		props: { skill: { type: Object } },
-		computed: {
-			name() {
-				return this.skill[this.settings.value.language + "_NAME"];
-			},
-			desc() {
-				return parseText(this.skill, this.settings.value.language, {
-					text: this.settings.value.language + "_DESCRIPTION",
-					value_base: "DESC_VALUE_BASE",
-					value_type: "DESC_VALUE_TYPE",
-					value_stat: "DESC_VALUE",
-					value_real: "DESC_VALUE_REAL",
-				});
-			},
-			iconImage() {
-				return (
-					IconSprites[this.skill.REF] ??
-					require(`../assets/img/spr_actives_missing.png`)
-				);
-			},
-		},
-	};
+	const props = defineProps<{ skill: Element }>();
+
+	const settings = useSettings();
+
+	const name = computed(() => {
+		return props.skill[`${settings.value.language}_NAME`];
+	});
+
+	const desc = computed(() => {
+		return parseText(props.skill, settings.value.language, {
+			text: `${settings.value.language}_DESCRIPTION`,
+			value_base: "DESC_VALUE_BASE",
+			value_type: "DESC_VALUE_TYPE",
+			value_stat: "DESC_VALUE",
+			value_real: "DESC_VALUE_REAL",
+		});
+	});
+
+	const iconImage = computed(() => {
+		return (
+			IconSprites[props.skill.REF] ??
+			require(`../assets/img/spr_actives_missing.png`)
+		);
+	});
 </script>
 
 <style scoped>

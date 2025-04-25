@@ -146,10 +146,12 @@
 			</div>
 		</div>
 	</div>
-	<tooltip ref="tooltip"><Legendary :item="hoveredItem"></Legendary></tooltip>
-	<tooltip ref="reapertooltip"
-		><Reaper v-if="gear.reaper" :item="gear.reaper"></Reaper
-	></tooltip>
+	<tooltip ref="tooltip">
+		<Legendary v-if="hoveredItem" :item="hoveredItem"></Legendary>
+	</tooltip>
+	<tooltip ref="reapertooltip">
+		<Reaper v-if="gear.reaper" :item="gear.reaper"></Reaper>
+	</tooltip>
 </template>
 
 <script>

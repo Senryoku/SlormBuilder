@@ -34,17 +34,17 @@
 	import { parseText, translate } from "../utils.js";
 	import ElementIcons from "../ElementIcons.ts";
 	import { useSettings } from "../Settings.ts";
-	import type { AugmentedElement } from "./Elements.ts";
+	import type { Element } from "./Elements.ts";
 
 	const settings = useSettings();
 
-	const props = defineProps<{ element: AugmentedElement }>();
+	const props = defineProps<{ element: Element }>();
 
 	const icon = computed(() => {
 		return ElementIcons[props.element.REF];
 	});
 	const name = computed(() => {
-		return translate(props.element[settings.value.language + "_NAME"]);
+		return translate(props.element[`${settings.value.language}_NAME`]);
 	});
 	const cost = computed(() => {
 		return props.element.COST_LEVEL
@@ -56,7 +56,7 @@
 			props.element,
 			settings.value.language,
 			{
-				text: settings.value.language + "_DESCRIPTION",
+				text: `${settings.value.language}_DESCRIPTION`,
 				value_base: "DESC_VALUE_BASE",
 				value_type: "DESC_VALUE_TYPE",
 				value_level: "DESC_VALUE_PER_LVL",
