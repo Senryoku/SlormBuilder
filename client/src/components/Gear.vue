@@ -297,7 +297,7 @@
 	.gear-builder:not(.editable) {
 		display: flex;
 		justify-content: center;
-		align-items: start;
+		align-items: flex-start;
 		gap: 3em;
 	}
 
