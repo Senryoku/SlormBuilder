@@ -21,6 +21,9 @@ This project uses game assets from The Slormancer by [Slormite Studios](https://
   -	Next Rank/Max Rank
 - Debug tooltip on dev server (they still work in prod)
 
+## Notes
+
+Assets extracted using [UndertaleModTool](https://github.com/UnderminersTeam/UndertaleModTool/)
 
 ## Project setup
 ```
