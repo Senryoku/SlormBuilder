@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-	defineProps<{ className: string }>();
+	defineProps<{ className: "knight" | "huntress" | "mage" }>();
 </script>
 
 <style scoped>

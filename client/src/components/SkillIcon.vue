@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 	import { getSkillSprite } from "../utils";
-	import type { Skill } from "./Skills";
+	import type { AugmentedSkill } from "./Skills";
 
 	defineOptions({
 		name: "SkillIcon",
@@ -27,8 +27,8 @@
 
 	const props = withDefaults(
 		defineProps<{
-			className?: string;
-			skill: Skill;
+			className?: "knight" | "huntress" | "mage";
+			skill: AugmentedSkill;
 			selected?: boolean;
 			support?: boolean;
 			round?: boolean;

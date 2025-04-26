@@ -55,6 +55,7 @@
 						}px; top: ${realm.coords[1] + realm.offsets[idx][1]}px`"
 					>
 						<SkillIcon
+							v-if="e"
 							:skill="e"
 							:round="true"
 							@mouseenter="displayTooltip($event, e)"
@@ -99,6 +100,13 @@
 	);
 
 	type Coord = [number, number];
+
+	const add = (a: Coord, b: Coord): Coord => [a[0] + b[0], a[1] + b[1]];
+	const sub = (a: Coord, b: Coord): Coord => [a[0] - b[0], a[1] - b[1]];
+	const normalize = (a: Coord): Coord => {
+		const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
+		return [a[0] / mag, a[1] / mag];
+	};
 	type Realm = {
 		elements: Element[];
 		coords: Coord;
@@ -173,24 +181,227 @@
 		Realms.value[30 + i].type = "small";
 	}
 
-	// TODO!
-	console.warn("TODO: Place all the realms!");
-	console.log(Realms.value.slice(40));
+	const circle_5: Coord[] = [
+		[1545, 721],
+		[1692, 804],
+		[2022, 1035],
+		[2148, 1150],
+		[2195, 1317],
+		[2163, 1475],
+		[2046, 1867],
+		[1970, 2012],
+		[1826, 2113],
+		[1657, 2145],
+		[1266, 2143],
+		[1102, 2118],
+		[955, 2014],
+		[877, 1866],
+		[758, 1470],
+		[731, 1320],
+		[780, 1151],
+		[901, 1036],
+		[1235, 800],
+		[1385, 720],
+	];
+	let current_idx = 40;
+	for (let i = 0; i < circle_5.length; i++) {
+		Realms.value[current_idx + i].coords = circle_5[i];
+		Realms.value[current_idx + i].type = "mid";
+		Realms.value[current_idx + i].offsets.push([0, 0]);
+	}
+	current_idx += circle_5.length;
 
-	// FIXME: Temporary fix until all realms are placed
-	Realms.value = Realms.value.splice(0, 40);
+	const circle_6: Coord[] = [
+		[1946, 801],
+		[2245, 1715],
+		[1464, 2287],
+		[686, 1715],
+		[987, 800],
+	];
+	for (let i = 0; i < circle_6.length; i++) {
+		Realms.value[current_idx + i].coords = circle_6[i];
+		Realms.value[current_idx + i].type = "large";
+		Realms.value[current_idx + i].offsets.push(
+			sub([1943, 734], circle_6[0])
+		);
+		Realms.value[current_idx + i].offsets.push(
+			sub([2004, 845], circle_6[0])
+		);
+		Realms.value[current_idx + i].offsets.push(
+			sub([1889, 843], circle_6[0])
+		);
+	}
+	current_idx += circle_6.length;
 
-	//const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
-	const sub = (a: Coord, b: Coord): Coord => [a[0] - b[0], a[1] - b[1]];
-	const normalize = (a: Coord): Coord => {
-		const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
-		return [a[0] / mag, a[1] / mag];
-	};
-	const gemPos = (a: Realm, b: Realm): Coord => {
-		const r = { small: 82, mid: 116, large: 176 }[b.type];
-		const dir = normalize(sub(a.coords, b.coords));
-		return [b.coords[0] + r * dir[0], b.coords[1] + r * dir[1]];
-	};
+	const circle_7: Coord[] = [
+		[1466, 573],
+		[1757, 611],
+		[2193, 916],
+		[2310, 1195],
+		[2366, 1469],
+		[2220, 1980],
+		[1983, 2180],
+		[1726, 2341],
+		[1198, 2343],
+		[943, 2181],
+		[710, 1977],
+		[558, 1470],
+		[620, 1193],
+		[736, 916],
+		[1167, 612],
+	];
+	for (let i = 0; i < circle_7.length; i++) {
+		Realms.value[current_idx + i].coords = circle_7[i];
+		if (i % 3 === 0) {
+			Realms.value[current_idx + i].type = "mid";
+			Realms.value[current_idx + i].offsets.push([0, 0]);
+		} else {
+			Realms.value[current_idx + i].type = "large";
+			if (i < circle_7.length / 2) {
+				Realms.value[current_idx + i].offsets.push(
+					sub([1715, 640], circle_7[1])
+				);
+				Realms.value[current_idx + i].offsets.push(
+					sub([1800, 582], circle_7[1])
+				);
+			} else {
+				Realms.value[current_idx + i].offsets.push(
+					sub([1244, 2367], circle_7[8])
+				);
+				Realms.value[current_idx + i].offsets.push(
+					sub([1151, 2310], circle_7[8])
+				);
+			}
+		}
+	}
+	current_idx += circle_7.length;
+	const circle_8: Coord[] = [
+		[1290, 437],
+		[1465, 407],
+		[1643, 438],
+		[2390, 980],
+		[2468, 1136],
+		[2493, 1305],
+		[2210, 2195],
+		[2081, 2323],
+		[1922, 2406],
+		[1010, 2402],
+		[849, 2321],
+		[720, 2192],
+		[435, 1307],
+		[459, 1139],
+		[541, 981],
+	];
+	for (let i = 0; i < circle_8.length; i++) {
+		Realms.value[current_idx + i].coords = circle_8[i];
+		Realms.value[current_idx + i].type = "small";
+		Realms.value[current_idx + i].offsets.push([0, 0]);
+	}
+	current_idx += circle_8.length;
+
+	const circle_9: Coord[] = [
+		[1843, 390],
+		[2101, 591],
+		[2383, 778],
+
+		[2617, 1473],
+		[2496, 1802],
+		[2408, 2127],
+
+		[1799, 2564],
+		[1465, 2549],
+		[1128, 2563],
+
+		[522, 2128],
+		[437, 1802],
+		[313, 1466],
+
+		[547, 777],
+		[837, 592],
+		[1086, 388],
+	];
+	for (let i = 0; i < circle_9.length; i++) {
+		Realms.value[current_idx + i].coords = circle_9[i];
+		Realms.value[current_idx + i].type = "large";
+		if (i % 3 === 1) {
+			Realms.value[current_idx + i].type = "mid";
+			Realms.value[current_idx + i].offsets.push([0, 0]);
+		} else {
+			if (i < circle_9.length / 2) {
+				Realms.value[current_idx + i].offsets.push(
+					sub([1798, 415], circle_9[0])
+				);
+				Realms.value[current_idx + i].offsets.push(
+					sub([1891, 353], circle_9[0])
+				);
+			} else {
+				Realms.value[current_idx + i].offsets.push(
+					sub([1176, 2592], circle_9[8])
+				);
+				Realms.value[current_idx + i].offsets.push(
+					sub([1080, 2529], circle_9[8])
+				);
+			}
+		}
+	}
+	current_idx += circle_9.length;
+
+	for (let i = 0; i < 5; i++) {
+		Realms.value[current_idx + i].coords = radialCoords(
+			i,
+			5,
+			1262,
+			(-2 * Math.PI) / 4 + 0.002
+		);
+		Realms.value[current_idx + i].offsets.push([0, 0]);
+		Realms.value[current_idx + i].type = "large";
+	}
+	current_idx += 5;
+
+	const circle_10: Coord[] = [
+		[1774, 197],
+		[2026, 286],
+		[2235, 415],
+		[2419, 575],
+		[2586, 802],
+		[2766, 1328],
+		[2762, 1616],
+		[2702, 1871],
+		[2607, 2092],
+		[2428, 2331],
+		[1976, 2659],
+		[1709, 2743],
+		[1465, 2761],
+		[1218, 2741],
+		[958, 2654],
+		[499, 2330],
+		[326, 2091],
+		[227, 1870],
+		[168, 1611],
+		[164, 1326],
+		[344, 797],
+		[515, 572],
+		[696, 413],
+		[905, 286],
+		[1157, 192],
+	];
+	for (let i = 0; i < circle_10.length; i++) {
+		Realms.value[current_idx + i].coords = circle_10[i];
+		Realms.value[current_idx + i].offsets.push([0, 0]);
+		Realms.value[current_idx + i].type = "small";
+	}
+	current_idx += circle_10.length;
+
+	if (current_idx !== Realms.value.length) {
+		console.warn("TODO: Place all the realms!");
+		console.log(
+			Realms.value
+				.slice(current_idx)
+				.map((e) => e.elements.map((el) => el.EN_NAME))
+		);
+
+		Realms.value = Realms.value.splice(0, current_idx);
+	}
 
 	// Bridges between realms
 	const Bridges = ref<
@@ -201,39 +412,31 @@
 			next: number;
 		}[]
 	>([]);
-	for (let i = 0; i < 10; i++)
+	for (let i = 0; i < 10; i++) {
 		Bridges.value.push({
 			selected: false,
-			coords: radialCoords(i, 10, 162, (-2 * Math.PI) / 5),
+			coords: (
+				[
+					[1514, 1316],
+					[1594, 1376],
+					[1626, 1464],
+					[1594, 1564],
+					[1514, 1620],
+					[1418, 1620],
+					[1338, 1564],
+					[1302, 1464],
+					[1338, 1376],
+					[1418, 1316],
+				] as Coord[]
+			)[i],
 			prev: null,
 			next: i,
-		});
-	for (let i = 0; i < 10; i++) {
-		Bridges.value.push({
-			selected: false,
-			coords: gemPos(Realms.value[i], Realms.value[10 + ((i + 9) % 10)]),
-			prev: i,
-			next: 10 + ((i + 9) % 10),
-		});
-		Bridges.value.push({
-			selected: false,
-			coords: gemPos(Realms.value[i], Realms.value[10 + (i % 10)]),
-			prev: i,
-			next: 10 + (i % 10),
-		});
-	}
-	for (let i = 0; i < 10; i++) {
-		Bridges.value.push({
-			selected: false,
-			coords: gemPos(Realms.value[i], Realms.value[20 + i]),
-			prev: i,
-			next: 20 + i,
 		});
 	}
 
 	const el = useTemplateRef("el");
 	const tree = ref(null);
-	const tooltip = ref(null);
+	const tooltip = useTemplateRef<typeof Tooltip>("tooltip");
 	const pan = ref({ panning: false, start: { x: 0, y: 0 } });
 	const hoveredSkill = ref<Element | null>(null);
 	const scale = ref(1);

@@ -15,7 +15,10 @@
 			<div class="effect">
 				<div class="effect-top">{{ t("Legendary Effect") }}</div>
 				<div class="effect-text" v-html="effect"></div>
-				<AncestralSkill :skill="associatedSkill" />
+				<AncestralSkill
+					v-if="associatedSkill"
+					:skill="associatedSkill"
+				/>
 			</div>
 		</div>
 	</div>

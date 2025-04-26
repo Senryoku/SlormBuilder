@@ -14,14 +14,16 @@
 				</div>
 				<div v-if="r.previous" class="evolve-marker" />
 			</div>
-			<Tooltip ref="tooltip"
-				><Reaper
+			<Tooltip ref="tooltip">
+				<ReaperComponent
 					:type="type"
 					:item="hoveredReaper"
-					:key="hoveredReaper.REF" /></Tooltip
-		></template>
+					:key="hoveredReaper.REF"
+				/>
+			</Tooltip>
+		</template>
 		<template v-else>
-			<Reaper
+			<ReaperComponent
 				v-for="r in filteredReapers"
 				:key="type + r.REF"
 				:item="r"
@@ -32,44 +34,45 @@
 	</div>
 </template>
 
-<script>
-	import { ref } from "vue";
-	import { Reapers } from "../utils.js";
+<script setup lang="ts">
+	import { ref, computed, useTemplateRef } from "vue";
+	import { Reapers, type Reaper } from "../utils.js";
 	import ReaperIcon from "./ReaperIcon.vue";
-	import Reaper from "./Reaper.vue";
+	import ReaperComponent from "./Reaper.vue";
 	import Tooltip from "./Tooltip.vue";
+	import { useSettings } from "../Settings.js";
 
-	export default {
-		name: "ReaperGallery",
-		components: { Reaper, Tooltip, ReaperIcon },
-		props: {
-			type: { type: String, required: true },
-			smallDisplay: { type: Boolean, default: false },
-			lootable: { type: Boolean, default: false },
-		},
-		data() {
-			return {
-				Reapers: Reapers.filter(
-					(r) => r[this.settings.value.language + "_NAME"]
-				),
-				tooltip: ref(null),
-				hoveredReaper: ref(Reapers[0]),
-			};
-		},
-		methods: {
-			displayTooltip(event, r) {
-				this.hoveredReaper = r;
-				this.$refs.tooltip.display(event);
-			},
-		},
-		computed: {
-			filteredReapers() {
-				return this.Reapers.filter(
-					(r) => !this.lootable || r.LOOTABLE !== null
-				);
-			},
-		},
-	};
+	const settings = useSettings();
+
+	const props = withDefaults(
+		defineProps<{
+			type: string;
+			smallDisplay: boolean;
+			lootable: boolean;
+		}>(),
+		{
+			smallDisplay: false,
+			lootable: false,
+		}
+	);
+	const tooltip = useTemplateRef<Tooltip>("tooltip");
+
+	const AvailableReapers = computed(() =>
+		Reapers.filter((r) => r[`${settings.value.language}_NAME`])
+	);
+
+	const filteredReapers = computed(() => {
+		return AvailableReapers.value.filter(
+			(r) => !props.lootable || r.LOOTABLE !== null
+		);
+	});
+
+	const hoveredReaper = ref(AvailableReapers.value[0]);
+
+	function displayTooltip(event: MouseEvent, r: Reaper) {
+		hoveredReaper.value = r;
+		tooltip.value!.display(event);
+	}
 </script>
 
 <style scoped>

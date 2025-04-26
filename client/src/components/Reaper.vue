@@ -48,7 +48,7 @@
 						{{
 							t(
 								"Evolves from $ at level $",
-								previousReapers(),
+								previousReapers,
 								item.previous[0].MAX_LVL
 							)
 						}}
@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div v-if="item.previous" class="evolve-reminder">
-				{{ t("(Includes every effect from $)", previousReapers()) }}
+				{{ t("(Includes every effect from $)", previousReapers) }}
 			</div>
 			<div class="description" v-html="description"></div>
 			<AncestralSkill
@@ -68,77 +68,81 @@
 				style="margin: 16px 0 8px 0"
 				src="../assets/extracted/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
 			/>
-			<div class="lore">
-				{{ transformText(item[settings.language + "_LORE"]) }}
+			<div class="lore" v-if="lore">
+				{{ lore }}
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-	import { parseText } from "../utils.js";
+<script setup lang="ts">
+	import { computed } from "vue";
+	import { localize, parseText, type Reaper, translate } from "../utils.js";
 	import AncestralSkills from "../assets/extracted/dat_act.json";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
+	import { useSettings } from "../Settings.js";
 
-	export default {
-		name: "Reaper",
-		components: { ReaperIcon, AncestralSkill },
-		props: {
-			type: { type: String, default: "sword" },
-			item: { type: Object },
-		},
-		data(props) {
-			return {
-				blacksmith: props.item.BLACKSMITH
-					? this.translate(
-							`weapon_reapersmith_${props.item.BLACKSMITH}`
-					  )
-					: null,
-			};
-		},
-		methods: {
-			previousReapers() {
-				if (!this.item.previous) return "";
-				return this.item.previous
-					.map((o) => o[this.settings.value.language + "_NAME"])
-					.map(this.transformName)
-					.join(this.t(" and "));
-			},
-			transformName(name) {
-				if (!name) return "";
-				let n = name.split("/");
-				if (n.length > 1 && this.type === "sword") n = n[1];
-				else n = n[0];
-				return n.replace("$", this.translatedType);
-			},
-			transformText(txt) {
-				return txt.replaceAll("#", "\n");
-			},
-		},
-		computed: {
-			translatedType() {
-				return this.t(this.type);
-			},
-			description() {
-				if (!this.item) return "";
-				return parseText(this.item, this.settings.value.language);
-			},
-			name() {
-				return this.transformName(
-					this.item[this.settings.value.language + "_NAME"]
-				);
-			},
-			associatedSkills() {
-				let s = AncestralSkills.filter(
-					(s) =>
-						s.BASED_ON === "reaper" &&
-						s.ID_BASED_ON === this.item.REF
-				);
-				return s ? s : null;
-			},
-		},
-	};
+	const settings = useSettings();
+
+	const props = withDefaults(
+		defineProps<{
+			type?: "sword" | "bow" | "staff";
+			item: Reaper;
+		}>(),
+		{ type: "sword" }
+	);
+
+	const blacksmith = props.item.BLACKSMITH
+		? translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
+		: null;
+
+	function transformName(name: string) {
+		if (!name) return "";
+		let n = name.split("/");
+		let n2 = n.length > 1 && props.type === "sword" ? n[1] : n[0];
+		return n2.replace("$", translatedType.value);
+	}
+
+	function transformText(txt: string) {
+		return txt.replaceAll("#", "\n");
+	}
+
+	const translatedType = computed(() => {
+		return localize(settings.value.language, props.type);
+	});
+
+	const description = computed(() => {
+		if (!props.item) return "";
+		return parseText(props.item, settings.value.language);
+	});
+
+	const name = computed(() => {
+		return transformName(props.item[`${settings.value.language}_NAME`]);
+	});
+
+	const lore = computed(() => {
+		const txt =
+			props.item[`${settings.value.language}_LORE`] ??
+			props.item[`EN_LORE`];
+		if (!txt) return null;
+		return transformText(txt);
+	});
+
+	const associatedSkills = computed(() => {
+		let s = AncestralSkills.filter(
+			(s) => s.BASED_ON === "reaper" && s.ID_BASED_ON === props.item.REF
+		);
+		return s ? s : null;
+	});
+
+	const previousReapers = computed(() => {
+		if (!props.item.previous) return "";
+		return props.item.previous
+			.map((o) => o[`${settings.value.language}_NAME`])
+			.map(transformName)
+			.join(localize(settings.value.language, " and "));
+	});
 </script>
 
 <style scoped>

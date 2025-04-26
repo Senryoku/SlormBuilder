@@ -229,7 +229,7 @@ export const ItemSlots = [
 
 import ReapersData from "./assets/extracted/dat_rea.json";
 
-type Reaper = (typeof ReapersData)[number];
+export type Reaper = (typeof ReapersData)[number];
 
 export const Reapers: (Reaper & { previous?: Reaper[] })[] = ReapersData;
 

@@ -24,48 +24,58 @@
 				SlormBuilder
 			</h1></router-link
 		>
-		<div id="nav" style="text-align: right">
-			<router-link to="/">Builder</router-link> |
-			<router-link to="/reapers">Reapers</router-link> |
-			<router-link to="/legendaries">{{ t("Legendaries") }}</router-link>
-			|
-			<router-link to="/stats">{{ t("Stats") }}</router-link>
-			<span style="margin-left: 1rem; text-align: right">
-				{{ t("Made by") }}
-				<a href="https://senryoku.github.io/">Senryoku</a>
-			</span>
-			<form
-				action="https://www.paypal.com/donate"
-				method="post"
-				target="_top"
+		<div style="display: inline-flex; justify-content: flex-end; gap: 1em">
+			<div id="nav">
+				<router-link to="/">Builder</router-link> |
+				<router-link to="/reapers">Reapers</router-link> |
+				<router-link to="/legendaries">{{
+					t("Legendaries")
+				}}</router-link>
+				|
+				<router-link to="/stats">{{ t("Stats") }}</router-link>
+			</div>
+			<div
 				style="
-					display: inline-block;
-					vertical-align: text-top;
-					margin-left: 0.5em;
-					line-height: initial;
+					display: inline-flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					align-content: center;
+					line-height: 1.2em;
 				"
 			>
-				<input
-					type="hidden"
-					name="hosted_button_id"
-					value="4WQRX5MFZG6HJ"
-				/>
-				<input
-					type="image"
-					src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"
-					border="0"
-					name="submit"
-					title="PayPal - The safer, easier way to pay online!"
-					alt="Donate with PayPal button"
-				/>
-				<img
-					alt=""
-					border="0"
-					src="https://www.paypal.com/en_FR/i/scr/pixel.gif"
-					width="1"
-					height="1"
-				/>
-			</form>
+				<div>{{ t("Made by") }}</div>
+				<div>
+					<a href="https://senryoku.github.io/">Senryoku</a>
+				</div>
+			</div>
+			<div
+				style="
+					display: inline-flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					align-content: center;
+					line-height: 1.2em;
+				"
+			>
+				<div>
+					<a
+						href="https://www.paypal.com/donate/?hosted_button_id=6L2CUS6DH82DL"
+						target="_blank"
+					>
+						Donate using Paypal
+					</a>
+				</div>
+				<div>
+					<a
+						href="https://github.com/sponsors/Senryoku"
+						target="_blank"
+					>
+						Sponsor on Github
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<router-view :key="$route.fullPath" />

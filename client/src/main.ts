@@ -104,7 +104,7 @@ app.mount("#app");
 declare module "@vue/runtime-core" {
 	interface ComponentCustomProperties {
 		settings: ReturnType<typeof useSettings>;
-		t: (key: string) => string;
+		t: (key: string, ...args: string[]) => string;
 		translate: (key: string) => string;
 	}
 }
