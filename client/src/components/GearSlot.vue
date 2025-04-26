@@ -5,13 +5,10 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+	import type { Legendary } from "./Legendaries";
 	import ItemIcon from "./ItemIcon.vue";
-	export default {
-		name: "GearSlot",
-		props: { type: { type: String }, item: { type: Object } },
-		components: { ItemIcon },
-	};
+	defineProps<{ type: string; item: Legendary }>();
 </script>
 
 <style scoped>

@@ -1,66 +1,26 @@
 {
 	"name": "slormbuilder",
-	"version": "0.1.0",
+	"type": "module",
+	"version": "0.2.0",
 	"private": true,
 	"scripts": {
-		"serve": "vue-cli-service serve",
-		"serve-prod": "vue-cli-service serve --mode=production",
-		"build": "vue-cli-service build",
-		"lint": "vue-cli-service lint"
+		"dev": "vite",
+		"build": "vue-tsc -b && vite build",
+		"ci-build": "vite build",
+		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@meforma/vue-toaster": "^1.3.0",
-		"core-js": "^3.29.1",
-		"eslint-scope": "^7.1.1",
-		"fuzzysort": "^2.0.4",
-		"vue": "^3.2.47",
-		"vue-router": "^4.1.6",
+		"fuzzysort": "^3.1.0",
+		"vue": "^3.5.13",
+		"vue-router": "^4.5.0",
 		"vuedraggable": "^4.1.0"
 	},
 	"devDependencies": {
-		"@vue/cli-plugin-babel": "~5.0.8",
-		"@vue/cli-plugin-eslint": "~5.0.8",
-		"@vue/cli-service": "~5.0.8",
-		"@vue/compiler-sfc": "^3.2.41",
-		"@babel/eslint-parser": "^7.19.1",
-		"eslint": "^8.36.0",
-		"eslint-config-prettier": "^8.7.0",
-		"eslint-plugin-vue": "^9.10.0",
-		"file-loader": "^6.2.0",
-		"image-webpack-loader": "^8.1.0",
-		"url-loader": "^4.1.1"
-	},
-	"eslintConfig": {
-		"root": true,
-		"env": {
-			"node": true
-		},
-		"extends": [
-			"plugin:vue/vue3-essential",
-			"eslint:recommended",
-			"prettier"
-		],
-		"parserOptions": {
-			"parser": "@babel/eslint-parser"
-		},
-		"rules": {
-			"no-mixed-spaces-and-tabs": [
-				"warn",
-				"smart-tabs"
-			]
-		},
-	  "overrides": [
-		{
-			"files": ["*"],
-			"rules": {
-				"vue/multi-word-component-names": "off"
-			}
-		}
-	  ]
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not dead"
-	]
+		"@vitejs/plugin-vue": "^5.2.2",
+		"@vue/tsconfig": "^0.7.0",
+		"typescript": "^5.8.3",
+		"vite": "^6.3.1",
+		"vue-tsc": "^2.2.8"
+	}
 }

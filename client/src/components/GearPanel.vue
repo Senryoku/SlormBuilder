@@ -35,12 +35,8 @@
 	</div>
 </template>
 
-<script>
-	export default {
-		props: {
-			className: { type: String },
-		},
-	};
+<script setup lang="ts">
+	defineProps<{ className: "knight" | "huntress" | "mage" }>();
 </script>
 
 <style scoped>

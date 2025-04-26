@@ -27,48 +27,48 @@
 	</div>
 </template>
 
-<script>
-import Toggle from "./Toggle.vue";
-import ReaperGallery from "./ReaperGallery.vue";
+<script setup lang="ts">
+	import { ref } from "vue";
+	import Toggle from "./Toggle.vue";
+	import ReaperGallery from "./ReaperGallery.vue";
 
-export default {
-	name: "Reapers",
-	props: { large: { type: Boolean, default: false } },
-	components: { ReaperGallery, Toggle },
-	data(props) {
-		return {
-			type: "sword",
-			lootable: false,
-			smallDisplay: props.large ? false : true,
-		};
-	},
-};
+	defineOptions({
+		name: "Reapers",
+	});
+
+	const props = withDefaults(defineProps<{ large: boolean }>(), {
+		large: false,
+	});
+
+	const type = ref("sword");
+	const lootable = ref(false);
+	const smallDisplay = ref(!props.large);
 </script>
 
 <style scoped>
-.header {
-	margin: auto;
-	text-align: center;
-}
+	.header {
+		margin: auto;
+		text-align: center;
+	}
 
-.filters {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
+	.filters {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
 
-.type-select {
-	display: flex;
-	justify-content: space-around;
-	gap: 1em;
-}
+	.type-select {
+		display: flex;
+		justify-content: space-around;
+		gap: 1em;
+	}
 
-.type-select > * {
-	text-transform: capitalize;
-}
+	.type-select > * {
+		text-transform: capitalize;
+	}
 
-.reaper-gallery {
-	margin: 1rem auto;
-	width: 95%;
-}
+	.reaper-gallery {
+		margin: 1rem auto;
+		width: 95%;
+	}
 </style>

@@ -4,8 +4,13 @@
 	</div>
 </template>
 
-<script>
-	const TypeOffsets = {
+<script setup lang="ts">
+	import { computed } from "vue";
+	import ItemIcons from "../ItemIcons";
+	import { useSettings } from "../Settings";
+	import type { Legendary } from "./Legendaries";
+
+	const TypeOffsets: Record<string, number> = {
 		helm: 1,
 		body: 30,
 		shoulder: 61,
@@ -18,32 +23,22 @@
 		cape: 178,
 	};
 
-	export default {
-		name: "ItemIcon",
-		props: {
-			item: { type: Object },
-		},
-		data(props) {
-			let image = "";
-			try {
-				image = require(`../assets/extracted/sprites/spr_inventory_items/spr_inventory_items_${
-					props.item.SPRITE !== null
-						? TypeOffsets[props.item.ITEM] + props.item.SPRITE
-						: 0
-				}.png`);
-			} catch (e) {
-				//
-			}
-			return {
-				image,
-			};
-		},
-		computed: {
-			name() {
-				return this.item[this.settings.language + "_NAME"];
-			},
-		},
-	};
+	const settings = useSettings();
+
+	const props = defineProps<{
+		item: Legendary;
+	}>();
+
+	const image =
+		ItemIcons[
+			props.item.SPRITE !== null
+				? TypeOffsets[props.item.ITEM] + props.item.SPRITE
+				: 0
+		];
+
+	const name = computed(() => {
+		return props.item[`${settings.value.language}_NAME`];
+	});
 </script>
 
 <style scoped>

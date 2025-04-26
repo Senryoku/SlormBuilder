@@ -5,10 +5,16 @@
 				<gear-slot
 					:type="s"
 					:class="{
-						primary: selection[s.startsWith('ring') ? 'ring' : s] === 'P',
-						secondary: selection[s.startsWith('ring') ? 'ring' : s] === 'S',
+						primary:
+							selection[s.startsWith('ring') ? 'ring' : s] ===
+							'P',
+						secondary:
+							selection[s.startsWith('ring') ? 'ring' : s] ===
+							'S',
 					}"
-					@click="selectedSlot = s.startsWith('ring') ? 'ring' : s" /></template
+					@click="
+						selectedSlot = s.startsWith('ring') ? 'ring' : s
+					" /></template
 		></GearPanel>
 		<div>
 			<h1>{{ t("Item Stats") }}</h1>
@@ -21,7 +27,10 @@
 			?
 			<div v-if="selection">
 				<ul>
-					<li>{{ t("Category") }} : {{ translate(selection.CATEGORY) }}</li>
+					<li>
+						{{ t("Category") }} :
+						{{ translate(selection.CATEGORY) }}
+					</li>
 					<li v-if="selection.PRIMARY_NAME_TYPE">
 						{{ t("Type") }} :
 						{{ translate(selection.PRIMARY_NAME_TYPE) }}
@@ -39,7 +48,15 @@
 					<tbody>
 						<tr v-for="s in foundOn" :key="s">
 							<td>{{ t(s) }}</td>
-							<td>{{ t(selection[s] === "P" ? "Primary" : "Secondary") }}</td>
+							<td>
+								{{
+									t(
+										selection[s] === "P"
+											? "Primary"
+											: "Secondary"
+									)
+								}}
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -65,7 +82,8 @@
 					<h3>{{ t(p) }}</h3>
 					<div v-for="s in statsFoundOnSelectedSlot[p]" :key="s.REF">
 						<div>
-							{{ translate(s.REF) }}{{ s.PERCENT === "%" ? " (%)" : "" }}
+							{{ translate(s.REF)
+							}}{{ s.PERCENT === "%" ? " (%)" : "" }}
 						</div>
 					</div>
 				</div>
@@ -75,109 +93,110 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { ItemTypes, ItemSlots } from "../utils.js";
-import GearSlot from "./GearSlot.vue";
-import GearPanel from "./GearPanel.vue";
-import Stats from "../assets/data/item_stats.json";
+	import { ref } from "vue";
+	import { ItemTypes, ItemSlots } from "../utils.js";
+	import GearSlot from "./GearSlot.vue";
+	import GearPanel from "./GearPanel.vue";
+	import Stats from "../assets/data/item_stats.json";
 
-export default {
-	components: { GearSlot, GearPanel },
-	data() {
-		return {
-			Stats,
-			ItemTypes,
-			ItemSlots,
-			selection: ref(Stats[0]),
-			selectedSlot: ref(ItemTypes[0]),
-		};
-	},
-	created() {
-		this.selection = this.orderedStats[0];
-	},
-	methods: {
-		convert(type) {
-			if (type === "ARMOR") return "body";
-			return type.toLowerCase();
-		},
-	},
-	computed: {
-		foundOn() {
-			return ItemTypes.filter((s) => !!this.selection[s]).sort((a, b) =>
-				this.selection[a] === this.selection[b]
-					? 0
-					: this.selection[a] === "P"
-					? -1
-					: 1
-			);
-		},
-		statsFoundOnSelectedSlot() {
-			const r = this.Stats.filter((s) => !!s[this.selectedSlot]);
+	export default {
+		components: { GearSlot, GearPanel },
+		data() {
 			return {
-				Primary: r.filter((s) => s[this.selectedSlot] === "P"),
-				Secondary: r.filter((s) => s[this.selectedSlot] === "S"),
+				Stats,
+				ItemTypes,
+				ItemSlots,
+				selection: ref(Stats[0]),
+				selectedSlot: ref(ItemTypes[0]),
 			};
 		},
-		orderedStats() {
-			return [...this.Stats].sort(
-				(a, b) => this.translate(a.REF) > this.translate(b.REF)
-			);
+		created() {
+			this.selection = this.orderedStats[0];
 		},
-	},
-};
+		methods: {
+			convert(type) {
+				if (type === "ARMOR") return "body";
+				return type.toLowerCase();
+			},
+		},
+		computed: {
+			foundOn() {
+				return ItemTypes.filter((s) => !!this.selection[s]).sort(
+					(a, b) =>
+						this.selection[a] === this.selection[b]
+							? 0
+							: this.selection[a] === "P"
+							? -1
+							: 1
+				);
+			},
+			statsFoundOnSelectedSlot() {
+				const r = this.Stats.filter((s) => !!s[this.selectedSlot]);
+				return {
+					Primary: r.filter((s) => s[this.selectedSlot] === "P"),
+					Secondary: r.filter((s) => s[this.selectedSlot] === "S"),
+				};
+			},
+			orderedStats() {
+				return [...this.Stats].sort(
+					(a, b) => this.translate(a.REF) > this.translate(b.REF)
+				);
+			},
+		},
+	};
 </script>
 
 <style scoped>
-.item-stats {
-	display: flex;
-	gap: 4em;
-	margin: 0 2em;
-}
+	.item-stats {
+		display: flex;
+		gap: 4em;
+		margin: 0 2em;
+	}
 
-table {
-	border-collapse: collapse;
-	margin: 0.25em auto;
-}
+	table {
+		border-collapse: collapse;
+		margin: 0.25em auto;
+	}
 
-th,
-td {
-	padding: 0.25em 0.5em;
-}
+	th,
+	td {
+		padding: 0.25em 0.5em;
+	}
 
-thead tr {
-	background-color: #00583e;
-	border-bottom: 2px solid #888;
-}
+	thead tr {
+		background-color: #00583e;
+		border-bottom: 2px solid #888;
+	}
 
-tbody tr:nth-child(even) {
-	background-color: #222;
-}
+	tbody tr:nth-child(even) {
+		background-color: #222;
+	}
 
-tbody tr:nth-child(odd) {
-	background-color: #333;
-}
+	tbody tr:nth-child(odd) {
+		background-color: #333;
+	}
 
-.primary {
-	filter: brightness(400%);
-	background-color: var(--color-rare);
-	background-blend-mode: luminosity;
-}
+	.primary {
+		filter: brightness(400%);
+		background-color: var(--color-rare);
+		background-blend-mode: luminosity;
+	}
 
-.secondary {
-	filter: brightness(400%);
-	background-color: var(--color-magic);
-	background-blend-mode: luminosity;
-}
+	.secondary {
+		filter: brightness(400%);
+		background-color: var(--color-magic);
+		background-blend-mode: luminosity;
+	}
 
-.gear-slot {
-	cursor: pointer;
-}
+	.gear-slot {
+		cursor: pointer;
+	}
 
-.Primary h3 {
-	color: var(--color-rare);
-}
+	.Primary h3 {
+		color: var(--color-rare);
+	}
 
-.Secondary h3 {
-	color: var(--color-magic);
-}
+	.Secondary h3 {
+		color: var(--color-magic);
+	}
 </style>

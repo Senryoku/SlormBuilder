@@ -29,11 +29,7 @@
 				>
 					<div v-if="gear.reaper">
 						<img
-							:src="
-								require(`../assets/extracted/sprites/spr_reapers_${reaperType}s/spr_reapers_${reaperType}s_${
-									gear.reaper.REF ?? 0
-								}.png`)
-							"
+							:src="reaperIcon(reaperType, gear.reaper.REF ?? 0)"
 						/>
 						<div>
 							{{ reaperName }}
@@ -150,15 +146,17 @@
 			</div>
 		</div>
 	</div>
-	<tooltip ref="tooltip"><Legendary :item="hoveredItem"></Legendary></tooltip>
-	<tooltip ref="reapertooltip"
-		><Reaper v-if="gear.reaper" :item="gear.reaper"></Reaper
-	></tooltip>
+	<tooltip ref="tooltip">
+		<Legendary v-if="hoveredItem" :item="hoveredItem"></Legendary>
+	</tooltip>
+	<tooltip ref="reapertooltip">
+		<Reaper v-if="gear.reaper" :item="gear.reaper"></Reaper>
+	</tooltip>
 </template>
 
 <script>
 	import { ref } from "vue";
-	import { ItemSlots, Reapers } from "../utils.js";
+	import { ItemSlots, Reapers, spritesByIndex } from "../utils.js";
 	import draggable from "vuedraggable";
 	import Stats from "../assets/data/item_stats.json";
 	import GearSlot from "./GearSlot.vue";
@@ -168,6 +166,8 @@
 	import Reaper from "./Reaper.vue";
 	import ReaperGallery from "./ReaperGallery.vue";
 	import Tooltip from "./Tooltip.vue";
+
+	import ReaperIcons from "../ReaperIcons.ts";
 
 	export default {
 		name: "Gear",
@@ -199,6 +199,9 @@
 			editable: { type: Boolean, default: true },
 		},
 		methods: {
+			reaperIcon(type, index) {
+				return ReaperIcons[type][index];
+			},
 			select(type) {
 				this.selectedSlot = type;
 			},
@@ -262,7 +265,7 @@
 			reaperName() {
 				let n =
 					this.gear?.reaper?.[
-						this.settings.language + "_NAME"
+						this.settings.value.language + "_NAME"
 					]?.split("/");
 				if (!n) return "";
 				if (n.length > 1 && this.reaperType === "sword") n = n[1];
@@ -297,7 +300,7 @@
 	.gear-builder:not(.editable) {
 		display: flex;
 		justify-content: center;
-		align-items: start;
+		align-items: flex-start;
 		gap: 3em;
 	}
 
