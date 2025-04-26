@@ -1,0 +1,1 @@
+.toggle{display:flex;align-items:center;background-color:#222;border-radius:16px;padding:4px 14px 4px 0}.toggle:not(.checked) .toggle-image{filter:brightness(40%)}.toggle:not(.checked):hover .toggle-image{filter:brightness(60%)}.toggle.checked:hover .toggle-image{filter:brightness(120%)}
