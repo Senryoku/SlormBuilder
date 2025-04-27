@@ -54,7 +54,10 @@ export function localize(
 	return r;
 }
 
-import Act from "./assets/extracted/dat_act.json";
+import AncestralSkillsJSON from "./assets/extracted/dat_act.json";
+
+export type AncestralSkill = (typeof AncestralSkillsJSON)[number];
+export const AncestralSkills: AncestralSkill[] = AncestralSkillsJSON;
 
 export function parseText(
 	item: Record<string, unknown>,
@@ -111,7 +114,7 @@ export function parseText(
 	// Reapers ancestral skill (TODO)
 	r = r.replaceAll(/act:(\d+)/g, (match, group) => {
 		const ref = parseInt(group) - 200;
-		let act = Act.find((o) => o.REF === ref);
+		let act = AncestralSkills.find((o) => o.REF === ref);
 		if (act)
 			return `${localize(
 				lang,

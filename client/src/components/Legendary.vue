@@ -26,8 +26,7 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { parseText } from "../utils.js";
-	import AncestralSkills from "../assets/extracted/dat_act.json";
+	import { parseText, AncestralSkills } from "../utils.js";
 	import ItemIcon from "./ItemIcon.vue";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import { useSettings } from "../Settings.js";

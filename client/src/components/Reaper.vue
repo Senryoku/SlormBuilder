@@ -77,8 +77,13 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { localize, parseText, type Reaper, translate } from "../utils.js";
-	import AncestralSkills from "../assets/extracted/dat_act.json";
+	import {
+		localize,
+		parseText,
+		type Reaper,
+		translate,
+		AncestralSkills,
+	} from "../utils.js";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
 	import { useSettings } from "../Settings.js";

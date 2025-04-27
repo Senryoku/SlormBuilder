@@ -42,7 +42,7 @@
 
 	let image = props.skill.image;
 	if (!image || props.support) {
-		image = getSkillSprite(props.className, props.skill, props.support);
+		image = getSkillSprite(props.className!, props.skill, props.support);
 	}
 </script>
 
