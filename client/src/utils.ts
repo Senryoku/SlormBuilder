@@ -24,7 +24,7 @@ import GameStrings from "./assets/extracted/dat_str.json";
 
 export type Language = Exclude<keyof (typeof GameStrings)[number], "REF">;
 
-export function translate(id: string, lang: Language = "EN") {
+export function translate(id: string, lang: Language) {
 	if (!id || id === "" || typeof id !== "string") return "";
 	id = id.replace("\n", ""); // Wup.
 	if (id.includes(":")) id = id.split(":")[1];
@@ -203,6 +203,8 @@ export function parseText(
 	return r;
 }
 
+export type ClassName = "knight" | "huntress" | "mage";
+
 export const ItemTypes = [
 	"amulet",
 	"belt",
@@ -322,7 +324,7 @@ const SkillSprites = {
 };
 
 export function getSkillSprite(
-	className: keyof typeof SkillSprites,
+	className: ClassName,
 	skill: { REF: number },
 	support: boolean = false
 ) {

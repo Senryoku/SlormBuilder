@@ -73,10 +73,9 @@
 		</div>
 	</div>
 	<Tooltip ref="tooltip">
-		<ElementComponent
-			:v-if="hoveredSkill"
-			:element="hoveredSkill"
-		></ElementComponent>
+		<template v-if="hoveredSkill !== null">
+			<ElementComponent :element="hoveredSkill" />
+		</template>
 	</Tooltip>
 </template>
 
@@ -222,7 +221,7 @@
 		Realms.value[current_idx + i].coords = circle_6[i];
 		Realms.value[current_idx + i].type = "large";
 		Realms.value[current_idx + i].offsets.push(
-			sub([1943, 734], circle_6[0])
+			sub([1946, 734], circle_6[0])
 		);
 		Realms.value[current_idx + i].offsets.push(
 			sub([2004, 845], circle_6[0])

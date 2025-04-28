@@ -1,8 +1,6 @@
 <template>
-	<div class="skill-tooltip" v-if="skill" ref="el" :key="skill.REF">
-		<h2 class="colored">
-			{{ skill[this.settings.value.language + "_NAME"] }}
-		</h2>
+	<div class="skill-tooltip" :key="skill.REF">
+		<h2 class="colored">{{ name }}</h2>
 		<img
 			style="max-width: 100%"
 			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
@@ -21,7 +19,7 @@
 					<li v-show="genres">{{ genres }}</li>
 					<li v-show="skill.COOLDOWN">
 						{{ t("Cooldown") }}:
-						{{ (skill.COOLDOWN / 60).toFixed(2) }} secondes
+						{{ (skill.COOLDOWN! / 60).toFixed(2) }} secondes
 					</li>
 					<li>{{ t("Base Cost") }}: {{ skill.COST }}</li>
 				</ul>
@@ -33,32 +31,20 @@
 		/>
 		<p class="description" v-html="description"></p>
 		<!-- TODO -->
-		<p v-for="r in reminders" :key="r" class="mechanic-summary">
-			<template v-if="r.EN_NAME">
+		<p v-for="r in reminders" :key="r.name" class="mechanic-summary">
+			<template v-if="r.desc">
 				<!-- TODO Add Infos here -->
-				<img
-					:src="mechanicIcon(r)"
-					width="44"
-					height="44"
-					style="margin: 8px"
-				/>
+				<img :src="r.icon" width="44" height="44" style="margin: 8px" />
 				<div style="text-align: left">
 					<div class="mechanic-name">
-						{{ r[this.settings.value.language + "_NAME"] }}
+						{{ r.name }}
 					</div>
-					<div
-						class="mechanic-desc"
-						v-html="
-							r[
-								this.settings.value.language + '_DESCRIPTION'
-							].replaceAll('#', '<br />')
-						"
-					></div>
+					<div class="mechanic-desc" v-html="r.desc"></div>
 				</div>
 			</template>
 			<!-- TEMP -->
 			<template v-else>
-				<div class="mechanic-summary-name">{{ r }}</div>
+				<div class="mechanic-summary-name">{{ r.name }}</div>
 			</template>
 		</p>
 		<!--
@@ -75,175 +61,187 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 	import Mechanics from "../assets/data/mechanics.json";
-	import { getSkillSprite } from "../utils";
+	import { computed } from "vue";
+	import { getSkillSprite, translate, type ClassName } from "../utils";
+	import type { AugmentedSkill, Skill } from "./Skills";
+	import { useSettings } from "../Settings";
 
-	export default {
-		props: {
-			language: { type: String, default: "EN" },
-			className: { type: String, required: true },
-			skill: { type: Object },
-		},
-		methods: {
-			mechanicIcon(r) {
-				return getSkillSprite(this.className, r);
-			},
-		},
-		computed: {
-			reminders() {
-				return [...this.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
-					.map((arr) => {
-						if (arr[1] in Mechanics) return Mechanics[arr[1]];
-						else {
-							const candidates = Object.keys(Mechanics).filter(
-								(k) => k.includes(arr[1]) || arr[1].includes(k)
-							);
-							if (candidates.length > 0)
-								return Mechanics[candidates[0]];
-							console.log(arr[1] + " not found in Mechanics");
-						}
-						return arr[1];
-					})
-					.filter((e, idx, arr) => arr.indexOf(e) === idx); // De-duplicate
-			},
-			description() {
-				if (!this.skill) return "";
-				let r =
-					this.skill[this.settings.value.language + "_DESCRIPTION"];
-				// New lines
-				r = r.replaceAll("#", "\n");
+	const settings = useSettings();
 
-				// Reminders
-				r = r.replaceAll(/<([^>]*)>/g, (match, group) => {
-					return `<span class="keyword">${group}</span>`;
-				});
-				function small(s) {
-					return `<span class="smaller">${s}</span>`;
-				}
+	const props = defineProps<{
+		className: ClassName;
+		skill: AugmentedSkill;
+	}>();
 
-				function c(n) {
-					return `<span class="colored">${n}</span>`;
-				}
+	function genMechanicReminder(r: Skill | string) {
+		if (typeof r === "string") return { name: r };
+		return {
+			name: r[`${settings.value.language}_NAME`],
+			desc:
+				r[`${settings.value.language}_DESCRIPTION`]?.replaceAll(
+					"#",
+					"<br />"
+				) ?? "",
+			icon: getSkillSprite(props.className, r),
+		};
+	}
 
-				if (this.skill.DESC_VALUE_REAL) {
-					let reals = this.skill.DESC_VALUE_REAL.split("|");
-					for (let e of reals) r = r.replace("$", this.translate(e));
-				}
-
-				function splice(str, start, count, insert) {
-					return (
-						str.slice(0, start) + insert + str.slice(start + count)
+	const reminders = computed(() => {
+		return [...props.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
+			.map((arr) => {
+				if (arr[1] in Mechanics) return Mechanics[arr[1]];
+				else {
+					const candidates = Object.keys(Mechanics).filter(
+						(k) => k.includes(arr[1]) || arr[1].includes(k)
 					);
+					if (candidates.length > 0) return Mechanics[candidates[0]];
+					console.log(arr[1] + " not found in Mechanics");
 				}
+				return arr[1];
+			})
+			.filter((e, idx, arr) => arr.indexOf(e) === idx) // De-duplicate
+			.map(genMechanicReminder);
+	});
 
-				if (this.skill.DESC_VALUE) {
-					let negative = this.skill.DESC_VALUE_REAL.split("|").map(
-						(v) => (v === "negative" ? -1 : 1)
-					);
-					let value_name = this.skill.DESC_VALUE.split("|");
-					value_name = value_name.map((n) => this.translate(n));
-					let value_base = this.skill.DESC_VALUE_BASE.split("|");
-					value_base = value_base.map((v) => parseFloat(v));
-					let value_per_level =
-						this.skill.DESC_VALUE_PER_LVL.split("|");
-					value_per_level = value_per_level.map((v) => parseFloat(v));
-					let value_type = this.skill.DESC_VALUE_TYPE.split("|");
-					const value_regex = /@([^@]+)£/;
-					for (let idx = 0; idx < value_name.length; ++idx) {
-						let current_value =
-							Math.round(
-								100 *
-									(value_base[idx] +
-										negative[idx] *
-											Math.max(0, this.skill.rank) *
-											value_per_level[idx])
-							) / 100;
-						let index = r.search("@");
-						let next_index = r.substr(index + 1).search("@");
-						let value_explanation =
-							this.skill.UPGRADE_NUMBER > 1 &&
-							index >= 0 &&
-							!r
-								.substr(
-									index,
-									next_index > 0 ? next_index : undefined
-								)
-								.includes("µ");
-						if (index >= 0) {
-							// Search corresponding £
-							let matching_name = value_regex.exec(r);
-							if (matching_name) {
-								r = r.replace(
-									value_regex,
-									(match, separator) => {
-										return `${c(
-											current_value + value_type[idx]
-										)}${separator}${value_name[idx]}${
-											value_explanation
-												? small(
-														` (${value_base[idx]}${
-															value_type[idx]
-														} ${
-															negative < 0
-																? "-"
-																: "+"
-														} ${
-															value_per_level[idx]
-														}${
-															value_type[idx]
-														} ${this.t(
-															"per rank"
-														)})`
-												  )
-												: ""
-										}`;
-									}
-								);
-							} else {
-								r = splice(
-									r,
-									index,
-									1,
-									c(current_value + value_type[idx])
-								);
-							}
-						} else {
-							if (r.includes("£")) {
-								r = r.replace("£", c(value_name[idx]));
-							}
-						}
+	const name = computed(() => {
+		return props.skill[`${settings.value.language}_NAME`];
+	});
 
-						if (!value_explanation) {
-							r = r.replace(
-								/([(（]µ[^µ)]*µ[^)]*[)）])/,
-								(match, group) => small(group)
-							);
-							r = r.replace("µ", value_base[idx]);
-							r = r.replace("µ", value_per_level[idx]);
-						}
-						// Synergies
-						r = r.replace("_", c(current_value + "%"));
+	const description = computed(() => {
+		if (!props.skill) return "";
+		let r = props.skill[`${settings.value.language}_DESCRIPTION`];
+		// New lines
+		r = r.replaceAll("#", "\n");
+
+		// Reminders
+		r = r.replaceAll(
+			/<([^>]*)>/g,
+			(match, group) => `<span class="keyword">${group}</span>`
+		);
+
+		const small = (s: string) => `<span class="smaller">${s}</span>`;
+		const c = (n: string) => `<span class="colored">${n}</span>`;
+
+		if (props.skill.DESC_VALUE_REAL) {
+			let reals = props.skill.DESC_VALUE_REAL.split("|");
+			for (let e of reals)
+				r = r.replace("$", translate(e, settings.value.language));
+		}
+
+		function splice(
+			str: string,
+			start: number,
+			count: number,
+			insert: string
+		) {
+			return str.slice(0, start) + insert + str.slice(start + count);
+		}
+
+		if (props.skill.DESC_VALUE) {
+			let negative = props.skill.DESC_VALUE_REAL.split("|").map((v) =>
+				v === "negative" ? -1 : 1
+			);
+			let value_name = props.skill.DESC_VALUE.split("|");
+			value_name = value_name.map((n) =>
+				translate(n, settings.value.language)
+			);
+			const value_base_str = props.skill.DESC_VALUE_BASE.split("|");
+			const value_base = value_base_str.map((v) => parseFloat(v));
+			const value_per_level_str =
+				props.skill.DESC_VALUE_PER_LVL.split("|");
+			const value_per_level = value_per_level_str.map((v) =>
+				parseFloat(v)
+			);
+			let value_type = props.skill.DESC_VALUE_TYPE.split("|");
+			const value_regex = /@([^@]+)£/;
+			for (let idx = 0; idx < value_name.length; ++idx) {
+				let current_value =
+					Math.round(
+						100 *
+							(value_base[idx] +
+								negative[idx] *
+									Math.max(0, props.skill.rank) *
+									value_per_level[idx])
+					) / 100;
+				let index = r.search("@");
+				let next_index = r.substring(index + 1).search("@");
+				let value_explanation =
+					props.skill.UPGRADE_NUMBER > 1 &&
+					index >= 0 &&
+					!r
+						.substring(
+							index,
+							next_index > 0 ? next_index : undefined
+						)
+						.includes("µ");
+				if (index >= 0) {
+					// Search corresponding £
+					let matching_name = value_regex.exec(r);
+					if (matching_name) {
+						r = r.replace(value_regex, (match, separator) => {
+							return `${c(
+								current_value + value_type[idx]
+							)}${separator}${value_name[idx]}${
+								value_explanation
+									? small(
+											` (${value_base[idx]}${
+												value_type[idx]
+											} ${
+												negative[idx] < 0 ? "-" : "+"
+											} ${value_per_level[idx]}${
+												value_type[idx]
+											} ${translate(
+												"per rank",
+												settings.value.language
+											)})`
+									  )
+									: ""
+							}`;
+						});
+					} else {
+						r = splice(
+							r,
+							index,
+							1,
+							c(current_value + value_type[idx])
+						);
+					}
+				} else {
+					if (r.includes("£")) {
+						r = r.replace("£", c(value_name[idx]));
 					}
 				}
 
-				if (this.skill.EXTRA_NBR) {
-					let extras = this.skill.EXTRA_NBR.split("|");
-					for (let e of extras) r = r.replace("¥", e);
+				if (!value_explanation) {
+					r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
+						small(group)
+					);
+					r = r.replace("µ", value_base_str[idx]);
+					r = r.replace("µ", value_per_level_str[idx]);
 				}
+				// Synergies
+				r = r.replace("_", c(current_value + "%"));
+			}
+		}
 
-				// Wth is ¤?
-				return r;
-			},
-			genres() {
-				if (!this.skill.GENRE) return null;
-				return this.skill.GENRE.split(",")
-					?.map((str) => "atk_" + str)
-					.map((s) => this.translate(s))
-					.join(", ");
-			},
-		},
-	};
+		if (props.skill.EXTRA_NBR) {
+			let extras = props.skill.EXTRA_NBR.split("|");
+			for (let e of extras) r = r.replace("¥", e);
+		}
+
+		// Wth is ¤?
+		return r;
+	});
+
+	const genres = computed(() => {
+		if (!props.skill.GENRE) return null;
+		return props.skill.GENRE.split(",")
+			?.map((str) => "atk_" + str)
+			.map((s) => translate(s, settings.value.language))
+			.join(", ");
+	});
 </script>
 
 <style>
