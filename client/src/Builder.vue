@@ -301,7 +301,7 @@
 		},
 		mounted() {
 			if (this.gearImport)
-				this.$refs.gear.import(this.gearImport, this.statPriority);
+				this.$refs.gear.importGear(this.gearImport, this.statPriority);
 		},
 		computed: {
 			selectedClassIcon() {

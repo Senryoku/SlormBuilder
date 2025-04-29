@@ -205,7 +205,18 @@ export function parseText(
 
 export type ClassName = "knight" | "huntress" | "mage";
 
-export const ItemTypes = [
+export type ItemType =
+	| "amulet"
+	| "belt"
+	| "body"
+	| "boot"
+	| "bracer"
+	| "cape"
+	| "glove"
+	| "helm"
+	| "ring"
+	| "shoulder";
+export const ItemTypes: ItemType[] = [
 	"amulet",
 	"belt",
 	"body",
@@ -218,7 +229,19 @@ export const ItemTypes = [
 	"shoulder",
 ];
 
-export const ItemSlots = [
+export type ItemSlot =
+	| "amulet"
+	| "belt"
+	| "body"
+	| "boot"
+	| "bracer"
+	| "cape"
+	| "glove"
+	| "helm"
+	| "ring0"
+	| "ring1"
+	| "shoulder";
+export const ItemSlots: ItemSlot[] = [
 	"amulet",
 	"belt",
 	"body",
@@ -235,6 +258,7 @@ export const ItemSlots = [
 import ReapersData from "./assets/extracted/dat_rea.json";
 
 export type Reaper = (typeof ReapersData)[number];
+export type ReaperType = "sword" | "staff" | "bow";
 
 export const Reapers: (Reaper & { previous?: Reaper[] })[] = ReapersData;
 

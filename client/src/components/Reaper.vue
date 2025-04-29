@@ -83,6 +83,7 @@
 		type Reaper,
 		translate,
 		AncestralSkills,
+		type ReaperType,
 	} from "../utils.js";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
@@ -92,7 +93,7 @@
 
 	const props = withDefaults(
 		defineProps<{
-			type?: "sword" | "bow" | "staff";
+			type?: ReaperType;
 			item: Reaper;
 		}>(),
 		{ type: "sword" }

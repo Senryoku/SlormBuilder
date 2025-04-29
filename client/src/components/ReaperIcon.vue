@@ -4,14 +4,19 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { localize, require, type Reaper } from "../utils.ts";
+	import {
+		localize,
+		require,
+		type Reaper,
+		type ReaperType,
+	} from "../utils.ts";
 	import ReaperIcons from "../ReaperIcons.ts";
 	import { useSettings } from "../Settings.ts";
 
 	const settings = useSettings();
 
 	const props = defineProps<{
-		type: "sword" | "bow" | "staff";
+		type: ReaperType;
 		item: Reaper;
 	}>();
 
