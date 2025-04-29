@@ -16,7 +16,7 @@
 	const triggerCount = ref(0);
 
 	function transitionEnter() {
-		mousemove(lastEvent.value!);
+		if (lastEvent.value) mousemove(lastEvent.value);
 	}
 
 	function mousemove(event: MouseEvent) {
@@ -51,7 +51,7 @@
 			"mouseleave",
 			mouseleave as EventListener
 		);
-		lastEvent.value = event;
+		mousemove(event);
 	}
 
 	function hide(evtt: EventTarget) {
