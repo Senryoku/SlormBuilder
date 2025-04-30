@@ -4,13 +4,12 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
+	import { localize, require } from "../utils.ts";
 	import {
-		localize,
-		require,
+		ReaperIcons,
 		type Reaper,
 		type ReaperType,
-	} from "../utils.ts";
-	import ReaperIcons from "../ReaperIcons.ts";
+	} from "../data/Reapers.ts";
 	import { useSettings } from "../Settings.ts";
 
 	const settings = useSettings();

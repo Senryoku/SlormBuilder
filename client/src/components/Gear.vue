@@ -162,12 +162,9 @@
 	import {
 		ItemSlots,
 		localize,
-		Reapers,
 		translate,
 		type ClassName,
 		type ItemSlot,
-		type Reaper,
-		type ReaperType,
 	} from "../utils.js";
 	import draggable from "vuedraggable";
 	import Stats from "../assets/data/item_stats.json";
@@ -179,9 +176,14 @@
 	import ReaperGallery from "./ReaperGallery.vue";
 	import Tooltip from "./Tooltip.vue";
 
-	import ReaperIcons from "../ReaperIcons.ts";
+	import {
+		ReaperIcons,
+		Reapers,
+		type Reaper,
+		type ReaperType,
+	} from "../data/Reapers.ts";
 	import { useSettings } from "../Settings.ts";
-	import type { Legendary } from "./Legendaries.ts";
+	import type { Legendary } from "../data/Legendaries.ts";
 
 	type GearSet = Partial<Record<ItemSlot, Legendary> & { reaper: Reaper }>;
 

@@ -65,7 +65,7 @@
 	import Mechanics from "../assets/data/mechanics.json";
 	import { computed } from "vue";
 	import { getSkillSprite, translate, type ClassName } from "../utils";
-	import type { AugmentedSkill, Skill } from "./Skills";
+	import type { AugmentedSkill, Skill } from "../data/Skills";
 	import { useSettings } from "../Settings";
 
 	const settings = useSettings();

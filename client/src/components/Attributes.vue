@@ -64,7 +64,8 @@
 
 <script>
 	import { ref } from "vue";
-	import { clamp, spritesByIndex, Attributes } from "../utils.js";
+	import { clamp, spritesByIndex } from "../utils.js";
+	import { Attributes } from "../data/Attributes";
 
 	import Tooltip from "./Tooltip.vue";
 	import AttributeComponent from "./Attribute.vue";

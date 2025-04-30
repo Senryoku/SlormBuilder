@@ -77,17 +77,12 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import {
-		localize,
-		parseText,
-		type Reaper,
-		translate,
-		AncestralSkills,
-		type ReaperType,
-	} from "../utils.js";
+	import { localize, parseText, translate } from "../utils";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
-	import { useSettings } from "../Settings.js";
+	import { useSettings } from "../Settings";
+	import { AncestralSkills } from "../data/AncestralSkills";
+	import type { ReaperType, Reaper } from "../data/Reapers";
 
 	const settings = useSettings();
 
@@ -100,7 +95,10 @@
 	);
 
 	const blacksmith = props.item.BLACKSMITH
-		? translate(`weapon_reapersmith_${props.item.BLACKSMITH}`)
+		? translate(
+				`weapon_reapersmith_${props.item.BLACKSMITH}`,
+				settings.value.language
+		  )
 		: null;
 
 	function transformName(name: string) {

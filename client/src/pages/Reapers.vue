@@ -31,16 +31,13 @@
 	import { ref } from "vue";
 	import Toggle from "./Toggle.vue";
 	import ReaperGallery from "./ReaperGallery.vue";
-
-	defineOptions({
-		name: "Reapers",
-	});
+	import type { ReaperType } from "../data/Reapers";
 
 	const props = withDefaults(defineProps<{ large: boolean }>(), {
 		large: false,
 	});
 
-	const type = ref("sword");
+	const type = ref<ReaperType>("sword");
 	const lootable = ref(false);
 	const smallDisplay = ref(!props.large);
 </script>

@@ -1,3 +1,7 @@
+import { AncestralSkills } from "./data/AncestralSkills";
+import GameStrings from "./assets/extracted/dat_str.json";
+import Strings from "./assets/data/Strings.json";
+
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
 export const copyToClipboard = (str: string) => {
 	const el = document.createElement("textarea"); // Create a <textarea> element
@@ -20,8 +24,6 @@ export const copyToClipboard = (str: string) => {
 	}
 };
 
-import GameStrings from "./assets/extracted/dat_str.json";
-
 export type Language = Exclude<keyof (typeof GameStrings)[number], "REF">;
 
 export function translate(id: string, lang: Language) {
@@ -37,8 +39,6 @@ export function capitalize(str: string) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-import Strings from "./assets/data/Strings.json";
-
 export function localize(
 	lang: Language,
 	str: keyof typeof Strings,
@@ -53,14 +53,6 @@ export function localize(
 	}
 	return r;
 }
-
-import AttributeJSON from "./assets/extracted/dat_att.json";
-export type Attribute = (typeof AttributeJSON)[number];
-export const Attributes: Attribute[] = AttributeJSON;
-
-import AncestralSkillsJSON from "./assets/extracted/dat_act.json";
-export type AncestralSkill = (typeof AncestralSkillsJSON)[number];
-export const AncestralSkills: AncestralSkill[] = AncestralSkillsJSON;
 
 export function parseText(
 	item: Record<string, string>,
@@ -261,25 +253,6 @@ export const ItemSlots: ItemSlot[] = [
 	"shoulder",
 ];
 
-import ReapersData from "./assets/extracted/dat_rea.json";
-
-export type Reaper = (typeof ReapersData)[number];
-export type ReaperType = "sword" | "staff" | "bow";
-
-export const Reapers: (Reaper & { previous?: Reaper[] })[] = ReapersData;
-
-for (let r of Reapers) {
-	if (r.EVOLVE_IN) {
-		let e = Reapers.find((e) => e.REF === r.EVOLVE_IN)!;
-		if (e.previous) {
-			e.previous.push(r);
-		} else {
-			e.previous = [r];
-		}
-	}
-}
-ReapersData.sort((l, r) => l.ORDER - r.ORDER);
-
 export function require(url: string) {
 	return new URL(url, import.meta.url).href;
 }
@@ -358,8 +331,16 @@ export function getSkillSprite(
 	skill: { REF: number },
 	support: boolean = false
 ) {
+	const sprite =
+		SkillSprites[className]?.[support ? "supports" : "skills"]?.[skill.REF];
+	if (!sprite)
+		console.log("[getSkillSprite] Could not find sprite for", {
+			className,
+			skill,
+			support,
+		});
 	return (
-		SkillSprites[className][support ? "supports" : "skills"][skill.REF] ??
+		sprite ??
 		require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
 	);
 }

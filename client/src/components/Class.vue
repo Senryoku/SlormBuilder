@@ -113,7 +113,7 @@
 		HuntressSkills,
 		MageSkills,
 		type AugmentedSkill,
-	} from "./Skills";
+	} from "../data/Skills.js";
 
 	const SkillData = {
 		knight: KnightSkills,

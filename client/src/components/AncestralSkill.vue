@@ -29,7 +29,7 @@
 	import { computed } from "vue";
 	import { parseText, require, spritesByIndex } from "../utils.js";
 	import { useSettings } from "../Settings.js";
-	import type { Element } from "./Elements.ts";
+	import type { Element } from "../data/Elements.ts";
 
 	const IconSprites = spritesByIndex(
 		import.meta.glob("../assets/extracted/sprites/spr_actives/*.png", {

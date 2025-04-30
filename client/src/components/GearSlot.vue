@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	import type { Legendary } from "./Legendaries";
+	import type { Legendary } from "../data/Legendaries";
 	import ItemIcon from "./ItemIcon.vue";
 	defineProps<{ type: string; item: Legendary }>();
 </script>

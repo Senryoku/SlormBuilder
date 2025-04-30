@@ -42,7 +42,7 @@
 <script setup lang="ts">
 	import type { ClassName } from "../utils";
 	import SkillIcon from "./SkillIcon.vue";
-	import type { AugmentedSkill } from "./Skills";
+	import type { AugmentedSkill } from "../data/Skills";
 	defineProps<{
 		tree: {
 			className: ClassName;

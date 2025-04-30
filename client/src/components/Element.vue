@@ -32,9 +32,9 @@
 <script setup lang="ts">
 	import { computed } from "vue";
 	import { parseText, translate } from "../utils.js";
-	import ElementIcons from "../ElementIcons.ts";
+	import { ElementIcons } from "../data/Elements.ts";
 	import { useSettings } from "../Settings.ts";
-	import type { Element } from "./Elements.ts";
+	import type { Element } from "../data/Elements.ts";
 
 	const settings = useSettings();
 
@@ -44,7 +44,7 @@
 		return ElementIcons[props.element.REF];
 	});
 	const name = computed(() => {
-		return translate(props.element[`${settings.value.language}_NAME`]);
+		return props.element[`${settings.value.language}_NAME`];
 	});
 	const cost = computed(() => {
 		return props.element.COST_LEVEL

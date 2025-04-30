@@ -26,11 +26,12 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { parseText, AncestralSkills } from "../utils.js";
+	import { parseText } from "../utils.js";
 	import ItemIcon from "./ItemIcon.vue";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import { useSettings } from "../Settings.js";
-	import type { Legendary } from "./Legendaries";
+	import type { Legendary } from "../data/Legendaries.js";
+	import { AncestralSkills } from "../data/AncestralSkills";
 
 	const settings = useSettings();
 

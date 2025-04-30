@@ -83,7 +83,7 @@
 	import { nextTick, onMounted, ref, useTemplateRef } from "vue";
 	import { clamp } from "../utils.js";
 	import SkillIcon from "./SkillIcon.vue";
-	import { Elements, type Element } from "./Elements.ts";
+	import { Elements, type Element } from "../data/Elements.ts";
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
 

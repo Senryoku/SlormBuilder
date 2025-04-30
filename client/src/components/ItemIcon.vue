@@ -6,9 +6,8 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import ItemIcons from "../ItemIcons";
 	import { useSettings } from "../Settings";
-	import type { Legendary } from "./Legendaries";
+	import { type Legendary, LegendaryIcons } from "../data/Legendaries";
 
 	const TypeOffsets: Record<string, number> = {
 		helm: 1,
@@ -30,7 +29,7 @@
 	}>();
 
 	const image =
-		ItemIcons[
+		LegendaryIcons[
 			props.item.SPRITE !== null
 				? TypeOffsets[props.item.ITEM] + props.item.SPRITE
 				: 0

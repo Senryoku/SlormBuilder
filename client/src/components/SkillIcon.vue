@@ -19,11 +19,7 @@
 
 <script setup lang="ts">
 	import { getSkillSprite, type ClassName } from "../utils";
-	import type { AugmentedSkill } from "./Skills";
-
-	defineOptions({
-		name: "SkillIcon",
-	});
+	import type { AugmentedSkill } from "../data/Skills";
 
 	const props = withDefaults(
 		defineProps<{

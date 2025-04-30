@@ -36,17 +36,17 @@
 
 <script setup lang="ts">
 	import { ref, computed, useTemplateRef } from "vue";
-	import { Reapers, type Reaper } from "../utils.js";
+	import { Reapers, type Reaper, type ReaperType } from "../data/Reapers";
 	import ReaperIcon from "./ReaperIcon.vue";
 	import ReaperComponent from "./Reaper.vue";
 	import Tooltip from "./Tooltip.vue";
-	import { useSettings } from "../Settings.js";
+	import { useSettings } from "../Settings";
 
 	const settings = useSettings();
 
 	const props = withDefaults(
 		defineProps<{
-			type: string;
+			type: ReaperType;
 			smallDisplay: boolean;
 			lootable: boolean;
 		}>(),
@@ -55,7 +55,7 @@
 			lootable: false,
 		}
 	);
-	const tooltip = useTemplateRef<Tooltip>("tooltip");
+	const tooltip = useTemplateRef<typeof Tooltip>("tooltip");
 
 	const AvailableReapers = computed(() =>
 		Reapers.filter((r) => r[`${settings.value.language}_NAME`])
