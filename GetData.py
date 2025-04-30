@@ -9,9 +9,13 @@ DestinationFolder = "./client/src/assets/extracted/"
 
 for filePath in GameFiles:
     try:
-        with open(filePath) as file:
-            json = base64.b64decode(file.read())
-            destName = filePath.split('\\')[-1]
+        with open(filePath, encoding="utf8") as file:
+            content = file.read()
+            try:
+                json = base64.b64decode(content)
+            except:  # Not all files are b64 encoded
+                json = content.encode("utf8")
+            destName = filePath.split("\\")[-1]
             with open(DestinationFolder + destName, "wb") as destFile:
                 destFile.write(json)
                 print("Wrote {}".format(destName))
