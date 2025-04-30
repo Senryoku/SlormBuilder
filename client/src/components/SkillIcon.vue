@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-	import { getSkillSprite } from "../utils";
+	import { getSkillSprite, type ClassName } from "../utils";
 	import type { AugmentedSkill } from "./Skills";
 
 	defineOptions({
@@ -27,7 +27,7 @@
 
 	const props = withDefaults(
 		defineProps<{
-			className?: "knight" | "huntress" | "mage";
+			className?: ClassName;
 			skill: AugmentedSkill;
 			selected?: boolean;
 			support?: boolean;

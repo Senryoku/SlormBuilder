@@ -40,11 +40,12 @@
 </template>
 
 <script setup lang="ts">
+	import type { ClassName } from "../utils";
 	import SkillIcon from "./SkillIcon.vue";
 	import type { AugmentedSkill } from "./Skills";
 	defineProps<{
 		tree: {
-			className: "knight" | "huntress" | "mage";
+			className: ClassName;
 			skill: AugmentedSkill;
 			upgrades: AugmentedSkill[][];
 		};

@@ -133,8 +133,9 @@
 		ItemSlots,
 		ItemTypes,
 		spritesByIndex,
+		Classes,
 	} from "./utils.js";
-	const Class = defineAsyncComponent(() => import("./components/Class.vue"));
+	import Class from "./components/Class.vue";
 	import Attributes from "./components/Attributes.vue";
 	import Gear from "./components/Gear.vue";
 
@@ -148,8 +149,6 @@
 			{ eager: true, query: "?url", import: "default" }
 		)
 	);
-
-	const classes = ["knight", "huntress", "mage"];
 
 	export default {
 		components: {
@@ -173,8 +172,8 @@
 		},
 		data() {
 			const r = {
-				classes: classes,
-				selectedClass: classes[0],
+				classes: Classes,
+				selectedClass: Classes[0],
 				selectedTab: "skills",
 				editable: true,
 				classImport: null,
@@ -306,7 +305,7 @@
 		computed: {
 			selectedClassIcon() {
 				return ClassIcons[
-					classes.findIndex((s) => s === this.selectedClass)
+					Classes.findIndex((s) => s === this.selectedClass)
 				];
 			},
 		},
@@ -412,7 +411,7 @@
 							.split("|");
 					};
 
-					const classIdx = classes.findIndex(
+					const classIdx = Classes.findIndex(
 						(c) => c === this.selectedClass
 					);
 					let dataFields = {};
@@ -508,7 +507,7 @@
 								selected: dat[ref] !== -1,
 							});
 						}
-						this.classComponents[classes[i]].importSave(
+						this.classComponents[Classes[i]].importSave(
 							selections[i],
 							upgrades[i]
 						);
@@ -524,7 +523,7 @@
 					this.$toast.success(
 						this.t(
 							`Save successfully imported! (Every Skills and Attributes, Legendaries and Elements for the $)`,
-							capitalize(this.t(classes[classIdx]))
+							capitalize(this.t(Classes[classIdx]))
 						)
 					);
 				} catch (e) {

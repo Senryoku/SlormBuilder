@@ -18,93 +18,83 @@
 	</div>
 </template>
 
-<script>
-	import { parseText } from "../utils.js";
+<script setup lang="ts">
+	import { computed } from "vue";
+	import { useSettings } from "../Settings.js";
+	import { parseText, translate, type Attribute } from "../utils.js";
 
-	export default {
-		name: "Attribute",
-		props: {
-			attr: { type: Object },
-		},
-		methods: {
-			n(s) {
-				return `<span class="number">${s}</span>`;
-			},
-			p(s) {
-				return `<span class="small">${s}</span>`;
-			},
-		},
-		computed: {
-			effects() {
-				let basics = {};
-				let others = [];
-				for (let e of this.attr.effects) {
-					if (
-						!e[this.settings.value.language + "_TEXT"] ||
-						e[this.settings.value.language + "_TEXT"] === ""
-					) {
-						let types = e.TYPE.split("|");
-						let stats = e.STAT.split("|");
-						for (let idx = 0; idx < stats.length; ++idx) {
-							let s = stats[idx];
-							if (!(s in basics))
-								basics[s] = {
-									level: 75,
-									value: 0,
-									max: 0,
-									type: types[idx],
-								};
-							basics[s].level = Math.min(
-								basics[s].level,
-								e.LEVEL
-							);
-							basics[s].value +=
-								e.ADDITIVE === null
-									? parseFloat(e.VALUE)
-									: parseFloat(e.VALUE) *
-									  Math.max(
-											0,
-											1 +
-												e.ADDITIVE *
-													(this.attr.level - e.LEVEL)
-									  );
-							basics[s].max +=
-								e.ADDITIVE === null
-									? parseFloat(e.VALUE)
-									: parseFloat(e.VALUE) *
-									  e.ADDITIVE *
-									  Math.max(0, 1 + 75 - e.LEVEL);
-						}
-					} else {
-						others.push({
-							level: e.LEVEL,
-							text: parseText(e, this.settings.value.language, {
-								text: this.settings.value.language + "_TEXT",
-								value_base: "VALUE",
-								value_type: "TYPE",
-								value_stat: "STAT",
-							}),
-						});
-					}
+	const settings = useSettings();
+
+	const props = defineProps<{
+		attr: Attribute;
+	}>();
+
+	const n = (s: string) => `<span class="number">${s}</span>`;
+	const p = (s: string) => `<span class="small">${s}</span>`;
+
+	const effects = computed(() => {
+		let basics = {};
+		let others = [];
+		for (let e of props.attr.effects) {
+			if (
+				!e[settings.value.language + "_TEXT"] ||
+				e[settings.value.language + "_TEXT"] === ""
+			) {
+				let types = e.TYPE.split("|");
+				let stats = e.STAT.split("|");
+				for (let idx = 0; idx < stats.length; ++idx) {
+					let s = stats[idx];
+					if (!(s in basics))
+						basics[s] = {
+							level: 75,
+							value: 0,
+							max: 0,
+							type: types[idx],
+						};
+					basics[s].level = Math.min(basics[s].level, e.LEVEL);
+					basics[s].value +=
+						e.ADDITIVE === null
+							? parseFloat(e.VALUE)
+							: parseFloat(e.VALUE) *
+							  Math.max(
+									0,
+									1 +
+										e.ADDITIVE *
+											(props.attr.level - e.LEVEL)
+							  );
+					basics[s].max +=
+						e.ADDITIVE === null
+							? parseFloat(e.VALUE)
+							: parseFloat(e.VALUE) *
+							  e.ADDITIVE *
+							  Math.max(0, 1 + 75 - e.LEVEL);
 				}
-				let basicEffect = [];
-				for (let a in basics) {
-					basicEffect.push({
-						level: basics[a].level,
-						text: `+${this.n(basics[a].value)}${
-							basics[a].type
-						} ${this.p(
-							`(+${basics[a].max}${basics[a].type} Max.)`
-						)} ${this.translate(a)}`,
-						basic: true,
-					});
-				}
-				basicEffect.sort((l, r) => l.level - r.level);
-				others.sort((l, r) => l.level - r.level);
-				return basicEffect.concat(others);
-			},
-		},
-	};
+			} else {
+				others.push({
+					level: e.LEVEL,
+					text: parseText(e, settings.value.language, {
+						text: settings.value.language + "_TEXT",
+						value_base: "VALUE",
+						value_type: "TYPE",
+						value_stat: "STAT",
+					}),
+				});
+			}
+		}
+		let basicEffect = [];
+		for (let a in basics) {
+			basicEffect.push({
+				level: basics[a].level,
+				text: `+${n(basics[a].value)}${basics[a].type} ${p(
+					`(+${basics[a].max}${basics[a].type} Max.)`
+				)} ${translate(a, settings.value.language)}`,
+				basic: true,
+			});
+		}
+		basicEffect.sort((l, r) => l.level - r.level);
+		others.sort((l, r) => l.level - r.level);
+		return basicEffect.concat(others);
+	});
 </script>
 
 <style scoped>

@@ -54,8 +54,11 @@ export function localize(
 	return r;
 }
 
-import AncestralSkillsJSON from "./assets/extracted/dat_act.json";
+import AttributeJSON from "./assets/extracted/dat_att.json";
+export type Attribute = (typeof AttributeJSON)[number];
+export const Attributes: Attribute[] = AttributeJSON;
 
+import AncestralSkillsJSON from "./assets/extracted/dat_act.json";
 export type AncestralSkill = (typeof AncestralSkillsJSON)[number];
 export const AncestralSkills: AncestralSkill[] = AncestralSkillsJSON;
 
@@ -204,6 +207,7 @@ export function parseText(
 }
 
 export type ClassName = "knight" | "huntress" | "mage";
+export const Classes: ClassName[] = ["knight", "huntress", "mage"];
 
 export type ItemType =
 	| "amulet"

@@ -57,18 +57,17 @@
 			</div>
 		</div>
 	</div>
-	<tooltip ref="tooltip"
-		><attribute :attr="hoveredAttr" :key="hoveredAttr.REF"
-	/></tooltip>
+	<tooltip ref="tooltip">
+		<AttributeComponent :attr="hoveredAttr" :key="hoveredAttr.REF" />
+	</tooltip>
 </template>
 
 <script>
 	import { ref } from "vue";
-	import { clamp, spritesByIndex } from "../utils.js";
-	import AttributeData from "../assets/extracted/dat_att.json";
+	import { clamp, spritesByIndex, Attributes } from "../utils.js";
 
 	import Tooltip from "./Tooltip.vue";
-	import Attribute from "./Attribute.vue";
+	import AttributeComponent from "./Attribute.vue";
 
 	const Animation = spritesByIndex(
 		import.meta.glob(
@@ -116,14 +115,14 @@
 
 	export default {
 		name: "Attributes",
-		components: { Tooltip, Attribute },
+		components: { Tooltip, AttributeComponent },
 		props: {
 			values: { type: Array },
 			editable: { type: Boolean, default: true },
 		},
 		data() {
 			let effects = [];
-			for (let attr of AttributeData) {
+			for (let attr of Attributes) {
 				while (attr.TRAIT > effects.length - 1) effects.push([]);
 				effects[attr.TRAIT].push(attr);
 			}
