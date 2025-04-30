@@ -63,7 +63,7 @@ export type AncestralSkill = (typeof AncestralSkillsJSON)[number];
 export const AncestralSkills: AncestralSkill[] = AncestralSkillsJSON;
 
 export function parseText(
-	item: Record<string, unknown>,
+	item: Record<string, string>,
 	lang: Language,
 	format: Record<string, string> = {},
 	options = { rank: 0 }
@@ -122,7 +122,7 @@ export function parseText(
 			return `${localize(
 				lang,
 				"Gain Ancestral Skill"
-			)} <span class="colored">${act[lang + "_NAME"]}</span>`;
+			)} <span class="colored">${act[`${lang}_NAME`]}</span>`;
 		else return "";
 	});
 
@@ -151,7 +151,9 @@ export function parseText(
 		if (reaperLevels?.[idx]) {
 			r = r.replace(
 				"@",
-				`${n(v)}${t} ${s(`(+${v}${t} ${translate("per level")})`)}`
+				`${n(v)}${t} ${s(
+					`(+${v}${t} ${translate("per level", lang)})`
+				)}`
 			);
 		} else {
 			const currentValue = itemRanges?.[idx]

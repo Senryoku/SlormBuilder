@@ -67,7 +67,7 @@
 				<img
 					src="./assets/extracted/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
 				/>
-				{{ t("Elements") }}
+				{{ t("Legacy") }}
 			</div>
 		</div>
 		<div class="actions">

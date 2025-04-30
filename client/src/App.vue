@@ -1,33 +1,38 @@
 <template>
 	<div class="header" v-if="!$route.meta.singleComponent">
 		<div class="header-left">
-			<router-link to="/"
-				><img
+			<router-link to="/">
+				<img
 					alt="The Slormancer Logo"
 					src="@/assets/extracted/sprites/spr_game_logo/spr_game_logo_0.png"
 					height="100"
-			/></router-link>
+				/>
+			</router-link>
 			<div>
-				<a @click="changeLanguage('FR')">FR</a> |
 				<a @click="changeLanguage('EN')">EN</a> |
+				<a @click="changeLanguage('FR')">FR</a> |
 				<a @click="changeLanguage('CH')">CH</a> |
-				<a @click="changeLanguage('TW')">TW</a>
+				<a @click="changeLanguage('TW')">TW</a> |
+				<a @click="changeLanguage('JP')">JP</a> |
+				<a @click="changeLanguage('DE')">DE</a> |
+				<a @click="changeLanguage('ES')">ES</a> |
+				<a @click="changeLanguage('RU')">RU</a>
 			</div>
 		</div>
-		<router-link to="/" custom v-slot="{ href, navigate, isActive }"
-			><h1
+		<router-link to="/" custom v-slot="{ href, navigate, isActive }">
+			<h1
 				:class="{ active: isActive }"
 				:href="href"
 				@click="navigate"
 				class="clickable"
 			>
 				SlormBuilder
-			</h1></router-link
-		>
+			</h1>
+		</router-link>
 		<div style="display: inline-flex; justify-content: flex-end; gap: 1em">
 			<div id="nav">
-				<router-link to="/">Builder</router-link> |
-				<router-link to="/reapers">Reapers</router-link> |
+				<router-link to="/">{{ t("Builder") }}</router-link> |
+				<router-link to="/reapers">{{ t("Reapers") }}</router-link> |
 				<router-link to="/legendaries">{{
 					t("Legendaries")
 				}}</router-link>
@@ -64,7 +69,7 @@
 						href="https://www.paypal.com/donate/?hosted_button_id=6L2CUS6DH82DL"
 						target="_blank"
 					>
-						Donate using Paypal
+						{{ t("Donate using Paypal") }}
 					</a>
 				</div>
 				<div>
@@ -72,7 +77,7 @@
 						href="https://github.com/sponsors/Senryoku"
 						target="_blank"
 					>
-						Sponsor on Github
+						{{ t("Sponsor on Github") }}
 					</a>
 				</div>
 			</div>

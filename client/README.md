@@ -19,7 +19,7 @@ This project uses game assets from The Slormancer by [Slormite Studios](https://
 - Skills
   - Remove "duplicated code" for description parsing.
   -	Next Rank/Max Rank
-- Debug tooltip on dev server (they still work in prod)
+  - Fix 'mechanics' reminder: IIRC keywords in skill descriptions used to be surrounded with <>, it's not the case anymore. I don't know how to map kills to relevant mechanics.
 
 ## Notes
 
