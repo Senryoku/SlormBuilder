@@ -533,12 +533,19 @@
 	}
 
 	function importSave(equipped: number[], ranks: number[]) {
+		console.warn("TODO: Correctly import Ancestral Tree!");
+
 		for (let e of Elements) e.selected = false;
 		for (let idx = 0; idx < equipped.length; ++idx) {
 			if (equipped[idx]) {
-				Bridges.value[idx].selected = true;
-				for (let e of Realms.value[Bridges.value[idx].next].elements)
-					e.selected = true;
+				if (Bridges.value[idx]) {
+					Bridges.value[idx].selected = true;
+					for (let e of Realms.value[Bridges.value[idx].next]
+						.elements)
+						e.selected = true;
+				} else {
+					console.warn("Could not find bridge for ", idx);
+				}
 			}
 		}
 		for (let e of Elements) {

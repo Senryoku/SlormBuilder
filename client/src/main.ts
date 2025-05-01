@@ -3,19 +3,18 @@ import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
 import { translate, localize } from "./utils.js";
-const Builder = () => import("./Builder.vue");
 
+const Builder = () => import("./pages/Builder.vue");
 import { Reapers as ReaperData } from "./data/Reapers";
 const Reaper = () => import("./components/Reaper.vue");
 const Reapers = () => import("./pages/Reapers.vue");
-
 import { Legendaries as LegendariesData } from "./data/Legendaries";
 const Legendary = () => import("./components/Legendary.vue");
 const Legendaries = () => import("./pages/Legendaries.vue");
-
 const NotFound = () => import("./components/NotFound.vue");
 const Enemies = () => import("./pages/Enemies.vue");
 const Stats = () => import("./pages/Stats.vue");
+
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useSettings } from "./Settings.js";
@@ -86,7 +85,9 @@ const router = createRouter({
 	routes,
 });
 
-const app = createApp(App).use(router).use(Toaster);
+const app = createApp(App);
+app.use(router);
+app.use(Toaster).provide("toast", app.config.globalProperties.$toast);
 
 app.config.globalProperties.settings = useSettings();
 

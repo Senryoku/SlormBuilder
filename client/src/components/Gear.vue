@@ -259,17 +259,20 @@
 	function importSave(importedGear: GearSet) {
 		gear.value = {};
 		for (let slot in gear) {
-			gear.value[slot] = (slot === "reaper" ? Reapers : Legendaries).find(
-				(l) => l.REF === importedGear[slot].REF
-			);
+			if (!importedGear[slot]) gear.value[slot] = null;
+			else {
+				gear.value[slot] = (
+					slot === "reaper" ? Reapers : Legendaries
+				).find((l) => l.REF === importedGear[slot].REF);
+			}
 		}
 	}
 
 	const galleryItems = computed(() => {
 		if (selectedSlot.value === "reaper") return [];
-		let slot = selectedSlot.value;
-		if (slot === "ring0" || slot === "ring1") slot = "ring";
-		return Legendaries.filter((o) => o.ITEM === slot);
+		const slot = selectedSlot.value;
+		const itemType = slot === "ring0" || slot === "ring1" ? "ring" : slot;
+		return Legendaries.filter((o) => o.ITEM === itemType);
 	});
 
 	const reaperType = computed(() => {
