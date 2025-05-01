@@ -1,7 +1,7 @@
 <template>
 	<div class="element" v-if="element">
 		<div class="header">
-			<img :src="icon" />
+			<img :src="element.image" />
 			<div class="infos">
 				<div class="name">{{ name }}</div>
 				<div v-if="element.TYPE">
@@ -32,7 +32,6 @@
 <script setup lang="ts">
 	import { computed } from "vue";
 	import { parseText, translate } from "../utils.js";
-	import { ElementIcons } from "../data/Elements.ts";
 	import { useSettings } from "../Settings.ts";
 	import type { Element } from "../data/Elements.ts";
 
@@ -40,9 +39,6 @@
 
 	const props = defineProps<{ element: Element }>();
 
-	const icon = computed(() => {
-		return ElementIcons[props.element.REF];
-	});
 	const name = computed(() => {
 		return props.element[`${settings.value.language}_NAME`];
 	});

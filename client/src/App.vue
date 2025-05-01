@@ -37,6 +37,10 @@
 					t("Legendaries")
 				}}</router-link>
 				|
+				<template v-if="!inProduction">
+					<router-link to="/enemies">{{ t("Enemies") }}</router-link>
+					|
+				</template>
 				<router-link to="/stats">{{ t("Stats") }}</router-link>
 			</div>
 			<div
@@ -92,6 +96,8 @@
 	import { useSettings } from "./Settings";
 
 	const settings = useSettings();
+
+	const inProduction = import.meta.env.PROD;
 
 	onMounted(() => {
 		try {

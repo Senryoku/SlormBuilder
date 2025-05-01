@@ -41,7 +41,7 @@ export function capitalize(str: string) {
 
 export function localize(
 	lang: Language,
-	str: keyof typeof Strings,
+	str: keyof typeof Strings | string,
 	...args: string[]
 ) {
 	let r =

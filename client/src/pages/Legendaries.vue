@@ -28,7 +28,7 @@
 	import { ItemTypes } from "../utils";
 	import Toggle from "../components/Toggle.vue";
 	import Legendary from "../components/Legendary.vue";
-	import Legendaries from "../assets/extracted/dat_leg.json";
+	import { Legendaries } from "../data/Legendaries";
 
 	const selectedSlot = ref("");
 	const lootable = ref(true);

@@ -5,16 +5,17 @@ import App from "./App.vue";
 import { translate, localize } from "./utils.js";
 const Builder = () => import("./Builder.vue");
 
-import ReaperData from "./assets/extracted/dat_rea.json";
+import { Reapers as ReaperData } from "./data/Reapers";
 const Reaper = () => import("./components/Reaper.vue");
-const Reapers = () => import("./components/Reapers.vue");
+const Reapers = () => import("./pages/Reapers.vue");
 
-import LegendariesData from "./assets/extracted/dat_leg.json";
+import { Legendaries as LegendariesData } from "./data/Legendaries";
 const Legendary = () => import("./components/Legendary.vue");
 const Legendaries = () => import("./pages/Legendaries.vue");
 
 const NotFound = () => import("./components/NotFound.vue");
-const Stats = () => import("./components/Stats.vue");
+const Enemies = () => import("./pages/Enemies.vue");
+const Stats = () => import("./pages/Stats.vue");
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useSettings } from "./Settings.js";
@@ -31,6 +32,7 @@ const routes = [
 		component: Reapers,
 	},
 	{ path: "/legendaries", component: Legendaries },
+	{ path: "/enemies", component: Enemies },
 	{
 		path: "/legendary/:id",
 		props: (route: any) => {
@@ -91,7 +93,10 @@ app.config.globalProperties.settings = useSettings();
 app.config.globalProperties.translate = (s: string) =>
 	translate(s, app.config.globalProperties.settings.value.language);
 
-app.config.globalProperties.t = (key: string, ...args: string[]) => {
+app.config.globalProperties.t = (
+	key: Parameters<typeof localize>[1],
+	...args: string[]
+) => {
 	return localize(
 		app.config.globalProperties.settings.value.language,
 		key,
@@ -104,7 +109,7 @@ app.mount("#app");
 declare module "@vue/runtime-core" {
 	interface ComponentCustomProperties {
 		settings: ReturnType<typeof useSettings>;
-		t: (key: string, ...args: string[]) => string;
+		t: (key: Parameters<typeof localize>[1], ...args: string[]) => string;
 		translate: (key: string) => string;
 	}
 }

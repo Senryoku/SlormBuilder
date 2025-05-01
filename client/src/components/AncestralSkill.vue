@@ -29,7 +29,7 @@
 	import { computed } from "vue";
 	import { parseText, require, spritesByIndex } from "../utils.js";
 	import { useSettings } from "../Settings.js";
-	import type { Element } from "../data/Elements.ts";
+	import type { AncestralSkill } from "../data/AncestralSkills.ts";
 
 	const IconSprites = spritesByIndex(
 		import.meta.glob("../assets/extracted/sprites/spr_actives/*.png", {
@@ -39,7 +39,7 @@
 		})
 	);
 
-	const props = defineProps<{ skill: Element }>();
+	const props = defineProps<{ skill: AncestralSkill }>();
 
 	const settings = useSettings();
 

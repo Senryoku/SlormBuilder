@@ -238,7 +238,7 @@
 		}
 	);
 
-	const skillTooltip = useTemplateRef<SkillTooltip>("skillTooltip");
+	const skillTooltip = useTemplateRef<typeof SkillTooltip>("skillTooltip");
 	const hoveredSkill = ref<AugmentedSkill | null>(null);
 
 	function display(event: MouseEvent, skill: AugmentedSkill) {
