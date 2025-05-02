@@ -1,1 +1,0 @@
-import{_ as n,A as s,c as a,o as r,a as c,p as _,t as o,s as d,q as l}from"./index-_174vS7l.js";const u={},i={class:"not-found"};function f(e,p){const t=s("router-link");return r(),a("div",i,[c("h1",null,o(e.t("Page Not Found")),1),_(t,{to:"/"},{default:d(()=>[l(o(e.t("Return Home")),1)]),_:1})])}const N=n(u,[["render",f]]);export{N as default};
