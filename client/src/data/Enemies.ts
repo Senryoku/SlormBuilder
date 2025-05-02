@@ -3,7 +3,7 @@ import EnemiesJSON from "@/assets/extracted/dat_enm.json";
 export const Enemies = EnemiesJSON;
 export type Enemy = (typeof Enemies)[number];
 
-function transform(a: object) {
+export function transform(a: object) {
 	return Object.fromEntries(
 		Object.entries(a).map(([path, url]) => {
 			const m = path.match(/.+_(\d+)\.png/);
@@ -33,5 +33,5 @@ for (const [path, url] of Object.entries(AllSprites)) {
 		continue;
 	}
 	if (!WalkAnimation[m[1]]) WalkAnimation[m[1]] = [];
-	WalkAnimation[m[1]].push(url);
+	WalkAnimation[m[1]].push(url as string);
 }

@@ -21,24 +21,37 @@
 <script setup lang="ts">
 	import { computed } from "vue";
 	import { useSettings } from "@/Settings";
-	import { parseText, translate, type Attribute } from "@/utils";
+	import { parseText, translate } from "@/utils";
+	import type { Attribute } from "@/data/Attributes";
 
 	const settings = useSettings();
 
 	const props = defineProps<{
-		attr: Attribute;
+		attr: {
+			name: string;
+			effects: Attribute[];
+			color: string;
+			level: number;
+		};
 	}>();
 
 	const n = (s: string) => `<span class="number">${s}</span>`;
 	const p = (s: string) => `<span class="small">${s}</span>`;
 
 	const effects = computed(() => {
-		let basics = {};
-		let others = [];
+		const basics: {
+			[stat: string]: {
+				level: number;
+				value: number;
+				max: number;
+				type: string;
+			};
+		} = {};
+		const others: { text: string; level: number; basic: false }[] = [];
 		for (let e of props.attr.effects) {
 			if (
-				!e[settings.value.language + "_TEXT"] ||
-				e[settings.value.language + "_TEXT"] === ""
+				!e[`${settings.value.language}_TEXT`] ||
+				e[`${settings.value.language}_TEXT`] === ""
 			) {
 				let types = e.TYPE.split("|");
 				let stats = e.STAT.split("|");
@@ -72,20 +85,22 @@
 			} else {
 				others.push({
 					level: e.LEVEL,
-					text: parseText(e, settings.value.language, {
+					text: parseText(e as any, settings.value.language, {
 						text: settings.value.language + "_TEXT",
 						value_base: "VALUE",
 						value_type: "TYPE",
 						value_stat: "STAT",
 					}),
+					basic: false,
 				});
 			}
 		}
-		let basicEffect = [];
+		const basicEffect: { level: number; text: string; basic: boolean }[] =
+			[];
 		for (let a in basics) {
 			basicEffect.push({
 				level: basics[a].level,
-				text: `+${n(basics[a].value)}${basics[a].type} ${p(
+				text: `+${n(basics[a].value.toString())}${basics[a].type} ${p(
 					`(+${basics[a].max}${basics[a].type} Max.)`
 				)} ${translate(a, settings.value.language)}`,
 				basic: true,

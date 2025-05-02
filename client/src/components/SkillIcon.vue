@@ -19,12 +19,18 @@
 
 <script setup lang="ts">
 	import { getSkillSprite, type ClassName } from "@/utils";
-	import type { AugmentedSkill } from "@/data/Skills";
 
 	const props = withDefaults(
 		defineProps<{
 			className?: ClassName;
-			skill: AugmentedSkill;
+			skill: {
+				REF: number;
+				EN_NAME: string;
+				UPGRADE_NUMBER: number | null;
+				selected: boolean;
+				rank: number | null;
+				image?: string;
+			};
 			selected?: boolean;
 			support?: boolean;
 			round?: boolean;

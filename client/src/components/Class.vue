@@ -33,7 +33,7 @@
 				/>
 				{{ t("Primary Skill") }}
 				<div class="skill-selection">
-					<skill-icon
+					<SkillIcon
 						v-for="(spec, idx) in skillTrees"
 						:className="className"
 						:skill="spec.skill"
@@ -50,7 +50,7 @@
 						@mouseenter="display($event, spec.skill)"
 					/>
 				</div>
-				<skill-tree
+				<SkillTree
 					:tree="skillTrees[selections.primarySkill]"
 					@selectSkill="selectSkill"
 					@deselectSkill="deselectSkill"

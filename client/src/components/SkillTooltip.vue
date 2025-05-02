@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-	import Mechanics from "@/assets/data/mechanics.json";
+	import { type Mechanic, Mechanics } from "@/data/Mechanics";
 	import { computed } from "vue";
 	import { getSkillSprite, translate, type ClassName } from "@/utils";
-	import type { AugmentedSkill, Skill } from "@/data/Skills";
+	import type { AugmentedSkill } from "@/data/Skills";
 	import { useSettings } from "../Settings";
 
 	const settings = useSettings();
@@ -75,15 +75,21 @@
 		skill: AugmentedSkill;
 	}>();
 
-	function genMechanicReminder(r: Skill | string) {
+	function genMechanicReminder(r: Mechanic | string) {
 		if (typeof r === "string") return { name: r };
 		return {
-			name: r[`${settings.value.language}_NAME`],
+			name:
+				`${settings.value.language}_NAME` in r
+					? r[`${settings.value.language}_NAME` as keyof typeof r]
+					: r.EN_NAME,
 			desc:
-				r[`${settings.value.language}_DESCRIPTION`]?.replaceAll(
-					"#",
-					"<br />"
-				) ?? "",
+				(
+					(`${settings.value.language}_DESCRIPTION` in r
+						? r[
+								`${settings.value.language}_DESCRIPTION` as keyof typeof r
+						  ]
+						: r.EN_DESCRIPTION) as string
+				).replaceAll("#", "<br />") ?? "",
 			icon: getSkillSprite(props.className, r),
 		};
 	}
@@ -91,12 +97,16 @@
 	const reminders = computed(() => {
 		return [...props.skill["EN_DESCRIPTION"].matchAll(/<([^>]*)>/g)]
 			.map((arr) => {
-				if (arr[1] in Mechanics) return Mechanics[arr[1]];
+				if (arr[1] in Mechanics)
+					return Mechanics[arr[1] as keyof typeof Mechanics];
 				else {
 					const candidates = Object.keys(Mechanics).filter(
 						(k) => k.includes(arr[1]) || arr[1].includes(k)
 					);
-					if (candidates.length > 0) return Mechanics[candidates[0]];
+					if (candidates.length > 0)
+						return Mechanics[
+							candidates[0] as keyof typeof Mechanics
+						];
 					console.log(arr[1] + " not found in Mechanics");
 				}
 				return arr[1];
@@ -118,7 +128,7 @@
 		// Reminders
 		r = r.replaceAll(
 			/<([^>]*)>/g,
-			(match, group) => `<span class="keyword">${group}</span>`
+			(_match, group) => `<span class="keyword">${group}</span>`
 		);
 
 		const small = (s: string) => `<span class="smaller">${s}</span>`;
@@ -168,7 +178,7 @@
 				let index = r.search("@");
 				let next_index = r.substring(index + 1).search("@");
 				let value_explanation =
-					props.skill.UPGRADE_NUMBER > 1 &&
+					(props.skill.UPGRADE_NUMBER ?? 0) > 1 &&
 					index >= 0 &&
 					!r
 						.substring(
@@ -180,7 +190,7 @@
 					// Search corresponding £
 					let matching_name = value_regex.exec(r);
 					if (matching_name) {
-						r = r.replace(value_regex, (match, separator) => {
+						r = r.replace(value_regex, (_match, separator) => {
 							return `${c(
 								current_value + value_type[idx]
 							)}${separator}${value_name[idx]}${
@@ -215,8 +225,9 @@
 				}
 
 				if (!value_explanation) {
-					r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
-						small(group)
+					r = r.replace(
+						/([(（]µ[^µ)]*µ[^)]*[)）])/,
+						(_match, group) => small(group)
 					);
 					r = r.replace("µ", value_base_str[idx]);
 					r = r.replace("µ", value_per_level_str[idx]);

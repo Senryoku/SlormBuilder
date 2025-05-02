@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed } from "vue";
 	import { Enemies } from "@/data/Enemies";
 	import EnemyComponent from "@/components/Enemy.vue";
 </script>

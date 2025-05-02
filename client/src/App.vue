@@ -1,5 +1,5 @@
 <template>
-	<div class="header" v-if="!$route.meta.singleComponent">
+	<div class="header" v-if="!route.meta.singleComponent">
 		<div class="header-left">
 			<router-link to="/">
 				<img
@@ -87,17 +87,20 @@
 			</div>
 		</div>
 	</div>
-	<router-view :key="$route.fullPath" />
+	<router-view :key="route.fullPath" />
 </template>
 
 <script setup lang="ts">
 	import { onMounted } from "vue";
 	import type { Language } from "./utils";
 	import { useSettings } from "./Settings";
+	import { useRoute } from "vue-router";
 
 	const settings = useSettings();
 
 	const inProduction = import.meta.env.PROD;
+
+	const route = useRoute();
 
 	onMounted(() => {
 		try {

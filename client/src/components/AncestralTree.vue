@@ -12,10 +12,10 @@
 			ref="tree"
 		>
 			<template
-				v-for="(realm, rIdx) in Realms.filter(
+				v-for="(realm, _rIdx) in Realms.filter(
 					(r) => r.coords.length > 0
 				)"
-				:key="rIdx"
+				:key="_rIdx"
 			>
 				<div class="realm">
 					<!--
@@ -65,7 +65,7 @@
 					</div></div
 			></template>
 			<div
-				v-for="(bridge, idx) in Bridges.filter((b) => true)"
+				v-for="(bridge, idx) in Bridges"
 				:key="idx"
 				class="bridge"
 				:style="`left: ${bridge.coords[0]}px; top: ${bridge.coords[1]}px`"
@@ -100,14 +100,14 @@
 
 	type Coord = [number, number];
 
-	const add = (a: Coord, b: Coord): Coord => [a[0] + b[0], a[1] + b[1]];
+	// const add = (a: Coord, b: Coord): Coord => [a[0] + b[0], a[1] + b[1]];
 	const sub = (a: Coord, b: Coord): Coord => [a[0] - b[0], a[1] - b[1]];
-	const normalize = (a: Coord): Coord => {
-		const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
-		return [a[0] / mag, a[1] / mag];
-	};
+	// const normalize = (a: Coord): Coord => {
+	// 	const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
+	// 	return [a[0] / mag, a[1] / mag];
+	// };
 	type Realm = {
-		elements: Element[];
+		elements: (Element & { selected: boolean; rank: number })[];
 		coords: Coord;
 		offsets: Coord[];
 		type: "small" | "mid" | "large";
@@ -124,9 +124,11 @@
 				type: "mid",
 			});
 		const el = props?.import?.find((el) => el.REF === e.REF);
-		e.rank = el?.rank ?? 0;
-		e.selected = !!el;
-		Realms.value[e.REALM].elements.push(e);
+		Realms.value[e.REALM].elements.push({
+			...e,
+			selected: !!el,
+			rank: el?.rank ?? 0,
+		});
 	}
 
 	function radialCoords(

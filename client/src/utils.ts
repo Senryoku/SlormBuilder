@@ -173,7 +173,7 @@ export function parseText(
 						: "")
 			);
 			if (!value_explanation && levels?.[idx]) {
-				r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (match, group) =>
+				r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (_match, group) =>
 					s(group)
 				);
 				r = r.replace(
