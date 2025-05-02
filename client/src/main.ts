@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import Toaster from "@meforma/vue-toaster";
 import fuzzysort from "fuzzysort";
 import App from "./App.vue";
 import { translate, localize } from "./utils.js";
@@ -87,7 +86,6 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
-app.use(Toaster).provide("toast", app.config.globalProperties.$toast);
 
 app.config.globalProperties.settings = useSettings();
 

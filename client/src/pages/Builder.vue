@@ -122,7 +122,6 @@
 			:editable="editable"
 		/>
 	</div>
-	<div class="toast"></div>
 </template>
 
 <script setup lang="ts">
@@ -133,7 +132,6 @@
 		defineAsyncComponent,
 		useTemplateRef,
 		computed,
-		inject,
 	} from "vue";
 	import {
 		copyToClipboard,
@@ -149,6 +147,8 @@
 	import Gear from "@/components/Gear.vue";
 	import { useRoute } from "vue-router";
 	import { useSettings } from "@/Settings";
+	import { useToast } from "vue-toast-notification";
+	import "vue-toast-notification/dist/theme-default.css";
 
 	const AncestralTree = defineAsyncComponent(
 		() => import("@/components/AncestralTree.vue")
@@ -185,7 +185,7 @@
 
 	const route = useRoute();
 	const settings = useSettings();
-	const toast: any = inject("toast");
+	const toast = useToast();
 
 	const t = (key: string, ...args: any[]) =>
 		localize(settings.value.language, key, ...args);
