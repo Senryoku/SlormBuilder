@@ -123,7 +123,7 @@
 <style>
 	@font-face {
 		font-family: "Slorm";
-		src: url("./assets/Berlin Sans FB Regular.ttf");
+		src: url("@/assets/Berlin Sans FB Regular.ttf");
 	}
 
 	body {
@@ -160,7 +160,7 @@
 		border-image-width: 20px 20px 20px 20px;
 		border-image-outset: 0px 0px 0px 0px;
 		border-image-repeat: stretch stretch;
-		border-image-source: url("./assets/extracted/sprites/spr_wrath_decoration/spr_wrath_decoration_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_wrath_decoration/spr_wrath_decoration_0.png");
 	}
 
 	button {
@@ -172,7 +172,7 @@
 		border-image-width: 26px 32px 26px 32px;
 		border-image-outset: 0px 0px 0px 0px;
 		border-image-repeat: stretch stretch;
-		border-image-source: url("./assets/extracted/sprites/spr_menu_grey_button/spr_menu_grey_button_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_grey_button/spr_menu_grey_button_0.png");
 		font-size: 1.4rem;
 		color: #bbb;
 		padding: 0 36px;
@@ -182,7 +182,7 @@
 
 	button:hover {
 		color: #fff;
-		border-image-source: url("./assets/extracted/sprites/spr_menu_grey_button/spr_menu_grey_button_1.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_grey_button/spr_menu_grey_button_1.png");
 	}
 
 	button:active {
@@ -195,23 +195,23 @@
 		padding: 0 50px;
 		border-image-slice: 30 32 30 32;
 		border-image-width: 30px 32px 30px 32px;
-		border-image-source: url("./assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
 	}
 
 	button.large {
-		border-image-source: url("./assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_0.png");
 	}
 
 	button.large:hover {
-		border-image-source: url("./assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_1.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_large_grey_button/spr_menu_large_grey_button_1.png");
 	}
 
 	button.large.blue {
-		border-image-source: url("./assets/extracted/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_0.png");
 	}
 
 	button.large.blue:hover {
-		border-image-source: url("./assets/extracted/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_1.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_menu_large_blue_button/spr_menu_large_blue_button_1.png");
 	}
 
 	select {
@@ -246,7 +246,7 @@
 	}
 
 	.header h1 {
-		background-image: url("./assets/extracted/sprites/spr_enemy_breach_seal_1/spr_enemy_breach_seal_1_4.png");
+		background-image: url("@/assets/extracted/sprites/spr_enemy_breach_seal_1/spr_enemy_breach_seal_1_4.png");
 		background-position: 0 50%;
 		background-repeat: no-repeat;
 		padding: 0 5rem;

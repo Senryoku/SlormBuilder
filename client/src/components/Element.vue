@@ -31,9 +31,9 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { parseText, translate } from "../utils.js";
-	import { useSettings } from "../Settings.ts";
-	import type { Element } from "../data/Elements.ts";
+	import { parseText, translate } from "@/utils";
+	import { useSettings } from "@/Settings";
+	import type { Element } from "@/data/Elements.ts";
 
 	const settings = useSettings();
 

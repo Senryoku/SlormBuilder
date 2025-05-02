@@ -66,7 +66,7 @@
 			/>
 			<img
 				style="margin: 16px 0 8px 0"
-				src="../assets/extracted/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
+				src="@/assets/extracted/sprites/spr_weapon_separator/spr_weapon_separator_0.png"
 			/>
 			<div class="lore" v-if="lore">
 				{{ lore }}
@@ -77,12 +77,12 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { localize, parseText, translate } from "../utils";
+	import { localize, parseText, translate } from "@/utils";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
 	import { useSettings } from "../Settings";
-	import { AncestralSkills } from "../data/AncestralSkills";
-	import type { ReaperType, Reaper } from "../data/Reapers";
+	import { AncestralSkills } from "@/data/AncestralSkills";
+	import type { ReaperType, Reaper } from "@/data/Reapers";
 
 	const settings = useSettings();
 
@@ -158,7 +158,7 @@
 	.reaper .top {
 		width: 406px;
 		height: 112px;
-		background-image: url("../assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
+		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
 		background-position: center;
 		padding-top: 33px;
 		line-height: 56px;
@@ -170,8 +170,8 @@
 		padding: 0 12px 20px 12px;
 		box-sizing: border-box;
 		/*white-space: pre-line;*/
-		background-image: url("../assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
-			url("../assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
+		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
+			url("@/assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
 		background-position: center bottom 0, center;
 		background-repeat: no-repeat, repeat-y;
 	}
@@ -202,7 +202,7 @@
 
 	.image-box {
 		position: relative;
-		background-image: url("../assets/extracted/sprites/spr_weapon_back_box/spr_weapon_back_box_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_weapon_back_box/spr_weapon_back_box_0.png");
 		width: 96px;
 		height: 160px;
 	}

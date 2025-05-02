@@ -165,13 +165,13 @@
 		translate,
 		type ClassName,
 		type ItemSlot,
-	} from "../utils.js";
+	} from "@/utils";
 	import draggable from "vuedraggable";
-	import Stats from "../assets/data/item_stats.json";
+	import Stats from "@/assets/data/item_stats.json";
 	import GearSlot from "./GearSlot.vue";
 	import GearPanel from "./GearPanel.vue";
 	import LegendaryComponent from "./Legendary.vue";
-	import Legendaries from "../assets/extracted/dat_leg.json";
+	import Legendaries from "@/assets/extracted/dat_leg.json";
 	import ReaperComponent from "./Reaper.vue";
 	import ReaperGallery from "./ReaperGallery.vue";
 	import Tooltip from "./Tooltip.vue";
@@ -181,9 +181,9 @@
 		Reapers,
 		type Reaper,
 		type ReaperType,
-	} from "../data/Reapers.ts";
-	import { useSettings } from "../Settings.ts";
-	import type { Legendary } from "../data/Legendaries.ts";
+	} from "@/data/Reapers.ts";
+	import { useSettings } from "@/Settings";
+	import type { Legendary } from "@/data/Legendaries.ts";
 
 	type GearSet = Partial<Record<ItemSlot, Legendary> & { reaper: Reaper }>;
 
@@ -369,7 +369,7 @@
 	.item-gallery,
 	.stats-priority {
 		border-style: solid;
-		border-image-source: url("../assets/img/skill-tree-border.png");
+		border-image-source: url("@/assets/img/skill-tree-border.png");
 		border-image-slice: 16 16 16 16;
 		border-image-width: 12px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -400,7 +400,7 @@
 		position: absolute;
 		content: "";
 		left: -1em;
-		background-image: url("../assets/extracted/sprites/spr_tutorial_arrow/spr_tutorial_arrow_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_tutorial_arrow/spr_tutorial_arrow_0.png");
 		background-size: contain;
 		width: 0.82em;
 		height: 1em;
@@ -429,22 +429,22 @@
 	}
 
 	.plus-button {
-		background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_0.png");
 	}
 	.plus-button:hover {
-		background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_1.png");
 	}
 	.plus-button:active {
-		background-image: url("../assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_2.png");
+		background-image: url("@/assets/extracted/sprites/spr_plus_button_mini/spr_plus_button_mini_2.png");
 	}
 
 	.minus-button {
-		background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_0.png");
 	}
 	.minus-button:hover {
-		background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_1.png");
 	}
 	.minus-button:active {
-		background-image: url("../assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_2.png");
+		background-image: url("@/assets/extracted/sprites/spr_minus_button_mini/spr_minus_button_mini_2.png");
 	}
 </style>

@@ -1,6 +1,6 @@
-import KnightSkillsJSON from "../assets/extracted/dat_cla_0.json";
-import HuntressSkillsJSON from "../assets/extracted/dat_cla_1.json";
-import MageSkillsJSON from "../assets/extracted/dat_cla_2.json";
+import KnightSkillsJSON from "@/assets/extracted/dat_cla_0.json";
+import HuntressSkillsJSON from "@/assets/extracted/dat_cla_1.json";
+import MageSkillsJSON from "@/assets/extracted/dat_cla_2.json";
 
 export const KnightSkills = KnightSkillsJSON;
 export const HuntressSkills = HuntressSkillsJSON;

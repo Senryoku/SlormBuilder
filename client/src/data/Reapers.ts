@@ -1,6 +1,6 @@
-import { spritesByIndex } from "../utils";
+import { spritesByIndex } from "@/utils";
 
-import ReapersJSON from "../assets/extracted/dat_rea.json";
+import ReapersJSON from "@/assets/extracted/dat_rea.json";
 
 export type ReaperRAW = (typeof ReapersJSON)[number];
 export type Reaper = ReaperRAW & { previous?: Reaper[] };
@@ -22,7 +22,7 @@ Reapers.sort((l: Reaper, r: Reaper) => l.ORDER - r.ORDER);
 
 export const ReaperIcons = {
 	bow: spritesByIndex(
-		import.meta.glob("../assets/extracted/sprites/spr_reapers_bows/*.png", {
+		import.meta.glob("@/assets/extracted/sprites/spr_reapers_bows/*.png", {
 			eager: true,
 			query: "?url",
 			import: "default",
@@ -30,13 +30,13 @@ export const ReaperIcons = {
 	),
 	staff: spritesByIndex(
 		import.meta.glob(
-			"../assets/extracted/sprites/spr_reapers_staffs/*.png",
+			"@/assets/extracted/sprites/spr_reapers_staffs/*.png",
 			{ eager: true, query: "?url", import: "default" }
 		)
 	),
 	sword: spritesByIndex(
 		import.meta.glob(
-			"../assets/extracted/sprites/spr_reapers_swords/*.png",
+			"@/assets/extracted/sprites/spr_reapers_swords/*.png",
 			{ eager: true, query: "?url", import: "default" }
 		)
 	),

@@ -64,21 +64,21 @@
 
 <script>
 	import { ref } from "vue";
-	import { clamp, spritesByIndex } from "../utils.js";
-	import { Attributes } from "../data/Attributes";
+	import { clamp, spritesByIndex } from "@/utils";
+	import { Attributes } from "@/data/Attributes";
 
 	import Tooltip from "./Tooltip.vue";
 	import AttributeComponent from "./Attribute.vue";
 
 	const Animation = spritesByIndex(
 		import.meta.glob(
-			"../assets/extracted/sprites/spr_class_ui_animation_mini/*.png",
+			"@/assets/extracted/sprites/spr_class_ui_animation_mini/*.png",
 			{ eager: true, query: "?url", import: "default" }
 		)
 	);
 
 	const TraitIcons = spritesByIndex(
-		import.meta.glob("../assets/extracted/sprites/spr_trait_icons/*.png", {
+		import.meta.glob("@/assets/extracted/sprites/spr_trait_icons/*.png", {
 			eager: true,
 			query: "?url",
 			import: "default",
@@ -86,7 +86,7 @@
 	);
 
 	const TraitEvolve = spritesByIndex(
-		import.meta.glob("../assets/extracted/sprites/spr_trait_evolve/*.png", {
+		import.meta.glob("@/assets/extracted/sprites/spr_trait_evolve/*.png", {
 			eager: true,
 			query: "?url",
 			import: "default",
@@ -96,19 +96,19 @@
 	const TraitPoints = {
 		default: spritesByIndex(
 			import.meta.glob(
-				"../assets/extracted/sprites/spr_trait_point_default/*.png",
+				"@/assets/extracted/sprites/spr_trait_point_default/*.png",
 				{ eager: true, query: "?url", import: "default" }
 			)
 		),
 		losange: spritesByIndex(
 			import.meta.glob(
-				"../assets/extracted/sprites/spr_trait_point_losange/*.png",
+				"@/assets/extracted/sprites/spr_trait_point_losange/*.png",
 				{ eager: true, query: "?url", import: "default" }
 			)
 		),
 		square: spritesByIndex(
 			import.meta.glob(
-				"../assets/extracted/sprites/spr_trait_point_square/*.png",
+				"@/assets/extracted/sprites/spr_trait_point_square/*.png",
 				{ eager: true, query: "?url", import: "default" }
 			)
 		),
@@ -236,7 +236,7 @@
 
 <style scoped>
 	.attributes {
-		background-image: url("../assets/extracted/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_trait_panel/spr_inventory_trait_panel_0.png");
 		text-align: center;
 		width: 1192px;
 		height: 840px;
@@ -264,12 +264,12 @@
 		position: relative;
 		width: 924px;
 		height: 60px;
-		background-image: url("../assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_0.png");
 		background-repeat: no-repeat;
 	}
 
 	.attr-bar-container:nth-child(odd) .attr-bar {
-		background-image: url("../assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_bar_large/spr_trait_bar_large_1.png");
 		background-position: 16px;
 	}
 
@@ -312,7 +312,7 @@
 	}
 
 	.attr-button-container {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_back/spr_trait_button_back_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_back/spr_trait_button_back_0.png");
 		width: 100px;
 		height: 60px;
 		position: relative;
@@ -359,55 +359,55 @@
 
 	@keyframes attr-gain-animation {
 		0% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_0.png");
 		}
 		14% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_1.png");
 		}
 		28% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_2.png");
 		}
 		42% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_3.png");
 		}
 		56% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_4.png");
 		}
 		70% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_5.png");
 		}
 		85% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_6.png");
 		}
 		100% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation_mini/spr_class_ui_animation_mini_7.png");
 		}
 	}
 
 	@keyframes attr-gain-major-animation {
 		0% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_0.png");
 		}
 		14% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_1.png");
 		}
 		28% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_2.png");
 		}
 		42% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_3.png");
 		}
 		56% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_4.png");
 		}
 		70% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_5.png");
 		}
 		85% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_6.png");
 		}
 		100% {
-			background-image: url("../assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
+			background-image: url("@/assets/extracted/sprites/spr_class_ui_animation/spr_class_ui_animation_7.png");
 		}
 	}
 
@@ -415,31 +415,31 @@
 		position: absolute;
 		top: 8px;
 		left: 8px;
-		background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_0.png");
 	}
 	.plus-button:hover {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_1.png");
 	}
 	.plus-button:active {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_2.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_2.png");
 	}
 	.plus-button.disabled {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_4.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_plus/spr_trait_button_plus_4.png");
 	}
 
 	.minus-button {
 		position: absolute;
 		top: 8px;
 		right: 8px;
-		background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_0.png");
 	}
 	.minus-button:hover {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_1.png");
 	}
 	.minus-button:active {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_2.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_2.png");
 	}
 	.minus-button.disabled {
-		background-image: url("../assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_4.png");
+		background-image: url("@/assets/extracted/sprites/spr_trait_button_minus/spr_trait_button_minus_4.png");
 	}
 </style>

@@ -40,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
-	import type { ClassName } from "../utils";
+	import type { ClassName } from "@/utils";
 	import SkillIcon from "./SkillIcon.vue";
-	import type { AugmentedSkill } from "../data/Skills";
+	import type { AugmentedSkill } from "@/data/Skills";
 	defineProps<{
 		tree: {
 			className: ClassName;
@@ -60,7 +60,7 @@
 		background-color: #111;
 
 		border-style: solid;
-		border-image-source: url("../assets/img/skill-tree-border.png");
+		border-image-source: url("@/assets/img/skill-tree-border.png");
 		border-image-slice: 16 16 16 16;
 		border-image-width: 12px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -73,7 +73,7 @@
 		position: relative;
 		padding-left: 42px;
 		margin: 12px 0;
-		background: url("../assets/extracted/sprites/spr_skill_tier_link/spr_skill_tier_link_0.png");
+		background: url("@/assets/extracted/sprites/spr_skill_tier_link/spr_skill_tier_link_0.png");
 		background-repeat: repeat-x;
 		background-position-y: 50%;
 	}
@@ -82,7 +82,7 @@
 		position: absolute;
 		left: -44px;
 		top: 4px;
-		background: url("../assets/extracted/sprites/spr_skill_tier_bubble/spr_skill_tier_bubble_0.png");
+		background: url("@/assets/extracted/sprites/spr_skill_tier_bubble/spr_skill_tier_bubble_0.png");
 		width: 88px;
 		height: 44px;
 		color: white;

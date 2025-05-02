@@ -5,7 +5,7 @@
 			<h1 v-else>
 				<img
 					style="vertical-align: sub; margin-right: 1rem"
-					src="../assets/extracted/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
+					src="@/assets/extracted/sprites/spr_keybind_lock/spr_keybind_lock_0.png"
 				/>{{ t("Imported Build") }}
 			</h1>
 		</div>
@@ -35,7 +35,7 @@
 				:class="{ 'tab-selected': selectedTab == 'skills' }"
 			>
 				<img
-					src="../assets/extracted/sprites/spr_ui_hud_skills_button_v2/spr_ui_hud_skills_button_v2_0.png"
+					src="@/assets/extracted/sprites/spr_ui_hud_skills_button_v2/spr_ui_hud_skills_button_v2_0.png"
 				/>
 				{{ t("Skills") }}
 			</div>
@@ -45,7 +45,7 @@
 				:class="{ 'tab-selected': selectedTab == 'traits' }"
 			>
 				<img
-					src="../assets/extracted/sprites/spr_ui_hud_traits_v2/spr_ui_hud_traits_v2_0.png"
+					src="@/assets/extracted/sprites/spr_ui_hud_traits_v2/spr_ui_hud_traits_v2_0.png"
 				/>
 				{{ t("Attributes") }}
 			</div>
@@ -55,7 +55,7 @@
 				:class="{ 'tab-selected': selectedTab == 'gear' }"
 			>
 				<img
-					src="../assets/extracted/sprites/spr_ui_hud_inventory_button_v2/spr_ui_hud_inventory_button_v2_0.png"
+					src="@/assets/extracted/sprites/spr_ui_hud_inventory_button_v2/spr_ui_hud_inventory_button_v2_0.png"
 				/>
 				{{ t("Gear") }}
 			</div>
@@ -65,7 +65,7 @@
 				:class="{ 'tab-selected': selectedTab == 'elements' }"
 			>
 				<img
-					src="../assets/extracted/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
+					src="@/assets/extracted/sprites/spr_ui_hud_elements_button_v2/spr_ui_hud_elements_button_v2_0.png"
 				/>
 				{{ t("Legacy") }}
 			</div>
@@ -143,20 +143,20 @@
 		spritesByIndex,
 		Classes,
 		localize,
-	} from "../utils.js";
-	import Class from "../components/Class.vue";
-	import Attributes from "../components/Attributes.vue";
-	import Gear from "../components/Gear.vue";
+	} from "@/utils";
+	import Class from "@/components/Class.vue";
+	import Attributes from "@/components/Attributes.vue";
+	import Gear from "@/components/Gear.vue";
 	import { useRoute } from "vue-router";
-	import { useSettings } from "../Settings.js";
+	import { useSettings } from "@/Settings";
 
 	const AncestralTree = defineAsyncComponent(
-		() => import("../components/AncestralTree.vue")
+		() => import("@/components/AncestralTree.vue")
 	);
 
 	const ClassIcons = spritesByIndex(
 		import.meta.glob(
-			"../assets/extracted/sprites/spr_class_icon_mid/*.png",
+			"@/assets/extracted/sprites/spr_class_icon_mid/*.png",
 			{ eager: true, query: "?url", import: "default" }
 		)
 	);
@@ -562,7 +562,7 @@
 		justify-content: center;
 		text-transform: capitalize;
 		margin: auto;
-		background-image: url("../assets/extracted/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_large_title/spr_skill_large_title_0.png");
 		background-size: 100% 54px;
 		background-position: center;
 		background-repeat: repeat-x;
@@ -623,7 +623,7 @@
 		position: absolute;
 		bottom: calc(0.75 * -6px);
 		left: calc(50% + 1rem - 9px);
-		background-image: url("../assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
 		background-size: cover;
 		width: calc(0.75 * 44px);
 		height: calc(0.75 * 36px);
@@ -632,12 +632,12 @@
 
 	.tab:not(.tab-selected):hover::after {
 		content: "";
-		background-image: url("../assets/extracted/sprites/spr_skill_selector/spr_skill_selector_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_selector/spr_skill_selector_1.png");
 	}
 
 	.tab-selected::after {
 		content: "";
-		background-image: url("../assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_selector/spr_skill_selector_0.png");
 	}
 
 	.actions {

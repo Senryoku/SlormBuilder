@@ -25,10 +25,10 @@
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
-	import { ItemTypes } from "../utils";
-	import Toggle from "../components/Toggle.vue";
-	import Legendary from "../components/Legendary.vue";
-	import { Legendaries } from "../data/Legendaries";
+	import { ItemTypes } from "@/utils";
+	import Toggle from "@/components/Toggle.vue";
+	import Legendary from "@/components/Legendary.vue";
+	import { Legendaries } from "@/data/Legendaries";
 
 	const selectedSlot = ref("");
 	const lootable = ref(true);

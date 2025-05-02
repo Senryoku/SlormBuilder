@@ -27,12 +27,12 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { parseText, require, spritesByIndex } from "../utils.js";
-	import { useSettings } from "../Settings.js";
-	import type { AncestralSkill } from "../data/AncestralSkills.ts";
+	import { parseText, require, spritesByIndex } from "@/utils";
+	import { useSettings } from "@/Settings";
+	import type { AncestralSkill } from "@/data/AncestralSkills.ts";
 
 	const IconSprites = spritesByIndex(
-		import.meta.glob("../assets/extracted/sprites/spr_actives/*.png", {
+		import.meta.glob("@/assets/extracted/sprites/spr_actives/*.png", {
 			eager: true,
 			query: "?url",
 			import: "default",
@@ -60,7 +60,7 @@
 	const iconImage = computed(() => {
 		return (
 			IconSprites[props.skill.REF] ??
-			require(`../assets/img/spr_actives_missing.png`)
+			require(`@/assets/img/spr_actives_missing.png`)
 		);
 	});
 </script>

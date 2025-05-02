@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { localize, require } from "../utils.ts";
+	import { localize, require } from "@/utils";
 	import {
 		ReaperIcons,
 		type Reaper,
 		type ReaperType,
-	} from "../data/Reapers.ts";
-	import { useSettings } from "../Settings.ts";
+	} from "@/data/Reapers.ts";
+	import { useSettings } from "@/Settings";
 
 	const settings = useSettings();
 
@@ -29,7 +29,7 @@
 	const image = computed(() => {
 		return (
 			ReaperIcons[props.type][props.item.REF ?? 0] ??
-			require("../assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
+			require("@/assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
 		);
 	});
 

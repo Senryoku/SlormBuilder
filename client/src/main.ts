@@ -5,13 +5,13 @@ import App from "./App.vue";
 import { translate, localize } from "./utils.js";
 
 const Builder = () => import("./pages/Builder.vue");
-import { Reapers as ReaperData } from "./data/Reapers";
-const Reaper = () => import("./components/Reaper.vue");
+import { Reapers as ReaperData } from "@/data/Reapers";
+const Reaper = () => import("@/components/Reaper.vue");
 const Reapers = () => import("./pages/Reapers.vue");
-import { Legendaries as LegendariesData } from "./data/Legendaries";
-const Legendary = () => import("./components/Legendary.vue");
+import { Legendaries as LegendariesData } from "@/data/Legendaries";
+const Legendary = () => import("@/components/Legendary.vue");
 const Legendaries = () => import("./pages/Legendaries.vue");
-const NotFound = () => import("./components/NotFound.vue");
+const NotFound = () => import("@/components/NotFound.vue");
 const Enemies = () => import("./pages/Enemies.vue");
 const Stats = () => import("./pages/Stats.vue");
 

@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-	import { getSkillSprite, type ClassName } from "../utils";
-	import type { AugmentedSkill } from "../data/Skills";
+	import { getSkillSprite, type ClassName } from "@/utils";
+	import type { AugmentedSkill } from "@/data/Skills";
 
 	const props = withDefaults(
 		defineProps<{
@@ -56,7 +56,7 @@
 		height: 44px;
 
 		border-style: solid;
-		border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_6.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_borders/spr_borders_6.png");
 		border-image-slice: 15 15 15 15;
 		border-image-width: 15px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -71,11 +71,11 @@
 	}
 
 	.selected {
-		border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_2.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_borders/spr_borders_2.png");
 	}
 
 	.selected.maxed:not(.passive) {
-		border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_3.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_borders/spr_borders_3.png");
 	}
 
 	.passive {
@@ -84,7 +84,7 @@
 		border-image-outset: 0px 0px 0px 0px;
 		border-image-repeat: stretch stretch;
 		border-image-outset: 6px;
-		border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_0.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_border_round/spr_border_round_0.png");
 	}
 
 	.passive img {
@@ -92,11 +92,11 @@
 	}
 
 	.passive.selected {
-		border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_1.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_border_round/spr_border_round_1.png");
 	}
 
 	.passive.selected.maxed {
-		border-image-source: url("../assets/extracted/sprites/spr_border_round/spr_border_round_5.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_border_round/spr_border_round_5.png");
 		border-image-slice: 20;
 		border-image-width: 20px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -108,7 +108,7 @@
 		bottom: -11px;
 		right: -11px;
 		color: white;
-		background-image: url("../assets/extracted/sprites/spr_skill_rank/spr_skill_rank_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_rank/spr_skill_rank_0.png");
 		width: 22px;
 		height: 22px;
 		text-align: center;

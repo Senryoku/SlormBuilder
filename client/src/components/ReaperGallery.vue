@@ -36,11 +36,11 @@
 
 <script setup lang="ts">
 	import { ref, computed, useTemplateRef } from "vue";
-	import { Reapers, type Reaper, type ReaperType } from "../data/Reapers";
+	import { Reapers, type Reaper, type ReaperType } from "@/data/Reapers";
 	import ReaperIcon from "./ReaperIcon.vue";
 	import ReaperComponent from "./Reaper.vue";
 	import Tooltip from "./Tooltip.vue";
-	import { useSettings } from "../Settings";
+	import { useSettings } from "@/Settings";
 
 	const settings = useSettings();
 
@@ -89,9 +89,9 @@
 		position: relative;
 		width: 120px;
 		height: 120px;
-		background: url("../assets/extracted/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
+		background: url("@/assets/extracted/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
 		border-style: solid;
-		border-image: url("../assets/extracted/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
+		border-image: url("@/assets/extracted/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
 		border-image-slice: 18 18 18 18;
 		border-image-width: 18px 18px 18px 18px;
 		border-image-outset: 0;
@@ -125,7 +125,7 @@
 
 	.evolve-marker {
 		position: absolute;
-		background-image: url("../assets/extracted/sprites/spr_weapon_evolve/spr_weapon_evolve_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_weapon_evolve/spr_weapon_evolve_0.png");
 		left: -28px;
 		width: 32px;
 		height: 56px;

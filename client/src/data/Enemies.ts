@@ -1,4 +1,4 @@
-import EnemiesJSON from "../assets/extracted/dat_enm.json";
+import EnemiesJSON from "@/assets/extracted/dat_enm.json";
 
 export const Enemies = EnemiesJSON;
 export type Enemy = (typeof Enemies)[number];
@@ -17,7 +17,7 @@ function transform(a: object) {
 }
 
 const AllSprites = import.meta.glob(
-	"../assets/extracted/sprites/spr_*_walk/*.png",
+	"@/assets/extracted/sprites/spr_*_walk/*.png",
 	{
 		eager: true,
 		query: "?url",

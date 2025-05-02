@@ -13,8 +13,8 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import ImageOn from "../assets/extracted/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png";
-	import ImageOff from "../assets/extracted/sprites/spr_menu_toggler/spr_menu_toggler_0.png";
+	import ImageOn from "@/assets/extracted/sprites/spr_menu_toggler_right/spr_menu_toggler_right_0.png";
+	import ImageOff from "@/assets/extracted/sprites/spr_menu_toggler/spr_menu_toggler_0.png";
 
 	const props = defineProps<{ modelValue: boolean }>();
 

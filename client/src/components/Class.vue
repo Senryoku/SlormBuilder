@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
 	import { ref, useTemplateRef } from "vue";
-	import { getSkillSprite, type ClassName } from "../utils.js";
+	import { getSkillSprite, type ClassName } from "@/utils";
 	import SkillIcon from "./SkillIcon.vue";
 	import SkillTree from "./SkillTree.vue";
 	import Tooltip from "./Tooltip.vue";
@@ -113,7 +113,7 @@
 		HuntressSkills,
 		MageSkills,
 		type AugmentedSkill,
-	} from "../data/Skills.js";
+	} from "@/data/Skills.js";
 
 	const SkillData = {
 		knight: KnightSkills,

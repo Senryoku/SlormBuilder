@@ -81,9 +81,9 @@
 
 <script setup lang="ts">
 	import { nextTick, onMounted, ref, useTemplateRef } from "vue";
-	import { clamp } from "../utils.js";
+	import { clamp } from "@/utils";
 	import SkillIcon from "./SkillIcon.vue";
-	import { Elements, type Element } from "../data/Elements.ts";
+	import { Elements, type Element } from "@/data/Elements.ts";
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
 
@@ -576,7 +576,7 @@
 		margin: auto;
 
 		border-style: solid;
-		border-image-source: url("../assets/img/skill-tree-border.png");
+		border-image-source: url("@/assets/img/skill-tree-border.png");
 		border-image-slice: 16 16 16 16;
 		border-image-width: 12px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -591,8 +591,8 @@
 		width: calc(4 * 732px);
 		height: calc(4 * 732px);
 		background-color: #111;
-		background-image: url("../assets/extracted/sprites/spr_menu_element_tree/spr_menu_element_tree_0.png"),
-			url("../assets/extracted/sprites/spr_menu_element_tree_back/spr_menu_element_tree_back_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_menu_element_tree/spr_menu_element_tree_0.png"),
+			url("@/assets/extracted/sprites/spr_menu_element_tree_back/spr_menu_element_tree_back_0.png");
 		background-position: calc(50% + 4px) calc(50% + 2px);
 		transform-origin: 50% 50%;
 		cursor: grab;
@@ -613,7 +613,7 @@
 	transform: translate(-50%, -50%);
 	width: 184px;
 	height: 184px;
-	background-image: url("../assets/extracted/sprites/spr_element_circle_small/spr_element_circle_small_0.png");
+	background-image: url("@/assets/extracted/sprites/spr_element_circle_small/spr_element_circle_small_0.png");
 }
 */
 
@@ -627,6 +627,6 @@
 		transform: translate(-50%, -50%);
 		width: 20px;
 		height: 20px;
-		background-image: url("../assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
 	}
 </style>

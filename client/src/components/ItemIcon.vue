@@ -7,7 +7,7 @@
 <script setup lang="ts">
 	import { computed } from "vue";
 	import { useSettings } from "../Settings";
-	import { type Legendary, LegendaryIcons } from "../data/Legendaries";
+	import { type Legendary, LegendaryIcons } from "@/data/Legendaries";
 
 	const TypeOffsets: Record<string, number> = {
 		helm: 1,
@@ -45,7 +45,7 @@
 		position: relative;
 		width: 56px;
 		height: 56px;
-		background-image: url("../assets/extracted/sprites/spr_inventory_rarity_back/spr_inventory_rarity_back_4.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_rarity_back/spr_inventory_rarity_back_4.png");
 	}
 
 	.item-icon img {

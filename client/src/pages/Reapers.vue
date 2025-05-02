@@ -29,9 +29,9 @@
 
 <script setup lang="ts">
 	import { ref } from "vue";
-	import Toggle from "../components/Toggle.vue";
-	import ReaperGallery from "../components/ReaperGallery.vue";
-	import type { ReaperType } from "../data/Reapers";
+	import Toggle from "@/components/Toggle.vue";
+	import ReaperGallery from "@/components/ReaperGallery.vue";
+	import type { ReaperType } from "@/data/Reapers";
 
 	const props = withDefaults(defineProps<{ large: boolean }>(), {
 		large: false,

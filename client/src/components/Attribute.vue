@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { useSettings } from "../Settings.js";
-	import { parseText, translate, type Attribute } from "../utils.js";
+	import { useSettings } from "@/Settings";
+	import { parseText, translate, type Attribute } from "@/utils";
 
 	const settings = useSettings();
 
@@ -106,7 +106,7 @@
 	.attribute .top {
 		width: 406px;
 		height: 96px;
-		background-image: url("../assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_0.png");
 		padding-top: 21px;
 		line-height: 56px;
 		box-sizing: border-box;
@@ -117,8 +117,8 @@
 	.attribute .body {
 		padding: 0 18px 24px 18px;
 		box-sizing: border-box;
-		background-image: url("../assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_0.png"),
-			url("../assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_0.png"),
+			url("@/assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_0.png");
 		background-position: center bottom 0, center;
 		background-repeat: no-repeat, repeat-y;
 	}

@@ -1,9 +1,9 @@
-import ElementsJSON from "../assets/extracted/dat_ele.json";
+import ElementsJSON from "@/assets/extracted/dat_ele.json";
 
-import { spritesByIndex } from "../utils";
+import { spritesByIndex } from "@/utils";
 
 export const ElementIcons = spritesByIndex(
-	import.meta.glob("../assets/extracted/sprites/spr_elements/*.png", {
+	import.meta.glob("@/assets/extracted/sprites/spr_elements/*.png", {
 		eager: true,
 		query: "?url",
 		import: "default",

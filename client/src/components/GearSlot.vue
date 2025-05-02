@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	import type { Legendary } from "../data/Legendaries";
+	import type { Legendary } from "@/data/Legendaries";
 	import ItemIcon from "./ItemIcon.vue";
 	defineProps<{ type: string; item: Legendary }>();
 </script>
@@ -16,7 +16,7 @@
 		width: 56px;
 		height: 64px;
 		padding: 4px;
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_12.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_12.png");
 	}
 
 	.upgrade-bar {
@@ -27,44 +27,44 @@
 	}
 
 	.helm {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_0.png");
 	}
 
 	.boot {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_5.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_5.png");
 	}
 
 	.amulet {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_8.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_8.png");
 	}
 
 	.shoulder {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_2.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_2.png");
 	}
 
 	.bracer {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_3.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_3.png");
 	}
 
 	.glove {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_4.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_4.png");
 	}
 
 	.body {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_1.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_1.png");
 	}
 
 	.cape {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_10.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_10.png");
 	}
 
 	.belt {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_9.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_9.png");
 	}
 
 	.ring,
 	.ring0,
 	.ring1 {
-		background-image: url("../assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_6.png");
+		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_6.png");
 	}
 </style>

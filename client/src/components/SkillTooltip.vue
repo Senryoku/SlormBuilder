@@ -3,7 +3,7 @@
 		<h2 class="colored">{{ name }}</h2>
 		<img
 			style="max-width: 100%"
-			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
+			src="@/assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
 		/>
 		<div style="display: flex; margin: 1em; min-height: 96px">
 			<div
@@ -27,7 +27,7 @@
 		</div>
 		<img
 			style="max-width: 100%"
-			src="../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
+			src="@/assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png"
 		/>
 		<p class="description" v-html="description"></p>
 		<!-- TODO -->
@@ -52,7 +52,7 @@
 			<img
 				style="max-width: 100%"
 				:src="
-					require('../assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
+					require('@/assets/extracted/sprites/spr_skill_small_separation/spr_skill_small_separation_0.png')
 				"
 			/>
 			<div>{{ t("Next Rank") }}:</div>
@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-	import Mechanics from "../assets/data/mechanics.json";
+	import Mechanics from "@/assets/data/mechanics.json";
 	import { computed } from "vue";
-	import { getSkillSprite, translate, type ClassName } from "../utils";
-	import type { AugmentedSkill, Skill } from "../data/Skills";
+	import { getSkillSprite, translate, type ClassName } from "@/utils";
+	import type { AugmentedSkill, Skill } from "@/data/Skills";
 	import { useSettings } from "../Settings";
 
 	const settings = useSettings();
@@ -253,10 +253,10 @@
 		z-index: 99;
 		pointer-events: none;
 
-		background-image: url("../assets/extracted/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
+		background-image: url("@/assets/extracted/sprites/spr_skill_support_top/spr_skill_support_top_0.png");
 		background-repeat: no-repeat;
 		border-style: solid;
-		border-image-source: url("../assets/img/skill-tree-border.png");
+		border-image-source: url("@/assets/img/skill-tree-border.png");
 		border-image-slice: 16 16 16 16;
 		border-image-width: 12px;
 		border-image-outset: 0px 0px 0px 0px;
@@ -281,7 +281,7 @@
 		flex-shrink: 0;
 
 		border-style: solid;
-		border-image-source: url("../assets/extracted/sprites/spr_borders/spr_borders_4.png");
+		border-image-source: url("@/assets/extracted/sprites/spr_borders/spr_borders_4.png");
 		border-image-slice: 12 12 12 12;
 		border-image-width: 12px;
 		border-image-outset: 0px 0px 0px 0px;

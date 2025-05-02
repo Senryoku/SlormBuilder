@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
-	import { useSettings } from "../Settings";
-	import type { Enemy } from "../data/Enemies";
-	import { WalkAnimation } from "../data/Enemies";
+	import { useSettings } from "@/Settings";
+	import type { Enemy } from "@/data/Enemies";
+	import { WalkAnimation } from "@/data/Enemies";
 
 	const settings = useSettings();
 

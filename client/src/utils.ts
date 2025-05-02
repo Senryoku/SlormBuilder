@@ -1,6 +1,6 @@
-import { AncestralSkills } from "./data/AncestralSkills";
-import GameStrings from "./assets/extracted/dat_str.json";
-import Strings from "./assets/data/Strings.json";
+import { AncestralSkills } from "@/data/AncestralSkills";
+import GameStrings from "@/assets/extracted/dat_str.json";
+import Strings from "@/assets/data/Strings.json";
 
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
 export const copyToClipboard = (str: string) => {
@@ -261,7 +261,7 @@ const SkillSprites = {
 	knight: {
 		skills: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_skills_knight/*.png",
+				"@/assets/extracted/sprites/spr_skills_knight/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -271,7 +271,7 @@ const SkillSprites = {
 		),
 		supports: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_supports_knight/*.png",
+				"@/assets/extracted/sprites/spr_supports_knight/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -283,7 +283,7 @@ const SkillSprites = {
 	huntress: {
 		skills: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_skills_huntress/*.png",
+				"@/assets/extracted/sprites/spr_skills_huntress/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -293,7 +293,7 @@ const SkillSprites = {
 		),
 		supports: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_supports_huntress/*.png",
+				"@/assets/extracted/sprites/spr_supports_huntress/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -305,7 +305,7 @@ const SkillSprites = {
 	mage: {
 		skills: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_skills_mage/*.png",
+				"@/assets/extracted/sprites/spr_skills_mage/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -315,7 +315,7 @@ const SkillSprites = {
 		),
 		supports: spritesByIndex(
 			import.meta.glob(
-				"./assets/extracted/sprites/spr_supports_mage/*.png",
+				"@/assets/extracted/sprites/spr_supports_mage/*.png",
 				{
 					eager: true,
 					query: "?url",
@@ -341,7 +341,7 @@ export function getSkillSprite(
 		});
 	return (
 		sprite ??
-		require("./assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
+		require("@/assets/extracted/sprites/spr_unknown_48/spr_unknown_48_0.png")
 	);
 }
 
