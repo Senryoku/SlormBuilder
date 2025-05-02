@@ -49,7 +49,7 @@
 	});
 	const desc = computed(() => {
 		return parseText(
-			props.element,
+			props.element as any,
 			settings.value.language,
 			{
 				text: `${settings.value.language}_DESCRIPTION`,

@@ -10,12 +10,8 @@
 				<Toggle v-model="lootable">{{ t("Lootable") }}</Toggle>
 			</div>
 			<div class="type-select">
-				<button
-					v-for="w in ['sword', 'bow', 'staff']"
-					:key="w"
-					@click="type = w"
-				>
-					{{ t(w + "s") }}
+				<button v-for="rt in ReaperTypes" :key="rt" @click="type = rt">
+					{{ t(rt + "s") }}
 				</button>
 			</div>
 		</div>
@@ -31,7 +27,7 @@
 	import { ref } from "vue";
 	import Toggle from "@/components/Toggle.vue";
 	import ReaperGallery from "@/components/ReaperGallery.vue";
-	import type { ReaperType } from "@/data/Reapers";
+	import { type ReaperType, ReaperTypes } from "@/data/Reapers";
 
 	const props = withDefaults(defineProps<{ large: boolean }>(), {
 		large: false,

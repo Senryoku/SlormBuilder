@@ -48,7 +48,7 @@
 	});
 
 	const desc = computed(() => {
-		return parseText(props.skill, settings.value.language, {
+		return parseText(props.skill as any, settings.value.language, {
 			text: `${settings.value.language}_DESCRIPTION`,
 			value_base: "DESC_VALUE_BASE",
 			value_type: "DESC_VALUE_TYPE",

@@ -1,27 +1,24 @@
 <template>
 	<div class="item-stats">
-		<GearPanel
-			><template v-for="s in ItemSlots" v-slot:[s] :key="s">
-				<gear-slot
+		<GearPanel>
+			<template v-for="s in ItemSlots" v-slot:[s] :key="s">
+				<GearSlot
 					:type="s"
 					:class="{
-						primary:
-							selection[s.startsWith('ring') ? 'ring' : s] ===
-							'P',
-						secondary:
-							selection[s.startsWith('ring') ? 'ring' : s] ===
-							'S',
+						primary: selection[itemSlotToItemType(s)] === 'P',
+						secondary: selection[itemSlotToItemType(s)] === 'S',
 					}"
-					@click="
-						selectedSlot = s.startsWith('ring') ? 'ring' : s
-					" /></template
-		></GearPanel>
+					@click="selectedSlot = itemSlotToItemType(s)"
+				/>
+			</template>
+		</GearPanel>
 		<div>
 			<h1>{{ t("Item Stats") }}</h1>
 			{{ t("Where can you find") }}
 			<select v-model="selection">
 				<option v-for="s in orderedStats" :key="s.REF_NB" :value="s">
-					{{ translate(s.REF) }}{{ s.PERCENT === "%" ? " (%)" : "" }}
+					{{ translate(s.REF, settings.language)
+					}}{{ s.PERCENT === "%" ? " (%)" : "" }}
 				</option>
 			</select>
 			?
@@ -29,11 +26,16 @@
 				<ul>
 					<li>
 						{{ t("Category") }} :
-						{{ translate(selection.CATEGORY) }}
+						{{ translate(selection.CATEGORY, settings.language) }}
 					</li>
 					<li v-if="selection.PRIMARY_NAME_TYPE">
 						{{ t("Type") }} :
-						{{ translate(selection.PRIMARY_NAME_TYPE) }}
+						{{
+							translate(
+								selection.PRIMARY_NAME_TYPE,
+								settings.language
+							)
+						}}
 					</li>
 					<li>{{ t("Score") }} : {{ selection.SCORE }}</li>
 					<li>{{ t("Min. Level") }}: {{ selection.MIN_LEVEL }}</li>
@@ -74,7 +76,7 @@
 			?
 			<div style="display: flex">
 				<div
-					v-for="p in ['Primary', 'Secondary']"
+					v-for="p in ['Primary', 'Secondary'] as const"
 					:key="p"
 					:class="p"
 					style="margin: 0 1em"
@@ -82,7 +84,7 @@
 					<h3>{{ t(p) }}</h3>
 					<div v-for="s in statsFoundOnSelectedSlot[p]" :key="s.REF">
 						<div>
-							{{ translate(s.REF)
+							{{ translate(s.REF, settings.language)
 							}}{{ s.PERCENT === "%" ? " (%)" : "" }}
 						</div>
 					</div>
@@ -92,58 +94,50 @@
 	</div>
 </template>
 
-<script>
-	import { ref } from "vue";
-	import { ItemTypes, ItemSlots } from "@/utils";
+<script setup lang="ts">
+	import { ref, computed, onMounted } from "vue";
+	import {
+		ItemTypes,
+		ItemSlots,
+		translate,
+		itemSlotToItemType,
+	} from "@/utils";
 	import GearSlot from "@/components/GearSlot.vue";
 	import GearPanel from "@/components/GearPanel.vue";
 	import Stats from "@/assets/data/item_stats.json";
+	import { useSettings } from "@/Settings";
 
-	export default {
-		components: { GearSlot, GearPanel },
-		data() {
-			return {
-				Stats,
-				ItemTypes,
-				ItemSlots,
-				selection: ref(Stats[0]),
-				selectedSlot: ref(ItemTypes[0]),
-			};
-		},
-		created() {
-			this.selection = this.orderedStats[0];
-		},
-		methods: {
-			convert(type) {
-				if (type === "ARMOR") return "body";
-				return type.toLowerCase();
-			},
-		},
-		computed: {
-			foundOn() {
-				return ItemTypes.filter((s) => !!this.selection[s]).sort(
-					(a, b) =>
-						this.selection[a] === this.selection[b]
-							? 0
-							: this.selection[a] === "P"
-							? -1
-							: 1
-				);
-			},
-			statsFoundOnSelectedSlot() {
-				const r = this.Stats.filter((s) => !!s[this.selectedSlot]);
-				return {
-					Primary: r.filter((s) => s[this.selectedSlot] === "P"),
-					Secondary: r.filter((s) => s[this.selectedSlot] === "S"),
-				};
-			},
-			orderedStats() {
-				return [...this.Stats].sort(
-					(a, b) => this.translate(a.REF) > this.translate(b.REF)
-				);
-			},
-		},
-	};
+	const settings = useSettings();
+	const selection = ref(Stats[0]);
+	const selectedSlot = ref(ItemTypes[0]);
+
+	onMounted(() => {
+		selection.value = orderedStats.value[0];
+	});
+
+	const foundOn = computed(() => {
+		return ItemTypes.filter((s) => !!selection.value[s]).sort((a, b) =>
+			selection.value[a] === selection.value[b]
+				? 0
+				: selection.value[a] === "P"
+				? -1
+				: 1
+		);
+	});
+	const statsFoundOnSelectedSlot = computed(() => {
+		const r = Stats.filter((s) => !!s[selectedSlot.value]);
+		return {
+			Primary: r.filter((s) => s[selectedSlot.value] === "P"),
+			Secondary: r.filter((s) => s[selectedSlot.value] === "S"),
+		};
+	});
+	const orderedStats = computed(() => {
+		return [...Stats].sort((a, b) =>
+			translate(a.REF, settings.value.language).localeCompare(
+				translate(b.REF, settings.value.language)
+			)
+		);
+	});
 </script>
 
 <style scoped>
@@ -168,12 +162,13 @@
 		border-bottom: 2px solid #888;
 	}
 
-	tbody tr:nth-child(even) {
-		background-color: #222;
-	}
-
-	tbody tr:nth-child(odd) {
-		background-color: #333;
+	tbody tr {
+		&:nth-child(even) {
+			background-color: #222;
+		}
+		&:nth-child(odd) {
+			background-color: #333;
+		}
 	}
 
 	.primary {

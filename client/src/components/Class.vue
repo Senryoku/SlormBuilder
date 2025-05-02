@@ -102,7 +102,7 @@
 
 <script setup lang="ts">
 	import { ref, useTemplateRef } from "vue";
-	import { getSkillSprite, type ClassName } from "@/utils";
+	import { getSkillSprite, type ClassName } from "../utils.js";
 	import SkillIcon from "./SkillIcon.vue";
 	import SkillTree from "./SkillTree.vue";
 	import Tooltip from "./Tooltip.vue";
@@ -113,7 +113,7 @@
 		HuntressSkills,
 		MageSkills,
 		type AugmentedSkill,
-	} from "@/data/Skills.js";
+	} from "../data/Skills.js";
 
 	const SkillData = {
 		knight: KnightSkills,
@@ -195,8 +195,11 @@
 			image: getSkillSprite(props.className, s),
 		};
 		skills.value.push(as);
-		if (!activeBoxes[s.ACTIVE_BOX]) activeBoxes[s.ACTIVE_BOX] = [];
-		activeBoxes[s.ACTIVE_BOX].push(as);
+		// FIXME: I don't even know how it's supposed to work. Most of ACTIVE_BOX are null. I don't remember what it means.
+		//        Casting to number is wrong.
+		if (!activeBoxes[s.ACTIVE_BOX as number])
+			activeBoxes[s.ACTIVE_BOX as number] = [];
+		activeBoxes[s.ACTIVE_BOX as number].push(as);
 	}
 
 	function splitToRows(
@@ -207,8 +210,8 @@
 		let result = [];
 		array.sort((l, r) =>
 			l.UNLOCK_LEVEL === r.UNLOCK_LEVEL
-				? l.ORDER - r.ORDER
-				: l.UNLOCK_LEVEL - r.UNLOCK_LEVEL
+				? l.ORDER! - r.ORDER!
+				: l.UNLOCK_LEVEL! - r.UNLOCK_LEVEL!
 		);
 		for (let count of TreeShapes[className][idx]) {
 			let row = array.splice(0, Math.min(count, array.length));
@@ -248,7 +251,7 @@
 
 	function selectSkill(
 		event: MouseEvent,
-		tree: unknown,
+		tree: { skill: AugmentedSkill[]; upgrades: AugmentedSkill[][] },
 		row: number,
 		skill: AugmentedSkill
 	) {
@@ -257,11 +260,11 @@
 			event.getModifierState("Shift") || event.getModifierState("Alt");
 		if (skill.selected) {
 			skill.rank = alt
-				? skill.UPGRADE_NUMBER
-				: Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
+				? skill.UPGRADE_NUMBER!
+				: Math.min(skill.rank + 1, skill.UPGRADE_NUMBER!);
 		} else {
-			tree.upgrades[row].map((s) => (s.selected = false)); // Deselect all other skills in row.
-			skill.rank = alt ? skill.UPGRADE_NUMBER : Math.max(skill.rank, 1);
+			tree.upgrades[row].map((s: AugmentedSkill) => (s.selected = false)); // Deselect all other skills in row.
+			skill.rank = alt ? skill.UPGRADE_NUMBER! : Math.max(skill.rank, 1);
 			skill.selected = true;
 		}
 	}

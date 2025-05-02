@@ -39,12 +39,12 @@
 
 	const name = computed(() => {
 		const key = `${settings.value.language}_NAME`;
-		if (key in props.item) return props.item[key];
+		if (key in props.item) return props.item[key as keyof Legendary];
 		return props.item[`EN_NAME`];
 	});
 
 	const effect = computed(() => {
-		return parseText(props.item, settings.value.language, {
+		return parseText(props.item as any, settings.value.language, {
 			text: `${settings.value.language}_DESC`,
 			value_base: "VALUE",
 			value_type: "TYPE",

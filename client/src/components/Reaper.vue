@@ -20,17 +20,17 @@
 						{{
 							item.BASE_DMG_MIN +
 							item.DMG_MULTIPLIER *
-								item.MAX_LVL *
+								item.MAX_LVL! *
 								item.MIN_DMG_LVL
 						}}
 						-
 						{{
 							item.BASE_DMG_MAX +
 							item.DMG_MULTIPLIER *
-								item.MAX_LVL *
+								item.MAX_LVL! *
 								item.MAX_DMG_LVL
 						}}
-						{{ t("at level $", item.MAX_LVL) }}
+						{{ t("at level $", item.MAX_LVL!.toString()) }}
 					</div>
 					<div class="smaller" v-if="item.MAX_LVL !== 100">
 						{{
@@ -42,14 +42,14 @@
 							item.BASE_DMG_MAX +
 							item.DMG_MULTIPLIER * 100 * item.MAX_DMG_LVL
 						}}
-						{{ t("at level $", 100) }}
+						{{ t("at level $", "100") }}
 					</div>
 					<div v-if="item.previous">
 						{{
 							t(
 								"Evolves from $ at level $",
 								previousReapers,
-								item.previous[0].MAX_LVL
+								item.previous[0].MAX_LVL!.toString()
 							)
 						}}
 					</div>
@@ -80,7 +80,7 @@
 	import { localize, parseText, translate } from "@/utils";
 	import AncestralSkill from "./AncestralSkill.vue";
 	import ReaperIcon from "./ReaperIcon.vue";
-	import { useSettings } from "../Settings";
+	import { useSettings } from "@/Settings";
 	import { AncestralSkills } from "@/data/AncestralSkills";
 	import type { ReaperType, Reaper } from "@/data/Reapers";
 
@@ -118,7 +118,7 @@
 
 	const description = computed(() => {
 		if (!props.item) return "";
-		return parseText(props.item, settings.value.language);
+		return parseText(props.item as any, settings.value.language);
 	});
 
 	const name = computed(() => {

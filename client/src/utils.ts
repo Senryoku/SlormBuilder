@@ -55,7 +55,7 @@ export function localize(
 }
 
 export function parseText(
-	item: Record<string, string>,
+	item: Record<string, string> & { UPGRADE_NUMBER?: number },
 	lang: Language,
 	format: Record<string, string> = {},
 	options = { rank: 0 }
@@ -107,7 +107,7 @@ export function parseText(
 		.join("");
 
 	// Reapers ancestral skill (TODO)
-	r = r.replaceAll(/act:(\d+)/g, (match, group) => {
+	r = r.replaceAll(/act:(\d+)/g, (_match, group) => {
 		const ref = parseInt(group) - 200;
 		let act = AncestralSkills.find((o) => o.REF === ref);
 		if (act)
@@ -121,11 +121,11 @@ export function parseText(
 	const extras = item.EXTRA_NBR?.split("|");
 	if (extras) for (let e of extras) r = r.replace("¥", e);
 
-	const levels = item?.[format.value_level]
+	const levels = item[format.value_level]
 		? item[format.value_level].split("|").map((f) => parseFloat(f))
 		: null;
 	// Reaper level
-	const reaperLevels = item?.[format.value_level]
+	const reaperLevels = item[format.value_level]
 		?.split("|")
 		.map((l) => l === "rl");
 	// Item upgrades
@@ -143,7 +143,7 @@ export function parseText(
 		if (reaperLevels?.[idx]) {
 			r = r.replace(
 				"@",
-				`${n(v)}${t} ${s(
+				`${n(v.toString())}${t} ${s(
 					`(+${v}${t} ${translate("per level", lang)})`
 				)}`
 			);
@@ -154,7 +154,7 @@ export function parseText(
 				? v + mult * levels?.[idx] * options.rank
 				: v;
 			let value_explanation =
-				(item.UPGRADE_NUMBER > 1 ||
+				(item.UPGRADE_NUMBER! > 1 ||
 					format.value_level === "UPGRADABLE") &&
 				!r.includes("µ");
 			const levelStr =
@@ -182,8 +182,8 @@ export function parseText(
 						types[idx]
 					}`
 				);
-				r = r.replace("µ", values[idx]);
-				r = r.replace("µ", levels[idx]);
+				r = r.replace("µ", values[idx].toString());
+				r = r.replace("µ", levels[idx].toString());
 			}
 		}
 	}
@@ -252,6 +252,11 @@ export const ItemSlots: ItemSlot[] = [
 	"ring1",
 	"shoulder",
 ];
+
+export function itemSlotToItemType(slot: ItemSlot): ItemType {
+	if (slot === "ring0" || slot === "ring1") return "ring";
+	return slot;
+}
 
 export function require(url: string) {
 	return new URL(url, import.meta.url).href;

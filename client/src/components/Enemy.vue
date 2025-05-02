@@ -29,21 +29,9 @@
 		return props.enemy[`${settings.value.language}_NAME`];
 	});
 
-	const animation = computed(() => {
-		return WalkAnimation[props.enemy.EN_REF.split(" ")[0].toLowerCase()];
-	});
-
-	const animationSize = computed(() => {
-		let width = 0;
-		let height = 0;
-		for (let i = 0; i < animation.value.length; i++) {
-			const img = new Image();
-			img.src = animation.value[i];
-			width = Math.max(width, img.naturalWidth);
-			height = Math.max(height, img.naturalHeight);
-		}
-		return { width, height };
-	});
+	const animation = computed(
+		() => WalkAnimation[props.enemy.EN_REF.split(" ")[0].toLowerCase()]
+	);
 
 	setInterval(() => {
 		animationFrame.value++;

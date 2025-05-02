@@ -5,6 +5,7 @@ import ReapersJSON from "@/assets/extracted/dat_rea.json";
 export type ReaperRAW = (typeof ReapersJSON)[number];
 export type Reaper = ReaperRAW & { previous?: Reaper[] };
 export type ReaperType = "sword" | "staff" | "bow";
+export const ReaperTypes = ["sword", "staff", "bow"] as ReaperType[];
 
 export const Reapers: Reaper[] = ReapersJSON;
 

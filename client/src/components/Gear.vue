@@ -4,7 +4,7 @@
 			<template v-for="t in ItemSlots" v-slot:[t] :key="t">
 				<GearSlot
 					:type="t"
-					:item="gear[t]"
+					:item="gear[t] as Legendary"
 					:class="{
 						selected: selectedSlot === t,
 						primary:
@@ -15,7 +15,7 @@
 							'S',
 					}"
 					@click="select(t)"
-					@contextmenu.prevent="if (editable) gear[t] = null;"
+					@contextmenu.prevent="if (editable) gear[t] = undefined;"
 					@mouseenter="displayTooltip($event, t)"
 				/>
 			</template>
@@ -24,7 +24,9 @@
 					class="reaper-slot"
 					:class="{ selected: selectedSlot === 'reaper' }"
 					@click="select('reaper')"
-					@contextmenu.prevent="if (editable) gear['reaper'] = null;"
+					@contextmenu.prevent="
+						if (editable) gear['reaper'] = undefined;
+					"
 					@mouseenter="displayReaperTooltip($event)"
 				>
 					<div v-if="gear.reaper">
@@ -153,7 +155,7 @@
 		<LegendaryComponent v-if="hoveredItem" :item="hoveredItem" />
 	</tooltip>
 	<tooltip ref="reapertooltip">
-		<ReaperComponent v-if="gear.reaper" :item="gear.reaper" />
+		<ReaperComponent v-if="selectedReaper" :item="selectedReaper" />
 	</tooltip>
 </template>
 
@@ -185,10 +187,11 @@
 	import { useSettings } from "@/Settings";
 	import type { Legendary } from "@/data/Legendaries.ts";
 
-	type GearSet = Partial<Record<ItemSlot, Legendary> & { reaper: Reaper }>;
+	type GearSlot = ItemSlot | "reaper";
+	type GearSet = Partial<Record<GearSlot, Legendary | Reaper>>;
 
 	const gear = ref<GearSet>({});
-	const selectedSlot = ref<ItemSlot | "reaper">("helm");
+	const selectedSlot = ref<GearSlot>("helm");
 	const statPriority = ref<(typeof Stats)[number][]>([]);
 	const selectedStat = ref(Stats[0]);
 	const hoveredStat = ref(null);
@@ -203,70 +206,33 @@
 			className: ClassName;
 			editable: boolean;
 		}>(),
-		{
-			editable: true,
-		}
+		{ editable: true }
 	);
 
 	function reaperIcon(type: ReaperType, index: number) {
 		return ReaperIcons[type][index];
 	}
 
-	function select(type: ItemSlot): void {
+	function select(type: GearSlot): void {
 		selectedSlot.value = type;
 	}
+
 	function selectItem(item: Legendary | Reaper): void {
 		gear.value[selectedSlot.value] = item;
 	}
 
 	function displayTooltip(event: MouseEvent, type: ItemSlot) {
-		hoveredItem.value = gear.value[type];
+		hoveredItem.value = gear.value[type] as Legendary;
 		tooltip.value?.display(event);
 	}
+
 	function displayReaperTooltip(event: MouseEvent) {
 		reapertooltip.value?.display(event);
 	}
 
-	function serialize() {
-		let r = [];
-		for (let slot of ItemSlots) r.push(gear.value[slot]?.REF ?? -1);
-		r.push(gear.value["reaper"]?.REF ?? -1);
-		r.push(statPriority.value.length);
-		for (let s of statPriority.value) r.push(s.REF_NB);
-		return r.join();
-	}
-
-	function importGear(
-		importGear: Partial<Record<ItemSlot, number> & { reaper: number }>,
-		importStatPriority: number[]
-	) {
-		const tmp: GearSet = {};
-		for (let s of ItemSlots) {
-			if (importGear[s] && importGear[s] !== -1)
-				tmp[s] = Legendaries.find((o) => o.REF === importGear[s]);
-		}
-		if (importGear?.["reaper"] && importGear?.["reaper"] !== -1)
-			tmp["reaper"] = Reapers.find((o) => o.REF === importGear["reaper"]);
-		gear.value = tmp;
-
-		if (importStatPriority) {
-			statPriority.value = importStatPriority.map((ref) =>
-				Stats.find((s) => s.REF_NB === ref)
-			);
-		}
-	}
-
-	function importSave(importedGear: GearSet) {
-		gear.value = {};
-		for (let slot in gear) {
-			if (!importedGear[slot]) gear.value[slot] = null;
-			else {
-				gear.value[slot] = (
-					slot === "reaper" ? Reapers : Legendaries
-				).find((l) => l.REF === importedGear[slot].REF);
-			}
-		}
-	}
+	const selectedReaper = computed(
+		() => gear.value["reaper"] as Reaper | null
+	);
 
 	const galleryItems = computed(() => {
 		if (selectedSlot.value === "reaper") return [];
@@ -282,13 +248,14 @@
 	});
 
 	const reaperName = computed(() => {
-		let n =
-			gear.value?.reaper?.[`${settings.value.language}_NAME`]?.split("/");
-		if (!n) return "";
-		const s = n.length > 1 && reaperType.value === "sword" ? n[1] : n[0];
+		const name =
+			gear.value.reaper?.[`${settings.value.language}_NAME`]?.split("/");
+		if (!name) return "";
+		const ref_name =
+			name.length > 1 && reaperType.value === "sword" ? name[1] : name[0];
 		return localize(
 			settings.value.language,
-			s,
+			ref_name,
 			localize(settings.value.language, reaperType.value)
 		);
 	});
@@ -301,6 +268,45 @@
 				)
 		);
 	});
+
+	function serialize() {
+		let r = [];
+		for (let slot of ItemSlots) r.push(gear.value[slot]?.REF ?? -1);
+		r.push(gear.value["reaper"]?.REF ?? -1);
+		r.push(statPriority.value.length);
+		for (let s of statPriority.value) r.push(s.REF_NB);
+		return r.join();
+	}
+
+	function importGear(
+		importGear: Partial<Record<GearSlot, number>>,
+		importStatPriority: number[]
+	) {
+		const tmp: GearSet = {};
+		for (let s of ItemSlots) {
+			if (importGear[s] && importGear[s] !== -1)
+				tmp[s] = Legendaries.find((o) => o.REF === importGear[s]);
+		}
+		if (importGear["reaper"] && importGear["reaper"] !== -1)
+			tmp["reaper"] = Reapers.find((o) => o.REF === importGear["reaper"]);
+		gear.value = tmp;
+
+		statPriority.value = importStatPriority.map(
+			(ref) => Stats.find((s) => s.REF_NB === ref)!
+		);
+	}
+
+	function importSave(importedGear: GearSet) {
+		gear.value = {};
+		for (let slot of [...ItemSlots, "reaper"] as (keyof GearSet)[]) {
+			if (!importedGear[slot]) gear.value[slot] = undefined;
+			else {
+				gear.value[slot] = (
+					slot === "reaper" ? Reapers : Legendaries
+				).find((l) => l.REF === importedGear[slot]!.REF);
+			}
+		}
+	}
 
 	defineExpose({ serialize, importGear, importSave });
 </script>

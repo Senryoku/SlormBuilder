@@ -8,7 +8,9 @@
 <script setup lang="ts">
 	import type { Legendary } from "@/data/Legendaries";
 	import ItemIcon from "./ItemIcon.vue";
-	defineProps<{ type: string; item: Legendary }>();
+	withDefaults(defineProps<{ type: string; item?: Legendary }>(), {
+		item: undefined,
+	});
 </script>
 
 <style scoped>

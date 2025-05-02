@@ -37,7 +37,9 @@
 
 <script setup lang="ts">
 	import type { ClassName } from "@/utils";
-	defineProps<{ className: ClassName }>();
+	withDefaults(defineProps<{ className?: ClassName }>(), {
+		className: undefined,
+	});
 </script>
 
 <style scoped>
