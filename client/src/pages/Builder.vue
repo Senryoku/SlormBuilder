@@ -12,7 +12,7 @@
 		<div class="class-select">
 			<template v-if="editable">
 				<div
-					v-for="(c, idx) in classes"
+					v-for="(c, idx) in Classes"
 					:key="c"
 					@click="selectedClass = c"
 					:class="{ selected: c === selectedClass }"
@@ -96,14 +96,15 @@
 		</div>
 	</div>
 	<div v-show="selectedTab === 'skills'" class="tab-container">
-		<template v-for="c in classes" :key="c">
+		<template v-for="c in Classes" :key="c">
 			<Class
 				:className="c"
 				v-show="c === selectedClass"
-				:ref="(el) => (classComponents[c] = el)"
+				ref="classComponents"
 				:import="classImport"
 				:editable="editable"
-		/></template>
+			/>
+		</template>
 	</div>
 	<div v-show="selectedTab === 'traits'" class="tab-container">
 		<Attributes
@@ -127,7 +128,6 @@
 <script setup lang="ts">
 	import {
 		ref,
-		onBeforeUpdate,
 		onMounted,
 		defineAsyncComponent,
 		useTemplateRef,
@@ -141,6 +141,7 @@
 		spritesByIndex,
 		Classes,
 		localize,
+		type ClassName,
 	} from "@/utils";
 	import Class from "@/components/Class.vue";
 	import Attributes from "@/components/Attributes.vue";
@@ -149,6 +150,7 @@
 	import { useSettings } from "@/Settings";
 	import { useToast } from "vue-toast-notification";
 	import "vue-toast-notification/dist/theme-default.css";
+	import type { AugmentedSkill } from "@/data/Skills";
 
 	const AncestralTree = defineAsyncComponent(
 		() => import("@/components/AncestralTree.vue")
@@ -161,27 +163,41 @@
 		)
 	);
 
-	const classComponents = ref({});
+	const classComponents = useTemplateRef<(typeof Class)[]>("classComponents");
 	const attributesComponent = useTemplateRef<typeof Attributes>("attributes");
 	const gearComponent = useTemplateRef<typeof Gear>("gear");
 	const ancestralTreeComponent =
 		useTemplateRef<typeof AncestralTree>("ancestralTree");
 
-	onBeforeUpdate(() => {
-		classComponents.value = {};
-	});
-
-	const classes = Classes;
 	const selectedClass = ref(Classes[0]);
 	const selectedTab = ref("skills");
 	const editable = ref(true);
 
-	const classImport = ref({});
-	const attributeImport = ref([]);
-	const gearImport = ref({});
-	const elementsImport = ref([]);
+	const classImport = ref<{
+		selections: {
+			primarySkill: number;
+			secondarySkill: number;
+			specialisation: number;
+		};
+		upgrades: AugmentedSkill[];
+	}>({
+		selections: {
+			primarySkill: 0,
+			secondarySkill: 1,
+			specialisation: 0,
+		},
+		upgrades: [],
+	});
+	const attributeImport = ref<number[]>([]);
+	const gearImport = ref<Record<string, number>>({});
+	const elementsImport = ref<
+		{
+			REF: number;
+			rank: number;
+		}[]
+	>([]);
 
-	const statPriority = ref([]);
+	const statPriority = ref<number[]>([]);
 
 	const route = useRoute();
 	const settings = useSettings();
@@ -212,7 +228,7 @@
 						)
 							attributes.push(parseInt(data[currentIndex]));
 						// Gear
-						let tmpGearImport = {};
+						const tmpGearImport: Record<string, number> = {};
 						for (let slot of version.minor >= 1
 							? ItemSlots
 							: ItemTypes)
@@ -234,8 +250,10 @@
 								);
 						}
 						// Elements
-						let tmpElementsImport: { REF: number; rank: number }[] =
-							[];
+						const tmpElementsImport: {
+							REF: number;
+							rank: number;
+						}[] = [];
 						if (version.minor >= 2) {
 							const elementsCount = parseInt(
 								data[currentIndex++]
@@ -248,7 +266,7 @@
 							}
 						}
 						// Skil selection
-						selectedClass.value = data[currentIndex++];
+						selectedClass.value = data[currentIndex++] as ClassName;
 						const selections = {
 							specialisation: parseInt(data[currentIndex++]),
 							primarySkill: parseInt(data[currentIndex++]),
@@ -272,7 +290,7 @@
 						elementsImport.value = tmpElementsImport;
 						classImport.value = {
 							selections,
-							upgrades,
+							upgrades: upgrades as AugmentedSkill[],
 						};
 						editable.value = false;
 					}
@@ -287,7 +305,7 @@
 				"content",
 				`Slormancer ${capitalize(selectedClass.value)} Build`
 			);
-		} catch (e) {
+		} catch (e: any) {
 			alert(`Error while importing build: ${e.toString()}`);
 		}
 	}
@@ -304,7 +322,7 @@
 		return ClassIcons[Classes.findIndex((s) => s === selectedClass.value)];
 	});
 
-	function classIcon(index) {
+	function classIcon(index: number) {
 		return ClassIcons[index];
 	}
 
@@ -314,18 +332,16 @@
 	}
 
 	function serialize() {
-		let version = "1.3";
-		let str =
-			version +
-			"," +
-			attributesComponent.value!.serialize() +
-			"," +
-			gearComponent.value!.serialize() +
-			"," +
-			ancestralTreeComponent.value!.serialize() +
-			"," +
-			classComponents.value[selectedClass.value]!.serialize();
-		return str;
+		const version = "1.3";
+		return [
+			version,
+			attributesComponent.value!.serialize(),
+			gearComponent.value!.serialize(),
+			ancestralTreeComponent.value!.serialize(),
+			classComponents.value![
+				Classes.indexOf(selectedClass.value)
+			].serialize(),
+		].join(",");
 	}
 
 	function genURL() {
@@ -349,9 +365,9 @@
 		document.getElementById("save-import-input")!.click();
 	}
 
-	function importSaveFile(event) {
+	function importSaveFile(event: Event) {
 		event.preventDefault();
-		const file = event.target.files[0];
+		const file = (event.target as HTMLInputElement)?.files?.[0];
 		if (file) {
 			var reader = new FileReader();
 			reader.onload = (evt) => {
@@ -393,7 +409,7 @@
 				while (idx < asciish.length && !isNumber(asciish[idx])) ++idx;
 				return idx;
 			};
-			const getEndIndex = (idx) => {
+			const getEndIndex = (idx: number) => {
 				const skip = (c: string) =>
 					["/", ":", ",", "-", "|", "."].includes(c) ||
 					isChar(c) ||
@@ -469,7 +485,7 @@
 			for (let i = 0; i < slotsorder.length; ++i) {
 				let legendary = dataFields.gear[i]
 					.split(":")
-					.find((s) => s.startsWith("L"));
+					.find((s: string) => s.startsWith("L"));
 				if (legendary) {
 					const [, REF, value] = legendary.split(".");
 					gear[slotsorder[i]] = {
@@ -496,9 +512,9 @@
 				selected: boolean;
 			}[][] = [];
 			for (let i = 0; i < dataFields.skill_equip.length; ++i) {
-				let dat = dataFields.skill_equip[i]
+				const dat = dataFields.skill_equip[i]
 					.split(",")
-					.map((n) => parseInt(n));
+					.map((n: string) => parseInt(n));
 				selections.push({
 					specialisation: dat.findIndex((n: number) => n === 4),
 					primarySkill: dat.findIndex((n: number) => n === 2) - 3,
@@ -512,7 +528,7 @@
 						selected: dat[ref] !== -1,
 					});
 				}
-				classComponents.value[Classes[i]].importSave(
+				classComponents.value![i].importSave(
 					selections[i],
 					upgrades[i]
 				);
@@ -534,7 +550,7 @@
 					)
 				)
 			);
-		} catch (e) {
+		} catch (e: any) {
 			toast.error(e.toString());
 		}
 	}
