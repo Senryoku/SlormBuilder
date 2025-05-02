@@ -58,14 +58,16 @@
 		</div>
 	</div>
 	<tooltip ref="tooltip">
-		<AttributeComponent :attr="hoveredAttr" :key="hoveredAttr.REF" />
+		<template v-if="hoveredAttr">
+			<AttributeComponent :attr="hoveredAttr" :key="hoveredAttr.name" />
+		</template>
 	</tooltip>
 </template>
 
-<script>
-	import { ref } from "vue";
+<script setup lang="ts">
+	import { onMounted, ref, useTemplateRef } from "vue";
 	import { clamp, spritesByIndex } from "@/utils";
-	import { Attributes } from "@/data/Attributes";
+	import { Attributes, type Attribute } from "@/data/Attributes";
 
 	import Tooltip from "./Tooltip.vue";
 	import AttributeComponent from "./Attribute.vue";
@@ -114,124 +116,134 @@
 		),
 	};
 
-	export default {
-		name: "Attributes",
-		components: { Tooltip, AttributeComponent },
-		props: {
-			values: { type: Array },
-			editable: { type: Boolean, default: true },
-		},
-		data() {
-			let effects = [];
-			for (let attr of Attributes) {
-				while (attr.TRAIT > effects.length - 1) effects.push([]);
-				effects[attr.TRAIT].push(attr);
-			}
-			const attrNames = [
-				"Toughness",
-				"Savagery",
-				"Fury",
-				"Determination",
-				"Zeal",
-				"Willpower",
-				"Dexterity",
-				"Bravery",
-			];
-			const colors = [
-				"#2f5896",
-				"#a82f07",
-				"#7ab549",
-				"#a9852b",
-				"#3b9999",
-				"#4e2570",
-				"#a54e1e",
-				"#862d4c",
-			];
+	const props = withDefaults(
+		defineProps<{
+			values?: number[];
+			editable: boolean;
+		}>(),
+		{ values: undefined, editable: true }
+	);
 
-			let attributes = [];
-			for (let i = 0; i < attrNames.length; ++i) {
-				attributes.push({
-					name: attrNames[i],
-					effects: effects[i],
-					color: colors[i],
-					level: this.values ? this.values[i] : 0,
-				});
-			}
+	const effects: Attribute[][] = [];
+	for (let attr of Attributes) {
+		while (attr.TRAIT >= effects.length) effects.push([]);
+		effects[attr.TRAIT].push(attr);
+	}
+	const attrNames = [
+		"Toughness",
+		"Savagery",
+		"Fury",
+		"Determination",
+		"Zeal",
+		"Willpower",
+		"Dexterity",
+		"Bravery",
+	];
+	const colors = [
+		"#2f5896",
+		"#a82f07",
+		"#7ab549",
+		"#a9852b",
+		"#3b9999",
+		"#4e2570",
+		"#a54e1e",
+		"#862d4c",
+	];
 
-			return {
-				attributes,
-				attrNames,
-				effects,
-				tooltip: ref(null),
-				hoveredAttr: ref(attributes[0]),
-			};
-		},
-		mounted() {
-			// Preload animation
-			for (let i = 0; i < 8; ++i) {
-				const img = new Image();
-				img.src = Animation[i];
-			}
-		},
-		methods: {
-			traitEvolve(idx) {
-				return TraitEvolve[idx];
-			},
-			traitIcons(idx) {
-				return TraitIcons[idx];
-			},
-			attrPointImage(idx, i) {
-				if (i > 0 && i % 15 === 0) return TraitPoints.losange[idx];
-				else if (i > 0 && i % 5 === 0) return TraitPoints.square[idx];
-				else return TraitPoints.default[idx];
-			},
-			additiveEffectMargin(i) {
-				--i;
-				let fifteen = Math.floor(i / 15);
-				let five = Math.floor(i / 5) - fifteen;
-				let r = 10 * (i - five - fifteen) + 16 * five + 16 * fifteen;
-				if (i > 0 && i % 15 === 0) r -= 12;
-				else if (i > 0 && i % 5 === 0) r -= 12;
-				return r;
-			},
-			serialize() {
-				return this.attributes.map((a) => a.level).join(",");
-			},
-			importSave(values) {
-				for (let i = 0; i < this.attributes.length; ++i)
-					this.attributes[i].level = values[i];
-			},
-			displayTooltip(event, idx) {
-				this.hoveredAttr = this.attributes[idx];
-				this.$refs.tooltip.display(event);
-			},
-			plus(event, idx) {
-				if (!this.editable) return;
-				this.attributes[idx].level = clamp(
-					this.attributes[idx].level +
-						(event.getModifierState("Shift") ||
-						event.getModifierState("Alt")
-							? 10
-							: 1),
-					0,
-					75
-				);
-			},
-			minus(event, idx) {
-				if (!this.editable) return;
-				// contextmenu can't be triggered with getModifierState("Shift")
-				this.attributes[idx].level = clamp(
-					this.attributes[idx].level -
-						(event.getModifierState("Shift") ||
-						event.getModifierState("Alt")
-							? 10
-							: 1),
-					0,
-					75
-				);
-			},
-		},
-	};
+	const attributes = ref<
+		{
+			name: string;
+			effects: Attribute[];
+			color: string;
+			level: number;
+		}[]
+	>([]);
+	for (let i = 0; i < attrNames.length; ++i) {
+		attributes.value.push({
+			name: attrNames[i],
+			effects: effects[i],
+			color: colors[i],
+			level: props.values?.[i] ?? 0,
+		});
+	}
+
+	const tooltip = useTemplateRef("tooltip");
+	const hoveredAttr = ref(attributes.value[0]);
+
+	onMounted(() => {
+		// Preload animation
+		for (let i = 0; i < 8; ++i) {
+			const img = new Image();
+			img.src = Animation[i];
+		}
+	});
+
+	function traitEvolve(idx: number) {
+		return TraitEvolve[idx];
+	}
+
+	function traitIcons(idx: number) {
+		return TraitIcons[idx];
+	}
+
+	function attrPointImage(idx: number, i: number) {
+		if (i > 0 && i % 15 === 0) return TraitPoints.losange[idx];
+		else if (i > 0 && i % 5 === 0) return TraitPoints.square[idx];
+		else return TraitPoints.default[idx];
+	}
+
+	function additiveEffectMargin(i: number) {
+		--i;
+		let fifteen = Math.floor(i / 15);
+		let five = Math.floor(i / 5) - fifteen;
+		let r = 10 * (i - five - fifteen) + 16 * five + 16 * fifteen;
+		if (i > 0 && i % 15 === 0) r -= 12;
+		else if (i > 0 && i % 5 === 0) r -= 12;
+		return r;
+	}
+
+	function displayTooltip(event: MouseEvent, idx: number) {
+		hoveredAttr.value = attributes.value[idx];
+		tooltip.value!.display(event);
+	}
+
+	function plus(event: MouseEvent, idx: number) {
+		if (!props.editable) return;
+		attributes.value[idx].level = clamp(
+			attributes.value[idx].level +
+				(event.getModifierState("Shift") ||
+				event.getModifierState("Alt")
+					? 10
+					: 1),
+			0,
+			75
+		);
+	}
+
+	function minus(event: MouseEvent, idx: number) {
+		if (!props.editable) return;
+		// contextmenu can't be triggered with getModifierState("Shift")
+		attributes.value[idx].level = clamp(
+			attributes.value[idx].level -
+				(event.getModifierState("Shift") ||
+				event.getModifierState("Alt")
+					? 10
+					: 1),
+			0,
+			75
+		);
+	}
+
+	function serialize() {
+		return attributes.value.map((a) => a.level).join(",");
+	}
+
+	function importSave(values: number[]) {
+		for (let i = 0; i < attributes.value.length; ++i)
+			attributes.value[i].level = values[i];
+	}
+
+	defineExpose({ serialize, importSave });
 </script>
 
 <style scoped>
