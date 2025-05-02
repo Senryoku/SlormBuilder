@@ -1,4 +1,4 @@
-import { spritesByIndex } from "@/utils";
+import { spritesByIndex, type ClassName } from "@/utils";
 
 import ReapersJSON from "@/assets/extracted/dat_rea.json";
 
@@ -6,7 +6,6 @@ export type ReaperRAW = (typeof ReapersJSON)[number];
 export type Reaper = ReaperRAW & { previous?: Reaper[] };
 export type ReaperType = "sword" | "staff" | "bow";
 export const ReaperTypes = ["sword", "staff", "bow"] as ReaperType[];
-
 export const Reapers: Reaper[] = ReapersJSON;
 
 for (let r of Reapers) {
@@ -20,6 +19,17 @@ for (let r of Reapers) {
 	}
 }
 Reapers.sort((l: Reaper, r: Reaper) => l.ORDER - r.ORDER);
+
+export function reaperTypeForClass(className: ClassName) {
+	switch (className) {
+		case "knight":
+			return "sword";
+		case "mage":
+			return "staff";
+		case "huntress":
+			return "bow";
+	}
+}
 
 export const ReaperIcons = {
 	bow: spritesByIndex(

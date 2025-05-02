@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import { useSettings } from "../Settings";
+	import { useSettings } from "@/Settings";
 	import { type Legendary, LegendaryIcons } from "@/data/Legendaries";
 
 	const TypeOffsets: Record<string, number> = {

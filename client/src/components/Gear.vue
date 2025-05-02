@@ -181,6 +181,7 @@
 	import {
 		ReaperIcons,
 		Reapers,
+		reaperTypeForClass,
 		type Reaper,
 		type ReaperType,
 	} from "@/data/Reapers.ts";
@@ -241,11 +242,7 @@
 		return Legendaries.filter((o) => o.ITEM === itemType);
 	});
 
-	const reaperType = computed(() => {
-		return { knight: "sword", huntress: "bow", mage: "staff" }[
-			props.className
-		] as ReaperType;
-	});
+	const reaperType = computed(() => reaperTypeForClass(props.className));
 
 	const reaperName = computed(() => {
 		const name =

@@ -30,7 +30,7 @@
 								item.MAX_LVL! *
 								item.MAX_DMG_LVL
 						}}
-						{{ t("at level $", item.MAX_LVL!.toString()) }}
+						{{ t("at level $", item.MAX_LVL?.toString() ?? "100") }}
 					</div>
 					<div class="smaller" v-if="item.MAX_LVL !== 100">
 						{{
