@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Copy index to 404
-        run: client/dist/index.html client/dist/404.html
+        run: dist/index.html dist/404.html
     
       - name: Push
         uses: s0/git-publish-subdir-action@develop
