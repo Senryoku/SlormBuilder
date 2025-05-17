@@ -140,7 +140,7 @@
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
 
-	const Debug = import.meta.env.DEV;
+	const Debug = false && import.meta.env.DEV;
 
 	const size = 4 * 732;
 	const halfSize = size / 2;
@@ -929,7 +929,7 @@
 					el.value.clientWidth / size,
 					el.value.clientHeight / size
 				),
-				10
+				1
 			);
 		}
 	}
