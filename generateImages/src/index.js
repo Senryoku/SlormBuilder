@@ -16,22 +16,18 @@ async function generateImage() {
 				await page.evaluate(() => {
 					document.querySelector("body").style.backgroundColor =
 						"transparent";
-					//let header = document.querySelector('.header');
-					//header.parentNode.removeChild(header);
 				});
 
 				await page.waitForSelector(".reaper");
-				const element = await page.$(".reaper"); // declare a variable with an ElementHandle
+				const element = await page.$(".reaper");
 				await element.screenshot({
 					path: `./reapers/${weaponType}_${i}.png`,
 					omitBackground: true,
-				}); // take screenshot element in puppeteer
+				});
 
 				console.log(
 					`  Saved image to ./reapers/${weaponType}_${i}.png`
 				);
-
-				//await page.screenshot({path : `./debug.png`});
 			} catch (e) {
 				console.error(
 					`Error generating image for ${weaponType} #${i}:`
