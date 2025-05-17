@@ -1,1 +1,0 @@
-import{_ as n,c as a,o as s,a as r,p as c,t as o,s as _,q as d,ak as l}from"./index-DDe5KlX4.js";const u={},i={class:"not-found"};function f(e,p){const t=l("router-link");return s(),a("div",i,[r("h1",null,o(e.t("Page Not Found")),1),c(t,{to:"/"},{default:_(()=>[d(o(e.t("Return Home")),1)]),_:1})])}const k=n(u,[["render",f]]);export{k as default};
