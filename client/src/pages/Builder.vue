@@ -136,7 +136,6 @@
 	import { useSettings } from "@/Settings";
 	import { useToast } from "vue-toast-notification";
 	import "vue-toast-notification/dist/theme-default.css";
-	import type { AugmentedSkill } from "@/data/Skills";
 
 	const ClassIcons = spritesByIndex(
 		import.meta.glob(
