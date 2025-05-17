@@ -118,10 +118,9 @@
 
 	const props = withDefaults(
 		defineProps<{
-			values?: number[];
 			editable: boolean;
 		}>(),
-		{ values: undefined, editable: true }
+		{ editable: true }
 	);
 
 	const effects: Attribute[][] = [];
@@ -163,7 +162,7 @@
 			name: attrNames[i],
 			effects: effects[i],
 			color: colors[i],
-			level: props.values?.[i] ?? 0,
+			level: 0,
 		});
 	}
 
@@ -238,12 +237,17 @@
 		return attributes.value.map((a) => a.level).join(",");
 	}
 
+	function deserialize(values: number[]) {
+		for (let i = 0; i < values.length; ++i)
+			attributes.value[i].level = values[i];
+	}
+
 	function importSave(values: number[]) {
 		for (let i = 0; i < attributes.value.length; ++i)
 			attributes.value[i].level = values[i];
 	}
 
-	defineExpose({ serialize, importSave });
+	defineExpose({ serialize, deserialize, importSave });
 </script>
 
 <style scoped>

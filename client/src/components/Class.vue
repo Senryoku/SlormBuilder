@@ -166,14 +166,6 @@
 	const props = withDefaults(
 		defineProps<{
 			className: ClassName;
-			import?: {
-				upgrades: AugmentedSkill[];
-				selections: {
-					primarySkill: number;
-					secondarySkill: number;
-					specialisation: number;
-				};
-			};
 			editable?: boolean;
 		}>(),
 		{
@@ -233,13 +225,11 @@
 	let skillTrees = ref(activeBoxes.map(genTree));
 
 	const specialisations = ref(skillTrees.value.splice(0, 3));
-	const selections = ref(
-		props.import?.selections ?? {
-			specialisation: 0,
-			primarySkill: 0,
-			secondarySkill: 1,
-		}
-	);
+	const selections = ref({
+		specialisation: 0,
+		primarySkill: 0,
+		secondarySkill: 1,
+	});
 
 	const skillTooltip = useTemplateRef<typeof SkillTooltip>("skillTooltip");
 	const hoveredSkill = ref<AugmentedSkill | null>(null);
@@ -315,6 +305,17 @@
 		return r;
 	}
 
+	function deserialize(
+		selections: {
+			primarySkill: number;
+			secondarySkill: number;
+			specialisation: number;
+		},
+		upgrades: { REF: number; rank: number; selected: boolean }[]
+	) {
+		importSave(selections, upgrades);
+	}
+
 	function importSave(
 		importedSelections: {
 			primarySkill: number;
@@ -337,6 +338,7 @@
 	defineExpose({
 		share,
 		serialize,
+		deserialize,
 		importSave,
 	});
 </script>

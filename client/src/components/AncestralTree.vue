@@ -27,17 +27,18 @@
 						},
 					]"
 					:style="`left: ${realm.coords[0]}px; top: ${realm.coords[1]}px`"
-					@click="console.log(`Realm: ${_rIdx}`)"
 				>
 					<div
+						v-if="Debug"
 						style="
+							pointer-events: none;
 							position: absolute;
 							bottom: 2em;
 							left: 50%;
 							transform: translate(-50%, 0);
 						"
 					>
-						Debug {{ _rIdx }}
+						Realm {{ _rIdx }}
 					</div>
 					<div
 						v-for="(e, idx) in realm.elements"
@@ -49,6 +50,7 @@
 							v-if="e"
 							:skill="e"
 							:round="true"
+							:selected="realm.active && e.rank > 0"
 							@mouseenter="displayTooltip($event, e)"
 							@click="selectSkill($event, e)"
 							@contextmenu="deselectSkill($event, e)"
@@ -64,43 +66,57 @@
 				:style="`left: ${bridge.coords[0]}px; top: ${bridge.coords[1]}px`"
 				@click="toggleGem(bridge)"
 			>
-				<div
-					style="
-						position: absolute;
-						bottom: 0;
-						left: 50%;
-						white-space: nowrap;
-						transform: translate(-50%, 0);
-					"
-				>
-					{{ idx }}
-				</div>
-				<div
-					v-for="r in bridge.realms"
-					:key="`${idx}_${r}`"
-					:style="`
-					pointer-events: none;
-					position: absolute; top: 50%; left: 50%; 
-					height: 3px;
-					width: ${
-						0.9 *
-						Math.sqrt(
-							(bridge.coords[0] - Realms[r].coords[0]) *
-								(bridge.coords[0] - Realms[r].coords[0]) +
-								(bridge.coords[1] - Realms[r].coords[1]) *
-									(bridge.coords[1] - Realms[r].coords[1])
-						)
-					}px;
-					--rotation: ${Math.atan2(
-						Realms[r].coords[1] - bridge.coords[1],
-						Realms[r].coords[0] - bridge.coords[0]
-					)}rad;
-					transform-origin: 0 0;
-					transform:  rotate(var(--rotation));
-					background-color: #FFF8 `"
-				></div>
+				<template v-if="Debug">
+					<div
+						style="
+							pointer-events: none;
+							position: absolute;
+							bottom: 0;
+							left: 50%;
+							white-space: nowrap;
+							transform: translate(-50%, 0);
+						"
+					>
+						{{ idx }}
+					</div>
+					<div
+						v-for="r in bridge.realms"
+						:key="`${idx}_${r}`"
+						:style="`
+							pointer-events: none;
+							position: absolute; top: 50%; left: 50%; 
+							height: 3px;
+							width: ${
+								0.9 *
+								Math.sqrt(
+									(bridge.coords[0] - Realms[r].coords[0]) *
+										(bridge.coords[0] -
+											Realms[r].coords[0]) +
+										(bridge.coords[1] -
+											Realms[r].coords[1]) *
+											(bridge.coords[1] -
+												Realms[r].coords[1])
+								)
+							}px;
+							--rotation: ${Math.atan2(
+								Realms[r].coords[1] - bridge.coords[1],
+								Realms[r].coords[0] - bridge.coords[0]
+							)}rad;
+							transform-origin: 0 0;
+							transform:  rotate(var(--rotation));
+							background-color: #FFF8 `"
+					></div>
+				</template>
 			</div>
 		</div>
+	</div>
+	<div class="stock">
+		<div
+			v-for="idx in MaxActiveBridges"
+			:key="idx"
+			style="width: 20px; height: 20px"
+			:class="{ gem: idx <= MaxActiveBridges - activeBridges.length }"
+		/>
 	</div>
 	<Tooltip ref="tooltip">
 		<template v-if="hoveredSkill !== null">
@@ -124,25 +140,23 @@
 	import ElementComponent from "./Element.vue";
 	import Tooltip from "./Tooltip.vue";
 
+	const Debug = import.meta.env.DEV;
+
 	const size = 4 * 732;
 	const halfSize = size / 2;
+
+	const MaxActiveBridges = 7;
 
 	const props = withDefaults(
 		defineProps<{
 			editable?: boolean;
-			import?: { REF: number; rank: number }[];
 		}>(),
 		{ editable: true }
 	);
 
 	type Coord = [number, number];
 
-	// const add = (a: Coord, b: Coord): Coord => [a[0] + b[0], a[1] + b[1]];
 	const sub = (a: Coord, b: Coord): Coord => [a[0] - b[0], a[1] - b[1]];
-	// const normalize = (a: Coord): Coord => {
-	// 	const mag = Math.sqrt(a[0] * a[0] + a[1] * a[1]);
-	// 	return [a[0] / mag, a[1] / mag];
-	// };
 	type Realm = {
 		elements: (Element & { selected: boolean; rank: number })[];
 		coords: Coord;
@@ -164,575 +178,317 @@
 				active: false,
 				connectedRealms: [],
 			});
-		const el = props?.import?.find((el) => el.REF === e.REF);
 		Realms.value[e.REALM].elements.push({
 			...e,
-			selected: !!el,
-			rank: el?.rank ?? 0,
+			selected: false,
+			rank: 0,
 		});
 	}
-
-	let current_idx = 0;
-
-	function addRealm(coords: Coord, type: "small" | "mid" | "large") {
-		const r = Realms.value[current_idx];
-		r.coords = coords;
-		r.type = type;
-		switch (type) {
-			case "small":
-				r.offsets = [[0, 0]];
-				break;
-			case "mid": {
-				if (r.coords[0] > halfSize) {
-					r.offsets = [
-						[-36, +24],
-						[+36, -24],
-					];
-				} else {
-					r.offsets = [
-						[+36, +24],
-						[-36, -24],
-					];
+	// Realms placement (could be constant...)
+	{
+		let current_idx = 0;
+		function addRealm(coords: Coord, type: "small" | "mid" | "large") {
+			const r = Realms.value[current_idx];
+			r.coords = coords;
+			r.type = type;
+			switch (type) {
+				case "small":
+					r.offsets = [[0, 0]];
+					break;
+				case "mid": {
+					if (r.coords[0] > halfSize) {
+						r.offsets = [
+							[-36, +24],
+							[+36, -24],
+						];
+					} else {
+						r.offsets = [
+							[+36, +24],
+							[-36, -24],
+						];
+					}
+					break;
 				}
-				break;
+				case "large": {
+					r.offsets = [
+						sub([1946, 734], [1946, 801]),
+						sub([2004, 845], [1946, 801]),
+						sub([1889, 843], [1946, 801]),
+					];
+					break;
+				}
 			}
-			case "large": {
-				r.offsets = [
-					sub([1946, 734], [1946, 801]),
-					sub([2004, 845], [1946, 801]),
-					sub([1889, 843], [1946, 801]),
-				];
-				break;
+			current_idx++;
+		}
+
+		const FirstCicle = [
+			[1538, 1244],
+			[1658, 1328],
+			[1702, 1464],
+			[1654, 1600],
+			[1538, 1692],
+			[1394, 1692],
+			[1278, 1604],
+			[1226, 1464],
+			[1274, 1328],
+			[1394, 1244],
+		] as Coord[];
+		for (let c of FirstCicle) addRealm(c, "small");
+
+		const SecondCircle = [
+			[1682, 1168],
+			[1818, 1352],
+			[1818, 1580],
+			[1682, 1764],
+			[1466, 1828],
+			[1250, 1764],
+			[1114, 1580],
+			[1114, 1352],
+			[1250, 1168],
+			[1466, 1100],
+		] as Coord[];
+		for (let c of SecondCircle) addRealm(c, "small");
+
+		const ThirdCircle = [
+			[1622, 982],
+			[1878, 1166],
+			[1974, 1466],
+			[1878, 1766],
+			[1626, 1950],
+			[1306, 1950],
+			[1054, 1766],
+			[958, 1466],
+			[1054, 1166],
+			[1310, 982],
+		] as Coord[];
+		for (let c of ThirdCircle) addRealm(c, "mid");
+
+		const FourthCircle = [
+			[1466, 872],
+			[1814, 984],
+			[2034, 1280],
+			[2034, 1648],
+			[1818, 1952],
+			[1466, 2056],
+			[1114, 1952],
+			[898, 1648],
+			[898, 1280],
+			[1118, 984],
+		] as Coord[];
+		for (let c of FourthCircle) addRealm(c, "small");
+
+		const circle_5: Coord[] = [
+			[1546, 720],
+			[1694, 800],
+
+			[2026, 1032],
+			[2150, 1148],
+			[2198, 1316],
+			[2170, 1472],
+
+			[2050, 1868],
+			[1974, 2012],
+			[1830, 2116],
+			[1662, 2144],
+
+			[1270, 2144],
+			[1102, 2116],
+			[958, 2012],
+			[882, 1868],
+
+			[762, 1472],
+			[734, 1316],
+			[782, 1148],
+			[906, 1032],
+
+			[1238, 800],
+			[1386, 720],
+		];
+		for (let c of circle_5) addRealm(c, "small");
+
+		const circle_6: Coord[] = [
+			[1946, 800],
+			[2246, 1716],
+			[1466, 2288],
+			[686, 1716],
+			[986, 800],
+		];
+		for (let c of circle_6) addRealm(c, "large");
+
+		const circle_7: Coord[] = [
+			[1466, 572],
+			[1762, 606],
+
+			[2194, 914],
+			[2310, 1192],
+			[2370, 1466],
+
+			[2222, 1978],
+			[1986, 2180],
+			[1726, 2338],
+
+			[1206, 2338],
+			[946, 2180],
+			[710, 1978],
+
+			[562, 1466],
+			[622, 1192],
+			[738, 914],
+
+			[1170, 606],
+		];
+		for (let i = 0; i < circle_7.length; i++) {
+			Realms.value[current_idx + i].coords = circle_7[i];
+			if (i % 3 === 0) {
+				Realms.value[current_idx + i].type = "small";
+				Realms.value[current_idx + i].offsets.push([0, 0]);
+			} else {
+				Realms.value[current_idx + i].type = "mid";
+				if (i < circle_7.length / 2) {
+					Realms.value[current_idx + i].offsets.push(
+						sub([1715, 640], circle_7[1])
+					);
+					Realms.value[current_idx + i].offsets.push(
+						sub([1800, 582], circle_7[1])
+					);
+				} else {
+					Realms.value[current_idx + i].offsets.push(
+						sub([1244, 2367], circle_7[8])
+					);
+					Realms.value[current_idx + i].offsets.push(
+						sub([1151, 2310], circle_7[8])
+					);
+				}
 			}
 		}
-		current_idx++;
-	}
+		current_idx += circle_7.length;
 
-	const FirstCicle = [
-		[1538, 1244],
-		[1658, 1328],
-		[1702, 1464],
-		[1654, 1600],
-		[1538, 1692],
-		[1394, 1692],
-		[1278, 1604],
-		[1226, 1464],
-		[1274, 1328],
-		[1394, 1244],
-	] as Coord[];
-	for (let c of FirstCicle) addRealm(c, "small");
+		const circle_8: Coord[] = [
+			[1290, 436],
+			[1466, 408],
+			[1642, 436],
+			[2390, 980],
+			[2470, 1136],
+			[2494, 1305],
+			[2210, 2192],
+			[2082, 2320],
+			[1922, 2400],
+			[1010, 2400],
+			[850, 2320],
+			[722, 2192],
+			[438, 1304],
+			[462, 1136],
+			[542, 980],
+		];
+		for (let c of circle_8) addRealm(c, "small");
 
-	const SecondCircle = [
-		[1682, 1168],
-		[1818, 1352],
-		[1818, 1580],
-		[1682, 1764],
-		[1466, 1828],
-		[1250, 1764],
-		[1114, 1580],
-		[1114, 1352],
-		[1250, 1168],
-		[1466, 1100],
-	] as Coord[];
-	for (let c of SecondCircle) addRealm(c, "small");
+		const circle_9: Coord[] = [
+			[1846, 386],
+			[2098, 590],
+			[2386, 774],
 
-	const ThirdCircle = [
-		[1622, 982],
-		[1878, 1166],
-		[1974, 1466],
-		[1878, 1766],
-		[1626, 1950],
-		[1306, 1950],
-		[1054, 1766],
-		[958, 1466],
-		[1054, 1166],
-		[1310, 982],
-	] as Coord[];
-	for (let c of ThirdCircle) addRealm(c, "mid");
+			[2618, 1466],
+			[2494, 1802],
+			[2410, 2126],
 
-	const FourthCircle = [
-		[1466, 872],
-		[1814, 984],
-		[2034, 1280],
-		[2034, 1648],
-		[1818, 1952],
-		[1466, 2056],
-		[1114, 1952],
-		[898, 1648],
-		[898, 1280],
-		[1118, 984],
-	] as Coord[];
-	for (let c of FourthCircle) addRealm(c, "small");
+			[1802, 2562],
+			[1466, 2550],
+			[1130, 2562],
 
-	const circle_5: Coord[] = [
-		[1546, 720],
-		[1694, 800],
+			[522, 2126],
+			[438, 1802],
+			[314, 1466],
 
-		[2026, 1032],
-		[2150, 1148],
-		[2198, 1316],
-		[2170, 1472],
+			[546, 774],
+			[834, 590],
+			[1086, 386],
+		];
+		for (let i = 0; i < circle_9.length; i++) {
+			Realms.value[current_idx + i].coords = circle_9[i];
+			Realms.value[current_idx + i].type = "mid";
+			if (i % 3 === 1) {
+				Realms.value[current_idx + i].type = "mid";
+				Realms.value[current_idx + i].offsets.push([0, 0]);
+			} else {
+				if (i < circle_9.length / 2) {
+					Realms.value[current_idx + i].offsets.push(
+						sub([1798, 415], circle_9[0])
+					);
+					Realms.value[current_idx + i].offsets.push(
+						sub([1891, 353], circle_9[0])
+					);
+				} else {
+					Realms.value[current_idx + i].offsets.push(
+						sub([1176, 2592], circle_9[8])
+					);
+					Realms.value[current_idx + i].offsets.push(
+						sub([1080, 2529], circle_9[8])
+					);
+				}
+			}
+		}
+		current_idx += circle_9.length;
 
-		[2050, 1868],
-		[1974, 2012],
-		[1830, 2116],
-		[1662, 2144],
+		const circle_10: Coord[] = [
+			[1466, 202],
+			[2670, 1074],
+			[2210, 2486],
+			[722, 2486],
+			[262, 1074],
+		];
+		for (let i = 0; i < circle_10.length; i++) {
+			Realms.value[current_idx + i].coords = circle_10[i];
+			Realms.value[current_idx + i].offsets.push([0, 0]);
+			Realms.value[current_idx + i].type = "mid";
+		}
+		current_idx += circle_10.length;
 
-		[1270, 2144],
-		[1102, 2116],
-		[958, 2012],
-		[882, 1868],
+		const circle_11: Coord[] = [
+			[1774, 196],
+			[2026, 288],
+			[2234, 416],
+			[2418, 576],
+			[2586, 800],
+			[2766, 1328],
+			[2762, 1616],
+			[2702, 1872],
+			[2607, 2092],
+			[2430, 2332],
+			[1978, 2660],
+			[1710, 2744],
+			[1466, 2764],
 
-		[762, 1472],
-		[734, 1316],
-		[782, 1148],
-		[906, 1032],
-
-		[1238, 800],
-		[1386, 720],
-	];
-	for (let c of circle_5) addRealm(c, "small");
-
-	const circle_6: Coord[] = [
-		[1946, 800],
-		[2246, 1716],
-		[1466, 2288],
-		[686, 1716],
-		[986, 800],
-	];
-	for (let c of circle_6) addRealm(c, "large");
-
-	const circle_7: Coord[] = [
-		[1466, 572],
-		[1762, 606],
-
-		[2194, 914],
-		[2310, 1192],
-		[2370, 1466],
-
-		[2222, 1978],
-		[1986, 2180],
-		[1726, 2338],
-
-		[1206, 2338],
-		[946, 2180],
-		[710, 1978],
-
-		[562, 1466],
-		[622, 1192],
-		[738, 914],
-
-		[1170, 606],
-	];
-	for (let i = 0; i < circle_7.length; i++) {
-		Realms.value[current_idx + i].coords = circle_7[i];
-		if (i % 3 === 0) {
+			[1222, 2744],
+			[958, 2660],
+			[502, 2332],
+			[326, 2092],
+			[230, 1872],
+			[170, 1616],
+			[166, 1328],
+			[346, 800],
+			[514, 576],
+			[698, 416],
+			[906, 288],
+			[1158, 196],
+		];
+		for (let i = 0; i < circle_11.length; i++) {
+			Realms.value[current_idx + i].coords = circle_11[i];
+			Realms.value[current_idx + i].offsets.push([0, 0]);
 			Realms.value[current_idx + i].type = "small";
-			Realms.value[current_idx + i].offsets.push([0, 0]);
-		} else {
-			Realms.value[current_idx + i].type = "mid";
-			if (i < circle_7.length / 2) {
-				Realms.value[current_idx + i].offsets.push(
-					sub([1715, 640], circle_7[1])
-				);
-				Realms.value[current_idx + i].offsets.push(
-					sub([1800, 582], circle_7[1])
-				);
-			} else {
-				Realms.value[current_idx + i].offsets.push(
-					sub([1244, 2367], circle_7[8])
-				);
-				Realms.value[current_idx + i].offsets.push(
-					sub([1151, 2310], circle_7[8])
-				);
-			}
+		}
+		current_idx += circle_11.length;
+
+		if (current_idx !== Realms.value.length) {
+			console.warn("TODO: Place all the realms!");
+			console.log(
+				Realms.value
+					.slice(current_idx)
+					.map((e) => e.elements.map((el) => el.EN_NAME))
+			);
+
+			Realms.value = Realms.value.splice(0, current_idx);
 		}
 	}
-	current_idx += circle_7.length;
-
-	const circle_8: Coord[] = [
-		[1290, 436],
-		[1466, 408],
-		[1642, 436],
-		[2390, 980],
-		[2470, 1136],
-		[2494, 1305],
-		[2210, 2192],
-		[2082, 2320],
-		[1922, 2400],
-		[1010, 2400],
-		[850, 2320],
-		[722, 2192],
-		[438, 1304],
-		[462, 1136],
-		[542, 980],
-	];
-	for (let c of circle_8) addRealm(c, "small");
-
-	const circle_9: Coord[] = [
-		[1846, 386],
-		[2098, 590],
-		[2386, 774],
-
-		[2618, 1466],
-		[2494, 1802],
-		[2410, 2126],
-
-		[1802, 2562],
-		[1466, 2550],
-		[1130, 2562],
-
-		[522, 2126],
-		[438, 1802],
-		[314, 1466],
-
-		[546, 774],
-		[834, 590],
-		[1086, 386],
-	];
-	for (let i = 0; i < circle_9.length; i++) {
-		Realms.value[current_idx + i].coords = circle_9[i];
-		Realms.value[current_idx + i].type = "mid";
-		if (i % 3 === 1) {
-			Realms.value[current_idx + i].type = "mid";
-			Realms.value[current_idx + i].offsets.push([0, 0]);
-		} else {
-			if (i < circle_9.length / 2) {
-				Realms.value[current_idx + i].offsets.push(
-					sub([1798, 415], circle_9[0])
-				);
-				Realms.value[current_idx + i].offsets.push(
-					sub([1891, 353], circle_9[0])
-				);
-			} else {
-				Realms.value[current_idx + i].offsets.push(
-					sub([1176, 2592], circle_9[8])
-				);
-				Realms.value[current_idx + i].offsets.push(
-					sub([1080, 2529], circle_9[8])
-				);
-			}
-		}
-	}
-	current_idx += circle_9.length;
-
-	const circle_10: Coord[] = [
-		[1466, 202],
-		[2670, 1074],
-		[2210, 2486],
-		[722, 2486],
-		[262, 1074],
-	];
-	for (let i = 0; i < circle_10.length; i++) {
-		Realms.value[current_idx + i].coords = circle_10[i];
-		Realms.value[current_idx + i].offsets.push([0, 0]);
-		Realms.value[current_idx + i].type = "mid";
-	}
-	current_idx += circle_10.length;
-
-	const circle_11: Coord[] = [
-		[1774, 196],
-		[2026, 288],
-		[2234, 416],
-		[2418, 576],
-		[2586, 800],
-		[2766, 1328],
-		[2762, 1616],
-		[2702, 1872],
-		[2607, 2092],
-		[2430, 2332],
-		[1978, 2660],
-		[1710, 2744],
-		[1466, 2764],
-
-		[1222, 2744],
-		[958, 2660],
-		[502, 2332],
-		[326, 2092],
-		[230, 1872],
-		[170, 1616],
-		[166, 1328],
-		[346, 800],
-		[514, 576],
-		[698, 416],
-		[906, 288],
-		[1158, 196],
-	];
-	for (let i = 0; i < circle_11.length; i++) {
-		Realms.value[current_idx + i].coords = circle_11[i];
-		Realms.value[current_idx + i].offsets.push([0, 0]);
-		Realms.value[current_idx + i].type = "small";
-	}
-	current_idx += circle_11.length;
-
-	if (current_idx !== Realms.value.length) {
-		console.warn("TODO: Place all the realms!");
-		console.log(
-			Realms.value
-				.slice(current_idx)
-				.map((e) => e.elements.map((el) => el.EN_NAME))
-		);
-
-		Realms.value = Realms.value.splice(0, current_idx);
-	}
-
-	const BridgeCoords = [
-		// Second Circle
-		[1610, 1208],
-		[1670, 1248],
-		[1738, 1340],
-		[1758, 1408],
-		[1758, 1520],
-		[1738, 1596],
-		[1670, 1684],
-		[1610, 1728],
-		[1498, 1760],
-		[1434, 1761],
-		[1322, 1728],
-		[1262, 1684],
-		[1194, 1596],
-		[1174, 1520],
-		[1170, 1408],
-		[1194, 1340],
-		[1262, 1248],
-		[1322, 1208],
-		[1430, 1172],
-		[1502, 1172],
-	] as Coord[];
-	//const BridgeData = [
-	//	// Third Circle (30)
-	//	{ coords: [1534, 1056], prev: 19, next: 20 },
-	//	{ coords: [1590, 1088], prev: 0, next: 20 },
-	//	{ coords: [1654, 1092], prev: 10, next: 20 },
-	//	{ coords: [1762, 1172], prev: 10, next: 21 },
-	//	{ coords: [1790, 1232], prev: 1, next: 21 },
-	//	{ coords: [1838, 1276], prev: 11, next: 21 },
-	//	{ coords: [1878, 1400], prev: 11, next: 22 },
-	//	{ coords: [1862, 1464], prev: 2, next: 22 },
-	//	{ coords: [1878, 1528], prev: 12, next: 22 },
-	//	{ coords: [1838, 1656], prev: 12, next: 23 },
-	//	{ coords: [1790, 1700], prev: 3, next: 23 },
-	//	{ coords: [1762, 1760], prev: 13, next: 23 },
-	//	{ coords: [1658, 1836], prev: 13, next: 24 },
-	//	{ coords: [1586, 1840], prev: 4, next: 24 },
-	//	{ coords: [1534, 1876], prev: 14, next: 24 },
-	//	{ coords: [1398, 1876], prev: 14, next: 25 },
-	//	{ coords: [1346, 1840], prev: 5, next: 25 },
-	//	{ coords: [1278, 1836], prev: 15, next: 25 },
-	//	{ coords: [1170, 1760], prev: 15, next: 26 },
-	//	{ coords: [1142, 1700], prev: 6, next: 26 },
-	//	{ coords: [1094, 1656], prev: 16, next: 26 },
-	//	{ coords: [1054, 1528], prev: 16, next: 27 },
-	//	{ coords: [1070, 1464], prev: 7, next: 27 },
-	//	{ coords: [1054, 1400], prev: 17, next: 27 },
-	//	{ coords: [1094, 1276], prev: 17, next: 28 },
-	//	{ coords: [1142, 1232], prev: 8, next: 28 },
-	//	{ coords: [1170, 1172], prev: 18, next: 28 },
-	//	{ coords: [1278, 1092], prev: 18, next: 29 },
-	//	{ coords: [1342, 1088], prev: 9, next: 29 },
-	//	{ coords: [1398, 1056], prev: 19, next: 29 },
-	//	// Fourth Circle (60)
-	//	{ coords: [1466, 956], prev: 19, next: 30 },
-	//	{ coords: [1530, 916], prev: 20, next: 30 },
-	//	{ coords: [1662, 876], prev: 20, next: 41 },
-	//	{ coords: [1734, 988], prev: 20, next: 31 },
-	//	{ coords: [1830, 1060], prev: 21, next: 31 },
-	//	{ coords: [1966, 1092], prev: 21, next: 42 },
-	//	{ coords: [1974, 1228], prev: 21, next: 32 },
-	//	{ coords: [1962, 1300], prev: 11, next: 32 },
-	//	{ coords: [2006, 1356], prev: 22, next: 32 },
-	//	{ coords: [2090, 1464], prev: 22, next: 45 },
-	//	{ coords: [2006, 1572], prev: 22, next: 33 },
-	//	{ coords: [1962, 1688], prev: 23, next: 33 },
-	//	{ coords: [1974, 1828], prev: 23, next: 46 },
-	//	{ coords: [1842, 1872], prev: 23, next: 34 },
-	//	{ coords: [1774, 1888], prev: 13, next: 34 },
-	//	{ coords: [1738, 1948], prev: 24, next: 34 },
-	//	{ coords: [1650, 2060], prev: 24, next: 49 },
-	//	{ coords: [1526, 2008], prev: 24, next: 35 },
-	//	{ coords: [1406, 2008], prev: 25, next: 35 },
-	//	{ coords: [1194, 1948], prev: 25, next: 36 },
-	//	{ coords: [1158, 1888], prev: 15, next: 36 },
-	//	{ coords: [1090, 1872], prev: 26, next: 36 },
-	//	{ coords: [958, 1828], prev: 26, next: 53 },
-	//	{ coords: [970, 1688], prev: 26, next: 37 },
-	//	{ coords: [926, 1572], prev: 27, next: 37 },
-	//	{ coords: [842, 1464], prev: 27, next: 54 },
-	//	{ coords: [926, 1356], prev: 27, next: 38 },
-	//	{ coords: [970, 1300], prev: 28, next: 38 },
-	//	{ coords: [962, 1228], prev: 28, next: 38 },
-	//	{ coords: [966, 1092], prev: 28, next: 57 },
-	//	{ coords: [1102, 1060], prev: 28, next: 39 },
-	//	{ coords: [1198, 988], prev: 29, next: 39 },
-	//	{ coords: [1270, 876], prev: 29, next: 58 },
-	//	{ coords: [1402, 916], prev: 29, next: 30 },
-	//	{ coords: [1514, 800], prev: 30, next: 40 },
-	//	{ coords: [1618, 760], prev: 41, next: 40 },
-	//	{ coords: [1722, 720], prev: 41, next: 66 },
-	//	{ coords: [1862, 920], prev: 31, next: 60 },
-	//	{ coords: [2098, 984], prev: 42, next: 67 },
-	//	{ coords: [2090, 1084], prev: 42, next: 43 },
-	//	{ coords: [2094, 1212], prev: 32, next: 43 },
-	//	{ coords: [2114, 1300], prev: 32, next: 44 },
-	//	{ coords: [2182, 1392], prev: 45, next: 44 },
-	//	{ coords: [2254, 1464], prev: 45, next: 69 },
-	//	{ coords: [2106, 1672], prev: 33, next: 61 },
-	//	{ coords: [2114, 1920], prev: 46, next: 70 },
-	//	{ coords: [2018, 1944], prev: 34, next: 47 },
-	//	{ coords: [1898, 1980], prev: 34, next: 47 },
-	//	{ coords: [1822, 2032], prev: 34, next: 48 },
-	//	{ coords: [1746, 2140], prev: 48, next: 109 },
-	//	{ coords: [1690, 2224], prev: 49, next: 72 },
-	//	{ coords: [1242, 2224], prev: 50, next: 73 },
-	//	{ coords: [1186, 2140], prev: 50, next: 51 },
-	//	{ coords: [1466, 2136], prev: 35, next: 62 },
-	//	{ coords: [1282, 2060], prev: 25, next: 50 },
-	//	{ coords: [1110, 2032], prev: 36, next: 51 },
-	//	{ coords: [1034, 1980], prev: 36, next: 52 },
-	//	{ coords: [914, 1944], prev: 52, next: 53 },
-	//	{ coords: [818, 1920], prev: 53, next: 75 },
-	//	{ coords: [826, 1672], prev: 37, next: 63 },
-	//	{ coords: [678, 1464], prev: 54, next: 76 },
-	//	{ coords: [750, 1392], prev: 54, next: 55 },
-	//	{ coords: [818, 1300], prev: 38, next: 55 },
-	//	{ coords: [838, 1212], prev: 38, next: 56 },
-	//	{ coords: [842, 1084], prev: 56, next: 57 },
-	//	{ coords: [834, 984], prev: 57, next: 78 },
-	//	{ coords: [1070, 920], prev: 39, next: 64 },
-	//	{ coords: [1210, 720], prev: 58, next: 79 },
-	//	{ coords: [1314, 760], prev: 58, next: 59 },
-	//	{ coords: [1418, 800], prev: 30, next: 59 },
-	//	{ coords: [1506, 648], prev: 40, next: 65 },
-	//	{ coords: [1606, 508], prev: 40, next: 82 },
-	//	{ coords: [1690, 508], prev: 66, next: 82 },
-	//	{ coords: [1806, 496], prev: 66, next: 95 },
-	//	{ coords: [1842, 692], prev: 66, next: 60 },
-	//	{ coords: [2034, 684], prev: 60, next: 96 },
-	//	{ coords: [2082, 868], prev: 60, next: 67 },
-	//	{ coords: [2290, 844], prev: 67, next: 97 },
-	//	{ coords: [2310, 952], prev: 67, next: 83 },
-	//	{ coords: [2350, 1048], prev: 43, next: 83 },
-	//	{ coords: [2230, 1168], prev: 43, next: 68 },
-	//	{ coords: [2258, 1260], prev: 44, next: 68 },
-	//	{ coords: [2418, 1304], prev: 44, next: 85 },
-	//	{ coords: [2442, 1372], prev: 69, next: 85 },
-	//	{ coords: [2494, 1464], prev: 69, next: 98 },
-	//	{ coords: [2318, 1580], prev: 69, next: 61 },
-	//	{ coords: [2382, 1764], prev: 61, next: 99 },
-	//	{ coords: [2230, 1864], prev: 61, next: 70 },
-	//	{ coords: [2314, 2056], prev: 70, next: 100 },
-	//	{ coords: [2218, 2104], prev: 70, next: 86 },
-	//	{ coords: [2138, 2172], prev: 47, next: 86 },
-	//	{ coords: [1982, 2092], prev: 47, next: 71 },
-	//	{ coords: [1906, 2152], prev: 48, next: 71 },
-	//	{ coords: [1926, 2320], prev: 48, next: 88 },
-	//	{ coords: [1842, 2376], prev: 72, next: 88 },
-	//	{ coords: [1766, 2452], prev: 72, next: 101 },
-	//	{ coords: [1610, 2304], prev: 62, next: 72 },
-	//	{ coords: [1466, 2432], prev: 62, next: 102 },
-	//	{ coords: [1322, 2308], prev: 62, next: 73 },
-	//	{ coords: [1166, 2452], prev: 73, next: 103 },
-	//	{ coords: [1090, 2376], prev: 73, next: 89 },
-	//	{ coords: [1006, 2320], prev: 51, next: 89 },
-	//	{ coords: [1026, 2152], prev: 51, next: 74 },
-	//	{ coords: [950, 2092], prev: 52, next: 74 },
-	//	{ coords: [794, 2172], prev: 52, next: 91 },
-	//	{ coords: [714, 2104], prev: 75, next: 91 },
-	//	{ coords: [618, 2056], prev: 75, next: 104 },
-	//	{ coords: [706, 1864], prev: 75, next: 63 },
-	//	{ coords: [550, 1764], prev: 63, next: 105 },
-	//	{ coords: [614, 1580], prev: 63, next: 76 },
-	//	{ coords: [438, 1464], prev: 76, next: 106 },
-	//	{ coords: [490, 1372], prev: 76, next: 92 },
-	//	{ coords: [514, 1304], prev: 55, next: 92 },
-	//	{ coords: [674, 1260], prev: 55, next: 77 },
-	//	{ coords: [702, 1168], prev: 56, next: 77 },
-	//	{ coords: [582, 1048], prev: 56, next: 94 },
-	//	{ coords: [622, 952], prev: 94, next: 78 },
-	//	{ coords: [642, 844], prev: 78, next: 107 },
-	//	{ coords: [850, 868], prev: 78, next: 64 },
-	//	{ coords: [898, 684], prev: 64, next: 108 },
-	//	{ coords: [1090, 692], prev: 64, next: 79 },
-	//	{ coords: [1126, 496], prev: 79, next: 109 },
-	//	{ coords: [1242, 508], prev: 79, next: 80 },
-	//	{ coords: [1326, 508], prev: 59, next: 80 },
-	//	{ coords: [1426, 648], prev: 59, next: 65 },
-	//	{ coords: [1466, 488], prev: 65, next: 81 },
-	//	{ coords: [1554, 428], prev: 81, next: 82 },
-	//	{ coords: [1730, 420], prev: 82, next: 95 },
-	//	{ coords: [1802, 276], prev: 95, next: 115 },
-	//	{ coords: [1954, 332], prev: 95, next: 116 },
-	//	{ coords: [2094, 328], prev: 96, next: 116 },
-	//	{ coords: [2178, 492], prev: 96, next: 117 },
-	//	{ coords: [2358, 520], prev: 96, next: 118 },
-	//	{ coords: [2406, 656], prev: 97, next: 118 },
-	//	{ coords: [2502, 792], prev: 97, next: 119 },
-	//	{ coords: [2394, 892], prev: 97, next: 83 },
-	//	{ coords: [2434, 1056], prev: 84, next: 83 },
-	//	{ coords: [2390, 1164], prev: 84, next: 68 },
-	//	{ coords: [2490, 1220], prev: 84, next: 85 },
-	//	{ coords: [2554, 1368], prev: 85, next: 98 },
-	//	{ coords: [2702, 1380], prev: 98, next: 120 },
-	//	{ coords: [2702, 1552], prev: 98, next: 121 },
-	//	{ coords: [2746, 1692], prev: 99, next: 121 },
-	//	{ coords: [2614, 1840], prev: 99, next: 122 },
-	//	{ coords: [2642, 2024], prev: 99, next: 123 },
-	//	{ coords: [2526, 2108], prev: 100, next: 123 },
-	//	{ coords: [2418, 2248], prev: 100, next: 124 },
-	//	{ coords: [2294, 2172], prev: 100, next: 86 },
-	//	{ coords: [2150, 2264], prev: 86, next: 87 },
-	//	{ coords: [2038, 2252], prev: 87, next: 71 },
-	//	{ coords: [2006, 2368], prev: 87, next: 88 },
-	//	{ coords: [1874, 2472], prev: 88, next: 101 },
-	//	{ coords: [1906, 2616], prev: 101, next: 125 },
-	//	{ coords: [1750, 2664], prev: 101, next: 126 },
-	//	{ coords: [1630, 2752], prev: 102, next: 126 },
-	//	{ coords: [1466, 2672], prev: 102, next: 127 },
-	//	{ coords: [1302, 2756], prev: 102, next: 128 },
-	//	{ coords: [1182, 2664], prev: 103, next: 128 },
-	//	{ coords: [1030, 2616], prev: 103, next: 129 },
-	//	{ coords: [1058, 2472], prev: 103, next: 89 },
-	//	{ coords: [926, 2364], prev: 90, next: 89 },
-	//	{ coords: [894, 2252], prev: 90, next: 74 },
-	//	{ coords: [782, 2264], prev: 90, next: 91 },
-	//	{ coords: [638, 2172], prev: 91, next: 104 },
-	//	{ coords: [514, 2248], prev: 104, next: 130 },
-	//	{ coords: [406, 2108], prev: 104, next: 131 },
-	//	{ coords: [290, 2024], prev: 105, next: 131 },
-	//	{ coords: [318, 1840], prev: 105, next: 132 },
-	//	{ coords: [190, 1692], prev: 105, next: 133 },
-	//	{ coords: [230, 1552], prev: 106, next: 133 },
-	//	{ coords: [230, 1380], prev: 106, next: 134 },
-	//	{ coords: [378, 1368], prev: 106, next: 92 },
-	//	{ coords: [442, 1220], prev: 92, next: 93 },
-	//	{ coords: [542, 1164], prev: 77, next: 93 },
-	//	{ coords: [498, 1056], prev: 93, next: 94 },
-	//	{ coords: [538, 892], prev: 94, next: 107 },
-	//	{ coords: [430, 792], prev: 107, next: 135 },
-	//	{ coords: [526, 656], prev: 107, next: 136 },
-	//	{ coords: [574, 520], prev: 108, next: 136 },
-	//	{ coords: [754, 492], prev: 108, next: 137 },
-	//	{ coords: [838, 328], prev: 108, next: 138 },
-	//	{ coords: [978, 332], prev: 109, next: 138 },
-	//	{ coords: [1130, 276], prev: 109, next: 139 },
-	//	{ coords: [1202, 420], prev: 109, next: 80 },
-	//	{ coords: [1378, 428], prev: 80, next: 81 },
-	//	{ coords: [1466, 320], prev: 81, next: 110 },
-	//	{ coords: [1698, 184], prev: 81, next: 115 },
-	//	{ coords: [2622, 876], prev: 84, next: 119 },
-	//	{ coords: [2554, 1112], prev: 84, next: 111 },
-	//	{ coords: [2746, 1252], prev: 84, next: 120 },
-	//	{ coords: [2382, 2388], prev: 87, next: 124 },
-	//	{ coords: [2138, 2388], prev: 87, next: 112 },
-	//	{ coords: [2050, 2620], prev: 87, next: 125 },
-	//	{ coords: [882, 2620], prev: 90, next: 129 },
-	//	{ coords: [794, 2388], prev: 90, next: 113 },
-	//	{ coords: [550, 2388], prev: 90, next: 130 },
-	//	{ coords: [190, 1252], prev: 93, next: 134 },
-	//	{ coords: [378, 1112], prev: 93, next: 114 },
-	//	{ coords: [310, 876], prev: 93, next: 135 },
-	//	{ coords: [1234, 184], prev: 81, next: 139 },
-	//] as { coords: Coord; prev: number | null; next: number | null }[];
 
 	// Bridges between realms
 	type Bridge = {
@@ -742,54 +498,6 @@
 	};
 
 	const Bridges = ref<Bridge[]>([]);
-	//for (let i = 0; i < 10; i++) {
-	//	Bridges.value.push({
-	//		selected: false,
-	//		coords: (
-	//			[
-	//				// First Circle
-	//				[1514, 1316],
-	//				[1594, 1376],
-	//				[1626, 1464],
-	//				[1594, 1564],
-	//				[1514, 1620],
-	//				[1418, 1620],
-	//				[1338, 1564],
-	//				[1302, 1464],
-	//				[1338, 1376],
-	//				[1418, 1316],
-	//			] as Coord[]
-	//		)[i],
-	//		prev: null,
-	//		next: i,
-	//	});
-	//}
-	//for (let i = 0; i < 20; i++) {
-	//	Bridges.value.push({
-	//		selected: false,
-	//		coords: BridgeCoords[i],
-	//		prev: Math.floor(i / 2),
-	//		next: 10 + Math.floor(i / 2),
-	//	});
-	//}
-	//for (let data of BridgeData)
-	//	Bridges.value.push({
-	//		selected: false,
-	//		coords: data.coords,
-	//		prev: data.prev,
-	//		next: data.next,
-	//	});
-	//
-	//console.log(
-	//	Bridges.value.map((b) => ({
-	//		coords: b.coords,
-	//		realms:
-	//			b.prev !== null
-	//				? [b.prev, b.next!].sort((a: number, b: number) => a - b)
-	//				: [b.next!],
-	//	}))
-	//);
-
 	const BridgeData = [
 		{ coords: [1514, 1316], realms: [0] },
 		{ coords: [1594, 1376], realms: [1] },
@@ -1117,6 +825,7 @@
 				}
 			});
 		} else {
+			if (activeBridges.value.length >= MaxActiveBridges) return;
 			const allowed =
 				bridge.realms.length === 1 || // Starting Point
 				bridge.realms.filter((r) => Realms.value[r].active).length > 0; // At least one adjacent realm is active
@@ -1146,11 +855,13 @@
 	}
 
 	function help(e: MouseEvent) {
-		const coords = [e.layerX & ~1, e.layerY & ~1] as Coord;
-		const msg = `[${coords[0]}, ${coords[1]}],`;
-		console.log(msg);
-		copyToClipboard(msg);
-		// Bridges.value[0].coords = coords;
+		if (Debug) {
+			const coords = [e.layerX & ~1, e.layerY & ~1] as Coord;
+			const msg = `[${coords[0]}, ${coords[1]}],`;
+			console.log(msg);
+			copyToClipboard(msg);
+			// Bridges.value[0].coords = coords;
+		}
 	}
 
 	function mousedown() {
@@ -1192,14 +903,9 @@
 	function selectSkill(e: MouseEvent, skill: Element) {
 		if (!props.editable) return;
 		let alt = e.getModifierState("Shift") || e.getModifierState("Alt");
-		if (skill.selected) {
-			skill.rank = alt
-				? skill.UPGRADE_NUMBER
-				: Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
-		} else {
-			skill.rank = alt ? skill.UPGRADE_NUMBER : Math.max(skill.rank, 1);
-			skill.selected = true;
-		}
+		skill.rank = alt
+			? skill.UPGRADE_NUMBER
+			: Math.min(skill.rank + 1, skill.UPGRADE_NUMBER);
 	}
 
 	function deselectSkill(e: MouseEvent, skill: Element) {
@@ -1211,7 +917,6 @@
 			skill.selected = false;
 		}
 		skill.rank = Math.max(0, skill.rank - 1);
-		if (skill.rank === 0) skill.selected = false;
 	}
 
 	function zoom(e: WheelEvent) {
@@ -1229,38 +934,58 @@
 	}
 
 	function importSave(equipped: number[], ranks: number[]) {
-		console.warn("TODO: Correctly import Ancestral Tree!");
-		console.log({ equipped, ranks });
-
-		for (let e of Elements) e.selected = false;
+		for (let r of Realms.value) {
+			r.active = false;
+			for (let e of r.elements) e.rank = ranks[e.REF] ?? 0;
+		}
+		// FIXME: Indices in equipped should correspond to the "bridges" filled with a gem,
+		//        but our bridges indices do not match with the game...
 		for (let idx = 0; idx < equipped.length; ++idx) {
 			if (equipped[idx]) {
-				if (Bridges.value[idx]) {
-					Bridges.value[idx].selected = true;
-					if (Bridges.value[idx].next)
-						for (let e of Realms.value[Bridges.value[idx].next!]
-							.elements)
-							e.selected = true;
-				} else {
-					console.warn("Could not find bridge for ", idx);
-				}
+				if (Bridges.value[idx]) Bridges.value[idx].selected = true;
+				else console.warn("Could not find bridge for ", idx);
 			}
-		}
-		for (let e of Elements) {
-			e.rank = ranks[e.REF] ?? 0;
 		}
 	}
 
 	function serialize() {
-		let elements = Elements.filter((e) => e.selected);
-		return elements.length > 0
-			? `${elements.length},${elements
-					.map((e) => `${e.REF},${e.rank}`)
-					.join(",")}`
-			: "0";
+		let elements = Realms.value
+			.map((r) => r.elements)
+			.flat()
+			.filter((e) => e.rank > 0);
+
+		const elementStr =
+			elements.length > 0
+				? `${elements.length},${elements
+						.map((e) => `${e.REF},${e.rank}`)
+						.join(",")}`
+				: "0";
+		const activeBridgesIndices = activeBridges.value.map((b) =>
+			Bridges.value.indexOf(b)
+		);
+		const bridgeStr = `${
+			activeBridgesIndices.length
+		},${activeBridgesIndices.join(",")}`;
+		return `${elementStr},${bridgeStr}`;
 	}
 
-	defineExpose({ recenter, importSave, serialize });
+	function deserialize(
+		skills: {
+			REF: number;
+			rank: number;
+		}[],
+		bridges: number[]
+	) {
+		for (let r of Realms.value) {
+			for (let e of r.elements) {
+				e.rank = skills.find((s) => s.REF === e.REF)?.rank ?? 0;
+			}
+		}
+		for (let b of Bridges.value) b.selected = false;
+		for (let b of bridges) Bridges.value[b].selected = true;
+	}
+
+	defineExpose({ recenter, importSave, serialize, deserialize });
 </script>
 
 <style>
@@ -1282,6 +1007,30 @@
 		border-image-outset: 12px;
 
 		background-color: #0f0f0f;
+	}
+
+	.stock {
+		box-sizing: border-box;
+		position: absolute;
+		top: -12px;
+		left: 8px;
+		width: 316px;
+		height: 84px;
+		background-image: url("@/assets/extracted/sprites/spr_menu_elements_stock/spr_menu_elements_stock_0.png");
+		background-position: 0 0;
+		background-size: 100%;
+		image-rendering: crisp-edges;
+
+		display: flex;
+		justify-content: center;
+		padding-top: 28px;
+		gap: 20px;
+
+		/* Flip Background... */
+		transform: scaleY(-1);
+		& > * {
+			transform: scaleY(-1);
+		}
 	}
 
 	.tree {
@@ -1322,7 +1071,7 @@
 	}
 
 	.realm {
-		/*pointer-events: none;*/
+		pointer-events: none;
 		position: absolute;
 		transform: translate(-50%, -50%);
 		width: var(--width);
@@ -1422,5 +1171,11 @@
 		&.active {
 			background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_2.png");
 		}
+	}
+
+	.gem {
+		width: 20px;
+		height: 20px;
+		background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
 	}
 </style>

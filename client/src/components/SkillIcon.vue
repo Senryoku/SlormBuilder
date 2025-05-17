@@ -11,7 +11,7 @@
 			:style="`background-image: url(${image})`"
 			:alt="skill.EN_NAME"
 		></div>
-		<div class="level" v-if="skill.selected && skill.rank !== null">
+		<div class="level" v-if="skill.rank !== null && skill.rank > 0">
 			{{ skill.rank === skill.UPGRADE_NUMBER ? "Max" : skill.rank }}
 		</div>
 	</div>

@@ -101,38 +101,23 @@
 				:className="c"
 				v-show="c === selectedClass"
 				ref="classComponents"
-				:import="classImport"
 				:editable="editable"
 			/>
 		</template>
 	</div>
 	<div v-show="selectedTab === 'traits'" class="tab-container">
-		<Attributes
-			ref="attributes"
-			:values="attributeImport"
-			:editable="editable"
-		/>
+		<Attributes ref="attributes" :editable="editable" />
 	</div>
 	<div v-show="selectedTab === 'gear'" class="tab-container">
 		<Gear ref="gear" :className="selectedClass" :editable="editable" />
 	</div>
 	<div v-show="selectedTab === 'elements'" class="tab-container">
-		<AncestralTree
-			ref="ancestralTree"
-			:import="elementsImport"
-			:editable="editable"
-		/>
+		<AncestralTree ref="ancestralTree" :editable="editable" />
 	</div>
 </template>
 
 <script setup lang="ts">
-	import {
-		ref,
-		onMounted,
-		defineAsyncComponent,
-		useTemplateRef,
-		computed,
-	} from "vue";
+	import { ref, onMounted, useTemplateRef, computed } from "vue";
 	import {
 		copyToClipboard,
 		capitalize,
@@ -146,15 +131,12 @@
 	import Class from "@/components/Class.vue";
 	import Attributes from "@/components/Attributes.vue";
 	import Gear from "@/components/Gear.vue";
+	import AncestralTree from "@/components/AncestralTree.vue";
 	import { useRoute } from "vue-router";
 	import { useSettings } from "@/Settings";
 	import { useToast } from "vue-toast-notification";
 	import "vue-toast-notification/dist/theme-default.css";
 	import type { AugmentedSkill } from "@/data/Skills";
-
-	const AncestralTree = defineAsyncComponent(
-		() => import("@/components/AncestralTree.vue")
-	);
 
 	const ClassIcons = spritesByIndex(
 		import.meta.glob(
@@ -173,32 +155,6 @@
 	const selectedTab = ref("skills");
 	const editable = ref(true);
 
-	const classImport = ref<{
-		selections: {
-			primarySkill: number;
-			secondarySkill: number;
-			specialisation: number;
-		};
-		upgrades: AugmentedSkill[];
-	}>({
-		selections: {
-			primarySkill: 0,
-			secondarySkill: 1,
-			specialisation: 0,
-		},
-		upgrades: [],
-	});
-	const attributeImport = ref<number[]>([]);
-	const gearImport = ref<Record<string, number>>({});
-	const elementsImport = ref<
-		{
-			REF: number;
-			rank: number;
-		}[]
-	>([]);
-
-	const statPriority = ref<number[]>([]);
-
 	const route = useRoute();
 	const settings = useSettings();
 	const toast = useToast();
@@ -206,116 +162,138 @@
 	const t = (key: string, ...args: any[]) =>
 		localize(settings.value.language, key, ...args);
 
-	if (route.params.data && typeof route.params.data === "string") {
-		try {
-			let data = window.atob(route.params.data).split(",");
+	onMounted(() => {
+		if (route.params.data && typeof route.params.data === "string") {
+			try {
+				let data = window.atob(route.params.data).split(",");
 
-			const versionValues = data[0].split(".").map((i) => parseInt(i));
-			const version = {
-				major: versionValues[0],
-				minor: versionValues[1] ?? 0,
-			};
-			switch (version.major) {
-				case 1:
-					{
-						let currentIndex = 1;
-						// Attributes
-						let attributes: number[] = [];
-						for (
-							currentIndex = 1;
-							currentIndex < 1 + 8;
-							++currentIndex
-						)
-							attributes.push(parseInt(data[currentIndex]));
-						// Gear
-						const tmpGearImport: Record<string, number> = {};
-						for (let slot of version.minor >= 1
-							? ItemSlots
-							: ItemTypes)
-							tmpGearImport[slot] = parseInt(
-								data[currentIndex++]
-							);
-						tmpGearImport["reaper"] = parseInt(
-							data[currentIndex++]
-						);
-
-						const tmpStatPriority: number[] = [];
-
-						if (version.minor >= 3) {
-							const statCount = parseInt(data[currentIndex++]);
-							console.log("statCount", statCount);
-							for (let i = 0; i < statCount; ++i)
-								tmpStatPriority.push(
-									parseInt(data[currentIndex++])
+				const versionValues = data[0]
+					.split(".")
+					.map((i) => parseInt(i));
+				const version = {
+					major: versionValues[0],
+					minor: versionValues[1] ?? 0,
+				};
+				switch (version.major) {
+					case 1:
+						{
+							let currentIndex = 1;
+							// Attributes
+							let attributes: number[] = [];
+							for (
+								currentIndex = 1;
+								currentIndex < 1 + 8;
+								++currentIndex
+							)
+								attributes.push(parseInt(data[currentIndex]));
+							// Gear
+							const tmpGearImport: Record<string, number> = {};
+							for (let slot of version.minor >= 1
+								? ItemSlots
+								: ItemTypes)
+								tmpGearImport[slot] = parseInt(
+									data[currentIndex++]
 								);
-						}
-						// Elements
-						const tmpElementsImport: {
-							REF: number;
-							rank: number;
-						}[] = [];
-						if (version.minor >= 2) {
-							const elementsCount = parseInt(
+							tmpGearImport["reaper"] = parseInt(
 								data[currentIndex++]
 							);
-							for (let i = 0; i < elementsCount; ++i) {
-								tmpElementsImport.push({
-									REF: parseInt(data[currentIndex++]),
-									rank: parseInt(data[currentIndex++]),
+
+							const tmpStatPriority: number[] = [];
+
+							if (version.minor >= 3) {
+								const statCount = parseInt(
+									data[currentIndex++]
+								);
+								console.log("statCount", statCount);
+								for (let i = 0; i < statCount; ++i)
+									tmpStatPriority.push(
+										parseInt(data[currentIndex++])
+									);
+							}
+							// Elements
+							const tmpElementsImport: {
+								REF: number;
+								rank: number;
+							}[] = [];
+							if (version.minor >= 2) {
+								const elementsCount = parseInt(
+									data[currentIndex++]
+								);
+								for (let i = 0; i < elementsCount; ++i) {
+									tmpElementsImport.push({
+										REF: parseInt(data[currentIndex++]),
+										rank: parseInt(data[currentIndex++]),
+									});
+								}
+							}
+							const tmpBridgesImport: number[] = [];
+							if (version.minor >= 4) {
+								const bridgesCount = parseInt(
+									data[currentIndex++]
+								);
+								for (let i = 0; i < bridgesCount; ++i) {
+									tmpBridgesImport.push(
+										parseInt(data[currentIndex++])
+									);
+								}
+							}
+							// Skil selection
+							selectedClass.value = data[
+								currentIndex++
+							] as ClassName;
+							const selections = {
+								specialisation: parseInt(data[currentIndex++]),
+								primarySkill: parseInt(data[currentIndex++]),
+								secondarySkill: parseInt(data[currentIndex++]),
+							};
+							// Upgrades (Variable length)
+							const upgrades: {
+								REF: number;
+								rank: number;
+								selected: boolean;
+							}[] = [];
+							for (
+								;
+								currentIndex < data.length - 1;
+								currentIndex += 2
+							) {
+								upgrades.push({
+									REF: parseInt(data[currentIndex]),
+									rank: parseInt(data[currentIndex + 1]),
+									selected: true,
 								});
 							}
+							attributesComponent.value!.deserialize(attributes);
+							gearComponent.value!.importGear(
+								tmpGearImport,
+								tmpStatPriority
+							);
+							ancestralTreeComponent.value!.deserialize(
+								tmpElementsImport,
+								tmpBridgesImport
+							);
+							classComponents.value![
+								Classes.indexOf(selectedClass.value)
+							].deserialize(selections, upgrades);
+							editable.value = false;
 						}
-						// Skil selection
-						selectedClass.value = data[currentIndex++] as ClassName;
-						const selections = {
-							specialisation: parseInt(data[currentIndex++]),
-							primarySkill: parseInt(data[currentIndex++]),
-							secondarySkill: parseInt(data[currentIndex++]),
-						};
-						// Upgrades (Variable length)
-						const upgrades: { REF: number; rank: number }[] = [];
-						for (
-							;
-							currentIndex < data.length - 1;
-							currentIndex += 2
-						) {
-							upgrades.push({
-								REF: parseInt(data[currentIndex]),
-								rank: parseInt(data[currentIndex + 1]),
-							});
-						}
-						attributeImport.value = attributes;
-						gearImport.value = tmpGearImport;
-						statPriority.value = tmpStatPriority;
-						elementsImport.value = tmpElementsImport;
-						classImport.value = {
-							selections,
-							upgrades: upgrades as AugmentedSkill[],
-						};
-						editable.value = false;
-					}
-					break;
-				default:
-					alert("Invalid template.");
-					break;
+						break;
+					default:
+						alert("Invalid template.");
+						break;
+				}
+
+				const descEl = document.querySelector(
+					'meta[name="description"]'
+				);
+				descEl!.setAttribute(
+					"content",
+					`Slormancer ${capitalize(selectedClass.value)} Build`
+				);
+			} catch (e: any) {
+				alert(`Error while importing build: ${e.toString()}`);
 			}
-
-			const descEl = document.querySelector('meta[name="description"]');
-			descEl!.setAttribute(
-				"content",
-				`Slormancer ${capitalize(selectedClass.value)} Build`
-			);
-		} catch (e: any) {
-			alert(`Error while importing build: ${e.toString()}`);
 		}
-	}
-
-	onMounted(() => {
-		if (gearImport.value)
-			gearComponent.value!.importGear(
-				gearImport.value,
-				statPriority.value
-			);
 	});
 
 	const selectedClassIcon = computed(() => {
@@ -332,7 +310,7 @@
 	}
 
 	function serialize() {
-		const version = "1.3";
+		const version = "1.4";
 		return [
 			version,
 			attributesComponent.value!.serialize(),
