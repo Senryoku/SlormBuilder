@@ -165,8 +165,14 @@
 		active: boolean;
 		connectedRealms: number[];
 	};
+	type Bridge = {
+		selected: boolean;
+		coords: Coord;
+		realms: number[];
+	};
 
 	const Realms = ref<Realm[]>([]);
+	const Bridges = ref<Bridge[]>([]);
 
 	for (let e of Elements) {
 		while (Realms.value.length - 1 < e.REALM)
@@ -490,15 +496,6 @@
 		}
 	}
 
-	// Bridges between realms
-	type Bridge = {
-		selected: boolean;
-		coords: Coord;
-		realms: number[];
-	};
-
-	const Bridges = ref<Bridge[]>([]);
-
 	const BridgeData = [
 		{ coords: [1514, 1316], realms: [0] },
 		{ coords: [1594, 1376], realms: [1] },
@@ -765,7 +762,7 @@
 	for (let d of BridgeData) {
 		Bridges.value.push({
 			selected: false,
-			coords: d.coords as [number, number],
+			coords: d.coords as Coord,
 			realms: d.realms,
 		});
 		if (d.realms.length > 1) {
@@ -776,6 +773,17 @@
 			}
 		}
 	}
+
+	const el = useTemplateRef("el");
+	const pan = ref({ panning: false, start: { x: 0, y: 0 } });
+	const scale = ref(1);
+	const tooltip = useTemplateRef<typeof Tooltip>("tooltip");
+	const hoveredSkill = ref<Element | null>(null);
+
+	onMounted(() => {
+		el.value?.addEventListener("wheel", zoom);
+		recenter();
+	});
 
 	const activeBridges = computed(() => {
 		return Bridges.value.filter((b) => b.selected);
@@ -807,43 +815,6 @@
 				}
 			}
 		}
-	});
-
-	function toggleGem(bridge: Bridge) {
-		if (bridge.selected) {
-			bridge.selected = false;
-			// Deselect now unconnnected bridges
-			nextTick(() => {
-				for (let b of activeBridges.value) {
-					// If all realms are inactive, deselected the bridge.
-					if (
-						b.realms.reduce(
-							(p, c) => p && !Realms.value[c].active,
-							true
-						)
-					)
-						b.selected = false;
-				}
-			});
-		} else {
-			if (activeBridges.value.length >= MaxActiveBridges) return;
-			const allowed =
-				bridge.realms.length === 1 || // Starting Point
-				bridge.realms.filter((r) => Realms.value[r].active).length > 0; // At least one adjacent realm is active
-			if (allowed) bridge.selected = true;
-		}
-	}
-
-	const el = useTemplateRef("el");
-	// const tree = useTemplateRef("tree");
-	const pan = ref({ panning: false, start: { x: 0, y: 0 } });
-	const scale = ref(1);
-	const tooltip = useTemplateRef<typeof Tooltip>("tooltip");
-	const hoveredSkill = ref<Element | null>(null);
-
-	onMounted(() => {
-		el.value?.addEventListener("wheel", zoom);
-		recenter();
 	});
 
 	function recenter() {
@@ -899,6 +870,32 @@
 	function displayTooltip(e: MouseEvent, s: Element) {
 		hoveredSkill.value = s;
 		tooltip.value?.display(e);
+	}
+
+	function toggleGem(bridge: Bridge) {
+		if (!props.editable) return;
+		if (bridge.selected) {
+			bridge.selected = false;
+			// Deselect now unconnnected bridges
+			nextTick(() => {
+				for (let b of activeBridges.value) {
+					// If all realms are inactive, deselected the bridge.
+					if (
+						b.realms.reduce(
+							(p, c) => p && !Realms.value[c].active,
+							true
+						)
+					)
+						b.selected = false;
+				}
+			});
+		} else {
+			if (activeBridges.value.length >= MaxActiveBridges) return;
+			const allowed =
+				bridge.realms.length === 1 || // Starting Point
+				bridge.realms.filter((r) => Realms.value[r].active).length > 0; // At least one adjacent realm is active
+			if (allowed) bridge.selected = true;
+		}
 	}
 
 	function selectSkill(e: MouseEvent, skill: Element) {
