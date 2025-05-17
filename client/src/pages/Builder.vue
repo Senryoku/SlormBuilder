@@ -393,6 +393,7 @@
 				asciish += String.fromCharCode(parseInt(hex, 16));
 				i += 2;
 			}
+			console.log(asciish);
 			const isNumber = (c: string): boolean => {
 				return (
 					c.charCodeAt(0) >= "0".charCodeAt(0) &&
@@ -533,6 +534,18 @@
 					upgrades[i]
 				);
 			}
+
+			const ultimatums = getNextSection(
+				asciish.indexOf("ultimatums")
+			).map((s) => s.split(",").map((i) => parseInt(i)));
+			console.warn("TODO: Import Ultimatums.");
+			console.log(ultimatums);
+
+			const reaper_runes = getNextSection(
+				asciish.indexOf("reaper_runes")
+			).map((s) => s.split(",").map((i) => parseInt(i)));
+			console.warn("TODO: Import Reaper Runes.");
+			console.log(reaper_runes);
 
 			gearComponent.value!.importSave(gear);
 			attributesComponent.value!.importSave(dataFields.traits);
