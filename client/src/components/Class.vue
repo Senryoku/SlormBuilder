@@ -179,11 +179,8 @@
 	for (let s of SkillData[props.className]) {
 		const as: AugmentedSkill = {
 			...s,
-			selected:
-				props.import?.upgrades?.find((u) => u.REF === s.REF) !==
-				undefined,
-			rank:
-				props.import?.upgrades?.find((u) => u.REF === s.REF)?.rank ?? 0,
+			selected: false,
+			rank: 0,
 			image: getSkillSprite(props.className, s),
 		};
 		skills.value.push(as);
