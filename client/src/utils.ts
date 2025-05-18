@@ -200,6 +200,10 @@ export function parseText(
 	return r;
 }
 
+export function serializeArray(arr: string[]): string {
+	return arr.length > 0 ? `${arr.length},${arr.join(",")}` : "0";
+}
+
 export type ClassName = "knight" | "huntress" | "mage";
 export const Classes: ClassName[] = ["knight", "huntress", "mage"];
 

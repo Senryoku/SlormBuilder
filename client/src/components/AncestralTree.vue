@@ -134,7 +134,7 @@
 		ref,
 		useTemplateRef,
 	} from "vue";
-	import { clamp, copyToClipboard } from "@/utils";
+	import { clamp, copyToClipboard, serializeArray } from "@/utils";
 	import SkillIcon from "./SkillIcon.vue";
 	import { Elements, type Element } from "@/data/Elements.ts";
 	import ElementComponent from "./Element.vue";
@@ -951,21 +951,15 @@
 			.flat()
 			.filter((e) => e.rank > 0);
 
-		const elementStr =
-			elements.length > 0
-				? `${elements.length},${elements
-						.map((e) => `${e.REF},${e.rank}`)
-						.join(",")}`
-				: "0";
+		const elementStr = serializeArray(
+			elements.map((e) => `${e.REF},${e.rank}`)
+		);
 		const activeBridgesIndices = activeBridges.value.map((b) =>
 			Bridges.value.indexOf(b)
 		);
-		const bridgeStr =
-			activeBridgesIndices.length > 0
-				? `${activeBridgesIndices.length},${activeBridgesIndices.join(
-						","
-				  )}`
-				: "0";
+		const bridgeStr = serializeArray(
+			activeBridgesIndices.map((i) => i.toString())
+		);
 		return `${elementStr},${bridgeStr}`;
 	}
 

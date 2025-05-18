@@ -222,7 +222,11 @@
 	let skillTrees = ref(activeBoxes.map(genTree));
 
 	const specialisations = ref(skillTrees.value.splice(0, 3));
-	const selections = ref({
+	const selections = ref<{
+		specialisation: number;
+		primarySkill: number;
+		secondarySkill: number;
+	}>({
 		specialisation: 0,
 		primarySkill: 0,
 		secondarySkill: 1,
@@ -276,8 +280,8 @@
 	}
 
 	function serialize() {
-		let upgrades = [];
-		let selectedUpgrades = [
+		const upgrades = [];
+		const selectedUpgrades = [
 			specialisations.value[selections.value.specialisation].upgrades
 				.flat()
 				.flat(),
@@ -293,9 +297,7 @@
 
 		for (let s of selectedUpgrades) upgrades.push(`${s.REF},${s.rank}`);
 
-		let r = `${props.className},${Object.values(selections.value).join(
-			","
-		)}`;
+		let r = `${props.className},${selections.value.specialisation},${selections.value.primarySkill},${selections.value.secondarySkill}`;
 		let upgradesStr = upgrades.join(",");
 		if (upgradesStr.length > 0) r += "," + upgradesStr;
 
@@ -315,9 +317,9 @@
 
 	function importSave(
 		importedSelections: {
+			specialisation: number;
 			primarySkill: number;
 			secondarySkill: number;
-			specialisation: number;
 		},
 		upgrades: { REF: number; rank: number; selected: boolean }[]
 	) {
