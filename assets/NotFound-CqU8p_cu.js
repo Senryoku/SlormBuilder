@@ -1,1 +1,0 @@
-import{_ as n,c as a,o as s,a as r,p as c,t as o,s as l,q as _,al as d}from"./index-CpiM8UZz.js";const u={},i={class:"not-found"};function f(e,p){const t=d("router-link");return s(),a("div",i,[r("h1",null,o(e.t("Page Not Found")),1),c(t,{to:"/"},{default:l(()=>[_(o(e.t("Return Home")),1)]),_:1})])}const N=n(u,[["render",f]]);export{N as default};
