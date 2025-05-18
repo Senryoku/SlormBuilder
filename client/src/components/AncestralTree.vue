@@ -960,9 +960,12 @@
 		const activeBridgesIndices = activeBridges.value.map((b) =>
 			Bridges.value.indexOf(b)
 		);
-		const bridgeStr = `${
-			activeBridgesIndices.length
-		},${activeBridgesIndices.join(",")}`;
+		const bridgeStr =
+			activeBridgesIndices.length > 0
+				? `${activeBridgesIndices.length},${activeBridgesIndices.join(
+						","
+				  )}`
+				: "0";
 		return `${elementStr},${bridgeStr}`;
 	}
 
