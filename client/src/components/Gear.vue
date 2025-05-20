@@ -47,6 +47,7 @@
 					@select="selectItem"
 					:lootable="false"
 					:smallDisplay="false"
+					:primordial="false"
 				/>
 			</div>
 			<div class="item-gallery" v-else>
