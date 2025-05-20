@@ -203,7 +203,6 @@
 								const statCount = parseInt(
 									data[currentIndex++]
 								);
-								console.log("statCount", statCount);
 								for (let i = 0; i < statCount; ++i)
 									tmpStatPriority.push(
 										parseInt(data[currentIndex++])
@@ -236,6 +235,10 @@
 									);
 								}
 							}
+							const primalGem =
+								version.minor >= 5
+									? parseInt(data[currentIndex++])
+									: null;
 							// Skil selection
 							selectedClass.value = data[
 								currentIndex++
@@ -269,7 +272,8 @@
 							);
 							ancestralTreeComponent.value!.deserialize(
 								tmpElementsImport,
-								tmpBridgesImport
+								tmpBridgesImport,
+								primalGem
 							);
 							classComponents.value![
 								Classes.indexOf(selectedClass.value)
@@ -309,7 +313,7 @@
 	}
 
 	function serialize() {
-		const version = "1.4";
+		const version = "1.5";
 		return [
 			version,
 			attributesComponent.value!.serialize(),

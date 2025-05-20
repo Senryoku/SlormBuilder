@@ -62,7 +62,7 @@
 				v-for="(bridge, idx) in Bridges"
 				:key="idx"
 				class="bridge"
-				:class="{ active: bridge.selected }"
+				:class="{ active: bridge.selected, primal: primalGem === idx }"
 				:style="`left: ${bridge.coords[0]}px; top: ${bridge.coords[1]}px`"
 				@click="toggleGem(bridge)"
 			>
@@ -116,6 +116,13 @@
 			:key="idx"
 			style="width: 20px; height: 20px"
 			:class="{ gem: idx <= MaxActiveBridges - activeBridges.length }"
+		/>
+	</div>
+	<div class="primal-gem-stock">
+		<div
+			v-if="primalGem === null"
+			style="width: 20px; height: 20px"
+			class="primal-gem"
 		/>
 	</div>
 	<Tooltip ref="tooltip">
@@ -780,6 +787,13 @@
 	const tooltip = useTemplateRef<typeof Tooltip>("tooltip");
 	const hoveredSkill = ref<Element | null>(null);
 
+	const primalGem = ref<number | null>(null);
+	const primalRealm = computed(() => {
+		return primalGem.value !== null
+			? Math.max(...Bridges.value[primalGem.value].realms)
+			: null;
+	});
+
 	onMounted(() => {
 		el.value?.addEventListener("wheel", zoom);
 		recenter();
@@ -802,7 +816,7 @@
 		}
 	}
 
-	watch(Bridges.value, () => {
+	function computeActiveRealms() {
 		for (let r of Realms.value) r.active = false;
 
 		const startingPoints = Bridges.value.filter(
@@ -815,7 +829,15 @@
 				}
 			}
 		}
-	});
+
+		if (primalGem.value) {
+			const realm = Math.max(...Bridges.value[primalGem.value].realms);
+			Realms.value[realm].active = true;
+		}
+	}
+
+	watch(Bridges.value, computeActiveRealms);
+	watch(primalGem, computeActiveRealms);
 
 	function recenter() {
 		nextTick(() => {
@@ -874,6 +896,15 @@
 
 	function toggleGem(bridge: Bridge) {
 		if (!props.editable) return;
+
+		if (
+			primalGem.value &&
+			primalGem.value === Bridges.value.indexOf(bridge)
+		) {
+			primalGem.value = null;
+			return;
+		}
+
 		if (bridge.selected) {
 			bridge.selected = false;
 			// Deselect now unconnnected bridges
@@ -890,11 +921,14 @@
 				}
 			});
 		} else {
-			if (activeBridges.value.length >= MaxActiveBridges) return;
 			const allowed =
-				bridge.realms.length === 1 || // Starting Point
-				bridge.realms.filter((r) => Realms.value[r].active).length > 0; // At least one adjacent realm is active
+				activeBridges.value.length < MaxActiveBridges &&
+				(bridge.realms.length === 1 || // Starting Point
+					bridge.realms.filter(
+						(r) => Realms.value[r].active && r !== primalRealm.value
+					).length > 0); // At least one adjacent realm is active (excluding the one activated by the primal gem)
 			if (allowed) bridge.selected = true;
+			else primalGem.value = Bridges.value.indexOf(bridge);
 		}
 	}
 
@@ -938,8 +972,11 @@
 		}
 		for (let b of Bridges.value) b.selected = false;
 		for (let idx = 0; idx < equipped.length; ++idx) {
-			if (equipped[idx]) {
+			if (equipped[idx] === 1) {
 				if (Bridges.value[idx]) Bridges.value[idx].selected = true;
+				else console.warn("Could not find bridge for ", idx);
+			} else if (equipped[idx] === 2) {
+				if (Bridges.value[idx]) primalGem.value = idx;
 				else console.warn("Could not find bridge for ", idx);
 			}
 		}
@@ -960,7 +997,7 @@
 		const bridgeStr = serializeArray(
 			activeBridgesIndices.map((i) => i.toString())
 		);
-		return `${elementStr},${bridgeStr}`;
+		return `${elementStr},${bridgeStr},${primalGem.value ?? "-1"}`;
 	}
 
 	function deserialize(
@@ -968,7 +1005,8 @@
 			REF: number;
 			rank: number;
 		}[],
-		bridges: number[]
+		bridges: number[],
+		primalGemIdx: number
 	) {
 		for (let r of Realms.value) {
 			for (let e of r.elements) {
@@ -977,6 +1015,7 @@
 		}
 		for (let b of Bridges.value) b.selected = false;
 		for (let b of bridges) Bridges.value[b].selected = true;
+		primalGem.value = primalGemIdx >= 0 ? primalGemIdx : null;
 	}
 
 	defineExpose({ recenter, importSave, serialize, deserialize });
@@ -1003,7 +1042,8 @@
 		background-color: #0f0f0f;
 	}
 
-	.stock {
+	.stock,
+	.primal-gem-stock {
 		box-sizing: border-box;
 		position: absolute;
 		top: -12px;
@@ -1025,6 +1065,13 @@
 		& > * {
 			transform: scaleY(-1);
 		}
+	}
+
+	.primal-gem-stock {
+		left: 332px;
+		width: 84px;
+		height: 84px;
+		background-image: url("@/assets/extracted/sprites/spr_menu_elements_stock_extra/spr_menu_elements_stock_extra_0.png");
 	}
 
 	.tree {
@@ -1165,11 +1212,20 @@
 		&.active {
 			background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_2.png");
 		}
+		&.primal {
+			background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem_special/spr_menu_elements_gem_special_2.png");
+		}
 	}
 
 	.gem {
 		width: 20px;
 		height: 20px;
 		background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem/spr_menu_elements_gem_0.png");
+	}
+
+	.primal-gem {
+		width: 20px;
+		height: 20px;
+		background-image: url("@/assets/extracted/sprites/spr_menu_elements_gem_special/spr_menu_elements_gem_special_0.png");
 	}
 </style>
