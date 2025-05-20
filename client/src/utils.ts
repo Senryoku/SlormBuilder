@@ -58,7 +58,7 @@ export function parseText(
 	item: Record<string, string> & { UPGRADE_NUMBER?: number },
 	lang: Language,
 	format: Record<string, string> = {},
-	options = { rank: 0, skill: false }
+	options: { rank: number; skill?: boolean } = { rank: 0, skill: false }
 ) {
 	format = {
 		text: format.text ?? lang + "_DESC",
