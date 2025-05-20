@@ -9,6 +9,9 @@
 			<div>
 				<Toggle v-model="lootable">{{ t("Lootable") }}</Toggle>
 			</div>
+			<div>
+				<Toggle v-model="primordial">{{ t("Primordial") }}</Toggle>
+			</div>
 			<div class="type-select">
 				<button v-for="rt in ReaperTypes" :key="rt" @click="type = rt">
 					{{ t(rt + "s") }}
@@ -19,6 +22,7 @@
 			:type="type"
 			:smallDisplay="smallDisplay"
 			:lootable="lootable"
+			:primordial="primordial"
 		></reaper-gallery>
 	</div>
 </template>
@@ -35,6 +39,7 @@
 
 	const type = ref<ReaperType>("sword");
 	const lootable = ref(false);
+	const primordial = ref(false);
 	const smallDisplay = ref(!props.large);
 </script>
 

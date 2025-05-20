@@ -1,13 +1,17 @@
 <template>
-	<div class="reaper">
+	<div class="reaper" :class="{ primordial: primordial }">
 		<div class="top">{{ name }}</div>
 		<div class="body">
 			<div class="body-top">
 				<div class="image-box">
-					<ReaperIcon :type="type" :item="item" />
+					<ReaperIcon
+						:type="type"
+						:item="item"
+						:primordial="primordial"
+					/>
 				</div>
 				<div>
-					<div style="text-transform: capitalize">
+					<div style="text-transform: uppercase">
 						{{ translatedType }}
 					</div>
 					<div v-if="blacksmith">{{ t("By") }} {{ blacksmith }}</div>
@@ -90,8 +94,9 @@
 		defineProps<{
 			type?: ReaperType;
 			item: Reaper;
+			primordial?: boolean;
 		}>(),
-		{ type: "sword" }
+		{ type: "sword", primordial: false }
 	);
 
 	const blacksmith = props.item.BLACKSMITH
@@ -153,33 +158,46 @@
 	.reaper {
 		width: 406px;
 		text-align: center;
-	}
 
-	.reaper .top {
-		width: 406px;
-		height: 112px;
-		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
-		background-position: center;
-		padding-top: 33px;
-		line-height: 56px;
-		box-sizing: border-box;
-		font-weight: 600;
-	}
+		.top {
+			width: 406px;
+			height: 112px;
+			background-image: url("@/assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_6.png");
+			background-position: center;
+			padding-top: 26px;
+			line-height: 56px;
+			box-sizing: border-box;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
 
-	.reaper .body {
-		padding: 0 12px 20px 12px;
-		box-sizing: border-box;
-		/*white-space: pre-line;*/
-		background-image: url("@/assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
-			url("@/assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
-		background-position: center bottom 0, center;
-		background-repeat: no-repeat, repeat-y;
+		.body {
+			padding: 0 12px 20px 12px;
+			box-sizing: border-box;
+			/*white-space: pre-line;*/
+			background-image: url("@/assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_6.png"),
+				url("@/assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_6.png");
+			background-position: center bottom 0, center;
+			background-repeat: no-repeat, repeat-y;
+		}
+
+		&.primordial {
+			.top {
+				padding-top: 30px;
+				background-image: url("@/assets/extracted/sprites/spr_item_tooltip_top/spr_item_tooltip_top_7.png");
+			}
+			.body {
+				padding: 0 12px 28px 12px;
+				background-image: url("@/assets/extracted/sprites/spr_item_tooltip_bottom/spr_item_tooltip_bottom_7.png"),
+					url("@/assets/extracted/sprites/spr_item_tooltip_repeat_1px/spr_item_tooltip_repeat_1px_7.png");
+			}
+		}
 	}
 
 	.body-top {
-		margin: 0 10px 10px 20px;
+		margin: 0 10px 10px 28px;
 		display: grid;
-		gap: 25px;
+		gap: 28px;
 		grid-template-columns: auto 1fr;
 		text-align: left;
 	}
@@ -214,6 +232,10 @@
 		transform: translate(-50%, -50%);
 		width: 138px;
 		image-rendering: pixelated;
+
+		&.primordial {
+			width: calc(138px * (43 / 30));
+		}
 	}
 
 	.reaper-damage {
