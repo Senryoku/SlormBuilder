@@ -155,7 +155,11 @@
 		<LegendaryComponent v-if="hoveredItem" :item="hoveredItem" />
 	</tooltip>
 	<tooltip ref="reapertooltip">
-		<ReaperComponent v-if="selectedReaper" :item="selectedReaper" />
+		<ReaperComponent
+			v-if="selectedReaper"
+			:type="reaperTypeForClass(className)"
+			:item="selectedReaper"
+		/>
 	</tooltip>
 </template>
 
@@ -295,13 +299,20 @@
 
 	function importSave(importedGear: GearSet) {
 		gear.value = {};
-		for (let slot of [...ItemSlots, "reaper"] as (keyof GearSet)[]) {
+		for (let slot of ItemSlots as (keyof GearSet)[]) {
 			if (!importedGear[slot]) gear.value[slot] = undefined;
 			else {
 				gear.value[slot] = (
 					slot === "reaper" ? Reapers : Legendaries
 				).find((l) => l.REF === importedGear[slot]!.REF);
 			}
+		}
+		if (importedGear.reaper) {
+			const REF =
+				importedGear.reaper.REF < Reapers.length
+					? importedGear.reaper.REF
+					: importedGear.reaper.REF - Reapers.length; // Primordial Version
+			gear.value["reaper"] = Reapers.find((o) => o.REF === REF);
 		}
 	}
 

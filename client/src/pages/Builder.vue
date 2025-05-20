@@ -411,7 +411,7 @@
 			const classIdx = Classes.findIndex(
 				(c) => c === selectedClass.value
 			);
-			let dataFields: any = {};
+			const dataFields: any = {};
 			dataFields.weapon_data = getNextSection(
 				asciish.indexOf("weapon_data")
 			);
