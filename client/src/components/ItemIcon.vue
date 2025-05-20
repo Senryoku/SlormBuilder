@@ -31,7 +31,9 @@
 	const image =
 		LegendaryIcons[
 			props.item.SPRITE !== null
-				? TypeOffsets[props.item.ITEM] + props.item.SPRITE
+				? props.item.SPRITE >= 0
+					? TypeOffsets[props.item.ITEM] + props.item.SPRITE
+					: -props.item.SPRITE
 				: 0
 		];
 
