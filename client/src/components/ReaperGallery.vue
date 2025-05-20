@@ -4,7 +4,7 @@
 			<div
 				v-for="r in filteredReapers"
 				:key="type + r.REF"
-				class="weapon-spot"
+				class="weapon-slot"
 				:class="type"
 				@mouseenter="displayTooltip($event, r)"
 				@click="$emit('select', r)"
@@ -85,42 +85,40 @@
 		justify-content: space-around;
 	}
 
-	.weapon-spot {
+	.weapon-slot {
 		position: relative;
 		width: 120px;
 		height: 120px;
+		background: url("@/assets/extracted/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
+		background-size: 100%;
+
+		display: grid;
+		place-content: center;
+
+		img {
+			image-rendering: crisp-edges;
+			width: 108px;
+		}
+
+		&.sword img {
+			margin: -4px -4px;
+		}
+
+		&.bow img {
+			margin: 4px 4px;
+		}
+
+		&.staff img {
+			margin: 22px 22px;
+		}
+	}
+
+	.weapon-slot > .image-container {
 		background: url("@/assets/extracted/sprites/spr_weapon_rarities/spr_weapon_rarities_6.png");
-		border-style: solid;
-		border-image: url("@/assets/extracted/sprites/spr_weapon_spot/spr_weapon_spot_0.png");
-		border-image-slice: 18 18 18 18;
-		border-image-width: 18px 18px 18px 18px;
-		border-image-outset: 0;
-		border-image-repeat: stretch stretch;
-		box-sizing: border-box;
-	}
-
-	.weapon-spot > .image-container {
 		overflow: hidden;
-		width: 88px;
-		height: 88px;
-		margin: 13.5px 16px 16px 13.5px;
-	}
-
-	.weapon-spot img {
-		image-rendering: crisp-edges;
-		width: 172px;
-	}
-
-	.sword.weapon-spot img {
-		margin: -48px -48px;
-	}
-
-	.bow.weapon-spot img {
-		margin: -32px -32px;
-	}
-
-	.staff.weapon-spot img {
-		margin: -12px -12px;
+		width: 96px;
+		height: 96px;
+		background-size: 100%;
 	}
 
 	.evolve-marker {
