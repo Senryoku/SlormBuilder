@@ -58,7 +58,7 @@ export function parseText(
 	item: Record<string, string> & { UPGRADE_NUMBER?: number },
 	lang: Language,
 	format: Record<string, string> = {},
-	options = { rank: 0 }
+	options = { rank: 0, skill: false }
 ) {
 	format = {
 		text: format.text ?? lang + "_DESC",
@@ -176,12 +176,20 @@ export function parseText(
 				r = r.replace(/([(（]µ[^µ)]*µ[^)]*[)）])/, (_match, group) =>
 					s(group)
 				);
-				r = r.replace(
-					"_",
-					`${values[idx] + mult * levels[idx] * options.rank}${
-						types[idx]
-					}`
-				);
+				if (options.skill) {
+					const range = `[${values[idx]}-${
+						values[idx] + 15 * levels[idx]
+					}]`;
+					const breakdown = `(${values[idx]}${types[idx]} + ${levels[idx]}${types[idx]} per upgrade)`;
+					r = r.replace("_", `${n(range)} ${s(breakdown)}`);
+				} else {
+					r = r.replace(
+						"_",
+						`${values[idx] + mult * levels[idx] * options.rank}${
+							types[idx]
+						}`
+					);
+				}
 				r = r.replace("µ", values[idx].toString());
 				r = r.replace("µ", levels[idx].toString());
 			}

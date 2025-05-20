@@ -48,13 +48,19 @@
 	});
 
 	const desc = computed(() => {
-		return parseText(props.skill as any, settings.value.language, {
-			text: `${settings.value.language}_DESCRIPTION`,
-			value_base: "DESC_VALUE_BASE",
-			value_type: "DESC_VALUE_TYPE",
-			value_stat: "DESC_VALUE",
-			value_real: "DESC_VALUE_REAL",
-		});
+		return parseText(
+			props.skill as any,
+			settings.value.language,
+			{
+				text: `${settings.value.language}_DESCRIPTION`,
+				value_base: "DESC_VALUE_BASE",
+				value_type: "DESC_VALUE_TYPE",
+				value_level: "DESC_VALUE_LEVEL",
+				value_stat: "DESC_VALUE",
+				value_real: "DESC_VALUE_REAL",
+			},
+			{ rank: 0, skill: true }
+		);
 	});
 
 	const iconImage = computed(() => {
@@ -96,5 +102,9 @@
 
 	:deep(p) {
 		margin: 2px;
+	}
+
+	:deep(.number) {
+		color: var(--color-legendary);
 	}
 </style>
