@@ -1,1 +1,0 @@
-import{_ as n,c as a,o as s,a as r,p as c,t as o,s as _,q as d,am as l}from"./index-DP8wDRWQ.js";const u={},i={class:"not-found"};function f(e,m){const t=l("router-link");return s(),a("div",i,[r("h1",null,o(e.t("Page Not Found")),1),c(t,{to:"/"},{default:_(()=>[d(o(e.t("Return Home")),1)]),_:1})])}const N=n(u,[["render",f]]);export{N as default};
