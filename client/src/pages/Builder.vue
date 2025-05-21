@@ -459,7 +459,16 @@
 			//     StatSlot:StatType:Value?:NUM
 			// with StatSlot in N (Normal), M (Magic), R (Rare), E (Epic), L (Legendary), RP (Reaper), MA (Skill Mastery), AT (Attribut bonus)
 			// and StatType is an REF entry in dat_sta.json
-			const allGearsStr = getNextSection(asciish.search(/[^_]inventory/));
+			let allGearsStr = getNextSection(asciish.search(/[^_]inventory/));
+			// FIXME: Sometimes there's something else (couple of characters) in front of what we want?
+			if (allGearsStr.length < 3 || !allGearsStr[0].includes(";")) {
+				let idx = asciish.search(/[^_]inventory/);
+				idx =
+					getStartIndex(idx) +
+					allGearsStr.reduce((a, b) => a + b.length, 0);
+				idx = getStartIndex(idx);
+				allGearsStr = getNextSection(idx);
+			}
 			const currentGear = allGearsStr[classIdx].split(";");
 			const slotsorder = [
 				"helm",
@@ -505,37 +514,38 @@
 				REF: parseInt(dataFields.weapon_equip),
 			};
 
-			const selections: {
-				specialisation: number;
-				primarySkill: number;
-				secondarySkill: number;
-			}[] = [];
-			const upgrades: {
-				REF: number;
-				rank: number;
-				selected: boolean;
-			}[][] = [];
 			for (let i = 0; i < dataFields.skill_equip.length; ++i) {
 				const dat = dataFields.skill_equip[i]
 					.split(",")
 					.map((n: string) => parseInt(n));
-				selections.push({
+				const selections: {
+					specialisation: number;
+					primarySkill: number;
+					secondarySkill: number;
+				} = {
 					specialisation: dat.findIndex((n: number) => n === 4),
 					primarySkill: dat.findIndex((n: number) => n === 2) - 3,
 					secondarySkill: dat.findIndex((n: number) => n === 3) - 3,
-				});
-				upgrades.push([]);
+				};
+				if (selections.specialisation < 0)
+					selections.specialisation = 0;
+				if (selections.primarySkill < 0) selections.primarySkill = 0;
+				if (selections.secondarySkill < 0)
+					selections.secondarySkill = 1;
+				const upgrades: {
+					REF: number;
+					rank: number;
+					selected: boolean;
+				}[] = [];
 				for (let ref = 11; ref < dat.length; ++ref) {
-					upgrades[i].push({
+					upgrades.push({
 						REF: ref,
 						rank: dataFields.skill_rank[i][ref],
 						selected: dat[ref] !== -1,
 					});
 				}
-				classComponents.value![i].importSave(
-					selections[i],
-					upgrades[i]
-				);
+
+				classComponents.value![i].importSave(selections, upgrades);
 			}
 
 			const ultimatums = getNextSection(
