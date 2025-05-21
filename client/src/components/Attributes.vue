@@ -15,7 +15,7 @@
 					<img
 						@mouseenter="displayTooltip($event, idx)"
 						class="attr-icon"
-						:src="traitIcons(idx)"
+						:src="TraitIcons[idx]"
 					/>
 					<img
 						v-for="e in effects[idx].filter(
@@ -24,13 +24,17 @@
 						:key="e.REF"
 						class="effect-level"
 						:style="`left: ${76 + additiveEffectMargin(e.LEVEL)}px`"
-						:src="traitEvolve(idx)"
+						:src="TraitEvolve[idx]"
 					/>
 					<div class="attr-indicators">
 						<div
-							v-for="i in attributes[idx].level"
+							v-for="i in attributes[idx].level +
+							attributes[idx].bonus"
 							:key="i"
 							class="attr-point"
+							:class="{
+								bonus: i > attributes[idx].level,
+							}"
 						>
 							<img :src="attrPointImage(idx, i)" />
 
@@ -43,14 +47,20 @@
 						class="attr-button plus-button"
 						@click="plus($event, idx)"
 						:class="{
-							disabled: !editable || attributes[idx].level >= 75,
+							disabled:
+								!editable ||
+								attributes[idx].level + attributes[idx].bonus >=
+									75,
 						}"
 					/>
 					<div
 						class="attr-button minus-button"
 						@click="minus($event, idx)"
 						:class="{
-							disabled: !editable || attributes[idx].level <= 0,
+							disabled:
+								!editable ||
+								attributes[idx].level + attributes[idx].bonus <=
+									0,
 						}"
 					/>
 				</div>
@@ -58,14 +68,12 @@
 		</div>
 	</div>
 	<tooltip ref="tooltip">
-		<template v-if="hoveredAttr">
-			<AttributeComponent :attr="hoveredAttr" :key="hoveredAttr.name" />
-		</template>
+		<AttributeComponent :attr="hoveredAttr" :key="hoveredAttr.name" />
 	</tooltip>
 </template>
 
 <script setup lang="ts">
-	import { onMounted, ref, useTemplateRef } from "vue";
+	import { computed, onMounted, ref, useTemplateRef } from "vue";
 	import { clamp, spritesByIndex } from "@/utils";
 	import { Attributes, type Attribute } from "@/data/Attributes";
 
@@ -155,6 +163,7 @@
 			effects: Attribute[];
 			color: string;
 			level: number;
+			bonus: number;
 		}[]
 	>([]);
 	for (let i = 0; i < attrNames.length; ++i) {
@@ -163,11 +172,32 @@
 			effects: effects[i],
 			color: colors[i],
 			level: 0,
+			bonus: 0,
 		});
 	}
 
 	const tooltip = useTemplateRef("tooltip");
-	const hoveredAttr = ref(attributes.value[0]);
+	const hoveredAttrIdx = ref(0);
+	const hoveredAttr = computed(() => {
+		return {
+			...attributes.value[hoveredAttrIdx.value],
+			level:
+				attributes.value[hoveredAttrIdx.value].level +
+				attributes.value[hoveredAttrIdx.value].bonus,
+		};
+	});
+
+	const MaxPoints = 100;
+
+	const distributedPoints = computed(() => {
+		return attributes.value.reduce((a, b) => a + b.level, 0);
+	});
+
+	const MaxBonusPoints = 3 * 11;
+
+	const distributedBonusPoints = computed(() => {
+		return attributes.value.reduce((a, b) => a + b.bonus, 0);
+	});
 
 	onMounted(() => {
 		// Preload animation
@@ -177,18 +207,16 @@
 		}
 	});
 
-	function traitEvolve(idx: number) {
-		return TraitEvolve[idx];
-	}
-
-	function traitIcons(idx: number) {
-		return TraitIcons[idx];
-	}
-
 	function attrPointImage(idx: number, i: number) {
-		if (i > 0 && i % 15 === 0) return TraitPoints.losange[idx];
-		else if (i > 0 && i % 5 === 0) return TraitPoints.square[idx];
-		else return TraitPoints.default[idx];
+		if (i > attributes.value[idx].level) {
+			if (i > 0 && i % 15 === 0) return TraitPoints.losange[8];
+			else if (i > 0 && i % 5 === 0) return TraitPoints.square[8];
+			else return TraitPoints.default[8];
+		} else {
+			if (i > 0 && i % 15 === 0) return TraitPoints.losange[idx];
+			else if (i > 0 && i % 5 === 0) return TraitPoints.square[idx];
+			else return TraitPoints.default[idx];
+		}
 	}
 
 	function additiveEffectMargin(i: number) {
@@ -202,49 +230,65 @@
 	}
 
 	function displayTooltip(event: MouseEvent, idx: number) {
-		hoveredAttr.value = attributes.value[idx];
+		hoveredAttrIdx.value = idx;
 		tooltip.value!.display(event);
 	}
 
 	function plus(event: MouseEvent, idx: number) {
 		if (!props.editable) return;
-		attributes.value[idx].level = clamp(
-			attributes.value[idx].level +
-				(event.getModifierState("Shift") ||
-				event.getModifierState("Alt")
-					? 10
-					: 1),
+		let max = clamp(
+			75 - (attributes.value[idx].level + attributes.value[idx].bonus),
 			0,
 			75
 		);
+		let incr = clamp(
+			event.getModifierState("Shift") || event.getModifierState("Alt")
+				? 10
+				: 1,
+			0,
+			max
+		);
+		const normal = clamp(MaxPoints - distributedPoints.value, 0, incr);
+		const bonus = clamp(
+			incr - normal,
+			0,
+			MaxBonusPoints - distributedBonusPoints.value
+		);
+		attributes.value[idx].level += normal;
+		attributes.value[idx].bonus += bonus;
 	}
 
 	function minus(event: MouseEvent, idx: number) {
 		if (!props.editable) return;
-		// contextmenu can't be triggered with getModifierState("Shift")
-		attributes.value[idx].level = clamp(
-			attributes.value[idx].level -
-				(event.getModifierState("Shift") ||
-				event.getModifierState("Alt")
-					? 10
-					: 1),
+		// NOTE: contextmenu can't be triggered with getModifierState("Shift")
+		let max = attributes.value[idx].level + attributes.value[idx].bonus;
+		const decr = clamp(
+			event.getModifierState("Shift") || event.getModifierState("Alt")
+				? 10
+				: 1,
 			0,
-			75
+			max
 		);
+		const bonus = clamp(attributes.value[idx].bonus, 0, decr);
+		attributes.value[idx].bonus -= bonus;
+		attributes.value[idx].level -= decr - bonus;
 	}
 
 	function serialize() {
-		return attributes.value.map((a) => a.level).join(",");
+		const attrStr = attributes.value.map((a) => a.level).join(",");
+		const bonusStr = attributes.value.map((a) => a.bonus).join(",");
+		return `${attrStr},${bonusStr}`;
 	}
 
-	function deserialize(values: number[]) {
-		for (let i = 0; i < values.length; ++i)
+	function deserialize(values: number[], bonus: number[]) {
+		for (let i = 0; i < values.length; ++i) {
 			attributes.value[i].level = values[i];
+			attributes.value[i].bonus = bonus[i];
+		}
 	}
 
-	function importSave(values: number[]) {
-		for (let i = 0; i < attributes.value.length; ++i)
-			attributes.value[i].level = values[i];
+	function importSave(values: number[], bonus: number[]) {
+		deserialize(values, bonus);
 	}
 
 	defineExpose({ serialize, deserialize, importSave });

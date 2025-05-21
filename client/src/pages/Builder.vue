@@ -178,13 +178,21 @@
 						{
 							let currentIndex = 1;
 							// Attributes
-							let attributes: number[] = [];
+							const attributes: number[] = [];
 							for (
 								currentIndex = 1;
 								currentIndex < 1 + 8;
 								++currentIndex
 							)
 								attributes.push(parseInt(data[currentIndex]));
+							const bonusAttributes = [0, 0, 0, 0, 0, 0, 0, 0];
+							if (version.minor >= 6) {
+								for (let i = 0; i < 8; ++i) {
+									bonusAttributes[i] = parseInt(
+										data[currentIndex++]
+									);
+								}
+							}
 							// Gear
 							const tmpGearImport: Record<string, number> = {};
 							for (let slot of version.minor >= 1
@@ -265,7 +273,10 @@
 									selected: true,
 								});
 							}
-							attributesComponent.value!.deserialize(attributes);
+							attributesComponent.value!.deserialize(
+								attributes,
+								bonusAttributes
+							);
 							gearComponent.value!.importGear(
 								tmpGearImport,
 								tmpStatPriority
@@ -313,7 +324,7 @@
 	}
 
 	function serialize() {
-		const version = "1.5";
+		const version = "1.6";
 		return [
 			version,
 			attributesComponent.value!.serialize(),
@@ -463,17 +474,22 @@
 				"belt",
 				"cape",
 			];
+			const bonusAttributes = [0, 0, 0, 0, 0, 0, 0, 0];
 			const gear: any = {};
 			for (let i = 0; i < slotsorder.length; ++i) {
-				let legendary = dataFields.gear[i]
-					.split(":")
-					.find((s: string) => s.startsWith("L"));
+				const fields = dataFields.gear[i].split(":");
+				const legendary = fields.find((s: string) => s.startsWith("L"));
 				if (legendary) {
 					const [, REF, value] = legendary.split(".");
 					gear[slotsorder[i]] = {
 						REF: parseInt(REF),
 						value: parseInt(value), // Percent of stat range?
 					};
+				}
+				const attr = fields.find((s: string) => s.startsWith("AT."));
+				if (attr) {
+					const [, REF, value] = attr.split(".");
+					bonusAttributes[parseInt(REF)] += parseInt(value);
 				}
 			}
 			dataFields.weapon_equip = getNextSection(
@@ -529,7 +545,10 @@
 			console.log(reaper_runes);
 
 			gearComponent.value!.importSave(gear);
-			attributesComponent.value!.importSave(dataFields.traits);
+			attributesComponent.value!.importSave(
+				dataFields.traits,
+				bonusAttributes
+			);
 			ancestralTreeComponent.value!.importSave(
 				dataFields.element_equip,
 				dataFields.element_rank
