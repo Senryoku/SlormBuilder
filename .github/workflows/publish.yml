@@ -25,6 +25,9 @@ jobs:
 
       - name: Copy index to 404
         run: cp dist/index.html dist/404.html
+
+      - name: Copy other pages that shouldn't return a 404 (GitHub Pages limitation)
+        run: cp dist/index.html dist/legendaries/index.html && cp dist/index.html dist/stats/index.html
     
       - name: Push
         uses: s0/git-publish-subdir-action@develop
