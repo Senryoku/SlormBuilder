@@ -459,8 +459,8 @@
 			//     StatSlot:StatType:Value?:NUM
 			// with StatSlot in N (Normal), M (Magic), R (Rare), E (Epic), L (Legendary), RP (Reaper), MA (Skill Mastery), AT (Attribut bonus)
 			// and StatType is an REF entry in dat_sta.json
-			dataFields.gear = getNextSection(asciish.search(/[^_]inventory/));
-			dataFields.gear = dataFields.gear[classIdx].split(";");
+			const allGearsStr = getNextSection(asciish.search(/[^_]inventory/));
+			const currentGear = allGearsStr[classIdx].split(";");
 			const slotsorder = [
 				"helm",
 				"body",
@@ -475,21 +475,27 @@
 				"cape",
 			];
 			const bonusAttributes = [0, 0, 0, 0, 0, 0, 0, 0];
-			const gear: any = {};
+			const gear: Record<string, { REF: number; value?: number }> = {};
 			for (let i = 0; i < slotsorder.length; ++i) {
-				const fields = dataFields.gear[i].split(":");
-				const legendary = fields.find((s: string) => s.startsWith("L"));
-				if (legendary) {
-					const [, REF, value] = legendary.split(".");
-					gear[slotsorder[i]] = {
-						REF: parseInt(REF),
-						value: parseInt(value), // Percent of stat range?
-					};
-				}
-				const attr = fields.find((s: string) => s.startsWith("AT."));
-				if (attr) {
-					const [, REF, value] = attr.split(".");
-					bonusAttributes[parseInt(REF)] += parseInt(value);
+				if (currentGear[i]) {
+					const fields = currentGear[i].split(":");
+					const legendary = fields.find((s: string) =>
+						s.startsWith("L")
+					);
+					if (legendary) {
+						const [, REF, value] = legendary.split(".");
+						gear[slotsorder[i]] = {
+							REF: parseInt(REF),
+							value: parseInt(value), // Percent of stat range?
+						};
+					}
+					const attr = fields.find((s: string) =>
+						s.startsWith("AT.")
+					);
+					if (attr) {
+						const [, REF, value] = attr.split(".");
+						bonusAttributes[parseInt(REF)] += parseInt(value);
+					}
 				}
 			}
 			dataFields.weapon_equip = getNextSection(
