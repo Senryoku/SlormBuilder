@@ -226,19 +226,16 @@
 		"FR": "Secondaire"
 	},
 	"Epic": {
-		"FR": "Epique"
+		"FR": "Épique"
 	},
-	"Primary_EXPLANATION": {
-		"EN": "<span style=\"color:var(--color-normal)\">Normal</span>, <span style=\"color:var(--color-magic)\">Magic</span> and <span style=\"color:var(--color-rare)\">Rare</span>",
-		"FR": "<span style=\"color:var(--color-normal)\">Normale</span>, <span style=\"color:var(--color-magic)\">Magique</span> et <span style=\"color:var(--color-rare)\">Rare</span>"
+	"Normal": {
+		"FR": "Normal"
 	},
-	"Secondary_EXPLANATION": {
-		"EN": "<span style=\"color:var(--color-magic)\">Magic</span>, <span style=\"color:var(--color-rare)\">Rare</span> and <span style=\"color:var(--color-epic)\">Epic</span>",
-		"FR": "<span style=\"color:var(--color-magic)\">Magique</span>, <span style=\"color:var(--color-rare)\">Rare</span> et <span style=\"color:var(--color-epic)\">Épique</span>"
+	"Magic": {
+		"FR": "Magique"
 	},
-	"Epic_EXPLANATION": {
-		"EN": "<span style=\"color:var(--color-epic)\">Epic</span> only",
-		"FR": "<span style=\"color:var(--color-epic)\">Épique</span> seulement"
+	"only": {
+		"FR": "seulement"
 	},
 	"Category": {
 		"FR": "Catégorie"
@@ -263,5 +260,8 @@
 	},
 	" and ": {
 		"FR": " et "
+	},
+	"and": {
+		"FR": "et"
 	}
 }

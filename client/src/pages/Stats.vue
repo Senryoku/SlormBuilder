@@ -95,7 +95,39 @@
 						:class="p"
 					>
 						<h3>{{ t(p) }}</h3>
-						<h5 v-html="t(`${p}_EXPLANATION`)"></h5>
+						<h5>
+							<template v-if="p === 'Primary'">
+								<span style="color: var(--color-normal)">
+									{{ t("Normal") }}</span
+								>,
+								<span style="color: var(--color-magic)">{{
+									t("Magic")
+								}}</span>
+								{{ t("and") }}
+								<span style="color: var(--color-rare)">{{
+									t("Rare")
+								}}</span>
+							</template>
+							<template v-else-if="p === 'Secondary'">
+								<span style="color: var(--color-magic)">{{
+									t("Magic")
+								}}</span
+								>,
+								<span style="color: var(--color-rare)">{{
+									t("Rare")
+								}}</span>
+								{{ t("and") }}
+								<span style="color: var(--color-epic)">{{
+									t("Epic")
+								}}</span>
+							</template>
+							<template v-else-if="p === 'Epic'">
+								<span style="color: var(--color-epic)">{{
+									t("Epic")
+								}}</span>
+								{{ t("only") }}
+							</template>
+						</h5>
 						<div
 							v-for="s in statsFoundOnSelectedSlot[p]"
 							:key="s.REF"
