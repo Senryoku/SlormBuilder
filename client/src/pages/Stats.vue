@@ -134,40 +134,28 @@
 	});
 
 	const foundOn = computed(() => {
-		return ItemTypes.filter((s) => !!selection.value[s]).sort((a, b) =>
-			selection.value[a] === selection.value[b]
-				? 0
-				: selection.value[a] === "P"
-				? -1
-				: 1
+		const priorities: Record<string, number> = { P: 0, S: 1, E: 2 };
+		return ItemTypes.filter((s) => !!selection.value[s]).sort(
+			(a, b) =>
+				priorities[selection.value[a]] - priorities[selection.value[b]]
 		);
 	});
 
-	const statCompare = (a: { REF: string }, b: { REF: string }) =>
-		translate(a.REF, settings.value.language).localeCompare(
-			translate(b.REF, settings.value.language)
-		);
-
-	const statsFoundOnSelectedSlot = computed(() => {
-		const r = Stats.filter((s) => !!s[selectedSlot.value]);
-		return {
-			Primary: r
-				.filter((s) => s[selectedSlot.value] === "P")
-				.sort(statCompare),
-			Secondary: r
-				.filter((s) => s[selectedSlot.value] === "S")
-				.sort(statCompare),
-			Epic: r
-				.filter((s) => s[selectedSlot.value] === "E")
-				.sort(statCompare),
-		};
-	});
 	const orderedStats = computed(() => {
 		return [...Stats].sort((a, b) =>
 			translate(a.REF, settings.value.language).localeCompare(
 				translate(b.REF, settings.value.language)
 			)
 		);
+	});
+
+	const statsFoundOnSelectedSlot = computed(() => {
+		const r = orderedStats.value.filter((s) => !!s[selectedSlot.value]);
+		return {
+			Primary: r.filter((s) => s[selectedSlot.value] === "P"),
+			Secondary: r.filter((s) => s[selectedSlot.value] === "S"),
+			Epic: r.filter((s) => s[selectedSlot.value] === "E"),
+		};
 	});
 </script>
 
