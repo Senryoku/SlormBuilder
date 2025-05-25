@@ -225,6 +225,21 @@
 	"Secondary": {
 		"FR": "Secondaire"
 	},
+	"Epic": {
+		"FR": "Epique"
+	},
+	"Primary_EXPLANATION": {
+		"EN": "<span style=\"color:var(--color-normal)\">Normal</span>, <span style=\"color:var(--color-magic)\">Magic</span> and <span style=\"color:var(--color-rare)\">Rare</span>",
+		"FR": "<span style=\"color:var(--color-normal)\">Normale</span>, <span style=\"color:var(--color-magic)\">Magique</span> et <span style=\"color:var(--color-rare)\">Rare</span>"
+	},
+	"Secondary_EXPLANATION": {
+		"EN": "<span style=\"color:var(--color-magic)\">Magic</span>, <span style=\"color:var(--color-rare)\">Rare</span> and <span style=\"color:var(--color-epic)\">Epic</span>",
+		"FR": "<span style=\"color:var(--color-magic)\">Magique</span>, <span style=\"color:var(--color-rare)\">Rare</span> et <span style=\"color:var(--color-epic)\">Épique</span>"
+	},
+	"Epic_EXPLANATION": {
+		"EN": "<span style=\"color:var(--color-epic)\">Epic</span> only",
+		"FR": "<span style=\"color:var(--color-epic)\">Épique</span> seulement"
+	},
 	"Category": {
 		"FR": "Catégorie"
 	},

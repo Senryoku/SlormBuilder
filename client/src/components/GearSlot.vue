@@ -18,7 +18,8 @@
 		width: 56px;
 		height: 64px;
 		padding: 4px;
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_12.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_12.png");
+		background-image: var(--bg-url);
 	}
 
 	.upgrade-bar {
@@ -29,44 +30,44 @@
 	}
 
 	.helm {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_0.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_0.png");
 	}
 
 	.boot {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_5.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_5.png");
 	}
 
 	.amulet {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_8.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_8.png");
 	}
 
 	.shoulder {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_2.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_2.png");
 	}
 
 	.bracer {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_3.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_3.png");
 	}
 
 	.glove {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_4.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_4.png");
 	}
 
 	.body {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_1.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_1.png");
 	}
 
 	.cape {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_10.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_10.png");
 	}
 
 	.belt {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_9.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_9.png");
 	}
 
 	.ring,
 	.ring0,
 	.ring1 {
-		background-image: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_6.png");
+		--bg-url: url("@/assets/extracted/sprites/spr_inventory_slot/spr_inventory_slot_6.png");
 	}
 </style>
