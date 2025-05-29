@@ -26,12 +26,14 @@
 				<slot name="boot" />
 			</div>
 		</div>
-		<div class="v-separator">
-			<img
-				src="@/assets/extracted/sprites/spr_inventory_v_separator/spr_inventory_v_separator_0.png"
-			/>
+		<div class="weapon-box">
+			<div class="weapon"><slot name="weapon" /></div>
+			<div class="runes">
+				<div class="rune"><slot name="rune0" /></div>
+				<div class="rune large"><slot name="rune1" /></div>
+				<div class="rune"><slot name="rune2" /></div>
+			</div>
 		</div>
-		<div class="weapon"><slot name="weapon" /></div>
 	</div>
 </template>
 
@@ -178,21 +180,43 @@
 		transform: translateX(-50%);
 	}
 
-	.v-separator {
+	.weapon-box {
 		position: absolute;
-		top: 520px;
-		left: 50%;
-		transform: translateX(-50%);
+		width: 419px;
+		height: 304px;
+		background-image: url("@/assets/extracted/sprites/spr_weapon_box_inventory_v2/spr_weapon_box_inventory_v2_0.png");
+		bottom: 30px;
+		left: calc(50% - 209.5px);
+		text-align: center;
 	}
 
-	.weapon {
+	:deep(.weapon img) {
+		margin: auto;
+		margin-top: 50px;
+		width: 160px;
+		image-rendering: pixelated;
+	}
+
+	.runes {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 12px;
+
 		position: absolute;
-		width: 420px;
-		height: 228px;
-		background-image: url("@/assets/extracted/sprites/spr_weapon_box_inventory/spr_weapon_box_inventory_0.png");
-		bottom: 50px;
-		left: 50%;
-		transform: translateX(-50%);
-		text-align: center;
+		bottom: 20px;
+		left: calc(50% - (3 * 52px + 2 * 12px) / 2);
+	}
+
+	.rune {
+		width: 52px;
+		height: 52px;
+		background-image: url("@/assets/extracted/sprites/spr_runes_button/spr_runes_button_0.png");
+
+		&.large {
+			width: 60px;
+			height: 60px;
+			background-image: url("@/assets/extracted/sprites/spr_runes_button_large/spr_runes_button_large_0.png");
+		}
 	}
 </style>

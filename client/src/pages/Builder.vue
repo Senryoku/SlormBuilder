@@ -136,6 +136,7 @@
 	import { useSettings } from "@/Settings";
 	import { useToast } from "vue-toast-notification";
 	import "vue-toast-notification/dist/theme-default.css";
+	import { getRuneType, Runes, type Rune } from "@/data/Runes";
 
 	const ClassIcons = spritesByIndex(
 		import.meta.glob(
@@ -194,16 +195,21 @@
 								}
 							}
 							// Gear
-							const tmpGearImport: Record<string, number> = {};
+							const gear: Record<string, number> = {};
 							for (let slot of version.minor >= 1
 								? ItemSlots
 								: ItemTypes)
-								tmpGearImport[slot] = parseInt(
-									data[currentIndex++]
-								);
-							tmpGearImport["reaper"] = parseInt(
-								data[currentIndex++]
-							);
+								gear[slot] = parseInt(data[currentIndex++]);
+							gear["reaper"] = parseInt(data[currentIndex++]);
+							const runes: [
+								number | null,
+								number | null,
+								number | null
+							] = [null, null, null];
+							if (version.minor >= 7) {
+								for (let i = 0; i < 3; ++i)
+									runes[i] = parseInt(data[currentIndex++]);
+							}
 
 							const tmpStatPriority: number[] = [];
 
@@ -278,7 +284,8 @@
 								bonusAttributes
 							);
 							gearComponent.value!.importGear(
-								tmpGearImport,
+								gear,
+								runes,
 								tmpStatPriority
 							);
 							ancestralTreeComponent.value!.deserialize(
@@ -324,7 +331,7 @@
 	}
 
 	function serialize() {
-		const version = "1.6";
+		const version = "1.7";
 		return [
 			version,
 			attributesComponent.value!.serialize(),
@@ -554,13 +561,25 @@
 			console.warn("TODO: Import Ultimatums.");
 			console.log(ultimatums);
 
-			const reaper_runes = getNextSection(
+			const reaperRunes = getNextSection(
 				asciish.indexOf("reaper_runes")
 			).map((s) => s.split(",").map((i) => parseInt(i)));
-			console.warn("TODO: Import Reaper Runes.");
-			console.log(reaper_runes);
+			const runes: [Rune | null, Rune | null, Rune | null] = [
+				null,
+				null,
+				null,
+			];
+			for (let REF = 0; REF < reaperRunes.length; REF++) {
+				// const unlocked = reaperRunes[REF][0] === 1;
+				// const level = reaperRunes[REF][1];
+				// Runes[REF].level = level;
+				const equipped = reaperRunes[REF][2 + classIdx] === 1;
+				if (equipped) {
+					runes[getRuneType(REF)] = Runes[REF];
+				}
+			}
 
-			gearComponent.value!.importSave(gear);
+			gearComponent.value!.importSave(gear, runes);
 			attributesComponent.value!.importSave(
 				dataFields.traits,
 				bonusAttributes

@@ -29,14 +29,49 @@
 					"
 					@mouseenter="displayReaperTooltip($event)"
 				>
-					<div v-if="gear.reaper">
-						<img
-							:src="reaperIcon(reaperType, gear.reaper.REF ?? 0)"
-						/>
-						<div>
-							{{ reaperName }}
-						</div>
-					</div>
+					<img
+						v-if="gear.reaper"
+						:src="reaperIcon(reaperType, gear.reaper.REF ?? 0)"
+					/>
+				</div>
+			</template>
+			<template v-slot:rune0>
+				<div
+					class="rune-slot"
+					@click="selectedSlot = 'runes'"
+					@contextmenu.prevent="runes[0] = null"
+				>
+					<RuneIcon
+						v-if="runes[0]"
+						:rune="runes[0]"
+						:tooltip="true"
+					/>
+				</div>
+			</template>
+			<template v-slot:rune1>
+				<div
+					class="rune-slot"
+					@click="selectedSlot = 'runes'"
+					@contextmenu.prevent="runes[1] = null"
+				>
+					<RuneIcon
+						v-if="runes[1]"
+						:rune="runes[1]"
+						:tooltip="true"
+					/>
+				</div>
+			</template>
+			<template v-slot:rune2>
+				<div
+					class="rune-slot"
+					@click="selectedSlot = 'runes'"
+					@contextmenu.prevent="runes[2] = null"
+				>
+					<RuneIcon
+						v-if="runes[2]"
+						:rune="runes[2]"
+						:tooltip="true"
+					/>
 				</div>
 			</template>
 		</GearPanel>
@@ -49,6 +84,9 @@
 					:smallDisplay="false"
 					:primordial="false"
 				/>
+			</div>
+			<div class="item-gallery" v-else-if="selectedSlot === 'runes'">
+				<RuneSelector v-model="runes" />
 			</div>
 			<div class="item-gallery" v-else>
 				<div
@@ -168,7 +206,6 @@
 	import { ref, computed, useTemplateRef } from "vue";
 	import {
 		ItemSlots,
-		localize,
 		translate,
 		type ClassName,
 		type ItemSlot,
@@ -193,11 +230,20 @@
 	import { useSettings } from "@/Settings";
 	import type { Legendary } from "@/data/Legendaries.ts";
 
+	import RuneSelector from "./RuneSelector.vue";
+	import RuneIcon from "./RuneIcon.vue";
+	import { type Rune, Runes } from "@/data/Runes";
+
 	type GearSlot = ItemSlot | "reaper";
 	type GearSet = Partial<Record<GearSlot, Legendary | Reaper>>;
 
 	const gear = ref<GearSet>({});
-	const selectedSlot = ref<GearSlot>("helm");
+	const runes = ref<[Rune | null, Rune | null, Rune | null]>([
+		null,
+		null,
+		null,
+	]);
+	const selectedSlot = ref<GearSlot | "runes">("helm");
 	const statPriority = ref<(typeof Stats)[number][]>([]);
 	const selectedStat = ref(Stats[0]);
 	const hoveredStat = ref(null);
@@ -224,7 +270,8 @@
 	}
 
 	function selectItem(item: Legendary | Reaper): void {
-		gear.value[selectedSlot.value] = item;
+		if (selectedSlot.value !== "runes")
+			gear.value[selectedSlot.value] = item;
 	}
 
 	function displayTooltip(event: MouseEvent, type: ItemSlot) {
@@ -249,19 +296,6 @@
 
 	const reaperType = computed(() => reaperTypeForClass(props.className));
 
-	const reaperName = computed(() => {
-		const name =
-			gear.value.reaper?.[`${settings.value.language}_NAME`]?.split("/");
-		if (!name) return "";
-		const ref_name =
-			name.length > 1 && reaperType.value === "sword" ? name[1] : name[0];
-		return localize(
-			settings.value.language,
-			ref_name,
-			localize(settings.value.language, reaperType.value)
-		);
-	});
-
 	const orderedStats = computed(() => {
 		return Stats.filter((s) => !statPriority.value.includes(s)).sort(
 			(a, b) =>
@@ -275,6 +309,9 @@
 		let r = [];
 		for (let slot of ItemSlots) r.push(gear.value[slot]?.REF ?? -1);
 		r.push(gear.value["reaper"]?.REF ?? -1);
+		r.push(runes.value[0]?.REF ?? -1);
+		r.push(runes.value[1]?.REF ?? -1);
+		r.push(runes.value[2]?.REF ?? -1);
 		r.push(statPriority.value.length);
 		for (let s of statPriority.value) r.push(s.REF_NB);
 		return r.join();
@@ -282,6 +319,7 @@
 
 	function importGear(
 		importGear: Partial<Record<GearSlot, number>>,
+		importRunes: [number, number, number],
 		importStatPriority: number[]
 	) {
 		const tmp: GearSet = {};
@@ -289,16 +327,25 @@
 			if (importGear[s] && importGear[s] !== -1)
 				tmp[s] = Legendaries.find((o) => o.REF === importGear[s]);
 		}
-		if (importGear["reaper"] && importGear["reaper"] !== -1)
+		if (importGear["reaper"] !== undefined && importGear["reaper"] !== -1)
 			tmp["reaper"] = Reapers.find((o) => o.REF === importGear["reaper"]);
 		gear.value = tmp;
+
+		runes.value = [
+			Runes.find((o) => o.REF === importRunes[0]) ?? null,
+			Runes.find((o) => o.REF === importRunes[1]) ?? null,
+			Runes.find((o) => o.REF === importRunes[2]) ?? null,
+		];
 
 		statPriority.value = importStatPriority.map(
 			(ref) => Stats.find((s) => s.REF_NB === ref)!
 		);
 	}
 
-	function importSave(importedGear: GearSet) {
+	function importSave(
+		importedGear: GearSet,
+		importedRunes: [Rune | null, Rune | null, Rune | null]
+	) {
 		gear.value = {};
 		for (let slot of ItemSlots as (keyof GearSet)[]) {
 			if (!importedGear[slot]) gear.value[slot] = undefined;
@@ -315,6 +362,8 @@
 					: importedGear.reaper.REF - Reapers.length; // Primordial Version
 			gear.value["reaper"] = Reapers.find((o) => o.REF === REF);
 		}
+
+		runes.value = importedRunes;
 	}
 
 	defineExpose({ serialize, importGear, importSave });
@@ -332,7 +381,7 @@
 
 	.gear-builder.editable {
 		display: grid;
-		grid-template-columns: auto auto auto;
+		grid-template-columns: auto 1fr auto;
 		gap: 1em;
 	}
 
@@ -348,8 +397,11 @@
 		cursor: pointer;
 	}
 
-	.editable .selected {
+	.editable .selected:not(.reaper-slot) {
 		outline: 4px solid rgb(72, 22, 17);
+	}
+	.editable :deep(.weapon-box:has(.selected)) {
+		filter: brightness(120%);
 	}
 
 	.editable .selected.primary,
@@ -365,12 +417,13 @@
 	.reaper-slot {
 		width: 100%;
 		height: 100%;
+		min-height: 300px;
 	}
 
-	.weapon img {
-		margin: auto;
-		width: 180px;
-		image-rendering: pixelated;
+	.rune-slot {
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
 	}
 
 	.item-gallery {
