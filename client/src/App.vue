@@ -8,15 +8,60 @@
 					height="100"
 				/>
 			</router-link>
-			<div>
-				<a @click="changeLanguage('EN')">EN</a> |
-				<a @click="changeLanguage('FR')">FR</a> |
-				<a @click="changeLanguage('CH')">CH</a> |
-				<a @click="changeLanguage('TW')">TW</a> |
-				<a @click="changeLanguage('JP')">JP</a> |
-				<a @click="changeLanguage('DE')">DE</a> |
-				<a @click="changeLanguage('ES')">ES</a> |
-				<a @click="changeLanguage('RU')">RU</a>
+			<div class="languages">
+				<a
+					@click="changeLanguage('EN')"
+					:class="{ selected: settings.language === 'EN' }"
+					>EN</a
+				>
+				|
+				<a
+					@click="changeLanguage('FR')"
+					:class="{ selected: settings.language === 'FR' }"
+					>FR</a
+				>
+				|
+				<a
+					@click="changeLanguage('CH')"
+					:class="{ selected: settings.language === 'CH' }"
+					>CH</a
+				>
+				|
+				<a
+					@click="changeLanguage('TW')"
+					:class="{ selected: settings.language === 'TW' }"
+					>TW</a
+				>
+				|
+				<a
+					@click="changeLanguage('JP')"
+					:class="{ selected: settings.language === 'JP' }"
+					>JP</a
+				>
+				|
+				<a
+					@click="changeLanguage('KR')"
+					:class="{ selected: settings.language === 'KR' }"
+					>KR</a
+				>
+				|
+				<a
+					@click="changeLanguage('DE')"
+					:class="{ selected: settings.language === 'DE' }"
+					>DE</a
+				>
+				|
+				<a
+					@click="changeLanguage('ES')"
+					:class="{ selected: settings.language === 'ES' }"
+					>ES</a
+				>
+				|
+				<a
+					@click="changeLanguage('RU')"
+					:class="{ selected: settings.language === 'RU' }"
+					>RU</a
+				>
 			</div>
 		</div>
 		<router-link to="/" custom v-slot="{ href, navigate, isActive }">
@@ -278,5 +323,15 @@
 
 	a:active {
 		color: #fff;
+	}
+
+	.languages {
+		a,
+		a:visited {
+			&.selected {
+				color: #fff;
+				cursor: default;
+			}
+		}
 	}
 </style>
