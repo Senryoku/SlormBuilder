@@ -1,6 +1,6 @@
 # SlormBuilder
 
-Character builder for Slormancer.
+Character builder for [The Slormancer](https://store.steampowered.com/app/1104280/The_Slormancer/).
 
 [Accessible Here](https://senryoku.github.io/SlormBuilder/)
 
